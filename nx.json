@@ -7,5 +7,31 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "ionar-ionar": {
+      "tags": [
+        "ionar"
+      ]
+    },
+    "ui": {
+      "tags": []
+    },
+    "homeey": {
+      "tags": []
+    },
+    "homeey-e2e": {
+      "tags": []
+    },
+    "utility": {
+      "tags": []
+    },
+    "core": {
+      "tags": [
+        "ionar"
+      ]
+    },
+    "form": {
+      "tags": []
+    }
+  }
 }
