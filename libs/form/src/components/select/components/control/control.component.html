@@ -1,0 +1,11 @@
+<div id="value">
+    <span *ngIf="!label">Please select</span>
+    <span *ngIf="label">{{label}}</span>
+</div>
+
+<div id="icon" [@rotate]="{
+    value: show_menu ? 'animated' : 'default',
+    params: { deg: 90 }
+    }">
+    <i class="fas fa-angle-right"></i>
+</div>

@@ -6,6 +6,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
@@ -20,7 +22,6 @@
         "libs/core/src/index.ts"
       ],
       "@ionar/ui": [
-        "dist/libs/ui",
         "libs/ui/src/index.ts"
       ],
       "@ionar/utility": [

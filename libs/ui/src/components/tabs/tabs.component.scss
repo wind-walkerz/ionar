@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .label_container {
+    display: flex;
+
+    .label {
+      cursor: pointer;
+
+      &.active {
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+Change
+
+<input
+        type="file"
+        [multiple]="properties?.multiple"
+        (change)="$event.stopPropagation();change.emit($event.target.files)"
+>

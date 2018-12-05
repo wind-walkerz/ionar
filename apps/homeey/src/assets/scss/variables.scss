@@ -1,0 +1,11 @@
+$primary_blue: #0D1D32;
+$primary_red: #E88A8A;
+$primary_gray: #CDD1D5;
+
+@function color_opacity($color, $opacity: 1) {
+    @if $color {
+        @return rgba($color, $opacity);
+    }
+
+    @return $color
+}

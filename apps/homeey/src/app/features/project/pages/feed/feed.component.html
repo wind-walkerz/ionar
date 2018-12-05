@@ -1,0 +1,85 @@
+<div id="chat_app">
+    <div class="chat_panel">
+        <ng-container *ngFor="let item of chat_feed | keyvalue">
+
+            <div class="container date">
+                <div class="text"> {{_moment(item.key).fromNow()}}</div>
+            </div>
+
+            <ng-container *ngFor="let msg of item.value">
+
+                <div class="container center" *ngIf="msg.system">
+                    <div class="message">
+                        <p class="text" [innerHTML]="msg.text">
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="container" [ngClass]="msg.user.id === 1 ? 'left' : 'right'" *ngIf="!msg.system">
+                    <div class="message">
+
+                        <div class="user_info" *ngIf="msg.user.id === 1">
+                            <img src="{{msg.user.avatar}}" alt="" class="avatar img-responsive">
+                            <p class="name">{{msg.user.first_name}}  {{msg.user.last_name}}</p>
+                        </div>
+
+                        <ng-container *ngTemplateOutlet="content; context: {msg: msg}"></ng-container>
+
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template let-msg="msg" #content>
+                <div class="bubble">
+                    <p class="text" [innerHTML]="msg.text" *ngIf="msg.text">
+                    </p>
+                    <img class="img-responsive" src="{{msg.image}}" alt="" *ngIf="msg.image">
+                </div>
+                <div class="timestamp">{{_moment(msg.created_at).format('HH:mm')}}</div>
+            </ng-template>
+
+
+        </ng-container>
+    </div>
+
+    <div class="input_toolbar">
+        <div class="avatar">
+            <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
+        </div>
+        <textarea class="msg_input" name="msg_input" placeholder="Write your comment..." cols="1" rows="1"></textarea>
+        <div class="upload_button">
+            <input type="file" id="file_upload" name="file_upload" multiple/>
+            <img class="img-responsive" src="assets/icons/project/paperclip.png" alt="">
+        </div>
+        <div class="send_button"><img class="img-responsive" src="assets/icons/project/send.png" alt=""></div>
+
+    </div>
+</div>
+
+
+<ul id="people_roster">
+    <li>
+        <div class="avatar">
+            <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
+            <div class="status"></div>
+        </div>
+        <div class="info">
+            <p class="name">Joe Toscano</p>
+            <span class="latest_msg">Donec a sapien neque.sdfsa sadfassdfasdfInterdum malesuada</span>
+        </div>
+    </li>
+    <li class="offline">
+        <div class="avatar">
+            <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
+        </div>
+        <div class="info">
+            <p class="name">ADMIN</p>
+        </div>
+    </li>
+
+</ul>
+
+
+
+

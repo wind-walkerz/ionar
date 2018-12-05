@@ -225,6 +225,32 @@
   dependencies:
     tslib "^1.9.0"
 
+"@aurora-ngx/animations@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@aurora-ngx/animations/-/animations-1.0.3.tgz#d741863da1856bb5795771942373593a00f93848"
+  integrity sha512-+Plezllt7CAIYNwe8vMC9vqXBozaUbtPtUs36X/jSm6sAa1mXgLjihl81yhicQQ5xFr24U7kQp18SdY+8aMCNA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@aurora-ngx/forms@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@aurora-ngx/forms/-/forms-1.0.18.tgz#ee1b2a8e3d685f1a7251e1131eee7fd138ab044d"
+  integrity sha512-ccLwLw2HZNHf78UzyHgPHx91Gk3kd+1n5OCAbBv5RtQPoiA8HR3jHMHnFcaP5orvEYPfBahrRKaIZFjhuLVjVw==
+  dependencies:
+    tslib "^1.9.0"
+
+"@aurora-ngx/schematics@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@aurora-ngx/schematics/-/schematics-1.0.12.tgz#46872eaa9ae5842c650b175520899ecd4ce7d7d7"
+  integrity sha512-WHIBpqdcTge5b+Issfb9MmdaYBNjjLEUcKO3rQ/VeTLxAvwSkemnf+iTBkgPUuacvVPz16O+axMU5ozpcnZBZQ==
+
+"@aurora-ngx/ui@^1.0.25":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@aurora-ngx/ui/-/ui-1.0.25.tgz#40ee35c10ccaef7342969e1c1d021f379a20ac53"
+  integrity sha512-BodWk9VEKmpWLfV0K9aYHHQNvMLOjiptUq+X879MSOPFhhrKr9b3SvRlmw352hMwttJQ50UsxfgfN9OpJiw+Fg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.0.0-beta.35":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -5421,7 +5447,7 @@ lodash.tail@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
   integrity sha1-0jM6NtnncXyK0vfKyv7HwytERmQ=
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.5.0, lodash@~4.17.10:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.5.0, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -5805,6 +5831,11 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   dependencies:
     minimist "0.0.8"
 
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+  integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -5931,6 +5962,13 @@ ngrx-store-freeze@0.2.4:
   integrity sha512-90awpbbMa/x2H81eWWYniyli3LJ1PZU/FaztL10d9Rp/4kw2+97pqyLjdxSPxcOv9St//m9kfuWZ7gyoVDjgcg==
   dependencies:
     deep-freeze-strict "^1.1.1"
+
+ngx-spinner@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-6.1.2.tgz#9778dbffbd17b27a7a90c4f0d9d8a7817e6ffb76"
+  integrity sha512-j/R8T5vKvsLLib1pTxKLYK3GYAFXw5VoUJmaTlcocO6Yi4qIypfhmw9PX9triy7hWVGPu6cUzVs7g9cEG9OYBA==
+  dependencies:
+    tslib "^1.9.0"
 
 nice-try@^1.0.4:
   version "1.0.5"

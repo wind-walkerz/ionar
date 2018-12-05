@@ -1,0 +1,383 @@
+@import "variables";
+
+:host {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.85rem;
+
+    .container {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .heading {
+        display: flex;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1.8rem;
+        padding-bottom: 2rem;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+
+        &:after {
+            background-color: $primary_blue;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 6rem;
+            height: .3rem;
+        }
+    }
+
+    ::ng-deep io-tabs {
+        .label_container {
+            display: flex;
+            justify-content: center;
+
+            .label {
+                font-size: 1.6rem;
+                font-weight: 200;
+                margin-right: 4rem;
+
+                &:hover, &.active {
+                    border-bottom: 3px solid $primary_blue;
+                    font-weight: bold;
+                    padding-bottom: .2rem;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .content_wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+
+            .panel {
+                background-color: white;
+                box-shadow: 0 0 1rem color_opacity(#000000, 0.16);
+                border-radius: .4rem;
+                width: 42.4rem;
+                min-width: 42.4rem;
+
+                .title {
+                    border-bottom: 1px solid $primary_gray;
+                    font-size: 2rem;
+                    font-weight: 600;
+                    padding: 1.8rem 0;
+                    text-align: center;
+                }
+
+                aurora-form {
+                    display: inline-flex;
+                    flex-direction: column;
+                    padding: 1.8rem 2rem 0 2rem;
+                    width: 100%;
+
+                    ::ng-deep form-group {
+                        display: flex;
+                        flex-direction: column;
+                        position: relative;
+                        z-index: 300;
+
+                        form-label {
+                            background-color: white;
+                            margin-bottom: 1rem;
+                            padding: .1rem .7rem .3rem .3rem;
+                            z-index: 200;
+                        }
+
+                        form-field {
+                            height: 5rem;
+                            max-height: 5rem;
+
+                            aurora-input {
+                                border: 1px solid rgba(13, 29, 50, .5);
+
+                                input {
+                                    background-color: white;
+
+                                    &:-webkit-autofill {
+                                        background-color: white !important;
+                                    }
+                                }
+
+                                &.invalid {
+                                    border-color: #E88A8A;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .footer_btn {
+                    background-color: $primary_blue;
+                    border-radius: .4rem;
+                    color: white;
+                    font-size: 1.4rem;
+                    margin: 3rem auto;
+                    width: 26.4rem;
+                }
+
+                &.payment {
+                    width: 60rem;
+
+                    .payment_methods {
+                        display: flex;
+                        flex-direction: column;
+
+                        .row {
+                            border-bottom: 1px solid $primary_gray;
+                            display: inline-grid;
+                            grid-template-columns: 2fr 3fr 4fr;
+                        }
+
+                        .subject {
+                            padding: 1rem 0;
+
+                            h2 {
+                                font-size: 1.6rem;
+                                font-weight: normal;
+                                text-align: center;
+
+                                &:first-child {
+                                    margin-left: 2rem;
+                                    text-align: left;
+                                }
+                            }
+                        }
+
+                        .info {
+                            padding: 1.5rem 0;
+                            transition: all 0.3s;
+
+                            > * {
+                                align-items: center;
+                            }
+
+                            .card_number {
+                                font-size: 1.4rem;
+                                font-weight: 200;
+                                margin-left: 2rem;
+                                text-align: left;
+                            }
+
+                            .default_method_icon {
+                                margin: 0 auto;
+                                width: 2.4rem;
+                                height: 2.4rem;
+                            }
+
+                            io-btn {
+                                background-color: white;
+                                font-size: 1.4rem;
+                                font-weight: 200;
+                                padding: 1rem 2rem;
+
+                                &.make_default {
+                                    border: 1px solid $primary_red;
+                                    color: $primary_red;
+                                }
+
+                                &.remove {
+
+                                    border: 1px solid $primary_blue;
+                                    color: $primary_blue;
+
+                                }
+                            }
+
+                            &:hover {
+                                box-shadow: 0 0 .6rem rgba(0, 0, 0, .16);
+                                border: none;
+                                transform: translate(-.1rem, -.1rem);
+                                width: calc(100% + .2rem);
+                                height: calc(100% + .2rem);
+
+                                .card_number {
+                                    font-weight: bold;
+                                }
+
+                                io-btn {
+                                    box-shadow: 0 0 .6rem color_opacity(#000000, 0.16);
+                                    border: 1px solid white;
+                                    color: white;
+
+                                    &.make_default {
+                                        background-color: $primary_red;
+                                    }
+
+                                    &.remove {
+                                        background-color: $primary_blue;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                &.email_preference {
+
+                    padding: 0 2rem;
+
+                    .content {
+                        display: flex;
+                        align-items: center;
+                        min-height: 10rem;
+
+                        io-checkbox {
+                            margin: 0 3rem 0 0;
+                        }
+
+                        img {
+                            width: 1.6rem;
+                            height: 1.6rem;
+
+                        }
+
+                        .hint {
+                            background-color: white;
+                            box-shadow: 0 .3rem .6rem color_opacity(#000000, .1);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex: 1;
+                            font-size: 1.4rem;
+                            font-weight: 500;
+                            margin-left: 2rem;
+                            padding: 2.1rem .3rem 2.1rem 2.1rem;
+                            position: relative;
+                            height: 100%;
+
+                            &:before {
+                                border: 1rem solid transparent;
+                                border-right-color: white;
+                                //box-shadow: 0 .3rem .6rem color_opacity(#000000, .1);
+                                content: '';
+                                position: absolute;
+                                right: 100%;
+                            }
+                        }
+                    }
+
+                }
+
+                &.profile_avatar {
+
+                    width: 60rem;
+
+                    .avatar_preview {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 2rem;
+
+                        .avatar {
+                            position: relative;
+                            margin-bottom: 1rem;
+                            width: 15.5rem;
+                            height: 15.5rem;
+
+                            .delete_icon {
+                                position: absolute;
+                                top: calc(-2rem / 2);
+                                right: calc(-2rem / 2);
+                                width: 2.5rem;
+                                height: 2.5rem;
+                            }
+
+                        }
+                    }
+
+                    io-upload {
+                        padding: 2rem;
+
+                        click {
+                            padding: 1rem 2rem;
+                        }
+
+                        drop {
+                            flex-direction: column;
+                            justify-content: space-between;
+                            padding: 2.2rem 0;
+                            height: 15.5rem;
+
+                            p {
+                                color: $primary_gray;
+                                font-size: 2.8rem;
+                                font-weight: bold;
+                            }
+
+                            img {
+                                width: 4.2rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    io-modal {
+        ::ng-deep .content {
+            width: 64.6rem;
+            height: auto;
+        }
+
+        .title {
+            border-bottom: 1px solid $primary_gray;
+            font-size: 2rem;
+            font-weight: 600;
+            padding: 1.8rem 0;
+            text-align: center;
+        }
+
+        .card_info {
+            display: grid;
+            grid-template-columns: 30% 15% 1fr;
+            padding: 2rem;
+
+            > * {
+                margin-right: 2rem;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            .control {
+                display: flex;
+                flex-direction: column;
+            }
+
+            label {
+                margin-bottom: 1rem;
+            }
+
+            .field {
+                display: flex;
+
+                io-select {
+                    width: 50%;
+                }
+
+            }
+        }
+
+        .footer_btn {
+            background-color: $primary_blue;
+            border-radius: .4rem;
+            color: white;
+            font-size: 1.4rem;
+            margin: 3rem auto;
+            width: 26.4rem;
+        }
+    }
+}

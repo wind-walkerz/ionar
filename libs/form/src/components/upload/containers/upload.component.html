@@ -1,0 +1,36 @@
+<ng-container *ngIf="type === 'dropzone'">
+    <ng-container *ngTemplateOutlet="dropzone"></ng-container>
+</ng-container>
+
+<ng-container *ngIf="type === 'input'">
+    <ng-container *ngTemplateOutlet="click"></ng-container>
+</ng-container>
+
+<ng-template #click>
+    <click
+            (change)="onFileChanged($event)"
+    >
+
+    </click>
+
+</ng-template>
+
+<ng-template #dropzone>
+    <drop
+            (change)="onFileChanged($event)"
+    >
+        <ng-content></ng-content>
+    </drop>
+</ng-template>
+
+
+<!--<ng-container-->
+<!--*ngIf="file_list"-->
+<!--&gt;-->
+<!--<ng-container *ngFor="let file of file_list">-->
+<!--<file-->
+<!--[data]="file"-->
+<!--&gt;</file>-->
+<!--</ng-container>-->
+
+<!--</ng-container>-->

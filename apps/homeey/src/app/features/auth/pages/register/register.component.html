@@ -1,0 +1,43 @@
+<div class="left_panel">
+    <img src="assets/images/auth/home-decor-ideas-05.png" alt="" class="img-responsive">
+
+    <h1>What's Next</h1>
+
+    <section class="instructions">
+        <div class="step">
+            <img src="assets\icons\check.png" alt="">
+            <p>Book apointment</p>
+        </div>
+        <div class="step">
+            <img src="assets\icons\check.png" alt="">
+            <p>Meet us</p>
+        </div>
+        <div class="step">
+            <div class="unchecked"></div>
+            <p>Get matched with designer</p>
+        </div>
+        <div class="step">
+            <div class="unchecked"></div>
+            <p>Start to Co-create </p>
+        </div>
+    </section>
+
+</div>
+<div class="right_panel">
+    <h1>Sign Up for Homeey </h1>
+    <h2>Everyone deserves a beautiful home.</h2>
+    <aurora-form
+            [config]="config"
+            [default_template]="true"
+            (submit)="onRegister($event)"
+    >
+    </aurora-form>
+
+    <section class="section_4">
+        <aurora-button class="signin_button" submit_form>
+            Sign Up
+        </aurora-button>
+    </section>
+
+
+</div>
