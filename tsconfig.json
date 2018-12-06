@@ -22,12 +22,14 @@
         "libs/core/src/index.ts"
       ],
       "@ionar/ui": [
+//        "dist/libs/ui",
         "libs/ui/src/index.ts"
       ],
       "@ionar/utility": [
         "libs/utility/src/index.ts"
       ],
       "@ionar/form": [
+//        "dist/libs/form",
         "libs/form/src/index.ts"
       ]
     }

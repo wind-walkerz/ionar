@@ -41,11 +41,9 @@ export class SelectComponent implements OnInit {
 
   onChange = option => {
 
-    this.options = _.map(this.options, item => {
-      if (_.isEqual(item, option)) {
-        item.selected = _.isEqual(item, option);
-        this.selected_option = item;
-      }
+    this.options = _.map(this.options, (item: { value: any, label: any, selected: Boolean }) => {
+      item.selected = _.isEqual(item, option);
+      this.selected_option = item;
       return item;
     });
     this.show_menu = false;

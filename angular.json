@@ -246,6 +246,100 @@
           }
         }
       }
+    },
+    "form-demo": {
+      "root": "apps/form-demo/",
+      "sourceRoot": "apps/form-demo/src",
+      "projectType": "application",
+      "prefix": "ionar",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/form-demo",
+            "index": "apps/form-demo/src/index.html",
+            "main": "apps/form-demo/src/main.ts",
+            "polyfills": "apps/form-demo/src/polyfills.ts",
+            "tsConfig": "apps/form-demo/tsconfig.app.json",
+            "assets": [
+              "apps/form-demo/src/favicon.ico",
+              "apps/form-demo/src/assets"
+            ],
+            "styles": [
+              "apps/form-demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/form-demo/src/environments/environment.ts",
+                  "with": "apps/form-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "form-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "form-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "form-demo:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/form-demo/tsconfig.app.json",
+              "apps/form-demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/form-demo/jest.config.js",
+            "tsConfig": "apps/form-demo/tsconfig.spec.json",
+            "setupFile": "apps/form-demo/src/test-setup.ts"
+          }
+        }
+      }
     }
   },
   "cli": {

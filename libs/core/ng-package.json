@@ -5,6 +5,7 @@
     "entryFile": "src/index.ts"
   },
   "whitelistedNonPeerDependencies": [
-    "@ionar/ui"
+    "@ionar/ui",
+    "@ionar/form"
   ]
 }

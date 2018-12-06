@@ -32,6 +32,12 @@
     },
     "form": {
       "tags": []
+    },
+    "form-demo": {
+      "tags": []
+    },
+    "form-demo-e2e": {
+      "tags": []
     }
   }
 }

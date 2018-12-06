@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'flex',
@@ -11,25 +11,5 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
       }
   `]
 })
-export class FlexElement implements OnInit, OnDestroy {
-
-  ///-----------------------------------------------  Variables   -----------------------------------------------///
-
-  constructor() {
-  }
-
-
-  ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-
-
-  ngOnInit() {
-
-  }
-
-  ngOnDestroy(): void {
-  }
-
-
-  ///-----------------------------------------------  Main Functions  -----------------------------------------------///
-
+export class FlexElement {
 }
