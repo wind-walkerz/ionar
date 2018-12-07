@@ -13,7 +13,10 @@ import { RouterModule } from '@angular/router';
         path: '', component: ProjectComponent, children: [
           { path: '', redirectTo: 'feed', pathMatch: 'full' },
           { path: 'feed', loadChildren: './pages/feed/feed.module#FeedModule' },
-          { path: 'payment', loadChildren: './pages/payment/payment.module#PaymentModule' }
+          { path: 'payment', loadChildren: './pages/payment/payment.module#PaymentModule' },
+          { path: 'order', loadChildren: './pages/order/order.module#OrderModule' },
+          { path: 'info', loadChildren: './pages/info/info.module#InfoModule' },
+          { path: 'gallery', loadChildren: './pages/gallery/gallery.module#GalleryModule' },
         ]
       }
 

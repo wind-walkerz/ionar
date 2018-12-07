@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 
 import {DashboardComponent} from './containers/dashboard.component';
 import {RouterModule} from '@angular/router';
-import {HomeComponent} from '../home/pages/home.component';
 
 
 @NgModule({

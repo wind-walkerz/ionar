@@ -1,0 +1,233 @@
+<div id="basic_info" class="panel">
+    <div class="row heading">
+        <h2>BASIC INFO</h2>
+        <p></p>
+        <p>Add</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Client Name:</p>
+        <p>Melissa</p>
+        <p>Edit</p>
+    </div>
+</div>
+
+<div id="project_scope" class="panel">
+    <div class="row heading">
+        <h2>PROJECT SCOPE</h2>
+        <p></p>
+        <p>Add</p>
+    </div>
+    <div class="row item">
+        <p>Type of Property:</p>
+        <p>Suspendisse ut nisl tempus</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Type of Property:</p>
+        <p>Suspendisse ut nisl tempus</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Type of Property:</p>
+        <p>Suspendisse ut nisl tempus</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Type of Property:</p>
+        <p>Suspendisse ut nisl tempus</p>
+        <p>Edit</p>
+    </div>
+    <div class="row item">
+        <p>Type of Property:</p>
+        <p>Suspendisse ut nisl tempus</p>
+        <p>Edit</p>
+    </div>
+</div>
+
+<div id="quiz" class="panel">
+    <div class="row heading">
+        <h2>STYLE: DESIGN QUIZ</h2>
+        <h2></h2>
+        <h2></h2>
+    </div>
+    <div class="row item">
+        <p>
+            <io-btn>Start Quiz</io-btn>
+        </p>
+        <p></p>
+        <p></p>
+    </div>
+</div>
+
+<div id="album" class="panel">
+    <div class="row heading">
+        <h2>STYLE: INSPIRATION LOOKS</h2>
+        <h2></h2>
+        <h2></h2>
+    </div>
+    <io-tabs>
+        <tab>
+            <ng-container *label>SELECT FAVOURITE LOOKS</ng-container>
+            <ng-container *content>
+                <div id="product_list">
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                    <div class="product">
+                        <div class="thumbnail">
+                            <img src="assets/images/project/bedroom_thumbnail.png" alt=""
+                                 class="img-responsive">
+                        </div>
+                        <div class="title">Bed Room</div>
+                    </div>
+                </div>
+            </ng-container>
+        </tab>
+
+        <tab>
+            <ng-container *label> UPLOAD IMAGE</ng-container>
+            <ng-container *content>
+                <div class="avatar_preview" *ngIf="show_avatar_preview">
+
+                    <div class="avatar">
+                        <div class="delete_icon" (click)="cancelAvatarPreview()">
+                            <img src="assets/icons/delete.png" alt="" class="img-responsive">
+                        </div>
+
+                        <img src="{{avatar_preview}}" alt="" class="img-responsive">
+                    </div>
+
+
+                    <io-upload
+                            (change)="onUploaded($event)"
+                    >
+                        Change
+                    </io-upload>
+                </div>
+                <io-upload
+                        type="dropzone"
+                        (change)="onUploaded($event)"
+                        *ngIf="!show_avatar_preview"
+                >
+                    <p>Drag and drop file here to upload</p>
+                    <img class="img-responsive" src="assets\icons\profile\upload.png" alt="">
+                </io-upload>
+            </ng-container>
+        </tab>
+
+    </io-tabs>
+</div>
+
+
+<div id="design_brief" class="panel">
+    <div class="row heading">
+        <h2>DESIGN BRIEF</h2>
+        <h2></h2>
+        <h2></h2>
+    </div>
+    <div class="row item">
+        <p>INTERIOR</p>
+        <p>OPEN | EDIT</p>
+        <p>UPLOADAED BY: Denise</p>
+    </div>
+    <div class="row item">
+        <p>INTERIOR</p>
+        <p>OPEN | EDIT</p>
+        <p>UPLOADAED BY: Denise</p>
+    </div>
+    <div class="row item">
+        <p>INTERIOR</p>
+        <p>OPEN | EDIT</p>
+        <p>UPLOADAED BY: Denise</p>
+    </div>
+    <div class="row item">
+        <p>INTERIOR</p>
+        <p>OPEN | EDIT</p>
+        <p>UPLOADAED BY: Denise</p>
+    </div>
+</div>

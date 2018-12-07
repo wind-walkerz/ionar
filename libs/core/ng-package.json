@@ -6,6 +6,7 @@
   },
   "whitelistedNonPeerDependencies": [
     "@ionar/ui",
-    "@ionar/form"
+    "@ionar/form",
+    "@ionar/utility"
   ]
 }

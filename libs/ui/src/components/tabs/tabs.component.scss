@@ -3,14 +3,14 @@
   flex-direction: column;
   position: relative;
 
-  .label_container {
-    display: flex;
+    .label_container {
+        display: flex;
 
-    .label {
-      cursor: pointer;
+        .label {
+            cursor: pointer;
 
-      &.active {
-      }
+            &.active {
+            }
+        }
     }
-  }
 }

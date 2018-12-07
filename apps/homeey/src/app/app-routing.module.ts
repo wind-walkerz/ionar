@@ -10,10 +10,7 @@ const appRoutes: Routes = [
     loadChildren: './features/dashboard/dashboard.module#DashboardModule',
     canActivate: [AuthGuard]
   },
-  { path: 'about', loadChildren: './features/about/about.module#AboutModule' },
-  { path: 'create-project', loadChildren: './features/create-project/create-project.module#CreateProjectModule' },
   { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule' },
-  { path: 'invoice', loadChildren: './features/invoice/invoice.module#InvoiceModule' },
   { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule' },
   { path: 'project', loadChildren: './features/project/project.module#ProjectModule' }
 ];

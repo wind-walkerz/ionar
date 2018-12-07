@@ -1,1 +1,1 @@
-export * from './lib/utility.module';
+export * from './observables';
