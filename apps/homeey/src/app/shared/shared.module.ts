@@ -4,10 +4,15 @@ import { AuroraUiModule } from '@aurora-ngx/ui';
 import { AuroraFormsModule } from '@aurora-ngx/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { IonarModule } from '@ionar/core';
+import { SharedComponentModule } from './components/component.module';
 
 
 @NgModule({
   imports: [
+
+    SharedComponentModule,
+
+
     CommonModule,
     AuroraUiModule,
     AuroraFormsModule,
@@ -15,6 +20,8 @@ import { IonarModule } from '@ionar/core';
     IonarModule
   ],
   exports: [
+    SharedComponentModule,
+
     CommonModule,
     AuroraUiModule,
     AuroraFormsModule,

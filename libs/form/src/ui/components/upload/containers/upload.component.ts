@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import _ from 'lodash';
 
 @Component({
   selector: 'io-upload',
+  exportAs: 'io-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
@@ -14,7 +15,7 @@ export class UploadComponent implements OnInit {
   @Input() type: string = 'input';
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-  constructor() {
+  constructor(private elRef: ElementRef) {
   }
 
   ngOnInit() {

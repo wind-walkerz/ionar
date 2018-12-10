@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
           { path: 'payment', loadChildren: './pages/payment/payment.module#PaymentModule' },
           { path: 'order', loadChildren: './pages/order/order.module#OrderModule' },
           { path: 'info', loadChildren: './pages/info/info.module#InfoModule' },
-          { path: 'gallery', loadChildren: './pages/gallery/gallery.module#GalleryModule' },
+          { path: 'image-board', loadChildren: './pages/image-board/image-board.module#ImageBoardModule' }
         ]
       }
 

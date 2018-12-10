@@ -10,18 +10,22 @@
     position: relative;
     transition: all 0.3s;
     width: 100%;
-    height: 20rem;
+    height: 100%;
     user-select: none;
+
     &.drop_hover {
         border: 2px dashed #40a9ff;
         color: #40a9ff;
+
         p {
             color: #40a9ff;
         }
     }
+
     p {
         transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
+
     &:focus {
         border-color: #40a9ff;
         outline: 0;
@@ -32,12 +36,15 @@
     &:hover {
         border-color: #40a9ff;
         color: #40a9ff;
+
         p {
             color: #40a9ff;
         }
     }
+
     &.invalid {
         border-color: #f5222d;
+
         &:focus {
             border-color: #ff4d4f;
             outline: 0;

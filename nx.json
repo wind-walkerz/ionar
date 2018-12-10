@@ -38,6 +38,12 @@
     },
     "form-demo-e2e": {
       "tags": []
+    },
+    "ui-demo": {
+      "tags": []
+    },
+    "ui-demo-e2e": {
+      "tags": []
     }
   }
 }

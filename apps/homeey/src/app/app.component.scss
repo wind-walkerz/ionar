@@ -1,0 +1,32 @@
+@import "variables";
+
+
+:host {
+    ::ng-deep {
+        .breadcrumb {
+            justify-self: start;
+            color: $primary_blue;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+
+        io-btn {
+            background-color: $primary_blue;
+            box-shadow: 0 0 0.6rem color_opacity(#000000, 0.16);
+            border: 1px solid white;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 200;
+            margin: 0 2rem 2rem 2rem;
+            padding: 1rem 2rem;
+
+            &:hover {
+                border-color: white;
+                color: white;
+            }
+        }
+
+
+    }
+}

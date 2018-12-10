@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
 export class DetailComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  constructor(protected location: Location) {}
+  constructor(public location: Location) {}
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
