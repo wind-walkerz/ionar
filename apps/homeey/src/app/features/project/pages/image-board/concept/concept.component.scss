@@ -1,7 +1,125 @@
 @import 'variables';
 
 :host {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.image_panel {
+    display: flex;
+    justify-content: center;
+    margin: 3rem auto;
+    position: relative;
+    max-width: 80%;
+
+    .marker_list {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+    }
+}
+
+main-panel {
+    .header {
+        padding: 0 2rem;
+
+        h2 {
+            border-bottom: 3px solid $primary_red;
+            padding: 1.6rem 0;
+        }
+    }
+
+    .input_toolbar {
+        background-color: white;
+        border: 1px solid rgba(50, 13, 16, .2);
+        border-radius: .4rem;
+        display: flex;
+        align-items: center;
+        margin: 2rem 2rem 0 2rem;
+        padding: 1rem 2rem;
+        position: relative;
+
+        .avatar {
+            margin-right: 1rem;
+            width: 4rem;
+            height: 4rem;
+        }
+
+        .upload_button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2rem;
+            position: relative;
+            width: 2.2rem;
+
+            #file_upload {
+                position: absolute;
+                opacity: 0;
+                max-width: 100%;
+            }
+        }
+
+        textarea {
+            border: none;
+            font-size: 1.4rem;
+            font-weight: 200;
+            outline: 0;
+            resize: vertical;
+            height: 100%;
+            width: 100%;
+        }
+
+        .send_button {
+            width: 2.2rem;
+        }
+    }
+
+    .comment_list {
+        margin: 0 2rem;
+
+        .message {
+            display: flex;
+            margin: 3rem 0;
+            width: 100%;
+
+            .avatar {
+                display: flex;
+                flex-shrink: 0;
+                width: 4rem;
+                height: 4rem;
+            }
+
+            .user_info {
+                display: flex;
+                flex-direction: column;
+                margin-left: 1rem;
+
+                .name {
+                    font-size: 1.4rem;
+                    font-weight: bold;
+                    margin-bottom: 1.1rem;
+                    text-align: left;
+                }
+
+                .bubble {
+                    .text {
+                        color: $primary_blue;
+                        font-size: 1.4rem;
+                        text-align: left;
+                    }
+
+                    img {
+                        border-radius: .4rem;
+                        width: 4rem;
+                        height: 4rem;
+                    }
+                }
+            }
+
+        }
+
+    }
 }

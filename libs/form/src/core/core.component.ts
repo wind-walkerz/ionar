@@ -14,6 +14,7 @@ import { FormService } from './providers/form.service';
 import _ from 'lodash';
 
 import { FormGroup } from './models/FormGroup';
+import { untilDestroyed } from '@ionar/utility';
 
 @Component({
   selector: 'ionar-form',
@@ -52,7 +53,7 @@ import { FormGroup } from './models/FormGroup';
 @Injectable()
 export class FormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
-  @Input() formGroup: FormGroup;
+  @Input('formGroup') private _formGr: FormGroup;
 
   @Input() default_template: Boolean = false;
   @Input() media_type: String;
@@ -69,19 +70,18 @@ export class FormComponent implements OnInit, AfterViewInit, AfterViewChecked, O
 
   ngOnInit() {
 
-    this._formSvs.group(this.formGroup);
+    this._formSvs.group(this._formGr);
 
-    this.control_name_list = _.keys(this.formGroup.controls);
+    this.control_name_list = _.keys(this._formGr.controls);
 
 
     //
-    // this.formGrDir.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-    //     if (data instanceof Event) {
-    //         data.stopPropagation();
-    //     } else if (this.form.valid) {
-    //         this.submit.emit(data);
-    //     }
-    // })
+    this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+
+      if (this._formGr.valid) {
+          this.submit.emit(data);
+      }
+    });
   }
 
   ngAfterViewInit(): void {

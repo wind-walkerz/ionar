@@ -1,1 +1,58 @@
 <div class="breadcrumb"><a (click)="location.back()">< Back</a></div>
+
+
+<div class="image_panel">
+    <div class="main_image">
+        <img class="img-responsive" src="assets/images/project/image-concept-1.png" alt="">
+    </div>
+    <div class="marker_list">
+
+        <ng-container *ngFor="let marker of marker_list">
+            <marker
+                    [data]="marker"
+            ></marker>
+        </ng-container>
+
+    </div>
+</div>
+
+<main-panel>
+    <div class="header"><h2>Comment (5)</h2></div>
+
+    <div class="input_toolbar">
+        <div class="avatar">
+            <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
+        </div>
+        <textarea class="msg_input" name="msg_input" placeholder="Write your comment..." cols="1" rows="1"></textarea>
+        <div class="upload_button">
+            <input type="file" id="file_upload" name="file_upload" multiple/>
+            <img class="img-responsive" src="assets/icons/project/paperclip.png" alt="">
+        </div>
+        <div class="send_button"><img class="img-responsive" src="assets/icons/project/send.png" alt=""></div>
+
+    </div>
+
+
+    <div class="comment_list">
+        <ng-container *ngFor="let cmt of comment_list">
+            <div class="message">
+                <div class="avatar">
+                    <img src="{{cmt.user.avatar}}" alt="" class="avatar img-responsive">
+                </div>
+                <div class="user_info" *ngIf="cmt.user.id === 1">
+                    <p class="name">{{cmt.user.first_name}}  {{cmt.user.last_name}}</p>
+
+                    <div class="bubble">
+                        <p class="text" [innerHTML]="cmt.text" *ngIf="cmt.text">
+                        </p>
+                        <img class="img-responsive" src="{{cmt.image}}" alt="" *ngIf="cmt.image">
+                    </div>
+
+                </div>
+
+            </div>
+        </ng-container>
+    </div>
+
+
+</main-panel>

@@ -189,9 +189,12 @@ export class FormControl extends AbstractControl {
 
   /** @internal */
   _calculateStatus(): string {
-    if (this.disabled) return DISABLED;
+
+    console.log(this.errors);
+
+    // if (this.disabled) return DISABLED;
     if (this.errors) return INVALID;
-    if (this.pending) return PENDING;
+    // if (this.pending) return PENDING;
 
     return VALID;
   }
@@ -235,6 +238,6 @@ function convertToValidatorFn(validators: ValidationConfigs): ValidatorFn[] {
   return _.map(validators, (value, key) => {
     if (!_.has(Validators, key)) return null;
 
-    return Validators[key]
+    return Validators[key];
   });
 }

@@ -1,0 +1,58 @@
+@import "variables";
+
+:host {
+    .top_bar {
+        background-color: #0D1D32;
+        display: flex;
+        align-items: center;
+        height: 4rem;
+
+        .container {
+            flex-direction: row;
+            justify-content: flex-end;
+
+            p {
+                color: white;
+                font-size: 1.4rem;
+            }
+        }
+
+    }
+
+    .main_content {
+        display: grid;
+        grid-template-areas: "sidebar product_grid";
+        grid-template-columns: 2fr 6fr;
+        grid-gap: 2rem;
+        margin-top: 3rem;
+        padding: 0 2rem;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+#product_grid {
+    grid-area: product_grid;
+
+    .product_list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 2.8rem 5.5rem;
+
+        .product_tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .name {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+#sidebar {
+    background-color: white;
+    grid-area: sidebar;
+}

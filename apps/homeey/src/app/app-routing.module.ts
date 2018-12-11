@@ -12,7 +12,8 @@ const appRoutes: Routes = [
   },
   { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule' },
   { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule' },
-  { path: 'project', loadChildren: './features/project/project.module#ProjectModule' }
+  { path: 'project', loadChildren: './features/project/project.module#ProjectModule' },
+  { path: 'product', loadChildren: './features/merchandise/merchandise.module#MerchandiseModule' }
 ];
 
 @NgModule({

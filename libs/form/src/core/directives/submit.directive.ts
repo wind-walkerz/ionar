@@ -1,18 +1,18 @@
-import { Directive, HostListener, OnChanges, OnDestroy, OnInit } from '@angular/core';
-
+import { Directive, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '../models/FormGroup';
 
 @Directive({
-  selector: '[submit_form]'
+  selector: '[submit]'
 })
 export class SubmitDirective implements OnInit, OnDestroy, OnChanges {
 
+  @Input('submit') private _formGr: FormGroup;
+
   @HostListener('click')
   onClick = () => {
-    // this.formSvs._submit();
+    this._formGr.submit();
   };
 
-  // constructor(private formSvs:) {
-  // }
 
   ngOnInit(): void {
 

@@ -51,7 +51,7 @@ export class AppComponent {
         props: {
           label: 'Password',
           value: '',
-          type: 'password',
+          type: 'password'
         },
         validators: {
           required: true

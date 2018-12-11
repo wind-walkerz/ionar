@@ -1,0 +1,40 @@
+:host {
+    position: absolute;
+    display: flex;
+
+    .icon {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+
+    .comment_thread {
+        background-color: white;
+        border-radius: .4rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        padding: 1.5rem;
+        position: absolute;
+        left: 6.2rem;
+        top: calc(-70%);
+        min-width: 25rem;
+        max-width: 25rem;
+        max-height: 20rem;
+
+        .message {
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        &:before {
+            border: 1.2rem solid transparent;
+            border-right-color: white;
+            content: '';
+            position: absolute;
+            top: 2.5rem;
+            right: 100%;
+        }
+    }
+}

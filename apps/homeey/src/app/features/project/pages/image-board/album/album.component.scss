@@ -34,6 +34,7 @@
                     font-size: 1.4rem;
                     font-weight: 200;
                 }
+
                 span {
                     text-decoration: underline;
                 }
@@ -41,61 +42,59 @@
 
             collapse-content {
                 position: relative;
+                justify-content: center;
 
-                io-expandable {
+                .pictures {
+                    display: inline-grid;
+                    grid-template-columns: repeat(6, 1fr);
+                    grid-gap: 2.2rem;
+                    //margin: 2.6rem 2rem 0 2rem;
 
-                    .pictures {
-                        display: inline-grid;
-                        grid-template-columns: repeat(6, 1fr);
-                        grid-gap: 2.2rem;
-                        //margin: 2.6rem 2rem 0 2rem;
+                    .tile {
+                        display: flex;
+                        flex-direction: column;
+                        align-self: start;
+                        align-items: center;
+                        justify-self: center;
+                        margin-bottom: 2.8rem;
+                        width: 100%;
+                        height: 100%;
 
-                        .tile {
-                            display: flex;
-                            flex-direction: column;
-                            align-self: start;
-                            align-items: center;
-                            justify-self: center;
-                            margin-bottom: 2.8rem;
+                        ::ng-deep io-upload {
                             width: 100%;
-                            height: 100%;
 
-                            ::ng-deep io-upload {
-                                width: 100%;
-
-                                drop {
-                                }
+                            drop {
                             }
+                        }
 
+                        .title {
+                            font-size: 1.6rem;
+                            font-weight: bold;
+                            margin-top: 1.3rem;
+                        }
+
+                        .thumbnail {
+                            border-radius: 0.4rem;
+                        }
+
+                        &:hover,
+                        &.active {
                             .title {
-                                font-size: 1.6rem;
                                 font-weight: bold;
-                                margin-top: 1.3rem;
                             }
 
                             .thumbnail {
-                                border-radius: 0.4rem;
-                            }
-
-                            &:hover,
-                            &.active {
-                                .title {
-                                    font-weight: bold;
-                                }
-
-                                .thumbnail {
-                                    border: 0.5rem solid $primary_red;
-                                }
+                                border: 0.5rem solid $primary_red;
                             }
                         }
                     }
+                }
 
-                    io-btn {
-                        margin: 0;
-                        position: absolute;
-                        height: 3rem;
-                        bottom: calc(-3rem / 2)
-                    }
+                io-btn {
+                    margin: 0;
+                    position: absolute;
+                    height: 3rem;
+                    bottom: calc(-3rem / 2)
                 }
             }
 

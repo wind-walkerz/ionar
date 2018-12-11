@@ -14,6 +14,8 @@ import { FormService } from '../providers/form.service';
 
 import { ControlConfig } from '../models/ControlConfig';
 import { AbstractControl } from '../models/AbstractControl';
+import { FormGroup } from '@ionar/form';
+import { untilDestroyed } from '@ionar/utility';
 
 
 @Component({
@@ -29,7 +31,7 @@ import { AbstractControl } from '../models/AbstractControl';
                             enter: onEntered
                     }"
 
-                  [invalid]="_control?.invalid && (_control?.dirty || _control?.touched)"
+                  [invalid]="invalid"
           >
           </ng-container>
       </ng-container>
@@ -47,6 +49,9 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string;
   _control: AbstractControl;
+  _formGr: FormGroup;
+
+  invalid: Boolean = false;
 
   // @Input() name
   //
@@ -64,7 +69,11 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   }
 
   ngOnInit() {
-    this._control = this._formSvs.getFormGroup().get(this.name);
+    this.parseContext();
+
+    this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+      this.parseContext();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -99,4 +108,10 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
     // if (this.name === 'password') this.focus = true;
   };
 
+  parseContext = () => {
+    this._formGr = this._formSvs.getFormGroup();
+    this._control = this._formGr.get(this.name);
+    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
+    this.cd.markForCheck()
+  };
 }

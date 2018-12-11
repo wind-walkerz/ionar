@@ -3,6 +3,7 @@ import { FormService } from '../providers/form.service';
 import { AbstractControl } from '../models/AbstractControl';
 import _ from 'lodash';
 import { untilDestroyed } from '@aurora-ngx/ui';
+import { FormGroup } from '@ionar/form';
 
 @Component({
   selector: 'feedback',
@@ -32,7 +33,9 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   @Input() name: string;
-  protected _control: AbstractControl;
+
+  _control: AbstractControl;
+  _formGr: FormGroup;
 
   invalid: Boolean = false;
   error_list: string[] | null;
@@ -46,17 +49,15 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this._control = this._formSvs.getControl(this.name);
+    this.parseContext();
 
     this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
-      this.invalid = this._control.invalid && (this._control.dirty || this._control.touched);
-
-      this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key));
-
-      this.cd.detectChanges();
-
+      this.parseContext();
     });
 
+    this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+      this.parseContext();
+    });
   }
 
 
@@ -97,5 +98,13 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
+
+  parseContext = () => {
+    this._formGr = this._formSvs.getFormGroup();
+    this._control = this._formGr.get(this.name);
+    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
+    this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key));
+    this.cd.markForCheck();
+  };
 
 }

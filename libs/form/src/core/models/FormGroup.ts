@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import { ValidationConfigs } from './Validator';
+import { Observable } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -76,6 +78,18 @@ import { ValidationConfigs } from './Validator';
  */
 export class FormGroup extends AbstractControl {
 
+  /**
+   * @description
+   * Reports whether the form submission has been triggered.
+   */
+  public readonly submitted: boolean = false;
+
+  /**
+   * @description
+   * Emits an event when the form submission has been triggered.
+   */
+
+  public readonly ngSubmit: EventEmitter<any>;
 
   /**
    * Creates a new `FormGroup` instance.
@@ -229,13 +243,18 @@ export class FormGroup extends AbstractControl {
     return this.controls.hasOwnProperty(name as string) ? this.controls[name] : null;
   }
 
+  submit(): void {
+    (this as { submitted: Boolean }).submitted = true;
+    this.ngSubmit.emit(this);
+  }
+
   /** @internal */
   _calculateStatus(): string {
-    if (this._allControlsDisabled()) return DISABLED;
-    // if (this.errors) return INVALID;
-    if (this._anyControlsHaveStatus(PENDING)) return PENDING;
+    // // if (this._allControlsDisabled()) return DISABLED;
     if (this._anyControlsHaveStatus(INVALID)) return INVALID;
-    return VALID;
+    // // if (this._anyControlsHaveStatus(PENDING)) return PENDING;
+    // // if (this._anyControlsHaveStatus(INVALID)) return INVALID;
+    // return VALID;
   }
 
   /** @internal */
@@ -246,18 +265,13 @@ export class FormGroup extends AbstractControl {
   }
 
 
-  _setUpValidationOptions(options): void {
-
-
-
-    _.forOwn(this.controls, (value: AbstractControl, key: string) => {
-
-      console.log(
-        // coerceToValidationConfig(value.validateOptions, options)
-      );
-
-    });
+  /** @internal */
+  _initObservables() {
+    (this as { valueChanges: Observable<any> }).valueChanges = new EventEmitter();
+    (this as { statusChanges: Observable<any> }).statusChanges = new EventEmitter();
+    (this as { ngSubmit: Observable<any> }).ngSubmit = new EventEmitter();
   }
+
 
   /** @internal */
   _updateValue(): void {
@@ -286,6 +300,7 @@ export class FormGroup extends AbstractControl {
   _anyControlsHaveStatus(status: string): boolean {
     return _.every(this.controls, ['status', status]);
   }
+
 
 }
 

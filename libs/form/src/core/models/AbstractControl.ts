@@ -180,6 +180,8 @@ export abstract class AbstractControl {
    */
   markAsTouched(): void {
     (this as { touched: boolean }).touched = true;
+
+    this.updateValueAndValidity({ onlySelf: true });
   }
 
   /**
@@ -212,7 +214,7 @@ export abstract class AbstractControl {
     if (this.enabled) {
       this._cancelExistingSubscription();
       (this as { status: string }).status = this._calculateStatus();
-
+      console.log(this.status);
       // if (this.status === VALID || this.status === PENDING) {
       //   this._runAsyncValidator(opts.emitEvent);
       // }

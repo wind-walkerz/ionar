@@ -23,7 +23,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   @Input('controlConfig') private _controlConfig: ControlConfig;
   @Input('events') private _events: { [key: string]: Function };
 
-  @Input('invalid') private _invalid: Boolean;
+  @Input() private invalid: Boolean;
 
   // invalid: control?.invalid && (control?.dirty || control?.touched || submitted),
   // type: state.properties.type,
@@ -54,12 +54,11 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-
     this.createComponent();
-
   }
 
   ngOnChanges() {
+    console.log(this.invalid)
     if (this._compRef) {
       this.updateContext();
     }
@@ -123,7 +122,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
   private parseContext = (status = 'initial') => {
     const context = {
-      invalid: this._invalid,
+      invalid: this.invalid,
       ...this._controlConfig.props
     };
 

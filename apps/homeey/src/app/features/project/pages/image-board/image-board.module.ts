@@ -3,6 +3,7 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { AlbumComponent } from './album/album.component';
 import { ConceptComponent } from './concept/concept.component';
+import { MarkerComponent } from './concept/marker/marker.component';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ConceptComponent } from './concept/concept.component';
       { path: 'album/:id', component: ConceptComponent }
     ])
   ],
-  declarations: [AlbumComponent, ConceptComponent]
+  declarations: [AlbumComponent, ConceptComponent, MarkerComponent]
 })
-export class ImageBoardModule {}
+export class ImageBoardModule {
+}
