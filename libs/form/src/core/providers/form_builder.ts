@@ -1,12 +1,12 @@
 import { FormGroup } from '../models/FormGroup';
-import { AbstractControl } from '../models/AbstractControl';
+import { ControlConfig } from '../models/ControlConfig';
 
 export class IonarFormBuilder {
 
 
-  group = (controlsConfig: { [key: string]: AbstractControl }): FormGroup => {
+  group = (formConfig: ControlConfig[], formOptions?: any): FormGroup => {
 
-    return new FormGroup(controlsConfig);
+    return new FormGroup(formConfig);
   };
 }
 

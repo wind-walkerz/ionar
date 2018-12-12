@@ -13,29 +13,36 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.formGroup = this._fb.group({
-      username: new FormControl({
-        type: 'input',
-        props: {
-          label: 'Email',
-          value: ''
-        },
-        validators: {
-          required: true,
-          email: true
-        }
-      }),
-      email: new FormControl({
+    this.formGroup = this._fb.group([
+      {
+        name: 'username',
         type: 'input',
         props: {
           label: 'Username',
           value: ''
         },
         validators: {
+          required: true,
+          email: true,
+          stringLength: {
+            min: 10,
+            max: 15
+          }
+        }
+      },
+      {
+        name: 'email',
+        type: 'input',
+        props: {
+          label: 'Email',
+          value: ''
+        },
+        validators: {
           required: true
         }
-      }),
-      password: new FormControl({
+      },
+      {
+        name: 'password',
         type: 'input',
         props: {
           label: 'Password',
@@ -43,38 +50,25 @@ export class AppComponent {
           type: 'password'
         },
         validators: {
-          required: true
+          required: true,
+          stringLength: {
+            min: 6
+          }
         }
-      }),
-      confirm_password: new FormControl({
+      },
+      {
+        name: 'confirm_password',
         type: 'input',
         props: {
-          label: 'Password',
+          label: 'Confirm Password',
           value: '',
           type: 'password'
         },
         validators: {
-          required: true
+          required: true,
+          equalTo: 'password'
         }
-      })
-    });
-
-    // this.formGroup.validate({
-    //   icons: {
-    //     valid: ``,
-    //     invalid: ``,
-    //     validating: ``
-    //   }
-    // });
-
-
-    // this._formSvs.validateOptions({
-    //   icons: {
-    //     error: 'l'
-    //   },
-    //   feedback: {
-    //     error: 'sd'
-    //   }
-    // });
+      }
+    ]);
   }
 }

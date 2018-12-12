@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../providers/form.service';
-import { AbstractControl } from '../models/AbstractControl';
+
 import _ from 'lodash';
 import { untilDestroyed } from '@aurora-ngx/ui';
-import { FormGroup } from '@ionar/form';
+import { FormControl } from '../models/FormControl';
+import { FormGroup } from '../models/FormGroup';
 
 @Component({
   selector: 'feedback',
@@ -11,7 +12,7 @@ import { FormGroup } from '@ionar/form';
       <ng-container *ngIf="show_feedback">
           <ng-container *ngIf="invalid">
               <ng-container *ngFor="let err of error_list">
-                  {{err}}
+                  <p>{{err}}</p>
               </ng-container>
 
           </ng-container>
@@ -21,6 +22,7 @@ import { FormGroup } from '@ionar/form';
   styles: [`
       :host {
           display: flex;
+          flex-direction: column;
           justify-content: flex-start;
           width: 100%;
           color: #f5222d;
@@ -34,7 +36,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() name: string;
 
-  _control: AbstractControl;
+  _control: FormControl;
   _formGr: FormGroup;
 
   invalid: Boolean = false;
@@ -61,7 +63,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  generate_feedback = validator => {
+  generate_feedback = (validator, value) => {
 
     // const feedback = this._control.validateOptions.feedback
     const feedback = {};
@@ -70,20 +72,27 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
     //   ...this.config.feedback
     // };
     //
+
     switch (validator) {
       case 'required':
         if (this.name === 'confirm_password') {
           return feedback['required'] || `You need to confirm password`;
         }
         return feedback['required'] || `${_.startCase(this.name)}  is required`;
-      case 'confirm_password':
-        return feedback['confirm_password'] || `Password not match`;
       case 'agreement':
         return feedback['agreement'] || `You must agree to the terms and conditions before continuing!`;
       case 'email' :
         return feedback['email'] || `Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'`;
       case 'email_existed':
         return feedback['email_existed'] || `${_.startCase(this.name)} is existed! Please use another one`;
+
+      case 'stringLength' :
+
+        return value.minLength ? `${_.startCase(this.name)} cannot be shorter than ${value.minLength}` : `${_.startCase(this.name)} cannot be longer than ${value.maxLength}`;
+
+      case 'equalTo' :
+
+        return `Confirm password is not equal to password`;
     }
 
 
@@ -103,8 +112,10 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
     this._formGr = this._formSvs.getFormGroup();
     this._control = this._formGr.get(this.name);
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
-    this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key));
+    this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
     this.cd.markForCheck();
+
+    console.log(this.error_list);
   };
 
 }

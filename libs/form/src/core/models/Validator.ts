@@ -1,4 +1,4 @@
-import { AbstractControl } from './AbstractControl';
+import { FormControl } from './FormControl';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
 
@@ -7,7 +7,15 @@ export interface ValidationErrors {
 }
 
 export interface ValidationConfigs {
-  [name: string]: { [key: string]: any } | true | ValidatorFn | AsyncValidatorFn
+
+  stringLength?: {
+    min?: number,
+    max?: number
+  },
+
+  equalTo?: string
+
+  [name: string]: { [key: string]: any } | string | true | ValidatorFn | AsyncValidatorFn
 }
 
 
@@ -15,7 +23,7 @@ export interface ValidationConfigs {
  * @publicApi
  */
 export interface ValidatorFn {
-  (control: AbstractControl): ValidationErrors | null
+  (control: FormControl): ValidationErrors | null
 }
 
 
@@ -23,7 +31,7 @@ export interface ValidatorFn {
  * @publicApi
  */
 export interface AsyncValidatorFn {
-  (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
+  (control: FormControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
 
 /**
@@ -55,8 +63,8 @@ export class Validators {
    * if the validation check fails, otherwise `null`.
    *
    */
-  static required = (c: AbstractControl): ValidationErrors | null =>
-    isEmptyInputValue(c.pendingValue) ? { 'required': true } : null;
+  static required = (c: FormControl): ValidationErrors | null =>
+    isEmptyInputValue(c.value) ? { 'required': true } : null;
 
   /**
    * @description
@@ -76,11 +84,88 @@ export class Validators {
    * if the validation check fails, otherwise `null`.
    *
    */
-  static email = (control: AbstractControl): ValidationErrors | null => {
-    if (isEmptyInputValue(control.pendingValue)) {
+  static email = (control: FormControl): ValidationErrors | null => {
+
+    if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
     }
-    return EMAIL_REGEXP.test(control.pendingValue) ? null : { 'email': true };
+    return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
+  };
+
+
+  /**
+   * @description
+   * Validator that requires the length of the control's value to be greater than or equal
+   * to the provided minimum length. This validator is also provided by default if you use the
+   * the HTML5 `minlength` attribute.
+   *
+   * @usageNotes
+   *
+   * ### Validate that the field has a minimum of 3 characters
+   *
+   * ```typescript
+   * const control = new FormControl('ng', Validators.minLength(3));
+   *
+   * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
+   * ```
+   *
+   * ```html
+   * <input minlength="5">
+   * ```
+   *
+   * @returns A validator function that returns an error map with the
+   * `minlength` if the validation check fails, otherwise `null`.
+   */
+  static stringLength = (control: FormControl): ValidationErrors | null => {
+
+    const controlConfig = control.configuration;
+
+    if (isEmptyInputValue(control.value)) {
+      return null;  // don't validate empty values to allow optional controls
+    }
+
+    if (controlConfig.type !== ('input' || 'textarea')) {
+      throw new Error(`'stringLength' validator can only be used with control type 'input' or 'textarea'`);
+    }
+
+    const
+      min: number = control.configuration.validators['stringLength'].min,
+      max: number = control.configuration.validators['stringLength'].max,
+      length: number = control.value ? control.value.length : 0;
+
+    if (length < min) {
+      return {
+        'stringLength': {
+          'minLength': min,
+          'actualLength': length
+        }
+      };
+    }
+
+    if (length > max) {
+      return {
+        'stringLength': {
+          'maxLength': max,
+          'actualLength': length
+        }
+      };
+    }
+
+    return null;
+  };
+
+
+  static equalTo = (control: FormControl): ValidationErrors | null => {
+
+    if (isEmptyInputValue(control.value)) {
+      return null;  // don't validate empty values to allow optional controls
+    }
+
+
+    const compared_control = control.parent.controls[control.configuration.validators['equalTo']];
+
+    return (JSON.stringify(control.value) === JSON.stringify(compared_control.value))
+      ? null : { equalTo: control.configuration.validators['equalTo'] };
   };
 
 
@@ -97,10 +182,16 @@ export class Validators {
     const presentValidators: ValidatorFn[] = validators.filter(isPresent) as any;
     if (presentValidators.length === 0) return null;
 
-    return function(control: AbstractControl) {
+    return function(control: FormControl) {
       return _mergeErrors(_executeValidators(control, presentValidators));
     };
   };
+
+
+  /** @internal */
+  _isBoxedValue(validator_configs: { [key: string]: any } | true | ValidatorFn | AsyncValidatorFn): boolean {
+    return _.isPlainObject(validator_configs);
+  }
 
 
 }
@@ -119,7 +210,7 @@ function isPresent(o: any): boolean {
   return o != null;
 }
 
-function _executeValidators(control: AbstractControl, validators: ValidatorFn[]): any[] {
+function _executeValidators(control: FormControl, validators: ValidatorFn[]): any[] {
   return validators.map(v => v(control));
 }
 

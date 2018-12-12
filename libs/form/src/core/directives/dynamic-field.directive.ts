@@ -58,7 +58,6 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.invalid)
     if (this._compRef) {
       this.updateContext();
     }

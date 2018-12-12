@@ -1,6 +1,6 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import { ControlConfig } from './ControlConfig';
-import { ValidationConfigs, ValidatorFn, Validators } from './Validator';
+import { ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
 import _ from 'lodash';
 
 
@@ -103,6 +103,8 @@ import _ from 'lodash';
  */
 export class FormControl extends AbstractControl {
 
+  public readonly configuration: ControlConfig;
+
   /**
    * Creates a new `FormControl` instance.
    *
@@ -119,6 +121,9 @@ export class FormControl extends AbstractControl {
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
+  get errors(): ValidationErrors | null {
+    return this.validator ? this.validator(this) : null;
+  }
 
   /**
    * Sets a new value for the form control.
@@ -147,8 +152,8 @@ export class FormControl extends AbstractControl {
     onlySelf?: boolean,
     emitEvent?: boolean
   } = {}): void {
-    (this as { pendingValue: string }).pendingValue = value;
-
+    (this as { value: any }).value = value;
+    this.markAsDirty();
     this.updateValueAndValidity(options);
   }
 
@@ -190,8 +195,6 @@ export class FormControl extends AbstractControl {
   /** @internal */
   _calculateStatus(): string {
 
-    console.log(this.errors);
-
     // if (this.disabled) return DISABLED;
     if (this.errors) return INVALID;
     // if (this.pending) return PENDING;
@@ -202,9 +205,9 @@ export class FormControl extends AbstractControl {
   /** @internal */
   _updateValue(): void {
     if (this.valid) {
-      (this as { pristine: boolean }).pristine = false;
 
-      (this as { value: any }).value = this.pendingValue;
+
+      // (this as { value: any }).value = this.pendingValue;
     }
   }
 
@@ -217,7 +220,7 @@ export class FormControl extends AbstractControl {
   };
 
   private _storeControlConfig = (config: ControlConfig) => {
-    this._controlConfig = config;
+    (this as { configuration: ControlConfig }).configuration = config;
   };
 
   /**

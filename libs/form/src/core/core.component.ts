@@ -38,11 +38,10 @@ import { untilDestroyed } from '@ionar/utility';
       ::ng-deep control {
           display: grid;
           grid-template-areas: "label   field" ". feedback";
-          grid-template-columns: 30% 70%;
-          grid-template-rows: 5fr 5fr;
+          grid-template-columns: 3fr 7fr;
+          grid-template-rows: 1fr auto;
           margin-bottom: 1rem;
           height: auto;
-          min-height: 6rem;
           visibility: visible;
           z-index: 99999999;
       }
@@ -79,7 +78,7 @@ export class FormComponent implements OnInit, AfterViewInit, AfterViewChecked, O
     this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
 
       if (this._formGr.valid) {
-          this.submit.emit(data);
+        this.submit.emit(data);
       }
     });
   }

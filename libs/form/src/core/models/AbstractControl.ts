@@ -66,7 +66,6 @@ export abstract class AbstractControl {
 
   private _asyncValidationSubscription: any;
 
-  public _controlConfig: ControlConfig;
 
   // public validateOptions: ValidationOptions | null;
 
@@ -82,9 +81,7 @@ export abstract class AbstractControl {
    */
   public readonly statusChanges: Observable<any>;
 
-  get errors(): ValidationErrors | null {
-    return this.validator ? this.validator(this) : null;
-  }
+
 
   /**
    * A control is `enabled` as long as its `status` is not `DISABLED`.
@@ -214,7 +211,7 @@ export abstract class AbstractControl {
     if (this.enabled) {
       this._cancelExistingSubscription();
       (this as { status: string }).status = this._calculateStatus();
-      console.log(this.status);
+
       // if (this.status === VALID || this.status === PENDING) {
       //   this._runAsyncValidator(opts.emitEvent);
       // }
@@ -305,15 +302,3 @@ export const PENDING = 'PENDING';
 export const DISABLED = 'DISABLED';
 
 export type FormHooks = 'change' | 'blur' | 'submit';
-
-
-function coerceToValidator(validators: ValidatorFn | ValidatorFn[] | null): ValidatorFn | null {
-
-  return Array.isArray(validators) ? composeValidators(validators) : validators || null;
-
-};
-
-function composeValidators(validators: ValidatorFn[]): ValidatorFn | null {
-
-  return validators != null ? Validators.compose(validators) : null;
-};

@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
-import { ValidationConfigs } from './Validator';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
+import { FormControl } from './FormControl';
+import { ControlConfig } from './ControlConfig';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -85,6 +86,15 @@ export class FormGroup extends AbstractControl {
   public readonly submitted: boolean = false;
 
   /**
+   *
+   * @param controls A collection of child controls. The key for each child is the name
+   * under which it is registered.
+   *
+   */
+
+  public readonly controls: { [key: string]: FormControl } = {};
+
+  /**
    * @description
    * Emits an event when the form submission has been triggered.
    */
@@ -94,13 +104,11 @@ export class FormGroup extends AbstractControl {
   /**
    * Creates a new `FormGroup` instance.
    *
-   * @param controls A collection of child controls. The key for each child is the name
+   * @param formConfig A collection of child controls. The key for each child is the name
    * under which it is registered.
    *
    */
-  constructor(
-    public controls: { [key: string]: AbstractControl }
-  ) {
+  constructor(public formConfig: ControlConfig[]) {
     super();
     this._setUpControls();
     this._initObservables();
@@ -237,7 +245,7 @@ export class FormGroup extends AbstractControl {
    *
    * * `this.form.get(['person', 'name']);`
    */
-  get(name: string = null): AbstractControl | null {
+  get(name: string = null): FormControl | null {
     if (name == null) return null;
 
     return this.controls.hasOwnProperty(name as string) ? this.controls[name] : null;
@@ -259,8 +267,10 @@ export class FormGroup extends AbstractControl {
 
   /** @internal */
   _setUpControls(): void {
-    _.forOwn(this.controls, (value: AbstractControl, key: string) => {
-      this.controls[key].setParent(this);
+    _.each(this.formConfig, (c: ControlConfig) => {
+      console.log(c);
+      this.controls[c.name] = new FormControl(c);
+      this.controls[c.name].setParent(this);
     });
   }
 

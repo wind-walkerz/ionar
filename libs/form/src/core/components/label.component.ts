@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../providers/form.service';
-
+import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
-import { AbstractControl } from '../models/AbstractControl';
 
 
 @Component({
@@ -24,7 +23,7 @@ import { AbstractControl } from '../models/AbstractControl';
 export class LabelComponent implements OnInit, OnDestroy {
   @Input() name: string;
   _controlConfig: ControlConfig;
-  protected _control: AbstractControl;
+  protected _control: FormControl;
 
   constructor(
     private _formSvs: FormService,
@@ -33,7 +32,7 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._controlConfig = this._formSvs.getFormGroup().get(this.name)._controlConfig;
+    this._controlConfig = this._formSvs.getFormGroup().get(this.name).configuration;
 
   }
 

@@ -8,6 +8,7 @@ import { ValidationConfigs } from './Validator';
  * @publicApi
  */
 export interface ControlConfig {
+  name: string,
   type: ControlType,
   props?: ControlProperties,
   state?: ControlState,

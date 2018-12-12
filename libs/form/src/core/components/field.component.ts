@@ -13,8 +13,8 @@ import {
 import { FormService } from '../providers/form.service';
 
 import { ControlConfig } from '../models/ControlConfig';
-import { AbstractControl } from '../models/AbstractControl';
-import { FormGroup } from '@ionar/form';
+import { FormControl } from '../models/FormControl';
+import { FormGroup } from '../models/FormGroup';
 import { untilDestroyed } from '@ionar/utility';
 
 
@@ -24,12 +24,12 @@ import { untilDestroyed } from '@ionar/utility';
       <ng-container *ngIf="_control">
           <ng-container
                   dynamic_field
-                  [controlConfig]="_control._controlConfig"
+                  [controlConfig]="_control.configuration"
                   [events]="{
                             change: onChanged,
                             blur: onTouched,
                             enter: onEntered
-                    }"
+                    }"  
 
                   [invalid]="invalid"
           >
@@ -48,7 +48,7 @@ import { untilDestroyed } from '@ionar/utility';
 export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string;
-  _control: AbstractControl;
+  _control: FormControl;
   _formGr: FormGroup;
 
   invalid: Boolean = false;
@@ -70,6 +70,10 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   ngOnInit() {
     this.parseContext();
+
+    this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+      this.parseContext();
+    });
 
     this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
       this.parseContext();
@@ -93,14 +97,10 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   onChanged = e => {
     this._formSvs.getControl(this.name).setValue(e);
-
-    console.log(this._formSvs.getControl(this.name));
   };
 
   onTouched = () => {
     this._formSvs.getControl(this.name).markAsTouched();
-    this._control = this._formSvs.getControl(this.name);
-
   };
 
   onEntered = () => {
@@ -112,6 +112,6 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
     this._formGr = this._formSvs.getFormGroup();
     this._control = this._formGr.get(this.name);
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
-    this.cd.markForCheck()
+    this.cd.markForCheck();
   };
 }
