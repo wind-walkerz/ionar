@@ -1,6 +1,8 @@
 import { FormControl } from './FormControl';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import _ from 'lodash';
+import { Form } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 export interface ValidationErrors {
   [key: string]: any
@@ -31,7 +33,7 @@ export interface ValidatorFn {
  * @publicApi
  */
 export interface AsyncValidatorFn {
-  (control: FormControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
+  (control: FormControl): Observable<ValidationErrors | null>;
 }
 
 /**
@@ -187,6 +189,30 @@ export class Validators {
     };
   };
 
+  /**
+   * @description
+   * Compose multiple async validators into a single function that returns the union
+   * of the individual error objects for the provided control.
+   *
+   * @returns A validator function that returns an error map with the
+   * merged error objects of the async validators if the validation check fails, otherwise `null`.
+   */
+  static composeAsync(asyncValidators: AsyncValidatorFn[]): AsyncValidatorFn | null {
+    if (!asyncValidators) return null;
+    const presentValidators: AsyncValidatorFn[] = asyncValidators.filter(isPresent) as any;
+    if (presentValidators.length == 0) return null;
+
+    return function(control: FormControl) {
+      console.log(_executeAsyncValidators(control, presentValidators));
+      const observables = _executeAsyncValidators(control, presentValidators);
+
+      return forkJoin(observables).pipe(
+        map(_mergeErrors)
+      );
+
+    };
+  }
+
 
   /** @internal */
   _isBoxedValue(validator_configs: { [key: string]: any } | true | ValidatorFn | AsyncValidatorFn): boolean {
@@ -211,6 +237,10 @@ function isPresent(o: any): boolean {
 }
 
 function _executeValidators(control: FormControl, validators: ValidatorFn[]): any[] {
+  return validators.map(v => v(control));
+}
+
+function _executeAsyncValidators(control: FormControl, validators: AsyncValidatorFn[]): any[] {
   return validators.map(v => v(control));
 }
 

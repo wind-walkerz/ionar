@@ -1,0 +1,108 @@
+@import "variables";
+
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+#product_detail {
+    display: grid;
+    grid-template-areas: "main_image info";
+    grid-template-columns: 6fr 4fr;
+    grid-gap: 2rem;
+    margin-top: 3rem;
+
+    .image_carousel {
+        .alt_images {
+            display: flex;
+            margin-top: 2.3rem;
+
+            .thumbnail {
+                margin-right: 2rem;
+                width: 9.1rem;
+                height: 9.1rem;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+            font-size: 3.8rem;
+            font-weight: bold;
+            text-align: left;
+
+        }
+
+        .description {
+            margin: 2.2rem 0 3rem 0;
+        }
+
+        p {
+            font-size: 1.6rem;
+            font-weight: 200;
+            text-align: left;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            align-items: start;
+            margin-top: 2rem;
+
+            p:first-child {
+                font-weight: bold;
+            }
+
+            width: 60%;
+        }
+
+        io-btn {
+            align-self: flex-start;
+            margin: 3rem 0 0 0;
+            padding: 1.7rem 3rem;
+        }
+    }
+}
+
+#features {
+    margin-top: 3rem;
+
+    .content {
+        padding: 2rem;
+    }
+
+    .header {
+        padding: 0 2rem;
+
+        h2 {
+            border-bottom: 3px solid $primary_red;
+            padding: 1.6rem 0;
+        }
+    }
+
+    .row {
+        border: 0;
+        grid-template-columns: 2fr 8fr;
+        width: 100%;
+
+        > * {
+            font-size: 1.6rem;
+            font-weight: 200;
+            padding: .8rem 0;
+
+            &:first-child {
+                font-weight: bold;
+            }
+        }
+    }
+
+
+}

@@ -93,6 +93,9 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
       case 'equalTo' :
 
         return `Confirm password is not equal to password`;
+
+      default:
+        return value
     }
 
 
@@ -114,8 +117,6 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
     this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
     this.cd.markForCheck();
-
-    console.log(this.error_list);
   };
 
 }

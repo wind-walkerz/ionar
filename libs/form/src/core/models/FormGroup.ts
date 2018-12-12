@@ -268,7 +268,6 @@ export class FormGroup extends AbstractControl {
   /** @internal */
   _setUpControls(): void {
     _.each(this.formConfig, (c: ControlConfig) => {
-      console.log(c);
       this.controls[c.name] = new FormControl(c);
       this.controls[c.name].setParent(this);
     });

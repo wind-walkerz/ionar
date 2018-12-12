@@ -13,7 +13,7 @@ export interface ControlConfig {
   props?: ControlProperties,
   state?: ControlState,
   validators?: ValidationConfigs,
-  async_validator?: ValidationConfigs,
+  asyncValidator?: ValidationConfigs,
   icons?: {
     valid?: any,
     invalid?: any,

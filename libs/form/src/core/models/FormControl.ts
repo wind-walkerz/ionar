@@ -1,7 +1,11 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import { ControlConfig } from './ControlConfig';
-import { ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
+import { AsyncValidatorFn, ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
 import _ from 'lodash';
+import { FormGroup } from '@ionar/form';
+import { EventEmitter } from '@angular/core';
+import { debounce } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 
 /**
@@ -105,6 +109,9 @@ export class FormControl extends AbstractControl {
 
   public readonly configuration: ControlConfig;
 
+  private _parent: FormGroup;
+
+
   /**
    * Creates a new `FormControl` instance.
    *
@@ -115,15 +122,21 @@ export class FormControl extends AbstractControl {
     super();
 
     this._storeControlConfig(configs as ControlConfig);
-    this._setUpValidators(configs.validators);
+    this._setValidators(configs.validators);
+    this._setAsyncValidators(configs.asyncValidator);
     this._initObservables();
     this._applyControlState(configs.props);
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
-  get errors(): ValidationErrors | null {
-    return this.validator ? this.validator(this) : null;
+
+  /**
+   * The parent control.
+   */
+  get parent(): FormGroup {
+    return this._parent;
   }
+
 
   /**
    * Sets a new value for the form control.
@@ -184,13 +197,122 @@ export class FormControl extends AbstractControl {
     // this._pendingChange = false;
   }
 
-  _setUpValidators = (validators: ValidationConfigs | null) => {
-    // (this as { validateOptions: ValidationOptions | null }).validateOptions = validateConfig.options;
+  /**
+   * @param parent Sets the parent of the control
+   */
+  setParent(parent: FormGroup): void {
+    this._parent = parent;
+  }
 
+
+  /**
+   * Recalculates the value and validation status of the control.
+   *
+   * By default, it also updates the value and validity of its ancestors.
+   *
+   * @param opts Configuration options determine how the control propagates changes and emits events
+   * after updates and validity checks are applied.
+   * * `onlySelf`: When true, only update this control. When false or not supplied,
+   * update all direct ancestors. Default is false..
+   * * `emitEvent`: When true or not supplied (the default), emit the `valueChanges` event
+   * observables emit events with the latest status and value when the control is updated.
+   * When false, no events are emitted.
+   */
+  updateValueAndValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    if (this.enabled) {
+      this._cancelExistingSubscription();
+      (this as { errors: ValidationErrors | null }).errors = this._runValidator();
+      (this as { status: string }).status = this._calculateStatus();
+
+      if (this.status === VALID || this.status === PENDING) {
+        this._runAsyncValidator(opts.emitEvent);
+
+      }
+
+      this._updateValue();
+    }
+
+    if (opts.emitEvent !== false) {
+      (this.valueChanges as EventEmitter<any>).emit(this.value);
+      (this.statusChanges as EventEmitter<any>).emit(this.status);
+    }
+
+  }
+
+
+  /**
+   * Sets errors on a form control when running validations manually, rather than automatically.
+   *
+   * Calling `setErrors` also updates the validity of the parent control.
+   *
+   * @usageNotes
+   * ### Manually set the errors for a control
+   *
+   * ```
+   * const login = new FormControl('someLogin');
+   * login.setErrors({
+   *   notUnique: true
+   * });
+   *
+   * expect(login.valid).toEqual(false);
+   * expect(login.errors).toEqual({ notUnique: true });
+   *
+   * login.setValue('someOtherLogin');
+   *
+   * expect(login.valid).toEqual(true);
+   * ```
+   */
+  setErrors(errors: ValidationErrors | null, opts: { emitEvent?: boolean } = {}): void {
+    (this as { errors: ValidationErrors | null }).errors = errors;
+    this._updateControlsErrors(opts.emitEvent !== false);
+  }
+
+
+  _runValidator(): ValidationErrors | null {
+    return this.validator ? this.validator(this) : null;
+  }
+
+
+  _runAsyncValidator(emitEvent?: boolean): void {
+
+    if (this.asyncValidator) {
+      (this as { status: string }).status = PENDING;
+      const obs = this.asyncValidator(this);
+      this._asyncValidationSubscription =
+        obs.pipe(     debounce(() => timer(10000)),).subscribe((errors: ValidationErrors | null) => {
+          if ((this.touched || this.dirty) && this.value) {
+            console.log('11');
+            this.setErrors(errors, { emitEvent });
+          }
+        });
+    }
+  }
+
+  _cancelExistingSubscription(): void {
+    if (this._asyncValidationSubscription) {
+      this._asyncValidationSubscription.unsubscribe();
+    }
+  }
+
+
+  /**
+   * Sets the synchronous validators that are active on this control.  Calling
+   * this overwrites any existing sync validators.
+   */
+  private _setValidators = (validators: ValidationConfigs | null) => {
 
     (this as { validator: ValidatorFn | null }).validator = coerceToValidator(validators);
 
   };
+
+  /**
+   * Sets the async validators that are active on this control. Calling this
+   * overwrites any existing async validators.
+   */
+  private _setAsyncValidators = (asyncValidators: ValidationConfigs | null): void => {
+    (this as { asyncValidator: ValidatorFn | null }).asyncValidator = coerceToAsyncValidator(asyncValidators);
+  };
+
 
   /** @internal */
   _calculateStatus(): string {
@@ -244,3 +366,8 @@ function convertToValidatorFn(validators: ValidationConfigs): ValidatorFn[] {
     return Validators[key];
   });
 }
+
+function coerceToAsyncValidator(asyncValidators: ValidationConfigs): AsyncValidatorFn | null {
+
+  return Validators.composeAsync(_.map(asyncValidators, (value: AsyncValidatorFn, key): AsyncValidatorFn => value));
+};

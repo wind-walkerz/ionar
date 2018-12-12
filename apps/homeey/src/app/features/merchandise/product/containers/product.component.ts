@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'product',
@@ -10,8 +11,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     ///-----------------------------------------------  Variables   -----------------------------------------------///
 
 
-    constructor() {
-    }
+    constructor(public location: Location) {}
 
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
