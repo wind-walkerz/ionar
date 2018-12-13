@@ -1,11 +1,15 @@
-<ionar-form
+<io-form
         [formGroup]="formGroup"
-        [default_template]="true"
         (submit)="onSubmit($event)"
 >
 
 
-</ionar-form>
+</io-form>
 
 
-<io-btn [submitForm]="formGroup">Submit</io-btn>
+<io-btn
+        [submitForm]="formGroup"
+        [disabled]="formGroup.invalid"
+>
+    Submit
+</io-btn>

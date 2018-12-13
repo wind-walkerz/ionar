@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 
 import { ValidationErrors, ValidatorFn } from './Validator';
 import { FormControl } from './FormControl';
+import { FormGroup } from '@ionar/form';
 
 /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
@@ -66,14 +67,13 @@ export abstract class AbstractControl {
    */
   public readonly status: string;
 
-
   public readonly validator: ValidatorFn | null;
 
   public readonly asyncValidator: ValidatorFn | null;
 
   public _asyncValidationSubscription: any;
 
-  // public validateOptions: ValidationOptions | null;
+  private _parent: FormGroup;
 
   /**
    * A multicasting observable that emits an event every time the value of the control changes, in
@@ -152,7 +152,6 @@ export abstract class AbstractControl {
     return this.status === PENDING;
   }
 
-
   /**
    * A control is `dirty` if the user has changed the value
    * in the UI.
@@ -163,6 +162,15 @@ export abstract class AbstractControl {
   get dirty(): boolean {
     return !this.pristine;
   }
+
+
+  /**
+   * The parent control.
+   */
+  get parent(): FormGroup {
+    return this._parent;
+  }
+
 
   /**
    * Marks the control as `touched`. A control is touched by focus and
@@ -219,6 +227,15 @@ export abstract class AbstractControl {
     this._updateControlsErrors(opts.emitEvent !== false);
   }
 
+
+  /**
+   * @param parent Sets the parent of the control
+   */
+  setParent(parent: FormGroup): void {
+    this._parent = parent;
+  }
+
+
   /**
    * Recalculates the value and validation status of the control.
    *
@@ -233,6 +250,23 @@ export abstract class AbstractControl {
    * When false, no events are emitted.
    */
   updateValueAndValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    this._setInitialStatus();
+    this._updateValue();
+    if (this.enabled) {
+      this._updateValidity(opts);
+
+    }
+
+
+    if (opts.emitEvent !== false) {
+      (this.valueChanges as EventEmitter<any>).emit(this.value);
+      (this.statusChanges as EventEmitter<any>).emit(this.status);
+    }
+
+    if (this._parent && !opts.onlySelf) {
+
+      this._parent.updateValueAndValidity(opts);
+    }
 
   }
 
@@ -243,8 +277,19 @@ export abstract class AbstractControl {
     (this as { statusChanges: Observable<any> }).statusChanges = new EventEmitter();
   }
 
+
+  private _setInitialStatus() {
+    (this as { status: string }).status = this._allControlsDisabled() ? DISABLED : VALID;
+  }
+
+
   /** @internal */
   _updateValue(): void {
+
+  }
+
+  /** @internal */
+  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
 
   }
 

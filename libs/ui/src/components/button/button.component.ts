@@ -10,7 +10,7 @@ import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/co
 export class ButtonComponent implements OnInit {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   animated: Boolean = false;
-
+  @Input() disabled: Boolean = false;
   @Input() type: String = '';
 
 
@@ -19,8 +19,10 @@ export class ButtonComponent implements OnInit {
 
   @HostListener('click')
   onClick = () => {
-    this.animated = true;
-    setTimeout(() => this.animated = false, 100);
+    if (!this.disabled) {
+      this.animated = true;
+      setTimeout(() => this.animated = false, 100);
+    }
   };
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///

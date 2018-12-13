@@ -109,8 +109,6 @@ export class FormControl extends AbstractControl {
 
   public readonly configuration: ControlConfig;
 
-  private _parent: FormGroup;
-
 
   /**
    * Creates a new `FormControl` instance.
@@ -127,14 +125,6 @@ export class FormControl extends AbstractControl {
     this._initObservables();
     this._applyControlState(configs.props);
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-  }
-
-
-  /**
-   * The parent control.
-   */
-  get parent(): FormGroup {
-    return this._parent;
   }
 
 
@@ -197,48 +187,6 @@ export class FormControl extends AbstractControl {
     // this._pendingChange = false;
   }
 
-  /**
-   * @param parent Sets the parent of the control
-   */
-  setParent(parent: FormGroup): void {
-    this._parent = parent;
-  }
-
-
-  /**
-   * Recalculates the value and validation status of the control.
-   *
-   * By default, it also updates the value and validity of its ancestors.
-   *
-   * @param opts Configuration options determine how the control propagates changes and emits events
-   * after updates and validity checks are applied.
-   * * `onlySelf`: When true, only update this control. When false or not supplied,
-   * update all direct ancestors. Default is false..
-   * * `emitEvent`: When true or not supplied (the default), emit the `valueChanges` event
-   * observables emit events with the latest status and value when the control is updated.
-   * When false, no events are emitted.
-   */
-  updateValueAndValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    if (this.enabled) {
-      this._cancelExistingSubscription();
-      (this as { errors: ValidationErrors | null }).errors = this._runValidator();
-      (this as { status: string }).status = this._calculateStatus();
-
-      if (this.status === VALID || this.status === PENDING) {
-        this._runAsyncValidator(opts.emitEvent);
-
-      }
-
-      this._updateValue();
-    }
-
-    if (opts.emitEvent !== false) {
-      (this.valueChanges as EventEmitter<any>).emit(this.value);
-      (this.statusChanges as EventEmitter<any>).emit(this.status);
-    }
-
-  }
-
 
   /**
    * Sets errors on a form control when running validations manually, rather than automatically.
@@ -273,20 +221,19 @@ export class FormControl extends AbstractControl {
   }
 
 
-  _runAsyncValidator(emitEvent?: boolean): void {
+  _runAsyncValidator = _.debounce((emitEvent?: boolean) => {
 
     if (this.asyncValidator) {
       (this as { status: string }).status = PENDING;
       const obs = this.asyncValidator(this);
       this._asyncValidationSubscription =
-        obs.pipe(     debounce(() => timer(10000)),).subscribe((errors: ValidationErrors | null) => {
+        obs.subscribe((errors: ValidationErrors | null) => {
           if ((this.touched || this.dirty) && this.value) {
-            console.log('11');
             this.setErrors(errors, { emitEvent });
           }
         });
     }
-  }
+  }, 500);
 
   _cancelExistingSubscription(): void {
     if (this._asyncValidationSubscription) {
@@ -309,7 +256,7 @@ export class FormControl extends AbstractControl {
    * Sets the async validators that are active on this control. Calling this
    * overwrites any existing async validators.
    */
-  private _setAsyncValidators = (asyncValidators: ValidationConfigs | null): void => {
+  private _setAsyncValidators = (asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): void => {
     (this as { asyncValidator: ValidatorFn | null }).asyncValidator = coerceToAsyncValidator(asyncValidators);
   };
 
@@ -317,9 +264,9 @@ export class FormControl extends AbstractControl {
   /** @internal */
   _calculateStatus(): string {
 
-    // if (this.disabled) return DISABLED;
+    if (this.disabled) return DISABLED;
     if (this.errors) return INVALID;
-    // if (this.pending) return PENDING;
+    if (this.pending) return PENDING;
 
     return VALID;
   }
@@ -327,16 +274,27 @@ export class FormControl extends AbstractControl {
   /** @internal */
   _updateValue(): void {
     if (this.valid) {
-
-
       // (this as { value: any }).value = this.pendingValue;
     }
   }
 
+  /** @internal */
+  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    this._cancelExistingSubscription();
+    (this as { errors: ValidationErrors | null }).errors = this._runValidator();
+    (this as { status: string }).status = this._calculateStatus();
 
-  private _applyControlState = (state: any) => {
+    if (this.status === VALID || this.status === PENDING) {
+      this._runAsyncValidator(opts.emitEvent);
+    }
+  }
 
-    (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = state.value;
+
+  private _applyControlState = (state: any | null) => {
+
+    if(state) {
+      (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = state.value || null;
+    }
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});
   };
@@ -367,7 +325,7 @@ function convertToValidatorFn(validators: ValidationConfigs): ValidatorFn[] {
   });
 }
 
-function coerceToAsyncValidator(asyncValidators: ValidationConfigs): AsyncValidatorFn | null {
+function coerceToAsyncValidator(asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): AsyncValidatorFn | null {
 
-  return Validators.composeAsync(_.map(asyncValidators, (value: AsyncValidatorFn, key): AsyncValidatorFn => value));
+  return _.isArray(asyncValidators) ? Validators.composeAsync(_.map(asyncValidators, (value: AsyncValidatorFn, key): AsyncValidatorFn | null => value)) : asyncValidators || null;
 };

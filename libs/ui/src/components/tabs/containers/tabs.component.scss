@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    ::ng-deep {
+        .label_container {
+            display: flex;
+
+            tab-label {
+                cursor: pointer;
+
+                &.active {
+
+                }
+            }
+        }
+    }
+}

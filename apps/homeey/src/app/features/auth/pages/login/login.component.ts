@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '../../../../core/services';
 import { AuthService } from '../../providers/auth.service';
 import _ from 'lodash';
+import { FormGroup, IonarFormBuilder } from '@ionar/form';
+import { ControlConfig } from '../../../../../../../../libs/form/src/core/models/ControlConfig';
 
 
 const log = new Logger('LoginComponent');
@@ -13,26 +15,46 @@ const log = new Logger('LoginComponent');
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  configs = [
+
+  formGroup: FormGroup;
+
+  private _formConfigs: ControlConfig[] = [
     {
       type: 'input',
       name: 'email',
-      label: 'Email',
-      validators: ['required', 'email']
+      props: {
+        label: 'Email'
+      },
+      validators: {
+        required: true,
+        email: true
+      }
+
     },
     {
       type: 'input',
-      input_type: 'password',
       name: 'password',
-      label: 'Password',
-      validators: ['required']
+      props: {
+        label: 'Password',
+        type: 'password'
+      },
+      validators: {
+        required: true,
+        stringLength: {
+          min: 6
+        }
+      }
     }
   ];
 
-  constructor(private authSvs: AuthService) {
+  constructor(
+    private authSvs: AuthService,
+    private _fb: IonarFormBuilder
+  ) {
   }
 
   ngOnInit() {
+    this.formGroup = this._fb.group(this._formConfigs);
   }
 
 

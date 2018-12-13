@@ -4,7 +4,7 @@ import { Observable, timer } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@aurora-ngx/ui';
 import { environment } from '../../../homeey/src/environments/environment';
-import { catchError, debounce, map } from 'rxjs/operators';
+import { catchError, debounce, map, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -23,81 +23,75 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.formGroup = this._fb.group([
-      {
-        name: 'username',
-        type: 'input',
-        props: {
-          label: 'Username',
-          value: ''
-        },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 10,
-            max: 15
-          }
-        }
-      },
-      {
-        name: 'email',
-        type: 'input',
-        props: {
-          label: 'Email',
-          value: ''
-        },
-        validators: {},
-        asyncValidator: {
-          checkIfUserExists: this.validateUserExist
-        }
-      },
-      {
-        name: 'password',
-        type: 'input',
-        props: {
-          label: 'Password',
-          value: '',
-          type: 'password'
-        },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 6
-          }
-        }
-      },
-      {
-        name: 'confirm_password',
-        type: 'input',
-        props: {
-          label: 'Confirm Password',
-          value: '',
-          type: 'password'
-        },
-        validators: {
-          required: true,
-          equalTo: 'password'
-        }
-      }
+      // {
+      //   name: 'username',
+      //   type: 'input',
+      //   props: {
+      //     label: 'Username'
+      //   },
+      //   validators: {
+      //     required: true,
+      //     stringLength: {
+      //       min: 10,
+      //       max: 15
+      //     }
+      //   }
+      // },
+      // {
+      //   name: 'email',
+      //   type: 'input',
+      //   props: {
+      //     label: 'Email',
+      //     value: ''
+      //   },
+      //   validators: {
+      //     required: true,
+      //     email: true
+      //   },
+      //   asyncValidator: [this.validateUserExist]
+      // },
+      // {
+      //   name: 'password',
+      //   type: 'input',
+      //   props: {
+      //     label: 'Password',
+      //     value: '',
+      //     type: 'password'
+      //   },
+      //   validators: {
+      //     required: true,
+      //     stringLength: {
+      //       min: 6
+      //     }
+      //   }
+      // },
+      // {
+      //   name: 'confirm_password',
+      //   type: 'input',
+      //   props: {
+      //     label: 'Confirm Password',
+      //     value: '',
+      //     type: 'password'
+      //   },
+      //   state: {
+      //     exclude: true
+      //   },
+      //   validators: {
+      //     required: true,
+      //     equalTo: 'password'
+      //   }
+      // }
     ]);
   }
 
 
-  validateUserExist = (c: FormControl): Observable<ValidationErrors | null> => {
-    const params = new HttpParams().set('email', 'hieuht0812@gmail.com');
-    return this.http.get('http://admin.homeey.acc-svrs.com/api/v1/auth/check-email-exists', { params }).pipe(
-      map(res => {
-        if (res.status_code === 401) {
-          return {
-            'checkIfUserExists': res.message
-          };
-        }
-        return null;
-      })
-    )
-      ;
 
+
+  onSubmit = form_data => {
+    console.log(form_data);
   };
 }
+
 
 
 

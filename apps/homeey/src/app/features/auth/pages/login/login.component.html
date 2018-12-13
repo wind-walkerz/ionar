@@ -4,24 +4,23 @@
 <div class="right_panel">
     <h1>Welcome back</h1>
     <h2>Sign in to your Homeey account.</h2>
-    <aurora-form
-            [config]="configs"
-            [default_template]="true"
+    <io-form
+            [formGroup]="formGroup"
             (submit)="onLogin($event)"
     >
-    </aurora-form>
+    </io-form>
     <section class="section_3">
-        <!--<aurora-checkbox label="Remember Me">Remember Me</aurora-checkbox>-->
-        <aurora-button class="forgot_pass" [routerLink]="['../../forgot-password']">Forgot Password</aurora-button>
+        <io-checkbox label="Remember Me">Remember Me</io-checkbox>
+        <io-btn class="forgot_pass" [routerLink]="['../../forgot-password']">Forgot Password</io-btn>
     </section>
     <section class="section_4">
-        <aurora-button class="signin_button" submit_form>
+        <io-btn class="signin_button" [submitForm]="formGroup" [disabled]="formGroup.invalid">
             Sign In
-        </aurora-button>
+        </io-btn>
         <p>or</p>
-        <aurora-button class="fb_signin_button">
+        <io-btn class="fb_signin_button">
             Sign In with Facebook
-        </aurora-button>
+        </io-btn>
     </section>
 
     <footer>

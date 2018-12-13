@@ -1,0 +1,179 @@
+<div class="container">
+    <h1 class="heading">MY ACCOUNT</h1>
+
+    <io-tabs>
+        <tab label="Personal Info">
+            <div class="panel">
+                <div class="title">Edit Personal Information</div>
+
+                <io-form
+                        [formGroup]="forgotPassFormGroup"
+                >
+                </io-form>
+
+                <io-btn [submitForm]="forgotPassFormGroup" [disabled]="forgotPassFormGroup.invalid"
+                        class="footer_btn">
+                    Update My Information
+                </io-btn>
+            </div>
+        </tab>
+
+        <tab label="Payment Details">
+            <div class="panel payment">
+                <div class="title">Payment Method</div>
+                <div class="payment_methods">
+                    <div class="row subject">
+                        <h2>Card</h2>
+                        <h2>Default</h2>
+                        <h2>Remove Payment Method</h2>
+                    </div>
+                    <div class="info row">
+                        <flex><p class="card_number">5438081523 ***</p></flex>
+                        <flex>
+                            <div class="default_method_icon">
+                                <img src="assets\icons\check.png" alt="" class="img-responsive">
+                            </div>
+
+                        </flex>
+                        <flex>
+                            <io-btn class="remove">Remove</io-btn>
+                        </flex>
+                    </div>
+
+                    <div class="info row">
+                        <flex><p class="card_number">5438081523 ***</p></flex>
+                        <flex>
+                            <io-btn class="make_default">Make Default</io-btn>
+                        </flex>
+                        <flex>
+                            <io-btn class="remove">Remove</io-btn>
+                        </flex>
+                    </div>
+
+                    <div class="info row">
+                        <flex><p class="card_number">5438081523 ***</p></flex>
+                        <flex>
+                            <io-btn class="make_default">Make Default</io-btn>
+                        </flex>
+                        <flex>
+                            <io-btn class="remove">Remove</io-btn>
+                        </flex>
+                    </div>
+
+                </div>
+                <io-btn class="footer_btn" (click)="show_payment_modal = true">
+                    + Add New Payment Method
+                </io-btn>
+            </div>
+
+            <io-modal
+                    [visible]="show_payment_modal"
+                    (close)="show_payment_modal = false"
+
+            >
+                <div class="title">Add a Payment Method</div>
+
+                <div class="card_info">
+                    <div class="number control">
+                        <label>Card Number</label>
+                        <io-input type="text"></io-input>
+                    </div>
+                    <div class="cvc control">
+                        <label>CVC</label>
+                        <io-input type="text"></io-input>
+                    </div>
+                    <div class="expired control">
+                        <label>Expired</label>
+                        <div class="field">
+                            <io-select [options]="MONTHS"></io-select>
+                            <io-select [options]="YEARS"></io-select>
+                        </div>
+                    </div>
+                </div>
+
+                <io-btn class="footer_btn">
+                    Add Payment Method
+                </io-btn>
+
+            </io-modal>
+        </tab>
+
+        <tab label="Password">
+            <div class="panel">
+                <div class="title">Update Password</div>
+
+                <io-form
+                        [formGroup]="changePassFormGroup"
+                        (submit)="onRegister($event)"
+                >
+                </io-form>
+
+                <io-btn class="footer_btn" [submitForm]="changePassFormGroup" [disabled]="changePassFormGroup.invalid">
+                    Update My Information
+                </io-btn>
+                >
+            </div>
+        </tab>
+
+        <tab label="E-mail preferences">
+            <div class="panel email_preference">
+                <div class="title">Email Settings</div>
+
+                <div class="content">
+                    <io-checkbox
+                            label="'Newsletter'"
+                    >
+
+                    </io-checkbox>
+
+                    <img src="assets/icons/profile/hint.png" alt="" class="img-responsive"
+                         (mouseenter)="show_hint = true" (mouseleave)="show_hint =false">
+
+                    <div class="hint" *ngIf="show_hint">
+                        Stay in the loop on what's new!
+                    </div>
+                </div>
+
+                <io-btn class="footer_btn">
+                    Update Email Setting
+                </io-btn>
+                >
+            </div>
+        </tab>
+
+        <tab label="Profile photo">
+            <div class="panel profile_avatar">
+                <div class="title">Upload Profile</div>
+                <div class="avatar_preview" *ngIf="show_avatar_preview">
+
+                    <div class="avatar">
+                        <div class="delete_icon" (click)="cancelAvatarPreview()">
+                            <img src="assets/icons/delete.png" alt="" class="img-responsive">
+                        </div>
+
+                        <img src="{{avatar_preview}}" alt="" class="img-responsive">
+                    </div>
+
+
+                    <io-upload
+                            (change)="onUploaded($event)"
+                    >
+                        Change
+                    </io-upload>
+                </div>
+                <io-upload
+                        type="dropzone"
+                        (change)="onUploaded($event)"
+                        *ngIf="!show_avatar_preview"
+                >
+                    <p>Drag and drop file here to upload</p>
+                    <img class="img-responsive" src="assets\icons\profile\upload.png" alt="">
+                </io-upload>
+            </div>
+        </tab>
+    </io-tabs>
+
+</div>
+
+
+

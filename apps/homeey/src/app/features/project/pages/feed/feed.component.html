@@ -6,7 +6,7 @@
                 <div class="text"> {{_moment(item.key).fromNow()}}</div>
             </div>
 
-            <ng-container *ngFor="let msg of item.value">
+            <ng-container *ngFor="let msg of item.value.array">
 
                 <div class="container center" *ngIf="msg.system">
                     <div class="message">

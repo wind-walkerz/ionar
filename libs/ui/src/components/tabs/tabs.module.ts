@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabsComponent } from './tabs.component';
-
-import { LabelDirective } from './directives/label.directive';
-import { ContentDirective } from './directives/content.directive';
-import { TabComponent } from './tab.component';
+import { TabsComponent } from './containers/tabs.component';
+import { TabComponent } from './component/tab.component';
+import { TabLabelComponent } from './component/label.component';
+import { TabContentComponent } from './component/content.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [TabsComponent, TabComponent, LabelDirective, ContentDirective],
+  declarations: [TabsComponent, TabComponent, TabLabelComponent, TabContentComponent
+  ],
 
-  exports: [TabsComponent, TabComponent, LabelDirective, ContentDirective]
+  exports: [TabsComponent, TabComponent, TabLabelComponent, TabContentComponent
+  ]
 })
 export class TabsModule {
 }

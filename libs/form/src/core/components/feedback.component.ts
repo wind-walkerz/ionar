@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
@@ -7,7 +15,7 @@ import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
 
 @Component({
-  selector: 'feedback',
+  selector: 'form-feedback',
   template: `
       <ng-container *ngIf="show_feedback">
           <ng-container *ngIf="invalid">
@@ -29,7 +37,8 @@ import { FormGroup } from '../models/FormGroup';
           font-size: 1.2rem;
           margin-top: 0.5rem;
       }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///

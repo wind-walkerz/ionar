@@ -117,10 +117,5 @@ export class AuthService implements OnDestroy {
 
     };
 
-    checkIfEmailExisted = email => {
-        const params = new HttpParams().set('email', email);
-
-        return this.apiSvs.get('/auth/check-email-exists', params).pipe(untilDestroyed(this));
-    };
 
 }

@@ -1,3 +1,5 @@
+@import "variables";
+
 :host {
 
     display: flex;
@@ -38,8 +40,8 @@
             margin: 1.3rem 0 3.1rem 0;
         }
 
-        aurora-form {
-            ::ng-deep form-group {
+        io-form {
+            ::ng-deep form-control {
                 display: flex;
                 flex-direction: column;
                 position: relative;
@@ -58,7 +60,7 @@
                     height: 5rem;
                     max-height: 5rem;
 
-                    aurora-input {
+                    io-input {
                         border: 1px solid rgba(13, 29, 50, .5);
 
                         input {
@@ -82,14 +84,17 @@
             align-items: center;
             justify-content: space-between;
 
-            ::ng-deep aurora-checkbox {
+            ::ng-deep io-checkbox {
                 .checkbox.active {
                     background-color: #0D1D32;
                 }
             }
 
             .forgot_pass {
+                background-color: transparent;
                 border: none;
+                box-shadow: none;
+                color: $primary_blue;
                 margin: 0;
                 text-decoration: underline;
                 width: 11.4rem;
@@ -102,7 +107,7 @@
             justify-content: space-between;
             margin-top: 2.7rem;
 
-            aurora-button {
+            io-btn {
                 background-color: #0D1D32;
                 color: white;
                 height: 5rem;

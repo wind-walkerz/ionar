@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProjectComponent } from './containers/project.component';
 import { RouterModule } from '@angular/router';
+import { ProjectService } from './providers/project.service';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [
     ProjectComponent
-  ]
+  ],
+  providers: [ProjectService]
 })
 export class ProjectModule {
 }

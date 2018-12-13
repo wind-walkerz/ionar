@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 
 
 @Component({
-  selector: 'control',
+  selector: 'form-control',
   template: `
-      <label [name]="name"></label>
+      <form-label [name]="name"></form-label>
 
-      <field [name]="name"></field>
+      <form-field [name]="name"></form-field>
 
-      <feedback [name]="name"></feedback>
+      <form-feedback [name]="name"></form-feedback>
   `,
 
   styles: [`

@@ -7,7 +7,7 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
 })
 export class CheckboxComponent implements OnInit {
 
-  @Input() text: string;
+  @Input() label: string;
   @Input() title: any = '';
   @Input() value: Boolean = false;
   @Output() change = new EventEmitter();

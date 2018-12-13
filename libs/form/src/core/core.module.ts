@@ -6,12 +6,11 @@ import { FieldComponent } from './components/field.component';
 
 import { SubmitDirective } from './directives/submit.directive';
 
-import { FormService } from './providers/form.service';
+
 import { ControlComponent } from './components/control.component';
 import { LabelComponent } from './components/label.component';
 import { FeedbackComponent } from './components/feedback.component';
 import { FormComponent } from './core.component';
-import { IonarFormBuilder } from './providers/form_builder';
 
 
 @NgModule({
@@ -20,7 +19,7 @@ import { IonarFormBuilder } from './providers/form_builder';
     FieldComponent, ControlComponent, LabelComponent, FeedbackComponent,
     DynamicFieldDirective, SubmitDirective
   ],
-  providers: [FormService, IonarFormBuilder],
+
   imports: [CommonModule],
   exports: [
     FormComponent,

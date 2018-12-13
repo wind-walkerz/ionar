@@ -1,6 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-import { ValidationConfigs } from './Validator';
+import { AsyncValidatorFn, ValidationConfigs } from './Validator';
 
 /**
  * Interface for configs provided to an `AbstractControl`.
@@ -13,7 +13,7 @@ export interface ControlConfig {
   props?: ControlProperties,
   state?: ControlState,
   validators?: ValidationConfigs,
-  asyncValidator?: ValidationConfigs,
+  asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   icons?: {
     valid?: any,
     invalid?: any,

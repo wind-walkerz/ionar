@@ -17,15 +17,13 @@ import { FormGroup } from './models/FormGroup';
 import { untilDestroyed } from '@ionar/utility';
 
 @Component({
-  selector: 'ionar-form',
+  selector: 'io-form',
   template: `
       <ng-container>
-          <ng-container *ngIf="default_template; else custom_tpl">
-              <ng-container
-                      *ngFor="let control of control_name_list"
-              >
-                  <control [name]="control"></control>
-              </ng-container>
+          <ng-container
+                  *ngFor="let control of control_name_list"
+          >
+              <form-control [name]="control"></form-control>
           </ng-container>
 
           <ng-template #custom_tpl>
@@ -46,7 +44,8 @@ import { untilDestroyed } from '@ionar/utility';
           z-index: 99999999;
       }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FormService],
 })
 
 @Injectable()
@@ -54,7 +53,6 @@ export class FormComponent implements OnInit, AfterViewInit, AfterViewChecked, O
 
   @Input('formGroup') private _formGr: FormGroup;
 
-  @Input() default_template: Boolean = false;
   @Input() media_type: String;
   @Input() show_feedback: Boolean = true;
   @Input() class;
@@ -76,10 +74,8 @@ export class FormComponent implements OnInit, AfterViewInit, AfterViewChecked, O
 
     //
     this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-
-      if (this._formGr.valid) {
-        this.submit.emit(data);
-      }
+      console.log(this._formGr);
+      this.submit.emit(data);
     });
   }
 

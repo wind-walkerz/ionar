@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 import { ControlConfig } from './ControlConfig';
+import { ValidationErrors } from '@ionar/form';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -253,16 +254,16 @@ export class FormGroup extends AbstractControl {
 
   submit(): void {
     (this as { submitted: Boolean }).submitted = true;
-    this.ngSubmit.emit(this);
+
+    this.ngSubmit.emit(this.value);
   }
 
   /** @internal */
   _calculateStatus(): string {
     // // if (this._allControlsDisabled()) return DISABLED;
     if (this._anyControlsHaveStatus(INVALID)) return INVALID;
-    // // if (this._anyControlsHaveStatus(PENDING)) return PENDING;
-    // // if (this._anyControlsHaveStatus(INVALID)) return INVALID;
-    // return VALID;
+    if (this._anyControlsHaveStatus(PENDING)) return PENDING;
+    return VALID;
   }
 
   /** @internal */
@@ -288,44 +289,34 @@ export class FormGroup extends AbstractControl {
   }
 
   /** @internal */
+  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    (this as { status: string }).status = this._calculateStatus();
+  }
+
+  /** @internal */
   _reduceValue() {
     const form_value: { [k: string]: AbstractControl } = {};
     _.each(_.keys(this.controls), k => {
-      form_value[k] = this.controls[k].value;
+      if (this._isNotExcluded(this.controls[k])) {
+        form_value[k] = this.controls[k].value;
+      }
     });
     return form_value;
   }
 
   /** @internal */
   _allControlsDisabled(): boolean {
-    _.mapValues(this.controls, (c: AbstractControl) => {
-      if (c.enabled) return false;
-    });
-
-    return _.keys(this.controls).length > 0 || this.disabled;
+    return _.every(this.controls, (c: AbstractControl) => c.disabled)
   }
 
   /** @internal */
   _anyControlsHaveStatus(status: string): boolean {
+
     return _.every(this.controls, ['status', status]);
   }
 
+  _isNotExcluded = (c: FormControl): Boolean => !_.get(c.configuration, 'state.exclude');
+
 
 }
-
-
-// function coerceToValidationConfig(control: ValidationOptions | null, parent: ValidationOptions | null) {
-//   if (!control || !parent) return control || parent || null;
-//   return {
-//     icons: {
-//       ...parent.icons,
-//       ...control.icons
-//     },
-//     feedback: {
-//       ...parent.feedback,
-//       ...control.feedback
-//     }
-//   };
-//
-// };
 

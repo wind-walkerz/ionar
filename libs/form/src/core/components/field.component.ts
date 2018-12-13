@@ -19,7 +19,7 @@ import { untilDestroyed } from '@ionar/utility';
 
 
 @Component({
-  selector: 'field',
+  selector: 'form-field',
   template: `
       <ng-container *ngIf="_control">
           <ng-container

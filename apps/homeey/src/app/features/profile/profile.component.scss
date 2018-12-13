@@ -37,7 +37,7 @@
             display: flex;
             justify-content: center;
 
-            .label {
+            tab-label {
                 font-size: 1.6rem;
                 font-weight: 200;
                 margin-right: 4rem;
@@ -54,7 +54,7 @@
             }
         }
 
-        .content_wrapper {
+        tab-content {
             display: flex;
             justify-content: center;
             margin-top: 4rem;
@@ -74,13 +74,13 @@
                     text-align: center;
                 }
 
-                aurora-form {
+                io-form {
                     display: inline-flex;
                     flex-direction: column;
                     padding: 1.8rem 2rem 0 2rem;
                     width: 100%;
 
-                    ::ng-deep form-group {
+                    ::ng-deep form-control {
                         display: flex;
                         flex-direction: column;
                         position: relative;
@@ -97,7 +97,7 @@
                             height: 5rem;
                             max-height: 5rem;
 
-                            aurora-input {
+                            io-input {
                                 border: 1px solid rgba(13, 29, 50, .5);
 
                                 input {

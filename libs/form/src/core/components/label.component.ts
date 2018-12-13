@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
 
 
 @Component({
-  selector: 'label',
+  selector: 'form-label',
   template: `
       {{_controlConfig?.props.label || ''}}
   `,
@@ -18,12 +18,13 @@ import { ControlConfig } from '../models/ControlConfig';
           font-weight: 700;
           position: relative
       }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LabelComponent implements OnInit, OnDestroy {
   @Input() name: string;
   _controlConfig: ControlConfig;
-  protected _control: FormControl;
+  _control: FormControl;
 
   constructor(
     private _formSvs: FormService,
@@ -32,7 +33,9 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._controlConfig = this._formSvs.getFormGroup().get(this.name).configuration;
+    this._control = this._formSvs.getFormGroup().get(this.name);
+
+    this._controlConfig = this._control.configuration;
 
   }
 

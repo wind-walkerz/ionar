@@ -26,18 +26,15 @@
 <div class="right_panel">
     <h1>Sign Up for Homeey </h1>
     <h2>Everyone deserves a beautiful home.</h2>
-    <aurora-form
-            [config]="config"
-            [default_template]="true"
+    <io-form
+            [formGroup]="formGroup"
             (submit)="onRegister($event)"
     >
-    </aurora-form>
+    </io-form>
 
-    <section class="section_4">
-        <aurora-button class="signin_button" submit_form>
-            Sign Up
-        </aurora-button>
-    </section>
+    <io-btn class="signin_button" [submitForm]="formGroup" [disabled]="formGroup.invalid">
+        Sign Up
+    </io-btn>
 
 
 </div>

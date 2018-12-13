@@ -9,7 +9,8 @@ export interface ValidationErrors {
 }
 
 export interface ValidationConfigs {
-
+  required?: true,
+  email?: true
   stringLength?: {
     min?: number,
     max?: number
@@ -203,7 +204,6 @@ export class Validators {
     if (presentValidators.length == 0) return null;
 
     return function(control: FormControl) {
-      console.log(_executeAsyncValidators(control, presentValidators));
       const observables = _executeAsyncValidators(control, presentValidators);
 
       return forkJoin(observables).pipe(

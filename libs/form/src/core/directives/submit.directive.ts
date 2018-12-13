@@ -7,10 +7,14 @@ import { FormGroup } from '../models/FormGroup';
 export class SubmitDirective implements OnInit, OnDestroy, OnChanges {
 
   @Input('submitForm') private _formGr: FormGroup;
+  @Input() disabled: Boolean = false;
 
   @HostListener('click', ['$event'])
   onClick = (e: MouseEvent) => {
-    this._formGr.submit();
+    if (!this.disabled) {
+      this._formGr.submit();
+    }
+
   };
 
   constructor(private _elRef: ElementRef) {

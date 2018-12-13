@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../providers/auth.service';
 import {Logger} from '../../../../core/services';
 import _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
+import { ControlConfig } from '../../../../../../../../libs/form/src/core/models/ControlConfig';
+import { FormGroup, IonarFormBuilder } from '@ionar/form';
+import { Form } from '@angular/forms';
 
 
 const log = new Logger('ForgotPasswordComponent');
@@ -15,23 +19,71 @@ export class ForgotPasswordComponent implements OnInit {
 
     ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-    configs = [
+    forgotPassFormGroup: FormGroup
+    private _forgotPassFormConfigs: ControlConfig[] = [
         {
             type: 'input',
-            input_type: 'email',
             name: 'email',
-            label: 'Email',
-            validators: ['required', 'email']
+            props: {
+                label: 'Email'
+            },
+            validators: {
+                required: true,
+                email: true
+            }
+
         }
     ];
+
+
+    changePassFormGroup: FormGroup
+    private _changePassFormConfigs: ControlConfig[] = [
+        {
+            type: 'input',
+            name: 'password',
+            props: {
+                label: 'New Password',
+                type: 'password'
+            },
+            validators: {
+                required: true,
+                stringLength: {
+                    min: 6
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'confirm_password',
+            props: {
+                label: 'Confirm Password',
+                type: 'password'
+            },
+            validators: {
+                required: true,
+                equalTo: 'password'
+            }
+        }
+    ];
+
+    _token: string;
 
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
 
-    constructor(private authSvs: AuthService) {
+    constructor(
+      private authSvs: AuthService,
+      private router: ActivatedRoute,
+      private _fb: IonarFormBuilder
+    ) {
     }
 
     ngOnInit() {
+        this.forgotPassFormGroup = this._fb.group(this._forgotPassFormConfigs)
+
+        this.changePassFormGroup = this._fb.group(this._changePassFormConfigs)
+
+        this._token = this.router.snapshot.queryParamMap.get('token');
     }
 
     ///-----------------------------------------------  General Functions   -----------------------------------------------///
@@ -39,6 +91,10 @@ export class ForgotPasswordComponent implements OnInit {
 
     onForgotPassword = form_data => {
         this.authSvs.reset_password(JSON.stringify(_.assign(form_data, {}, {slug: 'client'})));
+    };
+
+    onChangePassword = form_data => {
+        this.authSvs.change_password(JSON.stringify(_.assign(form_data, {}, {slug: 'client'})));
     };
 
 }

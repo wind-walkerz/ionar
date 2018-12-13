@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/providers/auth.service';
-import { ProfileService } from '../providers/profile.service';
+import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { AuthService } from '../auth/providers/auth.service';
+import { ProfileService } from './providers/profile.service';
 
 
 @Component({
@@ -9,15 +10,87 @@ import { ProfileService } from '../providers/profile.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+
+  forgotPassFormGroup: FormGroup;
+
+  changePassFormGroup: FormGroup;
+
+  private _forgotPassFormConfigs: ControlConfig[] = [
+    {
+      type: 'input',
+      name: 'email',
+      props: {
+        label: 'Email'
+      },
+      validators: {
+        required: true,
+        email: true
+      }
+
+    },
+    {
+      type: 'input',
+      name: 'name',
+      props: {
+        label: 'Name'
+      }
+    },
+    {
+      type: 'input',
+      name: 'phone',
+      props: {
+        label: 'Mobile',
+        type: 'phone'
+      }
+    }
+  ];
+
+  private _changePassFormConfigs: ControlConfig[] = [
+    {
+      type: 'input',
+      name: 'current_password',
+      props: {
+        type: 'password',
+        label: 'Current Password'
+      },
+      validators: {
+        required: true
+      }
+    },
+    {
+      type: 'input',
+      name: 'password',
+      props: {
+        type: 'password',
+        label: 'New Password'
+      },
+      validators: {
+        required: true,
+        stringLength: {
+          min: 6
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'confirm_password',
+      props: {
+        type: 'password',
+        label: 'Confirm Password'
+      },
+      validators: {
+        required: true,
+        equalTo: 'password'
+      }
+    }
+  ];
+
+
   show_avatar_preview: Boolean = false;
   avatar_preview: any;
 
   show_hint: Boolean = false;
   show_payment_modal: Boolean = false;
-
-  config = [];
-
-  update_password_config = [];
 
   MONTHS = [
     {
@@ -90,60 +163,16 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authSvs: AuthService,
     private profileSvs: ProfileService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _fb: IonarFormBuilder
   ) {
   }
 
   ngOnInit() {
 
-    this.config = [
-      {
-        type: 'input',
-        input_type: 'email',
-        name: 'email',
-        label: 'Email',
-        validators: ['required']
-      },
-      {
-        type: 'input',
-        name: 'name',
-        label: 'Name',
-        validators: ['required']
-      },
-      {
-        type: 'input',
-        input_type: 'number',
-        name: 'phone',
-        label: 'Mobile>',
-        validators: ['required']
-      }
-    ];
+    this.forgotPassFormGroup = this._fb.group(this._forgotPassFormConfigs);
 
-    this.update_password_config = [
-      {
-        type: 'input',
-        input_type: 'password',
-        name: 'current_password',
-        label: 'Current Password',
-        validators: ['required']
-      },
-      {
-        type: 'input',
-        input_type: 'password',
-        name: 'password',
-        label: 'New Password',
-        validators: ['required']
-      },
-      {
-        type: 'input',
-        input_type: 'password',
-        name: 'confirm_password',
-        label: 'Confirm Password',
-        validators: ['required']
-      }
-    ];
-
-    this.profileSvs._getUserProfile();
+    this.changePassFormGroup = this._fb.group(this._changePassFormConfigs);
   }
 
 
