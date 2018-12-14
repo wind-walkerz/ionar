@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
+import { FormGroup } from '@ionar/form';
+import { untilDestroyed } from '@ionar/utility';
+import _ from 'lodash';
 
 
 @Component({
@@ -23,6 +26,7 @@ import { ControlConfig } from '../models/ControlConfig';
 })
 export class LabelComponent implements OnInit, OnDestroy {
   @Input() name: string;
+  _formGr: FormGroup;
   _controlConfig: ControlConfig;
   _control: FormControl;
 
@@ -33,12 +37,19 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._control = this._formSvs.getFormGroup().get(this.name);
-
-    this._controlConfig = this._control.configuration;
-
+    this.parseContext();
   }
 
   ngOnDestroy(): void {
   }
+
+  parseContext = () => {
+    this._formGr = this._formSvs.getFormGroup();
+
+    this._control = this._formGr.get(this.name);
+
+    this._controlConfig = this._control.configuration;
+
+    this.cd.markForCheck();
+  };
 }

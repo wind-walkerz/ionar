@@ -29,7 +29,7 @@ import { untilDestroyed } from '@ionar/utility';
                             change: onChanged,
                             blur: onTouched,
                             enter: onEntered
-                    }"  
+                    }"
 
                   [invalid]="invalid"
           >
@@ -53,14 +53,6 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   invalid: Boolean = false;
 
-  // @Input() name
-  //
-  //
-  // submitted: Boolean = false;
-  // config: AuroraForm;
-  // viewInit = new Subject();
-
-
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
     private _formSvs: FormService,
@@ -69,8 +61,12 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   }
 
   ngOnInit() {
+    // console.log('22')
+    // this._formSvs.initializeFormGroup.pipe(untilDestroyed(this)).subscribe(() => {
+    //   console.log('11')
+    //
+    // });
     this.parseContext();
-
     this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
       this.parseContext();
     });
@@ -81,7 +77,6 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   }
 
   ngAfterViewInit(): void {
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -112,6 +107,6 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
     this._formGr = this._formSvs.getFormGroup();
     this._control = this._formGr.get(this.name);
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   };
 }

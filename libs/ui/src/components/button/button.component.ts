@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'io-btn',
@@ -7,7 +7,7 @@ import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/co
   `,
   styleUrls: ['./button.component.scss']
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent implements OnInit, OnChanges {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   animated: Boolean = false;
   @Input() disabled: Boolean = false;
@@ -16,6 +16,7 @@ export class ButtonComponent implements OnInit {
 
   @HostBinding('class.primary') primary_style: Boolean;
   @HostBinding('class.danger') danger_style: Boolean;
+  @HostBinding('class.disabled') private isDisabled: Boolean = false;
 
   @HostListener('click')
   onClick = () => {
@@ -30,8 +31,6 @@ export class ButtonComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     switch (this.type) {
       case 'primary':
         this.primary_style = true;
@@ -40,6 +39,11 @@ export class ButtonComponent implements OnInit {
         this.danger_style = true;
         break;
     }
+  }
+
+  ngOnChanges(changes): void {
+    // console.log(this.disabled);
+    this.isDisabled = this.disabled;
   }
 
 

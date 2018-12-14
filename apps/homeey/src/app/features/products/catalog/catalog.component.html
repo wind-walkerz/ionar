@@ -1,0 +1,63 @@
+<div class="top_bar">
+    <div class="container">
+        <p>Last Login: XX-XX-18</p>
+    </div>
+</div>
+
+<div class="main_content">
+
+
+    <div id="sidebar">
+        <main-panel>
+            <div class="header">Keyword</div>
+        </main-panel>
+        <main-panel>
+            <div class="header">Category</div>
+        </main-panel>
+        <main-panel>
+            <div class="header">Colors</div>
+        </main-panel>
+        <main-panel>
+            <div class="header">Price</div>
+
+            <div class="row item">
+                1000000
+            </div>
+            <div class="row item">
+                1000000
+            </div>
+            <div class="row item">
+                1000000
+            </div>
+            <div class="row item">
+                1000000
+            </div>
+
+        </main-panel>
+        <main-panel>
+            <div class="header">Brand</div>
+            <ng-container *ngFor="let brand of brand_list">
+                <div class="row item">
+                    {{brand.name}}
+                </div>
+            </ng-container>
+        </main-panel>
+
+        <io-btn>RESET ALL</io-btn>
+    </div>
+
+
+    <div id="product_grid">
+        <div class="product_list">
+            <ng-container *ngFor="let product of product_list">
+                <a class="product_tile" routerLink="../../12345">
+                    <div class="image"><img class="img-responsive" src="{{product.photo}}" alt="">
+                    </div>
+                    <p class="name">{{product.name}}</p>
+                </a>
+            </ng-container>
+
+
+        </div>
+    </div>
+</div>

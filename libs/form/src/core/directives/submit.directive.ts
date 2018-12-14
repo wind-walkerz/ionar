@@ -11,6 +11,7 @@ export class SubmitDirective implements OnInit, OnDestroy, OnChanges {
 
   @HostListener('click', ['$event'])
   onClick = (e: MouseEvent) => {
+
     if (!this.disabled) {
       this._formGr.submit();
     }

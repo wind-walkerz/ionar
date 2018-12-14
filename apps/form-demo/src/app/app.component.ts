@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
+import { AfterViewInit, ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
+import { ControlConfig, FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
 import { Observable, timer } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@aurora-ngx/ui';
@@ -12,84 +12,48 @@ import { catchError, debounce, map, switchMap } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  protected formGroup: FormGroup;
+export class AppComponent implements AfterViewInit {
+
+  formGroup: FormGroup;
+
+  _formConfigs: ControlConfig[] = [];
+
 
   constructor(
     private _fb: IonarFormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private cd: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
-    this.formGroup = this._fb.group([
-      // {
-      //   name: 'username',
-      //   type: 'input',
-      //   props: {
-      //     label: 'Username'
-      //   },
-      //   validators: {
-      //     required: true,
-      //     stringLength: {
-      //       min: 10,
-      //       max: 15
-      //     }
-      //   }
-      // },
-      // {
-      //   name: 'email',
-      //   type: 'input',
-      //   props: {
-      //     label: 'Email',
-      //     value: ''
-      //   },
-      //   validators: {
-      //     required: true,
-      //     email: true
-      //   },
-      //   asyncValidator: [this.validateUserExist]
-      // },
-      // {
-      //   name: 'password',
-      //   type: 'input',
-      //   props: {
-      //     label: 'Password',
-      //     value: '',
-      //     type: 'password'
-      //   },
-      //   validators: {
-      //     required: true,
-      //     stringLength: {
-      //       min: 6
-      //     }
-      //   }
-      // },
-      // {
-      //   name: 'confirm_password',
-      //   type: 'input',
-      //   props: {
-      //     label: 'Confirm Password',
-      //     value: '',
-      //     type: 'password'
-      //   },
-      //   state: {
-      //     exclude: true
-      //   },
-      //   validators: {
-      //     required: true,
-      //     equalTo: 'password'
-      //   }
-      // }
-    ]);
+
   }
-
-
 
 
   onSubmit = form_data => {
     console.log(form_data);
   };
+
+  ngAfterViewInit(): void {
+    this._formConfigs = [
+      {
+        type: 'input',
+        name: 'email',
+        props: {
+          // label: '134',
+          placeholder: 'Write your comment...'
+        },
+        validators: {
+          required: true
+        }
+      }
+    ];
+
+    this.formGroup = this._fb.group(this._formConfigs);
+
+    this.cd.detectChanges();
+  }
 }
 
 

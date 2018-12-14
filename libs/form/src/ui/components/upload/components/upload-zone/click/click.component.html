@@ -1,7 +1,11 @@
-Change
+<ng-container #vc></ng-container>
+
+<ng-template #default_template>
+    <ng-content></ng-content>
+</ng-template>
 
 <input
         type="file"
-        [multiple]="properties?.multiple"
+        [multiple]="multiple"
         (change)="$event.stopPropagation();change.emit($event.target.files)"
 >

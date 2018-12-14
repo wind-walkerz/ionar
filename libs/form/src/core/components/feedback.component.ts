@@ -62,6 +62,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.parseContext();
 
+
     this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
       this.parseContext();
     });
@@ -104,7 +105,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
         return `Confirm password is not equal to password`;
 
       default:
-        return value
+        return value;
     }
 
 
@@ -122,10 +123,11 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
 
   parseContext = () => {
     this._formGr = this._formSvs.getFormGroup();
+
     this._control = this._formGr.get(this.name);
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
     this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   };
 
 }

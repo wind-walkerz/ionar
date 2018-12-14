@@ -1,15 +1,22 @@
+<!--<io-form-->
+<!--[formGroup]="formGroup"-->
+<!--(submit)="onSubmit($event)"-->
+<!--&gt;</io-form>-->
+
 <io-form
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
-
-
+    <form-control [name]="'email'"></form-control>
+    <!--<ng-container *ngFor="let config of _formConfigs">-->
+    <!--<form-control [name]="config.name"></form-control>-->
+    <!--</ng-container>-->
 </io-form>
 
 
 <io-btn
         [submitForm]="formGroup"
-        [disabled]="formGroup.invalid"
+        [disabled]="formGroup?.invalid && formGroup?.submitted"
 >
     Submit
 </io-btn>

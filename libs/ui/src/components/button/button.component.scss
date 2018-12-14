@@ -50,4 +50,8 @@
             border-color: #096dd9;
         }
     }
+
+    &.disabled {
+        cursor: not-allowed;
+    }
 }

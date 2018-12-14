@@ -21,14 +21,9 @@ export interface ControlConfig {
   }
 }
 
-export type ControlType = 'input' | 'select' | 'textarea' | 'radio'
+export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload'
 
-export interface ControlState {
-  disable?: Boolean,
-  hidden?: Boolean,
-  template?: TemplateRef<any>,
-  exclude?: Boolean
-}
+export type ControlState = 'disable' | 'hidden' | 'exclude'
 
 
 export interface ControlProperties {
@@ -36,6 +31,8 @@ export interface ControlProperties {
   value?: any,
   options?: Array<{ value: any, label: any, [property: string]: any }>,
   placeholder?: string,
-
+  template?: TemplateRef<any>,
+  className?: string,
+  id?: string,
   [key: string]: any
 }

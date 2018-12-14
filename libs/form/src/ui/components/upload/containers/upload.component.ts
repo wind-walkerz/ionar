@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import _ from 'lodash';
 
 @Component({
@@ -13,6 +13,8 @@ export class UploadComponent implements OnInit {
   @Output() change = new EventEmitter();
   @Input() invalid: Boolean = false;
   @Input() type: string = 'input';
+  @Input() template: TemplateRef<any>;
+  @Input() multiple: Boolean = false
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(private elRef: ElementRef) {

@@ -20,7 +20,8 @@
                     <div class="message">
 
                         <div class="user_info" *ngIf="msg.user.id === 1">
-                            <img src="{{msg.user.avatar}}" alt="" class="avatar img-responsive">
+                            <img src="{{msg.user.avatar || 'assets/images/user_avatar_placeholder.png'}}" alt=""
+                                 class="avatar img-responsive">
                             <p class="name">{{msg.user.first_name}}  {{msg.user.last_name}}</p>
                         </div>
 
@@ -43,18 +44,30 @@
         </ng-container>
     </div>
 
-    <div class="input_toolbar">
+    <io-form
+            class="input_toolbar"
+            [formGroup]="formGroup"
+            mediaType="form-data"
+            (submit)="onSendMsg($event)"
+    >
         <div class="avatar">
             <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
         </div>
-        <textarea class="msg_input" name="msg_input" placeholder="Write your comment..." cols="1" rows="1"></textarea>
-        <div class="upload_button">
-            <input type="file" id="file_upload" name="file_upload" multiple/>
-            <img class="img-responsive" src="assets/icons/project/paperclip.png" alt="">
-        </div>
-        <div class="send_button"><img class="img-responsive" src="assets/icons/project/send.png" alt=""></div>
 
-    </div>
+        <form-control name="text"></form-control>
+
+        <form-control name="profile_picture" class="upload_button"></form-control>
+
+        <ng-template #upload>
+            <img class="img-responsive"
+                 src="assets/icons/project/paperclip.png" alt="">
+        </ng-template>
+
+        <io-btn class="send_button" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">
+            <img class="img-responsive" src="assets/icons/project/send.png" alt="">
+        </io-btn>
+
+    </io-form>
 </div>
 
 

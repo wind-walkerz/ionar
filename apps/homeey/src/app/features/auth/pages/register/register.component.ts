@@ -85,9 +85,7 @@ export class RegisterComponent implements OnInit {
           value: '',
           type: 'password'
         },
-        state: {
-          exclude: true
-        },
+        state: 'exclude',
         validators: {
           required: true,
           equalTo: 'password'

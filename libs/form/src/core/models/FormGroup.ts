@@ -254,7 +254,7 @@ export class FormGroup extends AbstractControl {
 
   submit(): void {
     (this as { submitted: Boolean }).submitted = true;
-
+    this.updateValueAndValidity();
     this.ngSubmit.emit(this.value);
   }
 
@@ -306,13 +306,13 @@ export class FormGroup extends AbstractControl {
 
   /** @internal */
   _allControlsDisabled(): boolean {
-    return _.every(this.controls, (c: AbstractControl) => c.disabled)
+    return _.every(this.controls, (c: AbstractControl) => c.disabled);
   }
 
   /** @internal */
   _anyControlsHaveStatus(status: string): boolean {
 
-    return _.every(this.controls, ['status', status]);
+    return !!_.find(this.controls, ['status', status]);
   }
 
   _isNotExcluded = (c: FormControl): Boolean => !_.get(c.configuration, 'state.exclude');

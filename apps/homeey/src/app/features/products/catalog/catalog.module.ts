@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProductComponent } from './containers/product.component';
+import { CatalogComponent } from './catalog.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
@@ -10,12 +10,12 @@ import { RouterModule } from '@angular/router';
   imports: [
     SharedModule,
     RouterModule.forChild([{
-      path: '', component: ProductComponent
+      path: '', component: CatalogComponent
     }])
   ],
   declarations: [
-    ProductComponent
+    CatalogComponent
   ]
 })
-export class ProductModule {
+export class ProductCatalogModule {
 }
