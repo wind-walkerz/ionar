@@ -1,13 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '../../../core/services';
+import { ApiService } from '../../../../core/services';
 import { HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@ionar/utility';
 import { map } from 'rxjs/operators';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 @Injectable()
-export class ProjectService implements OnDestroy {
+export class FeedService implements OnDestroy {
   constructor(private api: ApiService) {
   }
 
@@ -33,16 +32,15 @@ export class ProjectService implements OnDestroy {
     return this.api.post(`/homeey/create-message`, data).pipe(
       untilDestroyed(this),
       map(res => {
-        if(res.status_code === 200) {
-          return res.data
-        }
-        else {
+        if (res.status_code === 200) {
+          return res.data;
+        } else {
 
-          console.log(res.message)
+          console.log(res.message);
         }
       })
-    )
-  }
+    );
+  };
 
 
   ngOnDestroy(): void {

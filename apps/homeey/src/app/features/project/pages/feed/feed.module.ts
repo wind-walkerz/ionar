@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FeedComponent } from './feed.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../../../shared/shared.module';
+import { FeedService } from './feed.service';
 
 
 @NgModule({
@@ -12,6 +12,7 @@ import { SharedModule } from '../../../../shared/shared.module';
       path: '', component: FeedComponent
     }])
   ],
+  providers: [FeedService],
   declarations: [
 
     FeedComponent

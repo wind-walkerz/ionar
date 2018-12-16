@@ -3,6 +3,11 @@
 
 :host {
     ::ng-deep {
+        router-outlet ~ * {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
         .breadcrumb {
             justify-self: start;
             color: $primary_blue;

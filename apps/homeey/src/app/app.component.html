@@ -1,6 +1,9 @@
 <app-header></app-header>
 
-<router-outlet></router-outlet>
+
+<main [@slideInOut]="triggerAnimation(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+</main>
 
 
 <ngx-spinner

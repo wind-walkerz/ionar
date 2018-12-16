@@ -8,10 +8,11 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     loadChildren: './features/dashboard/dashboard.module#DashboardModule',
+    data: { animation: 'dashboard' },
     canActivate: [AuthGuard]
   },
-  { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule' },
-  { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule' },
+  { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule',  data: { animation: 'auth' } },
+  { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule',   data: { animation: 'profile' }   },
   { path: 'project', loadChildren: './features/project/project.module#ProjectModule' },
   { path: 'product', loadChildren: './features/products/products.module#ProductsModule' }
 ];

@@ -3,9 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 const authRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginModule' },
-  { path: 'register', loadChildren: './pages/register/register.module#RegisterModule' },
-  { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordModule' }
+  {
+    path: 'login',
+    loadChildren: './pages/login/login.module#LoginModule',
+    data: { animation: 'auth/login' }
+  },
+  {
+    path: 'register',
+    loadChildren: './pages/register/register.module#RegisterModule',
+    data: { animation: 'auth/register' }
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordModule',
+    data: { animation: 'forgot-password' }
+  }
 ];
 
 @NgModule({

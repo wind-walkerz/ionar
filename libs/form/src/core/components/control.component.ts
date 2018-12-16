@@ -1,12 +1,13 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ContentChildren, HostBinding,
-  Input, OnChanges,
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnChanges,
   OnDestroy,
-  OnInit, QueryList, TemplateRef,
-  ViewChild,
-  ViewContainerRef
+  OnInit
 } from '@angular/core';
 import { FormControl, FormGroup } from '@ionar/form';
 import { FormService } from '../providers/form.service';
@@ -60,37 +61,38 @@ import _ from 'lodash';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class ControlComponent implements OnInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string = '';
 
-  public _formGr: FormGroup;
+  _formGr: FormGroup;
   _control: FormControl;
 
   show_feedback: Boolean = true;
 
   @HostBinding('class.hidden') hidden: Boolean = false;
-  @HostBinding('class.hide_label') private hide_label: Boolean = false;
+  @HostBinding('class.hide_label') hide_label: Boolean;
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-  constructor(private _formSvs: FormService, private cd: ChangeDetectorRef) {
+  constructor(private _formSvs: FormService, public cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
+
   }
 
   ngOnChanges(): void {
-
+    if(this._formGr) this.parseContext()
   }
 
   ngOnDestroy(): void {
   }
 
   parseContext = () => {
-    this._formGr = this._formSvs.getFormGroup();
     this._control = this._formGr.get(this.name);
 
     if (this._control.configuration.state) {
@@ -98,16 +100,12 @@ export class ControlComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     const props = this._control.configuration.props;
-
-
     this.hide_label = !_.has(props, ['label']);
-
-
     if (_.has(props, ['feedback']) && !(_.get(props, ['feedback']))) {
       this.show_feedback = false;
     }
-
     this.cd.detectChanges();
+
   };
 
 }

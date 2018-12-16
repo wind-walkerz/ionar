@@ -44,6 +44,9 @@
     },
     "ui-demo-e2e": {
       "tags": []
+    },
+    "animations": {
+      "tags": []
     }
   }
 }

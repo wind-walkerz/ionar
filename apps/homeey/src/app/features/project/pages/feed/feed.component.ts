@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import moment from 'moment';
-import { ProjectService } from '../../providers/project.service';
+import { FeedService } from './feed.service';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
 
 @Component({
@@ -25,7 +25,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   chat_feed: any;
 
   constructor(
-    private _projectSvs: ProjectService,
+    private _feedSvs: FeedService,
     private cd: ChangeDetectorRef,
     private _fb: IonarFormBuilder
   ) {
@@ -36,7 +36,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
-    this._projectSvs.getChatFeed().subscribe(res => {
+    this._feedSvs.getChatFeed().subscribe(res => {
       this.chat_feed = res;
     });
   }
@@ -93,10 +93,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   onSendMsg = form_data => {
-    console.log(this.formGroup);
-
-    this._projectSvs.sendChatMessage(form_data).subscribe(res => {
-      this._projectSvs.getChatFeed().subscribe(res => {
+    this._feedSvs.sendChatMessage(form_data).subscribe(res => {
+      this._feedSvs.getChatFeed().subscribe(res => {
         this.chat_feed = res;
       });
     });
