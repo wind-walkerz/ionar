@@ -31,12 +31,12 @@ import { untilDestroyed } from '@ionar/utility';
   template: `
 
       <ng-container *ngIf="default_template; else custom">
-          <ng-container *ngFor="let control of control_name_list; let i = index">
-              <form-control
-                      [name]="control"
-                      [className]="controls[i].configuration.props.className"
-                      [id]="controls[i].configuration.props.id"
-              ></form-control>
+          <ng-container *ngIf="control_name_list">
+              <ng-container *ngFor="let control of control_name_list; let i = index">
+                  <form-control
+                          [name]="control">
+                  </form-control>
+              </ng-container>
           </ng-container>
       </ng-container>
 
@@ -65,7 +65,7 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
   @ViewChildren(ControlComponent) private _controlViewChildren: QueryList<ControlComponent>;
 
 
-  control_name_list: string[] = [];
+  control_name_list: string[];
 
   controls: FormControl[];
 
@@ -95,12 +95,11 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
 
     if (this._formGr) {
       this.parseContext();
-      this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-        if (this._formGr.valid) {
-          this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
-        }
-
-      });
+      // this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+      //   if (this._formGr.valid) {
+      //     this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
+      //   }
+      // });
     }
 
   }

@@ -10,8 +10,10 @@ import { AsyncValidatorFn, ValidationConfigs } from './Validator';
 export interface ControlConfig {
   name: string,
   type: ControlType,
+  label?: string,
+  value?: any,
+  options?: Array<{ value: any, label: any, [property: string]: any }>,
   props?: ControlProperties,
-  state?: ControlState,
   validators?: ValidationConfigs,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   icons?: {
@@ -23,16 +25,16 @@ export interface ControlConfig {
 
 export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload'
 
-export type ControlState = 'disable' | 'hidden' | 'exclude'
-
 
 export interface ControlProperties {
-  label?: string,
-  value?: any,
-  options?: Array<{ value: any, label: any, [property: string]: any }>,
+
   placeholder?: string,
   template?: TemplateRef<any>,
   className?: string,
   id?: string,
+  disable?: Boolean,
+  hidden?: Boolean,
+  exclude?: Boolean
+
   [key: string]: any
 }

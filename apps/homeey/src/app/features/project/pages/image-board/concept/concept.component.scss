@@ -12,6 +12,7 @@
     margin: 3rem auto;
     position: relative;
     max-width: 80%;
+    flex-shrink: 0;
 
     .marker_list {
         position: absolute;
@@ -22,8 +23,12 @@
 }
 
 main-panel {
+    height: auto;
+    padding-bottom: 3.2rem;
+    flex-shrink: 0;
     .header {
         padding: 0 2rem;
+        flex-shrink: 0;
 
         h2 {
             border-bottom: 3px solid $primary_red;
@@ -37,7 +42,8 @@ main-panel {
         border-radius: .4rem;
         display: flex;
         align-items: center;
-        margin: 2rem 2rem 0 2rem;
+        flex-shrink: 0;
+        margin: 2rem;
         padding: 1rem 2rem;
         position: relative;
 
@@ -78,11 +84,14 @@ main-panel {
     }
 
     .comment_list {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
         margin: 0 2rem;
 
         .message {
             display: flex;
-            margin: 3rem 0;
+            margin: 1rem 0;
             width: 100%;
 
             .avatar {

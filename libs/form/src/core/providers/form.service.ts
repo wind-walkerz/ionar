@@ -37,7 +37,7 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
   convertToFormData = data => {
     const form = new FormData();
 
-    _.each(data, (value, key) => {
+    _.forOwn(data, (value, key) => {
       if (_.isArray(value)) {
         _.each(value, file => form.append(`${key}[]`, file, file.name));
       } else form.append(key, value);

@@ -86,7 +86,7 @@ export class ControlComponent implements OnInit, AfterViewChecked, OnChanges, On
   }
 
   ngOnChanges(): void {
-    if(this._formGr) this.parseContext()
+    if (this._formGr) this.parseContext();
   }
 
   ngOnDestroy(): void {
@@ -95,8 +95,8 @@ export class ControlComponent implements OnInit, AfterViewChecked, OnChanges, On
   parseContext = () => {
     this._control = this._formGr.get(this.name);
 
-    if (this._control.configuration.state) {
-      this.hidden = this._control.configuration.state === 'hidden';
+    if (this._control.configuration.props) {
+      this.hidden = this._control.configuration.props.hidden;
     }
 
     const props = this._control.configuration.props;

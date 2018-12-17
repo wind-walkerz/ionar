@@ -2,6 +2,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Templat
 import moment from 'moment';
 import { FeedService } from './feed.service';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import _ from 'lodash';
+
 
 @Component({
   selector: 'feed',
@@ -65,22 +67,25 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         type: 'input',
         name: 'user_id',
+        value: 1,
         props: {
-          value: 1
-        },
-        state: 'hidden'
+
+          hidden: true
+        }
       },
       {
         type: 'input',
         name: 'project_id',
+        value: 6,
         props: {
-          value: 6
-        },
-        state: 'hidden'
+          hidden: true
+        }
       }
     ];
 
-    this.formGroup = this._fb.group(this._formConfigs);
+    this.formGroup = this._fb.group(this._formConfigs, {
+      excludeNullValue: true
+    });
 
     this.cd.detectChanges();
   }
@@ -93,6 +98,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   onSendMsg = form_data => {
+
     this._feedSvs.sendChatMessage(form_data).subscribe(res => {
       this._feedSvs.getChatFeed().subscribe(res => {
         this.chat_feed = res;

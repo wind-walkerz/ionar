@@ -12,7 +12,7 @@ import { DetailComponent } from './detail/detail.component';
     RouterModule.forChild([
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'product-detail/:id', component: DetailComponent }
+      { path: 'detail/:id', component: DetailComponent }
     ])
   ],
   declarations: [DashboardComponent, DetailComponent]

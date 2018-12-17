@@ -123,7 +123,7 @@ export class FormControl extends AbstractControl {
     this._setValidators(configs.validators);
     this._setAsyncValidators(configs.asyncValidator);
     this._initObservables();
-    this._applyControlState(configs.props);
+    this._applyControlState(configs);
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
@@ -290,10 +290,10 @@ export class FormControl extends AbstractControl {
   }
 
 
-  private _applyControlState = (state: any | null) => {
+  private _applyControlState = (config: ControlConfig | null) => {
 
-    if(state) {
-      (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = state.value || null;
+    if(config) {
+      (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = config.value || null;
     }
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});

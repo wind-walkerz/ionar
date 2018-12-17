@@ -1,267 +1,257 @@
 :host {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 80% 20%;
     grid-template-rows: 1fr;
     grid-template-areas: "chat_app  people_roster";
-    height: 100%;
-}
 
-#chat_app {
-    grid-area: chat_app;
-    padding: 2rem;
+    #chat_app {
+        grid-area: chat_app;
+        padding: 2rem;
 
-    .chat_panel {
-        overflow: scroll;
-        max-width: 100%;
-        max-height: 62rem;
+        .chat_panel {
+            overflow-y: scroll;
+            overflow-wrap: break-word;
+            max-height: 62rem;
 
-        .container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1.3rem 0;
-            width: 100%;
-
-            .message {
-                max-width: 70%;
-
-                .user_info {
-                    display: flex;
-                    align-items: center;
-
-                    .avatar {
-                        border-radius: 100%;
-                        margin-right: 1rem;
-                        width: 4rem;
-                        height: 4rem;
-                    }
-
-                    .name {
-                        font-size: 1.4rem;
-                        font-weight: bold;
-                        text-align: left;
-                    }
-                }
-
-                .bubble {
-                    margin: 1rem 0;
-
-                    .text {
-                        background-color: #0D1D32;
-                        border-radius: .4rem;
-                        color: white;
-                        font-size: 1.4rem;
-                        padding: .5rem 1.1rem;
-                        text-align: left;
-                    }
-
-                    img {
-                        border-radius: .4rem;
-                        width: 4rem;
-                        height: 4rem;
-                    }
-                }
-
-                .timestamp {
-                    font-size: 1.2rem;
-                    font-style: italic;
-                    font-weight: 200;
-                }
-            }
-
-            &.date {
+            .msg-container {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                position: relative;
-                height: 1.6rem;
+                justify-content: flex-start;
+                margin: 1.3rem 0;
                 width: 100%;
 
-                .text {
-                    background-color: #EEEEEE;
-                    font-size: 1.2rem;
-                    font-weight: 200;
-                    padding: 0 2rem;
-                    z-index: 2;
-                }
-
-                &:after {
-                    background-color: #0D1D32;
-                    content: '';
-                    position: absolute;
-                    height: .1rem;
-                    width: 100%;
-                    z-index: 1;
-                }
-            }
-
-            &.center {
                 .message {
-                    background-color: #E88A8A;
-                    border-radius: .4rem;
-                    padding: 1.8rem 2rem;
+                    max-width: 70%;
 
+                    .user_info {
+                        display: flex;
+                        align-items: center;
 
-                    .text {
-                        color: white;
-                        font-size: 1.4rem;
+                        .avatar {
+                            border-radius: 100%;
+                            margin-right: 1rem;
+                            width: 4rem;
+                            height: 4rem;
+                        }
+
+                        .name {
+                            font-size: 1.4rem;
+                            font-weight: bold;
+                            text-align: left;
+                        }
                     }
-                }
-            }
-
-            &.left {
-                .message {
-                    align-self: flex-start;
-                }
-            }
-
-            &.right {
-                .message {
-                    align-self: flex-end;
 
                     .bubble {
+                        margin: 1rem 0;
+
                         .text {
-                            text-align: right;
+                            background-color: #0D1D32;
+                            border-radius: .4rem;
+                            color: white;
+                            font-size: 1.4rem;
+                            padding: .5rem 1.1rem;
+                            text-align: left;
+                        }
+
+                        img {
+                            border-radius: .4rem;
+                            width: 4rem;
+                            height: 4rem;
                         }
                     }
 
                     .timestamp {
-                        text-align: right;
+                        font-size: 1.2rem;
+                        font-style: italic;
+                        font-weight: 200;
                     }
                 }
 
-            }
-        }
-
-        //&::-webkit-scrollbar {
-        //    display: none;
-        //}
-    }
-
-    io-form.input_toolbar {
-        background-color: white;
-        border: 1px solid rgba(50, 13, 16, .2);
-        border-radius: .4rem;
-        display: flex;
-        align-items: center;
-        margin: 2rem 0;
-        padding: 1rem 2rem;
-        position: relative;
-
-        .avatar {
-            margin-right: 1rem;
-            width: 4rem;
-            height: 4rem;
-        }
-
-        ::ng-deep form-control {
-
-            display: flex;
-            width: 100%;
-
-
-            form-field {
-                border: none;
-
-                io-textarea {
-                    border: none;
-                    font-size: 1.4rem;
-                    font-weight: 200;
-                    outline: 0;
-                    resize: vertical;
-                    height: 100%;
+                &.date {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    height: 1.6rem;
                     width: 100%;
+
+                    .text {
+                        background-color: #EEEEEE;
+                        font-size: 1.2rem;
+                        font-weight: 200;
+                        padding: 0 2rem;
+                        z-index: 2;
+                    }
+
+                    &:after {
+                        background-color: #0D1D32;
+                        content: '';
+                        position: absolute;
+                        height: .1rem;
+                        width: 100%;
+                        z-index: 1;
+                    }
                 }
 
-            }
+                &.center {
+                    .message {
+                        background-color: #E88A8A;
+                        border-radius: .4rem;
+                        padding: 1.8rem 2rem;
 
-            &.upload_button {
 
-                align-items: center;
-                justify-content: center;
-                margin: 0 2rem;
-                position: relative;
-                width: 2.2rem;
+                        .text {
+                            color: white;
+                            font-size: 1.4rem;
+                        }
+                    }
+                }
 
-                #file_upload {
-                    position: absolute;
-                    opacity: 0;
-                    max-width: 100%;
+                &.left {
+                    .message {
+                        align-self: flex-start;
+                    }
+                }
+
+                &.right {
+                    .message {
+                        align-self: flex-end;
+
+                        .bubble {
+                            .text {
+                                text-align: right;
+                            }
+                        }
+
+                        .timestamp {
+                            text-align: right;
+                        }
+                    }
+
                 }
             }
+
+            //&::-webkit-scrollbar {
+            //    display: none;
+            //}
         }
 
-        .send_button {
-            background-color: transparent;
-            border: none;;
-            box-shadow: none;
-            padding: 0;
-            flex: auto;
-            width: 2.2rem;
-        }
-    }
-}
-
-#people_roster {
-    background-color: white;
-    box-shadow: 0 .3rem .6rem rgba(0, 0, 0, .16);
-    grid-area: people_roster;
-
-    li {
-        display: flex;
-        padding: 1.5rem 2rem;
-        max-width: 25rem;
-
-        .avatar {
-            margin-right: 1rem;
-            position: relative;
-            width: 5rem;
-            height: 5rem;
-
-            .status {
-                background-color: #E88A8A;
-                border: 1px solid white;
-                border-radius: 100%;
-                position: absolute;
-                right: .75rem;
-                bottom: 0;
-                width: .9rem;
-                height: .9rem;
-            }
-        }
-
-        .info {
+        io-form.input_toolbar {
+            background-color: white;
+            border: 1px solid rgba(50, 13, 16, .2);
+            border-radius: .4rem;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 1rem 2rem;
+            position: relative;
 
-            .name {
-                font-size: 1.6rem;
-                font-weight: bold;
-                margin-bottom: .5rem;
-                text-align: left;
+            .avatar {
+                margin-right: 1rem;
+                width: 4rem;
+                height: 4rem;
             }
 
-            .latest_msg {
-                font-size: 1.2rem;
-                font-weight: 200;
-                text-align: left;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-                max-width: 15rem;
-            }
-        }
+            ::ng-deep form-control {
 
-        &.offline {
-            .info .name {
-                font-weight: 200;
-            }
-        }
+                display: flex;
+                width: 100%;
 
-        &:hover {
-            background-color: rgba(232, 138, 138, .15);
-            border-left: 3px solid #E88A8A;
+
+                form-field {
+                    border: none;
+
+                    io-textarea {
+                        border: none;
+                        font-size: 1.4rem;
+                        font-weight: 200;
+                        outline: 0;
+                        resize: vertical;
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                }
+
+                &.upload_button {
+
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 2rem;
+                    position: relative;
+                    width: 2.2rem;
+
+                    #file_upload {
+                        position: absolute;
+                        opacity: 0;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            .send_button {
+                background-color: transparent;
+                border: none;;
+                box-shadow: none;
+                padding: 0;
+                flex: auto;
+                width: 2.2rem;
+            }
         }
     }
+
+    #people_roster {
+        background-color: white;
+        box-shadow: 0 .3rem .6rem rgba(0, 0, 0, .16);
+        grid-area: people_roster;
+
+        li {
+            display: flex;
+            padding: 1.5rem 2rem;
+            max-width: 25rem;
+
+            .avatar {
+                margin-right: 1rem;
+                position: relative;
+                width: 5rem;
+                height: 5rem;
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .name {
+                    font-size: 1.6rem;
+                    font-weight: bold;
+                    margin-bottom: .5rem;
+                    text-align: left;
+                }
+
+                .latest_msg {
+                    font-size: 1.2rem;
+                    font-weight: 200;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    max-width: 15rem;
+                }
+            }
+
+            &.offline {
+                .info .name {
+                    font-weight: 200;
+                }
+            }
+
+            &:hover {
+                background-color: rgba(232, 138, 138, .15);
+                border-left: 3px solid #E88A8A;
+            }
+        }
+    }
+
 }
+

@@ -26,19 +26,25 @@
 
 
         <div class="user">
-            <div class="avatar" (click)="user_dropdown = !user_dropdown">
-                <img src="assets/images/user_avatar_placeholder.png" alt="" class="img-responsive">
-            </div>
-            <ul class="dropdown_menu {{user_dropdown && 'active'}}" *ngIf="authSvs.isAuthenticated() && user_dropdown">
-                <li><a>Orders</a></li>
-                <li><a>Credits</a></li>
-                <li><a routerLink="profile">Account Details</a></li>
-                <li><a>Share the Style</a></li>
-                <li><a>Style Quiz</a></li>
-                <li class="dropdown_divider"></li>
-                <li (click)="authSvs.logout()"><a>Logout</a></li>
 
-            </ul>
+
+            <io-dropdown>
+                <dropdown-toggle>
+                    <img src="assets/images/user_avatar_placeholder.png" alt="" class="img-responsive">
+                </dropdown-toggle>
+                <dropdown-menu [visible]="authSvs.isAuthenticated()">
+                    <li><a>Orders</a></li>
+                    <li><a>Credits</a></li>
+                    <li><a routerLink="profile">Account Details</a></li>
+                    <li><a>Share the Style</a></li>
+                    <li><a>Style Quiz</a></li>
+                    <li class="dropdown_divider"></li>
+                    <li (click)="authSvs.logout()"><a>Logout</a></li>
+                </dropdown-menu>
+
+
+            </io-dropdown>
+
         </div>
 
         <div class="cart_icon">

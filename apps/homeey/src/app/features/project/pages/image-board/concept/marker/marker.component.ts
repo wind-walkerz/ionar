@@ -1,4 +1,14 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ElementRef,
+  Renderer2,
+  Output,
+  EventEmitter,
+  HostBinding, HostListener
+} from '@angular/core';
 import _ from 'lodash';
 
 @Component({
@@ -12,6 +22,12 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
   @Input() data: any = null;
 
+  @Output() selected = new EventEmitter()
+
+  @HostListener('click')
+  onClick() {
+    this.selected.emit(this.data.id)
+  }
 
   constructor(
     private _elRef: ElementRef,
@@ -24,7 +40,7 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    const coordinate = _.split(this.data.coordinate, ',');
+    const coordinate = _.split(this.data.marker, ',');
     const latitude = coordinate[0];
     const longitude = coordinate[1];
 

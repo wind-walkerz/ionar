@@ -92,8 +92,8 @@
     </div>
     <io-tabs>
         <tab>
-            <ng-container *label>SELECT FAVOURITE LOOKS</ng-container>
-            <ng-container *content>
+            <tab-label>SELECT FAVOURITE LOOKS</tab-label>
+            <tab-content>
                 <div id="product_list">
                     <div class="product">
                         <div class="thumbnail">
@@ -166,12 +166,12 @@
                         <div class="title">Bed Room</div>
                     </div>
                 </div>
-            </ng-container>
+            </tab-content>
         </tab>
 
         <tab>
-            <ng-container *label> UPLOAD IMAGE</ng-container>
-            <ng-container *content>
+            <tab-label>UPLOAD IMAGE</tab-label>
+            <tab-content>
                 <div class="avatar_preview" *ngIf="show_avatar_preview">
 
                     <div class="avatar">
@@ -197,7 +197,8 @@
                     <p>Drag and drop file here to upload</p>
                     <img class="img-responsive" src="assets\icons\profile\upload.png" alt="">
                 </io-upload>
-            </ng-container>
+            </tab-content>
+
         </tab>
 
     </io-tabs>

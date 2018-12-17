@@ -2,13 +2,13 @@
     <div class="chat_panel" scroll-down>
         <ng-container *ngFor="let item of chat_feed | keyvalue">
 
-            <div class="container date">
+            <div class="msg-container date">
                 <div class="text"> {{_moment(item.key).fromNow()}}</div>
             </div>
 
             <ng-container *ngFor="let msg of item.value.array">
 
-                <div class="container center" *ngIf="msg.system">
+                <div class="msg-container center" *ngIf="msg.system">
                     <div class="message">
                         <p class="text" [innerHTML]="msg.text">
                         </p>
@@ -16,7 +16,7 @@
                 </div>
 
 
-                <div class="container" [ngClass]="msg.user.id === 1 ? 'left' : 'right'" *ngIf="!msg.system">
+                <div class="msg-container" [ngClass]="msg.user.id === 1 ? 'left' : 'right'" *ngIf="!msg.system">
                     <div class="message">
 
                         <div class="user_info" *ngIf="msg.user.id === 1">
@@ -75,7 +75,6 @@
     <li>
         <div class="avatar">
             <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
-            <div class="status"></div>
         </div>
         <div class="info">
             <p class="name">Joe Toscano</p>

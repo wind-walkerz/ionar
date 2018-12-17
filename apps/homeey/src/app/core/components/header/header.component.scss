@@ -61,64 +61,66 @@
         margin: 0 40px 0 auto;
         position: relative;
 
-        .avatar {
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-        }
-
-        .dropdown_menu {
-            background-color: white;
-            border-radius: .4rem;
-            box-shadow: 0 0 .6rem rgba(0, 0, 0, 0.16);
-            display: none;
-            flex-direction: column;
-            position: absolute;
-            top: calc(100% + 4rem);
-            left: -6.7rem;
-            transition: all .3s;
-            min-width: 17.2rem;
-            z-index: 150;
-
-            li {
-                margin: 1rem 0;
-                padding: 0 2rem;
-
-                a {
-                    font-size: 1.4rem;
-                    font-weight: 300;
-
+        ::ng-deep {
+            io-dropdown {
+                dropdown-toggle {
+                    cursor: pointer;
+                    width: 40px;
+                    height: 40px;
                 }
 
-                &:hover {
-                    margin-left: 1rem;
+                dropdown-menu {
+                    background-color: white;
+                    border-radius: .4rem;
+                    box-shadow: 0 0 .6rem rgba(0, 0, 0, 0.16);
+                    display: flex;
+                    flex-direction: column;
+                    position: absolute;
+                    top: calc(100% + 4rem);
+                    left: -6.7rem;
+                    transition: all .3s;
+                    min-width: 17.2rem;
+                    z-index: 150;
 
-                    a {
-                        color: #0D1D32;
-                        font-weight: bold;
+                    li {
+                        margin: 1rem 0;
+                        padding: 0 2rem;
+
+                        a {
+                            font-size: 1.4rem;
+                            font-weight: 300;
+
+                        }
+
+                        &:hover {
+                            margin-left: 1rem;
+
+                            a {
+                                color: #0D1D32;
+                                font-weight: bold;
+                            }
+                        }
+
+                        &.dropdown_divider {
+                            background-color: rgba(13, 29, 50, 0.2);
+                            height: 1px;
+                            width: 100%;
+                        }
                     }
+
+                    &:before {
+                        align-self: center;
+                        border: 1.5rem solid transparent;
+                        border-bottom-color: white;
+                        content: '';
+                        position: absolute;
+                        bottom: 100%;
+                    }
+
                 }
-
-                &.dropdown_divider {
-                    background-color: rgba(13, 29, 50, 0.2);
-                    height: 1px;
-                    width: 100%;
-                }
-            }
-
-            &:before {
-                align-self: center;
-                border: 1.5rem solid transparent;
-                border-bottom-color: white;
-                content: '';
-                position: absolute;
-                bottom: 100%;
-            }
-
-            &.active {
-                display: flex;
             }
         }
+
     }
 
     .cart_icon {

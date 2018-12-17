@@ -109,7 +109,7 @@ export class FormGroup extends AbstractControl {
    * under which it is registered.
    *
    */
-  constructor(public formConfig: ControlConfig[]) {
+  constructor(public formConfig: ControlConfig[], public formOptions: any) {
     super();
     this._setUpControls();
     this._initObservables();
@@ -315,7 +315,14 @@ export class FormGroup extends AbstractControl {
     return !!_.find(this.controls, ['status', status]);
   }
 
-  _isNotExcluded = (c: FormControl): Boolean => !_.get(c.configuration, 'state.exclude');
+  _isNotExcluded = (c: FormControl): Boolean => {
+
+    if (this.formOptions && this.formOptions.excludeNullValue) {
+      return !_.get(c.configuration, 'state.exclude') && !!c.value;
+    }
+    return !_.get(c.configuration, 'state.exclude');
+
+  };
 
 
 }

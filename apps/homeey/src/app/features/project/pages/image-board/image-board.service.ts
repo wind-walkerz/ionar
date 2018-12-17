@@ -10,11 +10,11 @@ export class ImageBoardService implements OnDestroy {
   constructor(private api: ApiService) {
   }
 
-  getImageConcept = (project_id: any = 6): Observable<any> => {
+  getImageConcept = (item_id: any = 43): Observable<any> => {
 
-    const params = new HttpParams().set('project_id', project_id);
+    const params = new HttpParams().set('item_id', item_id);
 
-    return this.api.get(`/homeey/get-message`, params).pipe(
+    return this.api.get(`/homeey/get-item-concept`, params).pipe(
       untilDestroyed(this),
       map(res => {
         if (res.status_code === 200) {

@@ -22,9 +22,7 @@ export class LoginComponent implements OnInit {
     {
       type: 'input',
       name: 'email',
-      props: {
-        label: 'Email'
-      },
+      label: 'Email',
       validators: {
         required: true,
         email: true
@@ -34,8 +32,8 @@ export class LoginComponent implements OnInit {
     {
       type: 'input',
       name: 'password',
+      label: 'Password',
       props: {
-        label: 'Password',
         type: 'password'
       },
       validators: {

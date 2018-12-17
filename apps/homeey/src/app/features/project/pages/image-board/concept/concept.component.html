@@ -7,9 +7,10 @@
     </div>
     <div class="marker_list">
 
-        <ng-container *ngFor="let marker of marker_list">
+        <ng-container *ngFor="let conv of conversation_list">
             <marker
-                    [data]="marker"
+                    [data]="conv"
+                    (selected)="onSelectedMarker($event)"
             ></marker>
         </ng-container>
 
@@ -33,19 +34,19 @@
     </div>
 
 
-    <div class="comment_list">
-        <ng-container *ngFor="let cmt of comment_list">
+    <div class="comment_list" *ngIf="selectedMarker">
+        <ng-container *ngFor="let cmt of selectedMarker.concepts.data">
             <div class="message">
                 <div class="avatar">
                     <img src="{{cmt.user.avatar}}" alt="" class="avatar img-responsive">
                 </div>
-                <div class="user_info" *ngIf="cmt.user.id === 1">
-                    <p class="name">{{cmt.user.first_name}}  {{cmt.user.last_name}}</p>
+                <div class="user_info">
+                    <p class="name">{{cmt.user.full_name}}</p>
 
                     <div class="bubble">
                         <p class="text" [innerHTML]="cmt.text" *ngIf="cmt.text">
                         </p>
-                        <img class="img-responsive" src="{{cmt.image}}" alt="" *ngIf="cmt.image">
+                        <img class="img-responsive" src="{{cmt.photo}}" alt="" *ngIf="cmt.photo">
                     </div>
 
                 </div>

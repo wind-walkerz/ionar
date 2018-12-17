@@ -24,9 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
         {
             type: 'input',
             name: 'email',
-            props: {
-                label: 'Email'
-            },
+            label: 'Email',
             validators: {
                 required: true,
                 email: true

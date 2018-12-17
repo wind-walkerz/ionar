@@ -38,9 +38,7 @@ export class RegisterComponent implements OnInit {
       {
         name: 'username',
         type: 'input',
-        props: {
-          label: 'Username'
-        },
+        label: 'Username',
         validators: {
           required: true,
           stringLength: {
@@ -52,10 +50,8 @@ export class RegisterComponent implements OnInit {
       {
         name: 'email',
         type: 'input',
-        props: {
-          label: 'Email',
-          value: ''
-        },
+        label: 'Email',
+        value: '',
         validators: {
           required: true,
           email: true
@@ -65,9 +61,10 @@ export class RegisterComponent implements OnInit {
       {
         name: 'password',
         type: 'input',
+        label: 'Password',
+        value: '',
         props: {
-          label: 'Password',
-          value: '',
+
           type: 'password'
         },
         validators: {
@@ -80,12 +77,13 @@ export class RegisterComponent implements OnInit {
       {
         name: 'confirm_password',
         type: 'input',
+        label: 'Confirm Password',
+        value: '',
         props: {
-          label: 'Confirm Password',
-          value: '',
+          exclude: true,
           type: 'password'
         },
-        state: 'exclude',
+
         validators: {
           required: true,
           equalTo: 'password'

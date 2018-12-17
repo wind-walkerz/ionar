@@ -11,7 +11,7 @@ export class IonarFormBuilder {
 
   group = (formConfig: ControlConfig[], formOptions?: any): FormGroup => {
 
-    return new FormGroup(formConfig);
+    return new FormGroup(formConfig, formOptions);
   };
 }
 

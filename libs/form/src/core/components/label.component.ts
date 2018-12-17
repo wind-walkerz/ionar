@@ -10,7 +10,7 @@ import _ from 'lodash';
 @Component({
   selector: 'form-label',
   template: `
-      {{_controlConfig?.props.label || ''}}
+      {{_controlConfig?.label || ''}}
   `,
   styles: [`
       :host {
