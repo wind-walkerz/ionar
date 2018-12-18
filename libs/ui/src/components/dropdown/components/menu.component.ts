@@ -6,13 +6,19 @@ import {
   ViewContainerRef,
   ViewChild,
   ElementRef,
-  Input
+  Input, ContentChild
 } from '@angular/core';
 
 @Component({
   selector: 'dropdown-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  template: `
+      <ng-content></ng-content>`,
+  styles: [`
+      :host {
+          display: flex;
+          flex-shrink: 0;
+      }
+  `]
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
@@ -24,6 +30,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('tpl') tplRef: TemplateRef<any>;
   @ViewChild('vc', { read: ViewContainerRef }) vcRef: ViewContainerRef;
 
+  // @ContentChild()
   constructor(public elRef: ElementRef) {
   }
 

@@ -8,6 +8,7 @@
         (submit)="onSubmit($event)"
 >
     <form-control [name]="'email'"></form-control>
+    <h2>Second</h2>
 </io-form>
 
 <io-form
@@ -17,6 +18,8 @@
     <ng-container *ngFor="let config of _formConfigs">
         <form-control [name]="config.name"></form-control>
     </ng-container>
+
+    <h2>Third</h2>
 </io-form>
 
 

@@ -12,6 +12,8 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   private formGroup: FormGroup;
 
+  $initialize = new Subject()
+
 
   ngAfterViewInit(): void {
   }
@@ -28,6 +30,7 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   initialize = (formGroup: FormGroup) => {
     this.formGroup = formGroup;
+    this.$initialize.next(formGroup)
   };
 
 

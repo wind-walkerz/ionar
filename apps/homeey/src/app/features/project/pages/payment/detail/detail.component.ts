@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { PaymentService } from '../payment.service';
 
 @Component({
   selector: 'detail',
@@ -9,13 +10,25 @@ import { Location } from '@angular/common';
 export class DetailComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  constructor(public location: Location) {}
+  invoice: any;
+
+  constructor(
+    public location: Location,
+    private _paymenSvs: PaymentService
+  ) {
+
+  }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._paymenSvs.getInvoiceDetail().subscribe(res => {
+      this.invoice = res;
+    });
+  }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 }

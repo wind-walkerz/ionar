@@ -15,34 +15,40 @@ import {
   OnInit,
   Output,
   QueryList,
-  SimpleChanges,
-  ViewChildren
+  SimpleChanges
 } from '@angular/core';
 import { FormService } from './providers/form.service';
-import _ from 'lodash';
 
 import { FormGroup } from './models/FormGroup';
 import { FormControl } from './models/FormControl';
 import { ControlComponent } from './components/control.component';
+import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'io-form',
   template: `
+      <ng-container *ngIf="viewInitialized">
 
-      <ng-container *ngIf="default_template; else custom">
-          <ng-container *ngIf="control_name_list">
-              <ng-container *ngFor="let control of control_name_list; let i = index">
+          <ng-container *ngIf="!default_template">
+              <ng-content></ng-content>
+          </ng-container>
+
+          <ng-container *ngIf="default_template">
+              <ng-container *ngFor="let name of controlRoster">
                   <form-control
-                          [name]="control">
+                          [name]="name"
+                          [formGroup]="formGroup"
+                  >
                   </form-control>
               </ng-container>
           </ng-container>
+
       </ng-container>
 
-      <ng-template #custom>
-          <ng-content></ng-content>
-      </ng-template>
 
   `,
   styles: [`
@@ -55,21 +61,21 @@ import { untilDestroyed } from '@ionar/utility';
 @Injectable()
 export class FormComponent implements OnInit, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
 
-  @Input('formGroup') private _formGr: FormGroup;
+  @Input() formGroup: FormGroup;
 
   @Input() mediaType: String;
-
   @Output() submit = new EventEmitter();
+  @ContentChildren(ControlComponent) _controlCompList: QueryList<ControlComponent>;
 
-  @ContentChildren(ControlComponent) private _controlContentChildren: QueryList<ControlComponent>;
-  @ViewChildren(ControlComponent) private _controlViewChildren: QueryList<ControlComponent>;
-
-
-  control_name_list: string[];
+  controlRoster: string[];
 
   controls: FormControl[];
 
   default_template: Boolean;
+
+  viewInitialized: Boolean = false;
+
+  private _subscription: Subscription;
 
   constructor(private _formSvs: FormService, private cd: ChangeDetectorRef) {
   }
@@ -80,7 +86,7 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
 
 
   ngAfterContentInit(): void {
-    this.default_template = !(this._controlContentChildren && this._controlContentChildren.length > 0);
+
   }
 
   ngAfterContentChecked(): void {
@@ -89,32 +95,22 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
 
   ngAfterViewInit(): void {
 
+
   }
 
   ngAfterViewChecked(): void {
 
-    if (this._formGr) {
-      this.parseContext();
-      // this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-      //   if (this._formGr.valid) {
-      //     this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
-      //   }
-      // });
-    }
+    if (this.formGroup) {
 
+      this.default_template = !(this._controlCompList && this._controlCompList.length > 0);
+      this.parseContext();
+      this.viewInitialized = true;
+      this.cd.detectChanges();
+    }
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes._formGr.previousValue && changes._formGr.currentValue) {
-      this.parseContext();
-      this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-        if (this._formGr.valid) {
-          this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
-        }
-
-      });
-    }
 
   }
 
@@ -123,27 +119,24 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
 
 
   parseContext = () => {
-    this._formSvs.initialize(this._formGr);
-    this.control_name_list = _.keys(this._formGr.controls);
+    this._formSvs.initialize(this.formGroup);
+    this.controlRoster = _.keys(this.formGroup.controls);
 
-    this.controls = _.values(this._formGr.controls);
+    this.controls = _.values(this.formGroup.controls);
 
+    if (this._subscription) this._subscription.unsubscribe();
 
-    if (this._controlContentChildren) {
+    this._subscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this), distinctUntilChanged()).subscribe(data => {
+      if (this.formGroup.valid) {
+        this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
+      }
+    });
 
-      _.each(this._controlContentChildren.toArray(), c => {
-        c._formGr = this._formGr;
-        c.ngOnChanges();
+    if (this._controlCompList.length > 0) {
+      _.each(this._controlCompList.toArray(), (c: ControlComponent) => {
+        c.formGroup = this.formGroup;
       });
     }
-    if (this._controlViewChildren) {
-      _.each(this._controlViewChildren.toArray(), c => {
-        c._formGr = this._formGr;
-        c.ngOnChanges();
-      });
-    }
-
-    this.cd.detectChanges();
   };
 
 }

@@ -1,15 +1,19 @@
 import {
   AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit
+  OnInit,
+  Renderer2
 } from '@angular/core';
-import { FormControl, FormGroup } from '@ionar/form';
+import { FormGroup } from '../models/FormGroup';
+import { FormControl } from '../models/FormControl';
 import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
@@ -17,13 +21,26 @@ import _ from 'lodash';
 @Component({
   selector: 'form-control',
   template: `
-      <ng-container *ngIf="_formGr">
-          <form-label [name]="name" *ngIf="!hide_label"></form-label>
 
-          <form-field [name]="name"></form-field>
+      <ng-container *ngIf="formGroup">
+          <form-label
+                  [name]="name"
+                  [formGroup]="formGroup"
+                  *ngIf="!hide_label"
+          ></form-label>
 
-          <form-feedback [name]="name" *ngIf="show_feedback"></form-feedback>
+          <form-field
+                  [name]="name"
+                  [formGroup]="formGroup"
+          ></form-field>
+
+          <form-feedback
+                  [name]="name"
+                  [formGroup]="formGroup"
+                  *ngIf="show_feedback"
+          ></form-feedback>
       </ng-container>
+
   `,
 
   styles: [`
@@ -61,51 +78,68 @@ import _ from 'lodash';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlComponent implements OnInit, AfterViewChecked, OnChanges, OnDestroy {
+export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string = '';
 
-  _formGr: FormGroup;
+  @Input() formGroup: FormGroup;
   _control: FormControl;
 
   show_feedback: Boolean = true;
 
+  // @HostBinding('class.hide_label') get hide_label(): Boolean {
+  //   return false;
+  // }
+
   @HostBinding('class.hidden') hidden: Boolean = false;
-  @HostBinding('class.hide_label') hide_label: Boolean;
+
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-  constructor(private _formSvs: FormService, public cd: ChangeDetectorRef) {
+  constructor(
+    private _formSvs: FormService,
+    public cd: ChangeDetectorRef,
+    private _renderer: Renderer2,
+    private _elRef: ElementRef
+  ) {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
 
   }
 
   ngAfterViewChecked(): void {
+    if (this.formGroup) this.parseContext(this.formGroup);
 
   }
 
   ngOnChanges(): void {
-    if (this._formGr) this.parseContext();
+
   }
 
   ngOnDestroy(): void {
   }
 
-  parseContext = () => {
-    this._control = this._formGr.get(this.name);
+  parseContext = formGroup => {
+    this._control = formGroup.get(this.name);
 
     if (this._control.configuration.props) {
-      this.hidden = this._control.configuration.props.hidden;
+      this.hidden = !!this._control.configuration.props.hidden;
     }
 
     const props = this._control.configuration.props;
-    this.hide_label = !_.has(props, ['label']);
+
+
+    if (!_.has(props, ['label'])) {
+      this._renderer.addClass(this._elRef.nativeElement, 'hide_label');
+    }
+
     if (_.has(props, ['feedback']) && !(_.get(props, ['feedback']))) {
       this.show_feedback = false;
     }
     this.cd.detectChanges();
-
   };
 
 }

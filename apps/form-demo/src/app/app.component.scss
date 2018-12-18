@@ -1,0 +1,9 @@
+:host {
+    ::ng-deep {
+        io-form{
+            form-control[name=email] {
+                background-color: red;
+            }
+        }
+    }
+}

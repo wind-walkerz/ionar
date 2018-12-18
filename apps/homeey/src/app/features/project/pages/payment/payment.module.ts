@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../../../shared/shared.module';
 import { DetailComponent } from './detail/detail.component';
+import { PaymentService } from './payment.service';
 
 @NgModule({
   imports: [
@@ -15,6 +15,8 @@ import { DetailComponent } from './detail/detail.component';
       { path: 'detail/:id', component: DetailComponent }
     ])
   ],
-  declarations: [DashboardComponent, DetailComponent]
+  declarations: [DashboardComponent, DetailComponent],
+  providers: [PaymentService]
 })
-export class PaymentModule {}
+export class PaymentModule {
+}

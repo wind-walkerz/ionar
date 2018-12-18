@@ -1,20 +1,15 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  HostListener,
-  Output,
-  ViewChild,
-  TemplateRef, ViewContainerRef, ElementRef, ComponentRef, Input
-} from '@angular/core';
-
-import { MenuComponent } from '../menu/menu.component';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'dropdown-toggle',
-  templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.scss']
+  template: `
+      <ng-content></ng-content>`,
+  styles: [`
+      :host {
+          display: flex;
+          flex-shrink: 0;
+      }
+  `]
 })
 export class ToggleComponent implements OnInit, OnDestroy {
 
@@ -26,11 +21,6 @@ export class ToggleComponent implements OnInit, OnDestroy {
   onClick(e: Event) {
     this.change.emit();
   }
-
-  @Input() template: TemplateRef<any>;
-
-  @ViewChild('tpl') tplRef: TemplateRef<any>;
-  @ViewChild('vc', { read: ViewContainerRef }) vcRef: ViewContainerRef;
 
   constructor() {
   }

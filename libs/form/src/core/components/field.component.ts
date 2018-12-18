@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,8 +12,6 @@ import {
 } from '@angular/core';
 
 import { FormService } from '../providers/form.service';
-
-import { ControlConfig } from '../models/ControlConfig';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
 import { untilDestroyed } from '@ionar/utility';
@@ -45,11 +44,11 @@ import { untilDestroyed } from '@ionar/utility';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string;
   _control: FormControl;
-  _formGr: FormGroup;
+  @Input() formGroup: FormGroup;
 
   invalid: Boolean = false;
 
@@ -61,22 +60,23 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   }
 
   ngOnInit() {
-    // console.log('22')
-    // this._formSvs.initializeFormGroup.pipe(untilDestroyed(this)).subscribe(() => {
-    //   console.log('11')
-    //
-    // });
     this.parseContext();
     this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
       this.parseContext();
+
     });
 
-    this._formGr.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+    this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
       this.parseContext();
     });
   }
 
   ngAfterViewInit(): void {
+
+  }
+
+  ngAfterViewChecked(): void {
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,7 +84,7 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   }
 
   ngOnDestroy(): void {
-    this.cd.detach();
+    // this.cd.detach();
   }
 
 
@@ -104,9 +104,10 @@ export class FieldComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   };
 
   parseContext = () => {
-    this._formGr = this._formSvs.getFormGroup();
-    this._control = this._formGr.get(this.name);
-    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this._formGr.submitted);
+    this._control = this.formGroup.get(this.name);
+    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this.formGroup.submitted);
     this.cd.detectChanges();
+
   };
+
 }

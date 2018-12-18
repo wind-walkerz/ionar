@@ -6,8 +6,8 @@
         <div class="body">
             <flex class="title">
                 <flex class="name">
-                    <p>HOUSE IN JL. RUBY 2</p>
-                    <h2>LOOSE FURNITURE REV. 2</h2>
+                    <h2>{{invoice?.title}}</h2>
+                    <!--<h2>LOOSE FURNITURE REV. 2</h2>-->
                 </flex>
                 <div class="trademark">
                     <img
@@ -29,160 +29,48 @@
             <div class="divider"></div>
 
             <div class="cart_list">
-                <div class="room">
-                    <h2 class="room_name">LIVING ROOM:</h2>
-                    <flex class="cart_item">
-                        <div class="image">
-                            <img
-                                    src="assets/images/project/furniture-1.png"
-                                    alt=""
-                                    class="img-responsive"
-                            />
-                        </div>
-                        <flex class="info_wrapper">
-                            <div class="row heading">
-                                <h3>FURNITURE</h3>
-                                <h3>UNIT PRICE</h3>
-                                <h3>QTY</h3>
-                                <h3>TOTAL</h3>
-                                <img
-                                        src="assets/icons/project/email.png"
-                                        alt=""
-                                        class="email_icon img-responsive"
-                                />
-                            </div>
-                            <div class="row cart_item_info">
-                                <p>
-                                    Nagarey 2-Seat Sofa <br/><br/>
-                                    Availabitity: XX <br/><br/>
-                                    ETA: XX <br/><br/>
-                                    Return Policy: XX <br/><br/>
-                                    Note: XX
-                                </p>
-                                <p>4,000,000</p>
-                                <p>1</p>
-                                <p>XXX</p>
-                                <p></p>
-                            </div>
-                        </flex>
-                    </flex>
 
-                    <flex class="cart_item">
-                        <div class="image">
-                            <img
-                                    src="assets/images/project/furniture-1.png"
-                                    alt=""
-                                    class="img-responsive"
-                            />
-                        </div>
-                        <flex class="info_wrapper">
-                            <div class="row heading">
-                                <h3>FURNITURE</h3>
-                                <h3>UNIT PRICE</h3>
-                                <h3>QTY</h3>
-                                <h3>TOTAL</h3>
-                                <img
-                                        src="assets/icons/project/email.png"
-                                        alt=""
-                                        class="email_icon img-responsive"
-                                />
-                            </div>
-                            <div class="row cart_item_info">
-                                <p>
-                                    Nagarey 2-Seat Sofa <br/><br/>
-                                    Availabitity: XX <br/><br/>
-                                    ETA: XX <br/><br/>
-                                    Return Policy: XX <br/><br/>
-                                    Note: XX
-                                </p>
-                                <p>4,000,000</p>
-                                <p>1</p>
-                                <p>XXX</p>
-                                <p></p>
-                            </div>
-                        </flex>
-                    </flex>
-                </div>
+                <ng-container *ngFor="let room of invoice?.invoice_detail">
+                    <div class="room">
+                        <h2 class="room_name">{{room.name}}</h2>
+                        <ng-container *ngFor="let product of room.product">
+                            <flex class="cart_item">
+                                <div class="image">
+                                    <img
+                                            src="assets/images/project/furniture-1.png"
+                                            alt=""
+                                            class="img-responsive"
+                                    />
+                                </div>
+                                <flex class="info_wrapper">
+                                    <div class="row heading">
+                                        <h3>FURNITURE</h3>
+                                        <h3>UNIT PRICE</h3>
+                                        <h3>QTY</h3>
+                                        <h3>TOTAL</h3>
+                                        <img
+                                                src="assets/icons/project/email.png"
+                                                alt=""
+                                                class="email_icon img-responsive"
+                                        />
+                                    </div>
+                                    <div class="row cart_item_info">
+                                        <p class="note" [innerHTML]="product.note">
 
-                <div class="divider"></div>
-                <div class="room">
-                    <h2 class="room_name">MASTER BEDROOM:</h2>
+                                        </p>
+                                        <p>{{product.price | currency}}</p>
+                                        <p>{{product.quanity}}</p>
+                                        <p>{{product.total}}</p>
+                                        <p></p>
+                                    </div>
+                                </flex>
+                            </flex>
+                        </ng-container>
+                    </div>
 
-                    <flex class="cart_item">
-                        <div class="image">
-                            <img
-                                    src="assets/images/project/furniture-1.png"
-                                    alt=""
-                                    class="img-responsive"
-                            />
-                        </div>
-                        <flex class="info_wrapper">
-                            <div class="row heading">
-                                <h3>FURNITURE</h3>
-                                <h3>UNIT PRICE</h3>
-                                <h3>QTY</h3>
-                                <h3>TOTAL</h3>
-                                <img
-                                        src="assets/icons/project/email.png"
-                                        alt=""
-                                        class="email_icon img-responsive"
-                                />
-                            </div>
-                            <div class="row cart_item_info">
-                                <p>
-                                    Nagarey 2-Seat Sofa <br/><br/>
-                                    Availabitity: XX <br/><br/>
-                                    ETA: XX <br/><br/>
-                                    Return Policy: XX <br/><br/>
-                                    Note: XX
-                                </p>
-                                <p>4,000,000</p>
-                                <p>1</p>
-                                <p>XXX</p>
-                                <p></p>
-                            </div>
-                        </flex>
-                    </flex>
-
-                    <flex class="cart_item">
-                        <div class="image">
-                            <img
-                                    src="assets/images/project/furniture-1.png"
-                                    alt=""
-                                    class="img-responsive"
-                            />
-                        </div>
-                        <flex class="info_wrapper">
-                            <div class="row heading">
-                                <h3>FURNITURE</h3>
-                                <h3>UNIT PRICE</h3>
-                                <h3>QTY</h3>
-                                <h3>TOTAL</h3>
-                                <img
-                                        src="assets/icons/project/email.png"
-                                        alt=""
-                                        class="email_icon img-responsive"
-                                />
-                            </div>
-                            <div class="row cart_item_info">
-                                <p>
-                                    Nagarey 2-Seat Sofa <br/><br/>
-                                    Availabitity: XX <br/><br/>
-                                    ETA: XX <br/><br/>
-                                    Return Policy: XX <br/><br/>
-                                    Note: XX
-                                </p>
-                                <p>4,000,000</p>
-                                <p>1</p>
-                                <p>XXX</p>
-                                <p></p>
-                            </div>
-                        </flex>
-                    </flex>
-                </div>
+                    <div class="divider"></div>
+                </ng-container>
             </div>
-
-            <div class="divider"></div>
         </div>
 
         <div class="footer">

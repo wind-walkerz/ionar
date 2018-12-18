@@ -1,33 +1,37 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  HostListener,
+  ContentChild,
   ElementRef,
-  OnChanges, SimpleChanges, ContentChild, AfterViewInit, ViewChild, ViewContainerRef, TemplateRef, ChangeDetectorRef
+  HostListener,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
-import { untilDestroyed } from '@ionar/utility';
-import { MenuComponent } from './components/menu/menu.component';
-import { ToggleComponent } from './components/toggle/toggle.component';
+import { MenuComponent } from './components/menu.component';
+import { ToggleComponent } from './components/toggle.component';
 
 @Component({
   selector: 'io-dropdown',
-  templateUrl: './dropdown.component.html'
+  template: `
+      <ng-content select="dropdown-toggle"></ng-content>
+
+      <ng-container *ngIf="showDropdownMenu">
+          <ng-content select="dropdown-menu"></ng-content>
+      </ng-container>
+  `
 })
 export class DropdownComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
-  @Input() visible: Boolean = true;
-  render: Boolean = false;
+  viewInitialized: Boolean = false;
   showDropdownMenu: Boolean = false;
 
   @ContentChild(MenuComponent) _menuComp;
 
   @ContentChild(ToggleComponent) _toggleComp;
-
-  @ViewChild('vc', { read: ViewContainerRef }) private _vcRef: ViewContainerRef;
-  @ViewChild('default', { read: TemplateRef }) private _defaultTplRef: TemplateRef<any>;
 
   @HostListener('document:click', ['$event'])
   onClickOutside(e: Event) {
@@ -46,7 +50,10 @@ export class DropdownComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   }
 
   ngAfterViewInit(): void {
-    this.render = true;
+    this.viewInitialized = true;
+    this._toggleComp.change.subscribe(() => {
+      this.showDropdownMenu = !this.showDropdownMenu;
+    });
     this.cd.detectChanges();
   }
 
@@ -57,7 +64,5 @@ export class DropdownComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   ngOnDestroy(): void {
   }
 
-
-  ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 
 }

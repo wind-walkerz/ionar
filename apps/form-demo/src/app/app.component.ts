@@ -38,6 +38,7 @@ export class AppComponent implements AfterViewInit {
     ];
 
     this.formGroup = this._fb.group(this._formConfigs);
+
   }
 
 
@@ -46,7 +47,6 @@ export class AppComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
-
 
     // this.cd.detectChanges();
   }

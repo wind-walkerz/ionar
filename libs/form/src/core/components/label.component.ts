@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
-import { FormGroup } from '@ionar/form';
+import { FormGroup } from '../models/FormGroup';
 import { untilDestroyed } from '@ionar/utility';
 import _ from 'lodash';
 
@@ -26,7 +26,7 @@ import _ from 'lodash';
 })
 export class LabelComponent implements OnInit, OnDestroy {
   @Input() name: string;
-  _formGr: FormGroup;
+  @Input() formGroup: FormGroup;
   _controlConfig: ControlConfig;
   _control: FormControl;
 
@@ -44,9 +44,9 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   parseContext = () => {
-    this._formGr = this._formSvs.getFormGroup();
+    // this._formGr = this._formSvs.getFormGroup();
 
-    this._control = this._formGr.get(this.name);
+    this._control = this.formGroup.get(this.name);
 
     this._controlConfig = this._control.configuration;
 

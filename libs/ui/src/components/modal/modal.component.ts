@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,7 +6,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 
 
@@ -20,20 +20,18 @@ import {
 export class ModalComponent implements OnInit, OnChanges {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  @Input() visible: Boolean = false;
+  @Input() visible: Boolean;
   @Output() onCancel = new EventEmitter();
   @Output() onOk = new EventEmitter();
   @Output() close = new EventEmitter();
+
+  @ViewChild('mask', { read: ElementRef }) private _maskElRef: ElementRef;
 
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     this.onClose();
   }
 
-  @HostListener('document:click', ['$event'])
-  onClickOutside(e: Event) {
-    // if (!this.eRef.nativeElement.contains(e.target)) this.onClose();
-  }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(private eRef: ElementRef) {

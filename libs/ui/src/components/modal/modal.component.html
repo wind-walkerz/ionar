@@ -1,5 +1,8 @@
-<div class="mask" *ngIf="visible">
-    <div class="content">
-        <ng-content></ng-content>
-    </div>
+<div class="mask" *ngIf="visible" (click)="onClose()">
+
 </div>
+
+<div class="content" *ngIf="visible">
+    <ng-content></ng-content>
+</div>
+
