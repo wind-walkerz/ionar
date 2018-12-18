@@ -32,9 +32,11 @@ export interface ControlProperties {
   template?: TemplateRef<any>,
   className?: string,
   id?: string,
-  disable?: Boolean,
-  hidden?: Boolean,
-  exclude?: Boolean
+  disable?: true,
+  hidden?: true,
+  exclude?: true,
+  hideFeedback?: true,
+  hideLabel?: true
 
   [key: string]: any
 }

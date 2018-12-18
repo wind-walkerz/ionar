@@ -11,9 +11,9 @@ const appRoutes: Routes = [
     data: { animation: 'dashboard' },
     canActivate: [AuthGuard]
   },
-  { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule',  data: { animation: 'auth' } },
-  { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule',   data: { animation: 'profile' }   },
-  { path: 'project', loadChildren: './features/project/project.module#ProjectModule' },
+  { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule', data: { animation: 'auth' } },
+  { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule', data: { animation: 'profile' } },
+  { path: 'project/:id', loadChildren: './features/project/project.module#ProjectModule', data: { animation: 'project' } },
   { path: 'product', loadChildren: './features/products/products.module#ProductsModule' }
 ];
 

@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import moment from 'moment';
-import { FeedService } from './feed.service';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
-import _ from 'lodash';
+import { ProjectService } from '../../providers/project.service';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   chat_feed: any;
 
   constructor(
-    private _feedSvs: FeedService,
+    private _projSvs: ProjectService,
     private cd: ChangeDetectorRef,
     private _fb: IonarFormBuilder
   ) {
@@ -38,9 +37,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
-    this._feedSvs.getChatFeed().subscribe(res => {
-      this.chat_feed = res;
-    });
+    this.getChatFeed();
   }
 
   ngAfterViewInit(): void {
@@ -76,7 +73,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         type: 'input',
         name: 'project_id',
-        value: 6,
+        value: this._projSvs.project_id,
         props: {
           hidden: true
         }
@@ -99,10 +96,15 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSendMsg = form_data => {
 
-    this._feedSvs.sendChatMessage(form_data).subscribe(res => {
-      this._feedSvs.getChatFeed().subscribe(res => {
-        this.chat_feed = res;
-      });
+    this._projSvs.sendChatMessage(form_data).subscribe(res => {
+      this.formGroup.reset();
+      this.getChatFeed();
+    });
+  };
+
+  getChatFeed = () => {
+    this._projSvs.getChatFeed().subscribe(res => {
+      this.chat_feed = res;
     });
   };
 

@@ -99,7 +99,6 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
   }
 
   ngAfterViewChecked(): void {
-
     if (this.formGroup) {
 
       this.default_template = !(this._controlCompList && this._controlCompList.length > 0);
@@ -135,6 +134,7 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
     if (this._controlCompList.length > 0) {
       _.each(this._controlCompList.toArray(), (c: ControlComponent) => {
         c.formGroup = this.formGroup;
+        c.parseContext(this.formGroup)
       });
     }
   };

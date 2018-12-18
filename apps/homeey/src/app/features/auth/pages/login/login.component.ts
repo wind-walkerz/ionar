@@ -42,6 +42,14 @@ export class LoginComponent implements OnInit {
           min: 6
         }
       }
+    },
+    {
+      type: 'input',
+      name: 'slug',
+      value: 'client',
+      props: {
+        hidden: true
+      }
     }
   ];
 
@@ -57,7 +65,7 @@ export class LoginComponent implements OnInit {
 
 
   onLogin = form_data => {
-    this.authSvs.login(JSON.stringify(_.assign(form_data, {}, { slug: 'client' })));
+    this.authSvs.login(form_data);
   };
 
 

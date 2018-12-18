@@ -26,7 +26,7 @@ import _ from 'lodash';
           <form-label
                   [name]="name"
                   [formGroup]="formGroup"
-                  *ngIf="!hide_label"
+                  *ngIf="show_label"
           ></form-label>
 
           <form-field
@@ -55,13 +55,22 @@ import _ from 'lodash';
           z-index: 99999999;
       }
 
-      :host-context(.hide_label) {
+      :host-context(.hide-label) {
           grid-template-areas: "field" "feedback";
           grid-template-columns: 1fr;
       }
 
+      :host-context(.hide-feedback) {
+          grid-template-areas: "label   field";
+          grid-template-columns: 3fr 7fr;
+      }
+
+      :host-context(.hide-label.hide-feedback) {
+          grid-template-areas: "field";
+      }
+
       :host-context(.hidden) {
-          display: none;
+          display: none !important;
       }
 
       form-label {
@@ -87,12 +96,7 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
 
   show_feedback: Boolean = true;
 
-  // @HostBinding('class.hide_label') get hide_label(): Boolean {
-  //   return false;
-  // }
-
-  @HostBinding('class.hidden') hidden: Boolean = false;
-
+  show_label: Boolean = true;
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
@@ -111,6 +115,7 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   ngAfterViewChecked(): void {
+
     if (this.formGroup) this.parseContext(this.formGroup);
 
   }
@@ -125,19 +130,22 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   parseContext = formGroup => {
     this._control = formGroup.get(this.name);
 
-    if (this._control.configuration.props) {
-      this.hidden = !!this._control.configuration.props.hidden;
-    }
 
     const props = this._control.configuration.props;
+    if (_.has(props, ['hidden'])) {
 
-
-    if (!_.has(props, ['label'])) {
-      this._renderer.addClass(this._elRef.nativeElement, 'hide_label');
+      this._renderer.addClass(this._elRef.nativeElement, 'hidden');
     }
 
-    if (_.has(props, ['feedback']) && !(_.get(props, ['feedback']))) {
+    if (_.has(props, ['hideLabel'])) {
+      this.show_label = false;
+      this._renderer.addClass(this._elRef.nativeElement, 'hide-label');
+    }
+
+
+    if (_.has(props, ['hideFeedback'])) {
       this.show_feedback = false;
+      this._renderer.addClass(this._elRef.nativeElement, 'hide-feedback');
     }
     this.cd.detectChanges();
   };

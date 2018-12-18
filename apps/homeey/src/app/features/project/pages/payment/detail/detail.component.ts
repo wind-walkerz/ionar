@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { PaymentService } from '../payment.service';
+import _ from 'lodash';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'detail',
@@ -10,11 +14,15 @@ import { PaymentService } from '../payment.service';
 export class DetailComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  invoice: any;
+  invoice_data: any;
+  invoice_id: number;
+  room_subtotal: number = 0;
 
   constructor(
     public location: Location,
-    private _paymenSvs: PaymentService
+    public _sanitizer: DomSanitizer,
+    private _paymentSvs: PaymentService,
+    private _route: ActivatedRoute
   ) {
 
   }
@@ -22,8 +30,13 @@ export class DetailComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   ngOnInit() {
-    this._paymenSvs.getInvoiceDetail().subscribe(res => {
-      this.invoice = res;
+
+    this.invoice_id = parseInt(this._route.snapshot.paramMap.get('id'));
+
+    this._paymentSvs.getInvoiceDetail(this.invoice_id).subscribe(res => {
+      this.invoice_data = res;
+
+      this.room_subtotal = _.sum(_.map(res.invoice_detail, (room: any) => room.total));
     });
   }
 

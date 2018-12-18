@@ -179,12 +179,11 @@ export class FormControl extends AbstractControl {
    * When false, no events are emitted.
    *
    */
-  reset(formState: any = null, options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    // this._applyFormState(formState);
-    // this.markAsPristine(options);
-    // this.markAsUntouched(options);
-    // this.setValue(this.value, options);
-    // this._pendingChange = false;
+  reset(value: any = null, options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    this.markAsPristine(options);
+    this.markAsUntouched(options);
+    (this as { value: any }).value = value;
+    this.updateValueAndValidity(options);
   }
 
 
@@ -273,9 +272,6 @@ export class FormControl extends AbstractControl {
 
   /** @internal */
   _updateValue(): void {
-    if (this.valid) {
-      // (this as { value: any }).value = this.pendingValue;
-    }
   }
 
   /** @internal */
@@ -292,7 +288,7 @@ export class FormControl extends AbstractControl {
 
   private _applyControlState = (config: ControlConfig | null) => {
 
-    if(config) {
+    if (config) {
       (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = config.value || null;
     }
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :

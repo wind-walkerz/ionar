@@ -6,7 +6,7 @@
         <div class="body">
             <flex class="title">
                 <flex class="name">
-                    <h2>{{invoice?.title}}</h2>
+                    <h2>{{invoice_data?.title}}</h2>
                     <!--<h2>LOOSE FURNITURE REV. 2</h2>-->
                 </flex>
                 <div class="trademark">
@@ -30,11 +30,11 @@
 
             <div class="cart_list">
 
-                <ng-container *ngFor="let room of invoice?.invoice_detail">
+                <ng-container *ngFor="let room of invoice_data?.invoice_detail">
                     <div class="room">
                         <h2 class="room_name">{{room.name}}</h2>
                         <ng-container *ngFor="let product of room.product">
-                            <flex class="cart_item">
+                            <div class="cart_item">
                                 <div class="image">
                                     <img
                                             src="assets/images/project/furniture-1.png"
@@ -55,7 +55,7 @@
                                         />
                                     </div>
                                     <div class="row cart_item_info">
-                                        <p class="note" [innerHTML]="product.note">
+                                        <p class="note" [innerHTML]=" _sanitizer.bypassSecurityTrustHtml(product.note)">
 
                                         </p>
                                         <p>{{product.price | currency}}</p>
@@ -64,7 +64,7 @@
                                         <p></p>
                                     </div>
                                 </flex>
-                            </flex>
+                            </div>
                         </ng-container>
                     </div>
 
@@ -77,41 +77,40 @@
             <h2 class="term">TERMS OF PAYMENT</h2>
             <div class="invoice_summary">
                 <h2>Summary</h2>
-                <div class="row">
-                    <p>LIVING ROOM</p>
-                    <p></p>
-                </div>
-                <div class="row">
-                    <p>MASTER BEDROOM</p>
-                    <p></p>
-                </div>
+
+                <ng-container *ngFor="let room of invoice_data?.invoice_detail">
+                    <div class="row">
+                        <p>{{room.name}}</p>
+                        <p class="price">{{room.total | currency}}</p>
+                    </div>
+                </ng-container>
 
                 <div class="divider"></div>
 
                 <div class="row">
-                    <p></p>
-                    <p>SUB TOTAL XX</p>
+                    <p>SUB TOTAL: </p>
+                    <p>{{room_subtotal | currency}}</p>
                 </div>
 
                 <h2>Shipping</h2>
 
                 <div class="row shopping_cost">
                     <p>Nagarey</p>
-                    <p>200,000</p>
+                    <p></p>
                 </div>
                 <div class="row shopping_cost">
                     <p>Fabelio</p>
-                    <p>50,000</p>
+                    <p></p>
                 </div>
                 <div class="row shopping_cost">
                     <p>Juno Home</p>
-                    <p>100,000</p>
+                    <p></p>
                 </div>
                 <h2>Tax</h2>
                 <div class="divider"></div>
                 <div class="row">
-                    <p></p>
-                    <p>TOTAL XX</p>
+                    <p>TOTAL</p>
+                    <p>{{invoice_data?.total | currency}}</p>
                 </div>
             </div>
         </div>
@@ -123,37 +122,32 @@
         <div class="header">MY CART</div>
 
         <div id="order_summary">
-            <div class="row">
-                <p>Living Room</p>
-                <p class="price">5,000,000</p>
-                <div class="remove_icon">
-                    <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
+            <ng-container *ngFor="let room of invoice_data?.invoice_detail">
+                <div class="row">
+                    <p>{{room.name}}</p>
+                    <p class="price">{{room.total | currency}}</p>
+                    <div class="remove_icon">
+                        <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <p>Master Bedroom</p>
-                <p class="price">5,000,000</p>
-                <div class="remove_icon">
-                    <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
-                </div>
-            </div>
+            </ng-container>
             <div class="divider"></div>
             <div class="row subtotal">
                 <p>Sub Total</p>
-                <p class="price">10,000,000</p>
+                <p class="price">{{room_subtotal | currency}}</p>
                 <div class="remove_icon">
                     <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
                 </div>
             </div>
             <div class="row tax">
                 <p>Est. Tax</p>
-                <p class="price">200,000</p>
+                <p class="price"></p>
                 <div></div>
             </div>
             <div class="divider"></div>
             <div class="row total">
                 <p>Total</p>
-                <p class="price">10,000,000</p>
+                <p class="price">{{invoice_data?.total | currency}}</p>
                 <div></div>
             </div>
         </div>

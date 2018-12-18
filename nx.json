@@ -8,7 +8,7 @@
     "nx.json": "*"
   },
   "projects": {
-    "ionar-ionar": {
+    "ionar": {
       "tags": [
         "ionar"
       ]
@@ -17,9 +17,6 @@
       "tags": []
     },
     "homeey": {
-      "tags": []
-    },
-    "homeey-e2e": {
       "tags": []
     },
     "utility": {
@@ -36,16 +33,13 @@
     "form-demo": {
       "tags": []
     },
-    "form-demo-e2e": {
-      "tags": []
-    },
     "ui-demo": {
       "tags": []
     },
-    "ui-demo-e2e": {
+    "animations": {
       "tags": []
     },
-    "animations": {
+    "animation-demo": {
       "tags": []
     }
   }

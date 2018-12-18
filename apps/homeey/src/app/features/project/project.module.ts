@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProjectComponent } from './containers/project.component';
 import { RouterModule } from '@angular/router';
-import { FeedService } from './pages/feed/feed.service';
+import { ProjectService } from './providers/project.service';
 
 
 @NgModule({
@@ -25,7 +25,8 @@ import { FeedService } from './pages/feed/feed.service';
   ],
   declarations: [
     ProjectComponent
-  ]
+  ],
+  providers: [ProjectService]
 })
 export class ProjectModule {
 }

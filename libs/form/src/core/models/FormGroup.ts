@@ -80,6 +80,19 @@ import { ValidationErrors } from '@ionar/form';
  */
 export class FormGroup extends AbstractControl {
 
+  private _readonly: Boolean = false;
+
+  get readonly(): Boolean {
+    return this._readonly;
+  }
+
+  set readonly(status: Boolean) {
+
+    this._readonly = status;
+
+    this.updateValueAndValidity({ emitEvent: true });
+  }
+
   /**
    * @description
    * Reports whether the form submission has been triggered.
@@ -105,16 +118,17 @@ export class FormGroup extends AbstractControl {
   /**
    * Creates a new `FormGroup` instance.
    *
-   * @param formConfig A collection of child controls. The key for each child is the name
+   * @param formState A collection of child controls. The key for each child is the name
    * under which it is registered.
    *
    */
-  constructor(public formConfig: ControlConfig[], public formOptions: any) {
+  constructor(public formState: ControlConfig[], public formConfigs: { [key: string]: any }) {
     super();
+
     this._setUpControls();
     this._initObservables();
-
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    this._applyFormState();
   }
 
   /**
@@ -162,7 +176,6 @@ export class FormGroup extends AbstractControl {
     // this.updateValueAndValidity(options);
   }
 
-
   /**
    * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
    * the value of all descendants to null.
@@ -183,7 +196,7 @@ export class FormGroup extends AbstractControl {
    * `valueChanges`
    * observables emit events with the latest status and value when the control is reset.
    * When false, no events are emitted.
-   * The configuration options are passed to the {@link IonarAbstractControl#updateValueAndValidity
+   * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
    * updateValueAndValidity} method.
    *
    * @usageNotes
@@ -221,10 +234,11 @@ export class FormGroup extends AbstractControl {
    * ```
    */
   reset(value: any = {}, options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    // this._forEachChild((control: IonarAbstractControl, name: string) => {
-    //     control.reset(value[name], {onlySelf: true, emitEvent: options.emitEvent});
-    // });
-    // this.updateValueAndValidity(options);
+    _.each(_.keys(this.controls), name => {
+      this.controls[name].reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
+    });
+
+    this.updateValueAndValidity(options);
     // this._updatePristine(options);
     // this._updateTouched(options);
   }
@@ -268,7 +282,7 @@ export class FormGroup extends AbstractControl {
 
   /** @internal */
   _setUpControls(): void {
-    _.each(this.formConfig, (c: ControlConfig) => {
+    _.each(this.formState, (c: ControlConfig) => {
       this.controls[c.name] = new FormControl(c);
       this.controls[c.name].setParent(this);
     });
@@ -304,6 +318,10 @@ export class FormGroup extends AbstractControl {
     return form_value;
   }
 
+  private _applyFormState = () => {
+    this.readonly = _.has(this.formConfigs, ['readonly'])
+  };
+
   /** @internal */
   _allControlsDisabled(): boolean {
     return _.every(this.controls, (c: AbstractControl) => c.disabled);
@@ -317,7 +335,7 @@ export class FormGroup extends AbstractControl {
 
   _isNotExcluded = (c: FormControl): Boolean => {
 
-    if (this.formOptions && this.formOptions.excludeNullValue) {
+    if (this.formConfigs && this.formConfigs.excludeNullValue) {
       return !_.get(c.configuration, 'state.exclude') && !!c.value;
     }
     return !_.get(c.configuration, 'state.exclude');

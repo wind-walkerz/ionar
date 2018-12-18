@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PaymentService } from '../payment.service';
 
 @Component({
   selector: 'payment-dashboard',
@@ -8,13 +9,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class DashboardComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  constructor() {}
+  invoice_list = [];
+
+  constructor(private _paymentSvs: PaymentService) {
+  }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._paymentSvs.getInvoiceList().subscribe(res => {
+      this.invoice_list = res;
+    });
+  }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 }

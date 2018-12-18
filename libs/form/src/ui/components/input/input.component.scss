@@ -59,3 +59,8 @@
         width: 10%;
     }
 }
+
+
+:host-context(.readonly) {
+    border: 0;
+}

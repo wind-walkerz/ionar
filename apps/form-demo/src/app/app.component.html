@@ -15,11 +15,12 @@
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
+    <h2>Third</h2>
     <ng-container *ngFor="let config of _formConfigs">
         <form-control [name]="config.name"></form-control>
     </ng-container>
 
-    <h2>Third</h2>
+
 </io-form>
 
 
@@ -28,4 +29,16 @@
         [disabled]="formGroup?.invalid && formGroup?.submitted"
 >
     Submit
+</io-btn>
+
+<io-btn (click)="onReset()">
+    Reset
+</io-btn>
+
+<io-btn (click)="toggleReadMode()">
+    Read mode
+</io-btn>
+
+<io-btn (click)="onLog()">
+    Log
 </io-btn>

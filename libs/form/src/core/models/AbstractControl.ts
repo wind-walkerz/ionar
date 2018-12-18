@@ -188,6 +188,21 @@ export abstract class AbstractControl {
   }
 
   /**
+   * Marks the control as `untouched`.
+   *
+   * If the control has any children, also marks all children as `untouched`
+   * and recalculates the `touched` status of all parent controls.
+   *
+   *  @param opts Configuration options that determine how the control propagates changes
+   * and emits events after the marking is applied.
+   * * `onlySelf`: When true, mark only this control. When false or not supplied,
+   * marks all direct ancestors. Default is false.
+   */
+  markAsUntouched(opts: { onlySelf?: boolean } = {}): void {
+    (this as { touched: boolean }).touched = false;
+  }
+
+  /**
    * Marks the control as `dirty`. A control becomes dirty when
    * the control's value is changed through the UI; compare `markAsTouched`.
    *
@@ -198,6 +213,22 @@ export abstract class AbstractControl {
    */
   markAsDirty(opts: { onlySelf?: boolean } = {}): void {
     (this as { pristine: boolean }).pristine = false;
+  }
+
+  /**
+   * Marks the control as `pristine`.
+   *
+   * If the control has any children, marks all children as `pristine`,
+   * and recalculates the `pristine` status of all parent
+   * controls.
+   *
+   *  @param opts Configuration options that determine how the control emits events after
+   * marking is applied.
+   * * `onlySelf`: When true, mark only this control. When false or not supplied,
+   * marks all direct ancestors. Default is false..
+   */
+  markAsPristine(opts: { onlySelf?: boolean } = {}): void {
+    (this as { pristine: boolean }).pristine = true;
   }
 
   /**

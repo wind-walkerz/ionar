@@ -16,36 +16,25 @@
             <a routerLink="/">MY FAVORITES</a>
             <a routerLink="product">BROWSE PRODUCTS</a>
             <a routerLink="/">ORDERS & PAYMENTS</a>
-            <!--<a routerLink="/auth/login" *ngIf="!authSvs.isAuthenticated()">Login</a>-->
-            <!--<a routerLink="/auth/register" *ngIf="!authSvs.isAuthenticated()">Register</a>-->
-            <!--<a routerLink="/auth/change-password" *ngIf="authSvs.isAuthenticated()">Change Password</a>-->
-            <!--<a routerLink="/profile" *ngIf="authSvs.isAuthenticated()">Profile</a>-->
-            <!--<a routerLink="/invoice" *ngIf="authSvs.isAuthenticated()">Invoice</a>-->
-            <!--<a routerLink="/create-project">Create project</a>-->
         </div>
 
-
-        <div class="user">
-
-
-            <io-dropdown>
-                <dropdown-toggle>
-                    <img src="assets/images/user_avatar_placeholder.png" alt="" class="img-responsive">
-                </dropdown-toggle>
-                <dropdown-menu [visible]="authSvs.isAuthenticated()">
-                    <li><a>Orders</a></li>
-                    <li><a>Credits</a></li>
-                    <li><a routerLink="profile">Account Details</a></li>
-                    <li><a>Share the Style</a></li>
-                    <li><a>Style Quiz</a></li>
-                    <li class="dropdown_divider"></li>
-                    <li (click)="authSvs.logout()"><a>Logout</a></li>
-                </dropdown-menu>
+        <io-dropdown class="user">
+            <dropdown-toggle>
+                <img src="assets/images/user_avatar_placeholder.png" alt="" class="img-responsive">
+            </dropdown-toggle>
+            <dropdown-menu [visible]="authSvs.isAuthenticated()">
+                <li><a>Orders</a></li>
+                <li><a>Credits</a></li>
+                <li><a routerLink="profile">Account Details</a></li>
+                <li><a>Share the Style</a></li>
+                <li><a>Style Quiz</a></li>
+                <li class="dropdown_divider"></li>
+                <li (click)="authSvs.logout()"><a>Logout</a></li>
+            </dropdown-menu>
 
 
-            </io-dropdown>
+        </io-dropdown>
 
-        </div>
 
         <div class="cart_icon">
             <img src="assets/icons/shopping_cart.png" alt="" class="img-responsive">
@@ -60,11 +49,9 @@
     <div class="separator"></div>
 
     <div class="project_list">
-        <a routerLink="project">Johan Kitchen</a>
-        <a routerLink="project">House in JL Ruby 2</a>
-        <a routerLink="project">Natasha Apartment</a>
-        <a routerLink="project">Melissa Kitchen</a>
-        <a routerLink="project">SEE ALL</a>
+        <ng-container *ngFor="let proj of project_list">
+            <a routerLink="project/{{proj.id}}">{{proj.name}}</a>
+        </ng-container>
     </div>
 
 </div>

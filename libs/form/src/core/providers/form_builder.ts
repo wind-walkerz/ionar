@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 export class IonarFormBuilder {
 
 
-  group = (formConfig: ControlConfig[], formOptions?: any): FormGroup => {
+  group = (formState: ControlConfig[], formConfigs?: any): FormGroup => {
 
-    return new FormGroup(formConfig, formOptions);
+    return new FormGroup(formState, formConfigs);
   };
 }
 

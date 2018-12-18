@@ -1,30 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import { slide_in_left_trigger } from '@ionar/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [ trigger('slideInOut', [
-    transition('* => *, :enter', [
-      query(':enter, :leave', style({ position: 'absolute', width: '100%' }), { optional: true }),
-      query(':enter', style({ transform: 'translateX(-100vw)' }), { optional: true }),
-      query(':leave', style({ transform: 'translateX(0vw)' }), { optional: true }),
-
-      group([
-        query(':leave', [
-          animate('500ms ease-in-out', style({
-            transform: 'translateX(100vw)'
-          }))
-        ], { optional: true }),
-        query(':enter', [
-          animate('500ms ease-in-out', style({
-            transform: 'translateX(0)'
-          }))
-        ], { optional: true })
-      ])
-    ])
-  ])]
+  animations: [
+    slide_in_left_trigger
+  ]
 })
 export class AppComponent implements OnInit {
   constructor() {
@@ -32,6 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
   }
+
   triggerAnimation(outlet) {
     return outlet.activatedRouteData.animation || null;
   }

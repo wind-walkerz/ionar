@@ -24,13 +24,16 @@ import { untilDestroyed } from '@ionar/utility';
           <ng-container
                   dynamic_field
                   [controlConfig]="_control.configuration"
+
                   [events]="{
                             change: onChanged,
                             blur: onTouched,
                             enter: onEntered
                     }"
 
+                  [value]="_control.value"
                   [invalid]="invalid"
+                  [readonly]="formGroup.readonly"
           >
           </ng-container>
       </ng-container>
@@ -61,9 +64,9 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
 
   ngOnInit() {
     this.parseContext();
-    this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
-      this.parseContext();
 
+    this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+      this.parseContext();
     });
 
     this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {

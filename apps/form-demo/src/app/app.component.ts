@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
 
@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'ionar-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements AfterViewInit {
 
@@ -23,21 +24,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    this._formConfigs = [
-      {
-        type: 'input',
-        name: 'email',
-        props: {
 
-          placeholder: 'Write your comment...'
-        },
-        validators: {
-          required: true
-        }
-      }
-    ];
-
-    this.formGroup = this._fb.group(this._formConfigs);
 
   }
 
@@ -47,9 +34,38 @@ export class AppComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
+    this._formConfigs = [
+      {
+        type: 'input',
+        name: 'email',
+        value: '023984092',
+        props: {
+          placeholder: 'Write your comment...'
+        },
+        validators: {
+          required: true
+        }
+      }
+    ];
 
-    // this.cd.detectChanges();
+    this.formGroup = this._fb.group(this._formConfigs);
+    this.cd.detectChanges();
   }
+
+  onReset = () => {
+    this.formGroup.reset({
+      email: 'sdfkljsadklf'
+    });
+
+  };
+
+  onLog = () => {
+    console.log(this.formGroup);
+  };
+
+  toggleReadMode = () => {
+    this.formGroup.readonly = !this.formGroup.readonly;
+  };
 }
 
 

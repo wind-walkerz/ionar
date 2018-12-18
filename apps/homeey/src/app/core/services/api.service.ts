@@ -1,40 +1,64 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
+import { untilDestroyed } from '@ionar/utility';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Logger } from './logger.service';
 
-@Injectable()
-export class ApiService {
-    constructor(private http: HttpClient) {
-    }
+const log = new Logger('ApiService');
 
-    private formatErrors(error: any) {
-        return throwError(error.error);
-    }
+@Injectable({
+  providedIn: 'root'
+})
 
-    get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-        return this.http.get(`${environment.api_url}${path}`, {params})
-            .pipe(catchError(this.formatErrors));
-    }
+export class ApiService implements OnDestroy {
+  constructor(private http: HttpClient, private _spinner: NgxSpinnerService) {
+  }
 
-    put(path: string, body: Object = {}): Observable<any> {
-        return this.http.put(
-            `${environment.api_url}${path}`,
-            JSON.stringify(body)
-        ).pipe(catchError(this.formatErrors));
-    }
+  private formatErrors(error: any) {
+    return throwError(error.error);
+  }
 
-    post(path: string, body: any): Observable<any> {
-        return this.http.post(
-            `${environment.api_url}${path}`,
-            body
-        ).pipe(catchError(this.formatErrors));
-    }
+  httpWrapper = (event: Observable<any>): Observable<any> => {
+    this._spinner.show();
+    return event.pipe(
+      untilDestroyed(this),
+      map((res: { [key: string]: any }) => {
+        if (res.status_code === 200) {
+          return res.data;
+        } else {
+          log.error(res.message);
+          return null;
 
-    delete(path): Observable<any> {
-        return this.http.delete(
-            `${environment.api_url}${path}`
-        ).pipe(catchError(this.formatErrors));
-    }
+        }
+      }),
+      catchError(this.formatErrors),
+      finalize(() => {
+        this._spinner.hide();
+      })
+    );
+  };
+
+  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.httpWrapper(this.http.get(`${environment.api_url}${path}`, { params: params }));
+  }
+
+  put(path: string, body: Object = {}): Observable<any> {
+    return this.httpWrapper(this.http.put(`${environment.api_url}${path}`, body));
+  }
+
+  post(path: string, body: any): Observable<any> {
+    return this.httpWrapper(this.http.post(`${environment.api_url}${path}`, body));
+  }
+
+  delete(path): Observable<any> {
+    return this.httpWrapper(this.http.delete(`${environment.api_url}${path}`));
+  }
+
+  ngOnDestroy(): void {
+  }
 }

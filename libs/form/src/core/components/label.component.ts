@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
@@ -10,7 +18,7 @@ import _ from 'lodash';
 @Component({
   selector: 'form-label',
   template: `
-      {{_controlConfig?.label || ''}}
+      {{label}}
   `,
   styles: [`
       :host {
@@ -30,6 +38,8 @@ export class LabelComponent implements OnInit, OnDestroy {
   _controlConfig: ControlConfig;
   _control: FormControl;
 
+  label: any;
+
   constructor(
     private _formSvs: FormService,
     private cd: ChangeDetectorRef
@@ -44,11 +54,12 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   parseContext = () => {
-    // this._formGr = this._formSvs.getFormGroup();
 
     this._control = this.formGroup.get(this.name);
 
     this._controlConfig = this._control.configuration;
+
+    this.label = this._controlConfig.label || _.startCase(this.name);
 
     this.cd.markForCheck();
   };

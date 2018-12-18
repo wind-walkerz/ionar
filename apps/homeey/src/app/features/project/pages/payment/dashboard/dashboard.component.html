@@ -11,13 +11,13 @@
             <h2></h2>
         </div>
 
-        <ng-container *ngFor="let i of [1, 3, 4]">
+        <ng-container *ngFor="let invoice of invoice_list">
             <div class="row item">
-                <p>Loose Furniture</p>
-                <io-btn class="open" routerLink="../detail/sdlkfjsaklj">Open</io-btn>
-                <p>Final</p>
-                <p>100%</p>
-                <p>100,000,000</p>
+                <p>{{invoice.title}}</p>
+                <io-btn class="open" routerLink="../detail/{{invoice.id}}">Open</io-btn>
+                <p>{{invoice_status}}</p>
+                <p></p>
+                <p>{{invoice.total | currency}}</p>
                 <io-btn class="add">Add</io-btn>
             </div>
         </ng-container>
@@ -25,64 +25,64 @@
     </main-panel>
 
 
-    <main-panel id="transaction_list">
-        <div class="header">TRANSACTIONS TO DATE</div>
-        <div class="row heading">
-            <h2>Item</h2>
-            <h2>Status</h2>
-            <h2>% of final bill</h2>
-            <h2>Payment</h2>
-        </div>
+    <!--<main-panel id="transaction_list">-->
+        <!--<div class="header">TRANSACTIONS TO DATE</div>-->
+        <!--<div class="row heading">-->
+            <!--<h2>Item</h2>-->
+            <!--<h2>Status</h2>-->
+            <!--<h2>% of final bill</h2>-->
+            <!--<h2>Payment</h2>-->
+        <!--</div>-->
 
-        <div class="row item">
-            <p>Interior Design</p>
-            <io-btn class="open">Open</io-btn>
-            <p>100%</p>
-            <p>IDR 7,500,000</p>
-        </div>
-    </main-panel>
+        <!--<div class="row item">-->
+            <!--<p>Interior Design</p>-->
+            <!--<io-btn class="open">Open</io-btn>-->
+            <!--<p>100%</p>-->
+            <!--<p>IDR 7,500,000</p>-->
+        <!--</div>-->
+    <!--</main-panel>-->
 </div>
 
-<div id="sidebar">
-    <main-panel>
-        <div class="header">MY CART</div>
+<!--<div id="sidebar">-->
+    <!--<main-panel>-->
+        <!--<div class="header">MY CART</div>-->
 
-        <div id="order_summary">
-            <div class="row">
-                <p>Living Room</p>
-                <p class="price">5,000,000</p>
-                <div class="remove_icon">
-                    <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
-                </div>
-            </div>
-            <div class="row">
-                <p>Master Bedroom</p>
-                <p class="price">5,000,000</p>
-                <div class="remove_icon">
-                    <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <div class="row subtotal">
-                <p>Sub Total</p>
-                <p class="price">10,000,000</p>
-                <div class="remove_icon">
-                    <img class="img-responsive" src="assets/icons/project/x.png" alt=""/>
-                </div>
-            </div>
-            <div class="row tax">
-                <p>Est. Tax</p>
-                <p class="price">200,000</p>
-                <div></div>
-            </div>
-            <div class="divider"></div>
-            <div class="row total">
-                <p>Total</p>
-                <p class="price">10,000,000</p>
-                <div></div>
-            </div>
-        </div>
+        <!--<div id="order_summary">-->
+            <!--<div class="row">-->
+                <!--<p>Living Room</p>-->
+                <!--<p class="price">5,000,000</p>-->
+                <!--<div class="remove_icon">-->
+                    <!--<img class="img-responsive" src="assets/icons/project/x.png" alt=""/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<p>Master Bedroom</p>-->
+                <!--<p class="price">5,000,000</p>-->
+                <!--<div class="remove_icon">-->
+                    <!--<img class="img-responsive" src="assets/icons/project/x.png" alt=""/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="divider"></div>-->
+            <!--<div class="row subtotal">-->
+                <!--<p>Sub Total</p>-->
+                <!--<p class="price">10,000,000</p>-->
+                <!--<div class="remove_icon">-->
+                    <!--<img class="img-responsive" src="assets/icons/project/x.png" alt=""/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row tax">-->
+                <!--<p>Est. Tax</p>-->
+                <!--<p class="price">200,000</p>-->
+                <!--<div></div>-->
+            <!--</div>-->
+            <!--<div class="divider"></div>-->
+            <!--<div class="row total">-->
+                <!--<p>Total</p>-->
+                <!--<p class="price">10,000,000</p>-->
+                <!--<div></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <io-btn>CHECK-OUT</io-btn>
-    </main-panel>
-</div>
+        <!--<io-btn>CHECK-OUT</io-btn>-->
+    <!--</main-panel>-->
+<!--</div>-->

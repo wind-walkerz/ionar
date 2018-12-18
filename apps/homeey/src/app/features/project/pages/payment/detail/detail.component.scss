@@ -80,13 +80,10 @@
             }
 
             .cart_item {
+                display: grid;
+                grid-template-columns: 2fr 8fr;
+                grid-gap: 3rem;
                 margin-bottom: 3rem;
-
-                .image {
-                    margin-right: 3rem;
-                    width: 15rem;
-                    height: 15rem;
-                }
 
                 .info_wrapper {
                     flex: 1;
@@ -122,8 +119,9 @@
 
                     .cart_item_info {
                         margin-top: 0.8rem;
+
                         .note > * {
-                            font-size: 1.4rem!important;
+                            font-size: 1.4rem !important;
                             font-weight: 200;
 
                         }
@@ -223,6 +221,7 @@
             display: inline-grid;
             grid-template-columns: 3fr 2fr 1fr;
             align-items: center;
+            margin: .5rem 0;
 
             > * {
                 font-size: 1.6rem;

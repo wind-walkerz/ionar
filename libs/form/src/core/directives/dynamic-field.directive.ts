@@ -21,10 +21,12 @@ import { InputComponent, MenuComponent, TextareaComponent, UploadComponent } fro
   selector: '[dynamic_field]'
 })
 export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
+  @Input('readonly') private _readonly: Boolean;
   @Input('controlConfig') private _controlConfig: ControlConfig;
   @Input('events') private _events: { [key: string]: Function };
 
-  @Input() private invalid: Boolean;
+  @Input('invalid') private _invalid: Boolean;
+  @Input('value') private _value: any;
 
   private _compRef: ComponentRef<any>;
 
@@ -50,6 +52,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
+
     if (this._compRef) {
       this.updateContext();
     }
@@ -83,8 +86,10 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   private parseContext = (status = 'initial') => {
     const context = {
       name: this._controlConfig.name,
-      invalid: this.invalid,
-      ...this._controlConfig.props
+      invalid: this._invalid,
+      ...this._controlConfig.props,
+      value: this._value,
+      readonly: this._readonly
     };
 
     _.forOwn(context, (value, key) => {

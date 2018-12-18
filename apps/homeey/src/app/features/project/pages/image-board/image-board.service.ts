@@ -14,32 +14,11 @@ export class ImageBoardService implements OnDestroy {
 
     const params = new HttpParams().set('item_id', item_id);
 
-    return this.api.get(`/homeey/get-item-concept`, params).pipe(
-      untilDestroyed(this),
-      map(res => {
-        if (res.status_code === 200) {
-          return res.data;
-        } else {
-          console.log(res.message);
-        }
-
-        return null;
-      })
-    );
+    return this.api.get(`/homeey/get-item-concept`, params)
   };
 
   sendChatMessage = (data: FormData) => {
-    return this.api.post(`/homeey/create-message`, data).pipe(
-      untilDestroyed(this),
-      map(res => {
-        if (res.status_code === 200) {
-          return res.data;
-        } else {
-
-          console.log(res.message);
-        }
-      })
-    );
+    return this.api.post(`/homeey/create-message`, data)
   };
 
 

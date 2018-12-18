@@ -11,8 +11,8 @@ import { PaymentService } from './payment.service';
     SharedModule,
     RouterModule.forChild([
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'detail/:id', component: DetailComponent }
+      { path: 'dashboard', component: DashboardComponent, data: { animation: 'payment/dashboard' } },
+      { path: 'detail/:id', component: DetailComponent, data: { animation: 'payment/detail' } }
     ])
   ],
   declarations: [DashboardComponent, DetailComponent],

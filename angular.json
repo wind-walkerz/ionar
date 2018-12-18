@@ -469,6 +469,100 @@
           }
         }
       }
+    },
+    "animation-demo": {
+      "root": "apps/animation-demo/",
+      "sourceRoot": "apps/animation-demo/src",
+      "projectType": "application",
+      "prefix": "ionar",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/animation-demo",
+            "index": "apps/animation-demo/src/index.html",
+            "main": "apps/animation-demo/src/main.ts",
+            "polyfills": "apps/animation-demo/src/polyfills.ts",
+            "tsConfig": "apps/animation-demo/tsconfig.app.json",
+            "assets": [
+              "apps/animation-demo/src/favicon.ico",
+              "apps/animation-demo/src/assets"
+            ],
+            "styles": [
+              "apps/animation-demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/animation-demo/src/environments/environment.ts",
+                  "with": "apps/animation-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "animation-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "animation-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "animation-demo:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/animation-demo/tsconfig.app.json",
+              "apps/animation-demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/animation-demo/jest.config.js",
+            "tsConfig": "apps/animation-demo/tsconfig.spec.json",
+            "setupFile": "apps/animation-demo/src/test-setup.ts"
+          }
+        }
+      }
     }
   },
   "cli": {
