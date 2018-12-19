@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import moment from 'moment';
-import { ImageBoardService } from '../image-board.service';
 import _ from 'lodash';
+import { ProjectService } from '../../../providers/project.service';
 
 @Component({
   selector: 'concept',
@@ -18,13 +18,13 @@ export class ConceptComponent implements OnInit, OnDestroy {
 
   conversation_list = [];
 
-  constructor(public location: Location, private _imgBoardSvs: ImageBoardService) {
+  constructor(public location: Location, private _projSvs: ProjectService) {
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   ngOnInit() {
-    this._imgBoardSvs.getImageConcept().subscribe(res => {
+    this._projSvs.getImageConcept().subscribe(res => {
       this.conversation_list = res;
       console.log(res);
     });
@@ -37,6 +37,6 @@ export class ConceptComponent implements OnInit, OnDestroy {
 
   onSelectedMarker = id => {
     this.selectedMarker = _.find(this.conversation_list, ['id', id]);
-    console.log(this.selectedMarker)
+    console.log(this.selectedMarker);
   };
 }

@@ -32,8 +32,6 @@ export class ApiService implements OnDestroy {
           return res.data;
         } else {
           log.error(res.message);
-          return null;
-
         }
       }),
       catchError(this.formatErrors),

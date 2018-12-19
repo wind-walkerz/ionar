@@ -7,8 +7,16 @@
         padding: 2rem;
         margin-bottom: 2.6rem;
 
+        io-form {
+            width: 100%;
+        }
+
         io-btn {
             margin: 0;
+
+            &.cancel {
+                margin: 0 3rem;
+            }
         }
     }
 
@@ -20,7 +28,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin: 0 2rem;
+            margin: 5rem 2rem;
 
             collapse-header {
                 display: flex;
@@ -43,16 +51,18 @@
             collapse-content {
                 position: relative;
                 justify-content: center;
+                padding-bottom: 6rem;
 
                 .pictures {
                     display: inline-grid;
                     grid-template-columns: repeat(6, 1fr);
                     grid-gap: 2.2rem;
-                    //margin: 2.6rem 2rem 0 2rem;
+                    width: 100%;
 
                     .tile {
                         display: flex;
                         flex-direction: column;
+                        justify-content: space-between;
                         align-self: start;
                         align-items: center;
                         justify-self: center;

@@ -36,7 +36,7 @@ export class ProjectService implements OnInit {
     return this.api.get(`/homeey/get-message`, params);
   };
 
-  sendChatMessage = (data: FormData) => {
+  sendChatMessage = (data: FormData): Observable<any> => {
     return this.api.post(`/homeey/create-message`, data);
   };
 
@@ -51,5 +51,48 @@ export class ProjectService implements OnInit {
 
     ;
   };
+
+  /********************************************************************************************************************
+   --------------------------------------------------------------------                                Image Board                                -----------------------------------------------------------------------------
+   *******************************************************************************************************************/
+
+  getAlbumList = (): Observable<any> => {
+    const params = new HttpParams().set('project_id', this.project_id.toString());
+
+    return this.api.get(`/homeey/project/get-list-album`, params);
+
+  };
+
+  getAlbumImageCollection = (folder_id: number = 1, limit: number = 1): Observable<any> => {
+    const params = new HttpParams()
+      .set('folder_id', folder_id.toString())
+      .set('limit', limit.toString());
+
+    return this.api.get(`/homeey/project/get-list-image-board`, params);
+  };
+
+  postNewImage = (folder_id: number, image: File, name: any): Observable<any> => {
+
+    const formData = new FormData();
+
+    formData.append('folder_id', folder_id.toString());
+    formData.append('image', image, image.name);
+    formData.append('name', name);
+
+
+    return this.api.post(`/homeey/project/new-image-board`, formData);
+  };
+
+  getImageConcept = (item_id: any = 43): Observable<any> => {
+
+    const params = new HttpParams().set('item_id', item_id);
+
+    return this.api.get(`/homeey/get-item-concept`, params);
+  };
+
+  createNewAlbum = (data): Observable<any> => {
+    return this.api.post(`/homeey/project/new-album`, data);
+  };
+
 
 }

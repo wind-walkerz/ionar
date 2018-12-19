@@ -89,7 +89,7 @@ import _ from 'lodash';
 })
 export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
-  @Input() name: string = '';
+  @Input() name: any = '';
 
   @Input() formGroup: FormGroup;
   _control: FormControl;

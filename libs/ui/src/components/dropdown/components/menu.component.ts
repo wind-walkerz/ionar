@@ -1,13 +1,15 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  OnDestroy,
-  TemplateRef,
-  ViewContainerRef,
-  ViewChild,
   ElementRef,
-  Input, ContentChild
+  Input, OnChanges,
+  OnDestroy,
+  OnInit, SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef
 } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'dropdown-menu',
@@ -18,19 +20,22 @@ import {
           display: flex;
           flex-shrink: 0;
       }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  @Input() visible: Boolean = true;
+  @Input() visible: Boolean = false;
   @Input() template: TemplateRef<any>;
+
+  visibilityChange$ = new Subject();
 
   @ViewChild('tpl') tplRef: TemplateRef<any>;
   @ViewChild('vc', { read: ViewContainerRef }) vcRef: ViewContainerRef;
 
-  // @ContentChild()
+
   constructor(public elRef: ElementRef) {
   }
 
@@ -38,6 +43,12 @@ export class MenuComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.visibilityChange$.next(this.visible);
+
 
   }
 

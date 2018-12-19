@@ -13,6 +13,7 @@ import { MenuComponent } from './components/menu.component';
   ],
   declarations: [
     DropdownComponent,
+    DropdownComponent,
     ToggleComponent, MenuComponent
   ],
   exports: [DropdownComponent, ToggleComponent, MenuComponent]

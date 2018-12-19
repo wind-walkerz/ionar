@@ -12,7 +12,7 @@ import {
 @Directive({
   selector: '[square]'
 })
-export class SquareDirective implements AfterViewInit {
+export class SquareDirective implements AfterViewChecked {
 
   @HostListener('window:resize')
   onResize() {
@@ -26,7 +26,7 @@ export class SquareDirective implements AfterViewInit {
   }
 
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     this.matchHeight(this._elRef.nativeElement);
   }
 

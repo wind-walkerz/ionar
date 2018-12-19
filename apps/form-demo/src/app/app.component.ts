@@ -59,6 +59,11 @@ export class AppComponent implements AfterViewInit {
 
   };
 
+  onClear = () => {
+    this.formGroup.clear();
+
+  };
+
   onLog = () => {
     console.log(this.formGroup);
   };

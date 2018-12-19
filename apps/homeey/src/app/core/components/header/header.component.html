@@ -4,11 +4,11 @@
             <img class="img-responsive" src="assets/images/logo.png" alt="">
         </div>
 
-        <div class="site-nav" *ngIf="authSvs.isAuthenticated()">
+        <div class="site-nav" *ngIf="isAuthenticated">
             <a
                     routerLinkActive="active"
                     routerLink="/"
-                    (mouseenter)="_openSubMenu = true"
+                    (mouseenter)="openSubMenu = true"
             >
                 MY HOME
             </a>
@@ -22,14 +22,14 @@
             <dropdown-toggle>
                 <img src="assets/images/user_avatar_placeholder.png" alt="" class="img-responsive">
             </dropdown-toggle>
-            <dropdown-menu [visible]="authSvs.isAuthenticated()">
+            <dropdown-menu [visible]="isAuthenticated">
                 <li><a>Orders</a></li>
                 <li><a>Credits</a></li>
                 <li><a routerLink="profile">Account Details</a></li>
                 <li><a>Share the Style</a></li>
                 <li><a>Style Quiz</a></li>
                 <li class="dropdown_divider"></li>
-                <li (click)="authSvs.logout()"><a>Logout</a></li>
+                <li (click)="onLogout()"><a>Logout</a></li>
             </dropdown-menu>
 
 
@@ -43,7 +43,7 @@
 
 </div>
 
-<div id="sub_menu" *ngIf="authSvs.isAuthenticated() && _openSubMenu">
+<div id="sub_menu" *ngIf="isAuthenticated && openSubMenu">
     <div class="btn">+ NEW PROJECT</div>
 
     <div class="separator"></div>

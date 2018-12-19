@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { AlbumComponent } from './album/album.component';
 import { ConceptComponent } from './concept/concept.component';
 import { MarkerComponent } from './concept/marker/marker.component';
-import { ImageBoardService } from './image-board.service';
 
 @NgModule({
   imports: [
@@ -15,8 +14,7 @@ import { ImageBoardService } from './image-board.service';
       { path: 'album/:id', component: ConceptComponent }
     ])
   ],
-  declarations: [AlbumComponent, ConceptComponent, MarkerComponent],
-  providers: [ImageBoardService]
+  declarations: [AlbumComponent, ConceptComponent, MarkerComponent]
 })
 export class ImageBoardModule {
 }

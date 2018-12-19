@@ -1,161 +1,59 @@
 <header>
-    <io-btn>+ CREATE ALBUM</io-btn>
+    <io-btn *ngIf="!isCreateAlbum" (click)="isCreateAlbum = true">+ CREATE ALBUM</io-btn>
+
+    <ng-container *ngIf="isCreateAlbum">
+        <io-form
+                mediaType="json"
+                [formGroup]="formGroup"
+                (submit)="createNewAlbum($event)"
+        >
+            <form-control name="name"></form-control>
+        </io-form>
+        <io-btn class="cancel" type="danger" (click)="isCreateAlbum = false">Cancel</io-btn>
+        <io-btn type="primary" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">Create
+        </io-btn>
+    </ng-container>
 </header>
 
 
-<io-collapsible>
-    <collapse-header #header='collapse-header'>
-        <h2>PROPOSAL: LIVING ROOM</h2>
-        <p>by Denise | <span collapse-toggle>{{header.collapsed ? 'Show' : 'Hide'}}</span></p>
-    </collapse-header>
+<ng-container *ngFor="let album of albums">
+    <io-collapsible>
+        <collapse-header #header='collapse-header'>
+            <h2>{{album.name}}</h2>
+            <p>by Denise | <span collapse-toggle>{{header.collapsed ? 'Show' : 'Hide'}}</span></p>
+        </collapse-header>
 
-    <collapse-content>
-        <div class="pictures">
-            <div class="upload tile">
-                <io-upload
-                        type="dropzone"
-                        square
-                >
-                    <p>
-                        + <br/>
-                        ADD IMAGE
-                    </p>
-                </io-upload>
+        <collapse-content>
+            <div class="pictures">
+                <div class="upload tile">
+                    <io-upload
+                            type="dropzone"
+                            square
+                            (change)="addNewImage(album, $event)"
+                    >
+                        <p>
+                            + <br/>
+                            ADD IMAGE
+                        </p>
+                    </io-upload>
+                </div>
+
+                <ng-container *ngFor="let collection of album.image_collection">
+                    <a class="tile" routerLink="{{collection.id}}">
+                        <div class="thumbnail">
+                            <img
+                                    src="{{collection.image_thumb}}"
+                                    alt=""
+                                    class="img-responsive"
+                            />
+                        </div>
+                        <div class="title">{{collection.name}}</div>
+                    </a>
+                </ng-container>
             </div>
-            <a class="tile" routerLink="1234">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
-            <a class="tile">
-                <div class="thumbnail">
-                    <img
-                            src="assets/images/project/bedroom_thumbnail.png"
-                            alt=""
-                            class="img-responsive"
-                    />
-                </div>
-                <div class="title">Bed Room</div>
-            </a>
 
-        </div>
+            <io-btn (click)="toggleShowAll(album)">{{album.isShowAll ? 'Hide' : 'Show'}} All</io-btn>
+        </collapse-content>
 
-        <io-btn>Show All</io-btn>
-    </collapse-content>
-
-</io-collapsible>
+    </io-collapsible>
+</ng-container>

@@ -47,7 +47,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
         name: 'text',
         props: {
           placeholder: 'Write your comment...',
-          feedback: null
+          hideFeedback: true,
+          hideLabel: true
         },
         validators: {
           required: true
@@ -58,7 +59,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
         name: 'profile_picture',
         props: {
           template: this._uploadTplRef,
-          feedback: null
+          hideFeedback: true,
+          hideLabel: true
         }
       },
       {

@@ -5,6 +5,8 @@ import { ApiService, Logger } from '../../../core/services';
 import { StorageService } from './storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ProfileService } from '../../profile/providers/profile.service';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 const log = new Logger('AuthService');
@@ -17,6 +19,8 @@ export class AuthService implements OnDestroy {
 
   private _token: string = null;
   private _userId: string = null;
+
+  public authenticationChange$ = new Subject();
 
   constructor(
     private stoSvs: StorageService,
@@ -61,14 +65,17 @@ export class AuthService implements OnDestroy {
 
       this.router.navigate(['/dashboard']);
 
+      this.authenticationChange$.next(this.isAuthenticated());
+
     });
   };
 
   logout = () => {
-    this.apiSvs.get('/auth/logout').subscribe(res => {
+    return this.apiSvs.get('/auth/logout').subscribe(res => {
       this.token = null;
       this.stoSvs.destroyToken();
       this.router.navigate(['/auth']);
+      this.authenticationChange$.next(this.isAuthenticated());
     });
 
   };

@@ -349,6 +349,10 @@ export abstract class AbstractControl {
    */
   abstract reset(value?: any, options?: Object): void;
 
+  /**
+   * Clear the control. Abstract method (implemented in sub-classes).
+   */
+  abstract clear(options?: Object): void;
 
   /** @internal */
   abstract _allControlsDisabled(): boolean;

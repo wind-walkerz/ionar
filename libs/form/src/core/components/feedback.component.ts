@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { untilDestroyed } from '@aurora-ngx/ui';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
+import { ValidatorType } from '../models/Validator';
 
 @Component({
   selector: 'form-feedback',
@@ -20,7 +21,7 @@ import { FormGroup } from '../models/FormGroup';
       <ng-container *ngIf="show_feedback">
           <ng-container *ngIf="invalid">
               <ng-container *ngFor="let err of error_list">
-                  <p>{{err}}</p>
+                  <div class="feedback">{{err}}</div>
               </ng-container>
 
           </ng-container>
@@ -63,7 +64,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
     this.parseContext();
 
 
-    this._control.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+    this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
       this.parseContext();
     });
 
@@ -76,12 +77,18 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   generate_feedback = (validator, value) => {
 
     // const feedback = this._control.validateOptions.feedback
+
     const feedback = {};
+
+    // console.log(_.values(this._control.configuration.validators))
+
+
+    // _.mapValues(this._control.configuration.validators, (value: any) => {
+    //   feedback[validator] = _.isString(value) ? value : value.message || null;
+    // });
+
+
     if (!validator) return null;
-    // const feedback = {
-    //   ...this.config.feedback
-    // };
-    //
 
     switch (validator) {
       case 'required':

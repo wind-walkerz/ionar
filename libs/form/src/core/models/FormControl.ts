@@ -123,7 +123,7 @@ export class FormControl extends AbstractControl {
     this._setValidators(configs.validators);
     this._setAsyncValidators(configs.asyncValidator);
     this._initObservables();
-    this._applyControlState(configs);
+    this._applyControlState();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
@@ -182,7 +182,32 @@ export class FormControl extends AbstractControl {
   reset(value: any = null, options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
     this.markAsPristine(options);
     this.markAsUntouched(options);
-    (this as { value: any }).value = value;
+    this._applyControlState();
+    this.updateValueAndValidity(options);
+  }
+
+  /**
+   * Resets the form control, marking it `pristine` and `untouched`, and setting
+   * the value to null.
+   *
+   * @param formState Resets the control with an initial value,
+   * or an object that defines the initial value and disabled state.
+   *
+   * @param options Configuration options that determine how the control propagates changes
+   * and emits events after the value changes.
+   *
+   * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+   * false.
+   * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+   * `valueChanges`
+   * observables emit events with the latest status and value when the control is reset.
+   * When false, no events are emitted.
+   *
+   */
+  clear(options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    this.markAsPristine(options);
+    this.markAsUntouched(options);
+    (this as { value: any }).value = null;
     this.updateValueAndValidity(options);
   }
 
@@ -286,11 +311,9 @@ export class FormControl extends AbstractControl {
   }
 
 
-  private _applyControlState = (config: ControlConfig | null) => {
+  private _applyControlState = () => {
 
-    if (config) {
-      (this as { value: any }).value = (this as { pendingValue: string }).pendingValue = config.value || null;
-    }
+    (this as { value: any }).value = this.configuration.value || null;
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});
   };

@@ -237,11 +237,78 @@ export class FormGroup extends AbstractControl {
     _.each(_.keys(this.controls), name => {
       this.controls[name].reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
     });
-
+    (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-    // this._updatePristine(options);
-    // this._updateTouched(options);
+
+
   }
+
+  /**
+   * Clear the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+   * the value of all descendants to null.
+   *
+   * You reset to a specific form state by passing in a map of states
+   * that matches the structure of your form, with control names as keys. The state
+   * is a standalone value or a form state object with both a value and a disabled
+   * status.
+   *
+   * @param formState Resets the control with an initial value,
+   * or an object that defines the initial value and disabled state.
+   *
+   * @param options Configuration options that determine how the control propagates changes
+   * and emits events when the group is reset.
+   * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+   * false.
+   * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+   * `valueChanges`
+   * observables emit events with the latest status and value when the control is reset.
+   * When false, no events are emitted.
+   * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+   * updateValueAndValidity} method.
+   *
+   * @usageNotes
+   *
+   * ### Reset the form group values
+   *
+   * ```ts
+   * const form = new FormGroup({
+   *   first: new FormControl('first name'),
+   *   last: new FormControl('last name')
+   * });
+   *
+   * console.log(form.value);  // {first: 'first name', last: 'last name'}
+   *
+   * form.reset({ first: 'name', last: 'last name' });
+   *
+   * console.log(form.value);  // {first: 'name', last: 'last name'}
+   * ```
+   *
+   * ### Reset the form group values and disabled status
+   *
+   * ```
+   * const form = new FormGroup({
+   *   first: new FormControl('first name'),
+   *   last: new FormControl('last name')
+   * });
+   *
+   * form.reset({
+   *   first: {value: 'name', disabled: true},
+   *   last: 'last'
+   * });
+   *
+   * console.log(this.form.value);  // {first: 'name', last: 'last name'}
+   * console.log(this.form.get('first').status);  // 'DISABLED'
+   * ```
+   */
+  clear(options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+    _.each(_.keys(this.controls), name => {
+      this.controls[name].clear({ onlySelf: true, emitEvent: options.emitEvent });
+    });
+    (this as { submitted: Boolean }).submitted = false;
+    this.updateValueAndValidity(options);
+
+  }
+
 
   /**
    * Retrieves a child control given the control's name or path.
@@ -319,7 +386,7 @@ export class FormGroup extends AbstractControl {
   }
 
   private _applyFormState = () => {
-    this.readonly = _.has(this.formConfigs, ['readonly'])
+    this.readonly = _.has(this.formConfigs, ['readonly']);
   };
 
   /** @internal */

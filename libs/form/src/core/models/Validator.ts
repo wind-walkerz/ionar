@@ -9,18 +9,25 @@ export interface ValidationErrors {
 }
 
 export interface ValidationConfigs {
-  required?: true,
-  email?: true
+  required?: true | String,
+  email?: true | String,
   stringLength?: {
     min?: number,
-    max?: number
+    max?: number,
+    message?: string
   },
 
-  equalTo?: string
+  equalTo?: { compare?: string, message?: string } | string,
 
-  [name: string]: { [key: string]: any } | string | true | ValidatorFn | AsyncValidatorFn
+  [name: string]: ValidatorType
 }
 
+
+export type ValidatorType = { message?: any, [name: string]: any }
+  | string
+  | true
+  | ValidatorFn
+  | AsyncValidatorFn
 
 /**
  * @publicApi
@@ -164,8 +171,9 @@ export class Validators {
       return null;  // don't validate empty values to allow optional controls
     }
 
+    const compareWith = _.isString(control.configuration.validators['equalTo']) ? control.configuration.validators['equalTo'] : control.configuration.validators['equalTo'].compare;
 
-    const compared_control = control.parent.controls[control.configuration.validators['equalTo']];
+    const compared_control = control.parent.controls[compareWith];
 
     return (JSON.stringify(control.value) === JSON.stringify(compared_control.value))
       ? null : { equalTo: control.configuration.validators['equalTo'] };

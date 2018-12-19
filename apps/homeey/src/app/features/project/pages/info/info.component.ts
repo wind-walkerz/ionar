@@ -37,7 +37,8 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.formState = [
         {
           type: 'input',
-          name: 'client_name',
+          name: 'full_name',
+          label: 'Client Name',
           value: `${res.client.first_name} ${res.client.last_name}`
         },
         {
@@ -71,16 +72,13 @@ export class InfoComponent implements OnInit, OnDestroy {
         },
         {
           type: 'input',
-          name: 'city'
+          name: 'city',
+          value: res.city
         },
         {
           type: 'input',
           name: 'postcode',
           value: res.post_code
-        },
-        {
-          type: 'input',
-          name: 'billing_address'
         }
       ];
 
