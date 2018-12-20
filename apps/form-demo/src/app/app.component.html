@@ -7,8 +7,9 @@
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
-    <form-control [name]="'email'"></form-control>
     <h2>Second</h2>
+    <form-control [name]="'email'"></form-control>
+
 </io-form>
 
 <io-form
@@ -20,6 +21,17 @@
         <form-control [name]="config.name"></form-control>
     </ng-container>
 
+
+</io-form>
+
+<io-form
+        [formGroup]="formGroup"
+        (submit)="onSubmit($event)"
+>
+    <h2>Fourth</h2>
+    <app-test>
+        <form-control [name]="'email'"></form-control>
+    </app-test>
 
 </io-form>
 

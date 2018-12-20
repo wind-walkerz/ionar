@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { IonarModule } from '@ionar/core';
+import { IonarModule } from 'ionar';
 import { SharedComponentModule } from './components/component.module';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 
 @NgModule({
@@ -10,13 +11,15 @@ import { SharedComponentModule } from './components/component.module';
     SharedComponentModule,
     CommonModule,
     NgxSpinnerModule,
-    IonarModule
+    IonarModule,
+    AngularDraggableModule
   ],
   exports: [
     SharedComponentModule,
     CommonModule,
     NgxSpinnerModule,
-    IonarModule
+    IonarModule,
+    AngularDraggableModule
   ]
 })
 export class SharedModule {

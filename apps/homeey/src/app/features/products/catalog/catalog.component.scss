@@ -50,6 +50,10 @@
             }
         }
     }
+
+    io-pagination {
+        margin: 5rem 0;
+    }
 }
 
 #sidebar {
@@ -59,18 +63,27 @@
     ::ng-deep {
         main-panel {
             margin-bottom: 2rem;
+
             .header {
                 font-size: 1.6rem;
                 padding: .9rem 1.7rem;
             }
+
             .item {
                 border: 0;
                 cursor: pointer;
                 display: flex;
                 font-size: 1.4rem;
-                &:hover,&.active {
+
+                &:hover, &.active {
                     font-weight: bold;
                 }
+            }
+
+
+            form-control {
+                margin: 1.5rem;
+
             }
         }
 

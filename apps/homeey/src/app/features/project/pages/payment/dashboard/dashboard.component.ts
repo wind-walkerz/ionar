@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._paymentSvs.getInvoiceList().subscribe(res => {
-      this.invoice_list = res;
+      this.invoice_list = res.data;
     });
   }
 

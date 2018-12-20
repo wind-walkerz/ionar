@@ -1,7 +1,6 @@
 <div class="breadcrumb"><a (click)="location.back()">< Back</a></div>
 
-
-<div class="image_panel">
+<div class="image_panel" #myBounds>
     <div class="main_image">
         <img class="img-responsive" src="assets/images/project/image-concept-1.png" alt="">
     </div>
@@ -9,6 +8,11 @@
 
         <ng-container *ngFor="let conv of conversation_list">
             <marker
+                    ngDraggable
+                    [bounds]="myBounds"
+                    [inBounds]="true"
+                    (endOffset)="onDrop($event, conv)"
+                    [preventDefaultEvent]="true"
                     [data]="conv"
                     (selected)="onSelectedMarker($event)"
             ></marker>
@@ -38,7 +42,8 @@
         <ng-container *ngFor="let cmt of selectedMarker.concepts.data">
             <div class="message">
                 <div class="avatar">
-                    <img src="{{cmt.user.avatar}}" alt="" class="avatar img-responsive">
+                    <img src="{{cmt.user.avatar || 'assets/images/user_avatar_placeholder.png'}}" alt=""
+                         class="avatar img-responsive">
                 </div>
                 <div class="user_info">
                     <p class="name">{{cmt.user.full_name}}</p>

@@ -7,11 +7,12 @@
                 <div class="title">Edit Personal Information</div>
 
                 <io-form
-                        [formGroup]="forgotPassFormGroup"
+                        [formGroup]="profileFormGroup"
+                        (submit)="onSubmit($event)"
                 >
                 </io-form>
 
-                <io-btn [submitForm]="forgotPassFormGroup" [disabled]="forgotPassFormGroup.invalid"
+                <io-btn [submitForm]="profileFormGroup" [disabled]="profileFormGroup.invalid"
                         class="footer_btn">
                     Update My Information
                 </io-btn>

@@ -13,6 +13,7 @@ import _ from 'lodash';
 
 @Component({
   selector: 'marker',
+  exportAs: 'marker',
   templateUrl: './marker.component.html',
   styleUrls: ['./marker.component.scss']
 })
@@ -30,7 +31,7 @@ export class MarkerComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private _elRef: ElementRef,
+    public elRef: ElementRef,
     private _renderer: Renderer2
   ) {
   }
@@ -40,12 +41,9 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    const coordinate = _.split(this.data.marker, ',');
-    const latitude = coordinate[0];
-    const longitude = coordinate[1];
 
-    this._renderer.setStyle(this._elRef.nativeElement, 'top', `${longitude}px`);
-    this._renderer.setStyle(this._elRef.nativeElement, 'left', `${latitude}px`);
+    this._renderer.setStyle(this.elRef.nativeElement, 'top', `${this.data.marker.y}px`);
+    this._renderer.setStyle(this.elRef.nativeElement, 'left', `${this.data.marker.x}px`);
   }
 
   ngOnDestroy(): void {

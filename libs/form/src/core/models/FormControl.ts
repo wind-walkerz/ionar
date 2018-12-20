@@ -2,10 +2,7 @@ import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractCo
 import { ControlConfig } from './ControlConfig';
 import { AsyncValidatorFn, ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
 import _ from 'lodash';
-import { FormGroup } from '@ionar/form';
-import { EventEmitter } from '@angular/core';
-import { debounce } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { FormGroup } from '../models/FormGroup';
 
 
 /**
@@ -158,6 +155,11 @@ export class FormControl extends AbstractControl {
     (this as { value: any }).value = value;
     this.markAsDirty();
     this.updateValueAndValidity(options);
+    if (this.parent.formConfigs.submitOnChange || this.configuration.props.submitOnChange) {
+
+      this.parent.submit(true);
+    }
+
   }
 
 

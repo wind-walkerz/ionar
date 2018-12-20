@@ -28,22 +28,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isAuthenticated = this._authSvs.isAuthenticated();
+
+    this.getProjectList(this._authSvs.isAuthenticated());
 
     this._authSvs.authenticationChange$.pipe(untilDestroyed(this)).subscribe((isAuthenticated: Boolean) => {
-      this.isAuthenticated = isAuthenticated;
-
-      if (isAuthenticated) {
-        this._headerSvs.getProjectList().subscribe(res => {
-          this.project_list = res;
-        });
-      }
-
-      this.cd.markForCheck();
+      this.getProjectList(isAuthenticated);
     });
-
-    this.cd.markForCheck();
-
   }
 
   ngOnDestroy(): void {
@@ -51,8 +41,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this._authSvs.logout();
-
-
   }
+
+  getProjectList = (isAuthenticated: Boolean) => {
+    this.isAuthenticated = isAuthenticated;
+
+    if (isAuthenticated) {
+      this._headerSvs.getProjectList().subscribe(res => {
+        this.project_list = res.data;
+      });
+    }
+
+    this.cd.markForCheck();
+  };
 
 }

@@ -211,7 +211,6 @@ export class QuizComponent implements OnInit, AfterViewInit {
 ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 
     onSubmit = form_data => {
-        console.log(form_data);
     };
 
     onSelectAnswer = e => {

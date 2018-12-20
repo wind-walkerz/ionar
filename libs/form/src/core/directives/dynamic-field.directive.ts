@@ -27,6 +27,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
   @Input('invalid') private _invalid: Boolean;
   @Input('value') private _value: any;
+  @Input('options') private _options: any;
 
   private _compRef: ComponentRef<any>;
 
@@ -89,6 +90,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
       invalid: this._invalid,
       ...this._controlConfig.props,
       value: this._value,
+      options: this._options,
       readonly: this._readonly
     };
 

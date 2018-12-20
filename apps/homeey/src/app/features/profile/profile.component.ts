@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { AuthService } from '../auth/providers/auth.service';
-import { ProfileService } from './providers/profile.service';
+import { ProfileService } from './profile.service';
 
 
 @Component({
@@ -11,11 +11,11 @@ import { ProfileService } from './providers/profile.service';
 })
 export class ProfileComponent implements OnInit {
 
-  forgotPassFormGroup: FormGroup;
+  profileFormGroup: FormGroup;
 
   changePassFormGroup: FormGroup;
 
-  private _forgotPassFormConfigs: ControlConfig[] = [
+  private _profileFormConfigs: ControlConfig[] = [
     {
       type: 'input',
       name: 'email',
@@ -170,14 +170,15 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    this.forgotPassFormGroup = this._fb.group(this._forgotPassFormConfigs);
+    this.profileFormGroup = this._fb.group(this._profileFormConfigs, {
+      nullExclusion: true
+    });
 
     this.changePassFormGroup = this._fb.group(this._changePassFormConfigs);
   }
 
 
   onUploaded = file_list => {
-    console.log(file_list);
 
     if (file_list.length > 0) {
       const reader: FileReader = new FileReader();
@@ -197,5 +198,8 @@ export class ProfileComponent implements OnInit {
     this.show_avatar_preview = false;
   };
 
+
+  onSubmit = formValue => {
+  }
 
 };

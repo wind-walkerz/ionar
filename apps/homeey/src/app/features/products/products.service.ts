@@ -13,10 +13,10 @@ export class ProductsService implements OnDestroy {
   constructor(private _apiSvs: ApiService) {
   }
 
-  getProductList = (): Observable<any> => {
+  getProductList = (page: number): Observable<any> => {
     const params_data = {
-      limit: 25,
-      page: 1,
+      limit: 10,
+      page: page,
       sort_by: 'name',
       sort_order: 'DESC'
     };
@@ -29,27 +29,15 @@ export class ProductsService implements OnDestroy {
     });
 
 
-    return this._apiSvs.get('/homeey/list-products', params).pipe(
-      untilDestroyed(this),
-      map(res => {
-        if (res.status_code === 200) {
-          console.log(res);
-          return res.data;
-        }
-      })
-    );
+    return this._apiSvs.get('/homeey/list-products', params)
   };
 
   getBrandList = (): Observable<any> => {
-    return this._apiSvs.get('/homeey/list-brand').pipe(
-      untilDestroyed(this),
-      map(res => {
-        if (res.status_code === 200) {
-          console.log(res);
-          return res.data;
-        }
-      })
-    );
+    return this._apiSvs.get('/homeey/list-brand')
+  };
+
+  getCategoryList = (): Observable<any> => {
+    return this._apiSvs.get('/homeey/list-categories')
   };
 
   ngOnDestroy(): void {

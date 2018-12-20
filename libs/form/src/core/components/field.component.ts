@@ -32,6 +32,7 @@ import { untilDestroyed } from '@ionar/utility';
                     }"
 
                   [value]="_control.value"
+                  [options]="_control.configuration.options"
                   [invalid]="invalid"
                   [readonly]="formGroup.readonly"
           >

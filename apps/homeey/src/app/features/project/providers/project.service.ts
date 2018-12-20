@@ -47,7 +47,7 @@ export class ProjectService implements OnInit {
   getProjectInfo = () => {
     const params = new HttpParams().set('project_id', this.project_id.toString());
 
-    return this.api.get(`/homeey/get-project-info`, params).pipe(map(res => res.item.attributes));
+    return this.api.get(`/homeey/get-project-info`, params).pipe(map(res => res.data.item.attributes));
 
     ;
   };
@@ -93,6 +93,10 @@ export class ProjectService implements OnInit {
   createNewAlbum = (data): Observable<any> => {
     return this.api.post(`/homeey/project/new-album`, data);
   };
+
+  updateMarkerCoordinate = (): Observable<any> => {
+    return this.api.post('/homeey/update-item-concept', data)
+  }
 
 
 }

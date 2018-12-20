@@ -1,0 +1,16 @@
+:host {
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .option {
+        border: 0;
+        cursor: pointer;
+        font-size: 1.6rem;
+        margin: .5rem 0;
+        &:hover, &.active {
+            font-weight: bold;
+        }
+    }
+}

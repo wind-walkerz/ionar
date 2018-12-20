@@ -860,6 +860,13 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular2-draggable@^2.1.9:
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/angular2-draggable/-/angular2-draggable-2.1.9.tgz#f48eb6131812f4ed070bbc8cab70fc4191024665"
+  integrity sha512-gwCBexkPIrTQ2PDwfDRzA4CaZKZAoBtrVxsXmvSA6HCd6MlnV15tbT/U3LzZIRDczgXkuHxAEy2EhGfWzG9LlA==
+  dependencies:
+    tslib "^1.9.0"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"

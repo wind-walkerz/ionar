@@ -35,7 +35,7 @@
                 <div class="bubble">
                     <p class="text" [innerHTML]="msg.text" *ngIf="msg.text">
                     </p>
-                    <img class="img-responsive" src="{{msg.image}}" alt="" *ngIf="msg.image">
+                    <img class="img-responsive" src="{{msg.photo}}" alt="" *ngIf="msg.photo">
                 </div>
                 <div class="timestamp">{{_moment(msg.created_at).format('HH:mm')}}</div>
             </ng-template>
@@ -46,8 +46,8 @@
 
     <io-form
             class="input_toolbar"
+            [mediaType]="'form-data'"
             [formGroup]="formGroup"
-            mediaType="form-data"
             (submit)="onSendMsg($event)"
     >
         <div class="avatar">

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ProfileComponent } from './profile.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
-import { ProfileService } from './providers/profile.service';
+import { ProfileService } from './profile.service';
 
 
 @NgModule({

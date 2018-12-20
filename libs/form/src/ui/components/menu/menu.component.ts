@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'menu',
+  selector: 'io-menu',
   template: `
       <ng-container *ngFor="let option of options">
           <div
@@ -13,14 +13,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           </div>
       </ng-container>
   `,
-  styles: [`
-      :host {
-
-      }
-  `]
+  styleUrls: [`./menu.component.scss`]
 })
 export class MenuComponent implements OnInit {
-  @Input() options: ({ label: any, value: any })[] = [];
+  @Input() options: ({ label: any, value: any, disable?: boolean })[] = [];
   @Input() name = '';
   @Input() value: any = null;
   @Output() change = new EventEmitter();

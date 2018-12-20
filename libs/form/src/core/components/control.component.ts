@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, Host,
   HostBinding,
   Input,
   OnChanges,
@@ -17,6 +17,7 @@ import { FormControl } from '../models/FormControl';
 import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
+import { FormComponent } from '../core.component';
 
 @Component({
   selector: 'form-control',
@@ -103,7 +104,8 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
     private _formSvs: FormService,
     public cd: ChangeDetectorRef,
     private _renderer: Renderer2,
-    private _elRef: ElementRef
+    private _elRef: ElementRef,
+    @Host() private _parent: FormComponent
   ) {
   }
 
@@ -115,9 +117,10 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   ngAfterViewChecked(): void {
-
-    if (this.formGroup) this.parseContext(this.formGroup);
-
+    if (this._parent.formGroup) {
+      this.formGroup = this._parent.formGroup;
+      this.parseContext();
+    }
   }
 
   ngOnChanges(): void {
@@ -127,9 +130,10 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   ngOnDestroy(): void {
   }
 
-  parseContext = formGroup => {
-    this._control = formGroup.get(this.name);
+  parseContext = () => {
+    this._control = this.formGroup.get(this.name);
 
+    this._renderer.setAttribute(this._elRef.nativeElement, 'id', this.name);
 
     const props = this._control.configuration.props;
     if (_.has(props, ['hidden'])) {

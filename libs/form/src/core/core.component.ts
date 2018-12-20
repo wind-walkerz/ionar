@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
+  ContentChildren, ElementRef,
   EventEmitter,
   Injectable,
   Input,
@@ -15,7 +15,7 @@ import {
   OnInit,
   Output,
   QueryList,
-  SimpleChanges
+  SimpleChanges, ViewChild
 } from '@angular/core';
 import { FormService } from './providers/form.service';
 
@@ -31,23 +31,31 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'io-form',
   template: `
-      <ng-container *ngIf="viewInitialized">
-
-          <ng-container *ngIf="!default_template">
+      <ng-container>
+          <ng-template #contentVc>
               <ng-content></ng-content>
-          </ng-container>
+          </ng-template>
 
-          <ng-container *ngIf="default_template">
-              <ng-container *ngFor="let name of controlRoster">
-                  <form-control
-                          [name]="name"
-                          [formGroup]="formGroup"
-                  >
-                  </form-control>
+          <ng-container *ngIf="viewInitialized">
+
+              <ng-container *ngIf="!default_template">
+                  <ng-container [ngTemplateOutlet]="contentVc"></ng-container>
               </ng-container>
+
+              <ng-container *ngIf="default_template">
+                  <ng-container *ngFor="let name of controlRoster">
+                      <form-control
+                              [name]="name"
+                              [formGroup]="formGroup"
+                      >
+                      </form-control>
+                  </ng-container>
+              </ng-container>
+
           </ng-container>
 
       </ng-container>
+
 
 
   `,
@@ -59,13 +67,14 @@ import { Subscription } from 'rxjs';
 })
 
 @Injectable()
-export class FormComponent implements OnInit, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
+export class FormComponent implements AfterViewChecked, OnDestroy {
 
   @Input() formGroup: FormGroup;
 
   @Input() mediaType: String;
   @Output() submit = new EventEmitter();
-  @ContentChildren(ControlComponent) _controlCompList: QueryList<ControlComponent>;
+
+  @ViewChild('contentVc', { read: ElementRef }) private _contentVcRef;
 
   controlRoster: string[];
 
@@ -80,37 +89,16 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
   constructor(private _formSvs: FormService, private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-
-  }
-
-
-  ngAfterContentInit(): void {
-
-  }
-
-  ngAfterContentChecked(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-
-
-  }
-
   ngAfterViewChecked(): void {
+
     if (this.formGroup) {
 
-      this.default_template = !(this._controlCompList && this._controlCompList.length > 0);
       this.parseContext();
       this.viewInitialized = true;
       this.cd.detectChanges();
+      this.default_template = this._contentVcRef.nativeElement.parentElement.children.length === 0;
+      this.cd.detectChanges();
     }
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-
   }
 
   ngOnDestroy(): void {
@@ -125,18 +113,13 @@ export class FormComponent implements OnInit, AfterContentInit, AfterContentChec
 
     if (this._subscription) this._subscription.unsubscribe();
 
-    this._subscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this), distinctUntilChanged()).subscribe(data => {
-      if (this.formGroup.valid) {
-        this.submit.emit(this._formSvs.convertToMediaType(data, this.mediaType));
+    this._subscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this), distinctUntilChanged()).subscribe((data: { value: any, instant: boolean }) => {
+      if (this.formGroup.valid || data.instant) {
+        this.submit.emit(this._formSvs.convertToMediaType(data.value, this.mediaType));
       }
-    });
 
-    if (this._controlCompList.length > 0) {
-      _.each(this._controlCompList.toArray(), (c: ControlComponent) => {
-        c.formGroup = this.formGroup;
-        c.parseContext(this.formGroup)
-      });
-    }
+
+    });
   };
 
 }

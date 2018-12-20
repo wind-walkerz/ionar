@@ -11,7 +11,7 @@ import {
 } from '@angular/animations';
 
 
-export const slide_in_left: AnimationReferenceMetadata = animation(
+export const slideInLeftAnimation: AnimationReferenceMetadata = animation(
   [
     animate(
       '{{ timing }}ms {{ delay }}ms',
@@ -30,9 +30,9 @@ export const slide_in_left: AnimationReferenceMetadata = animation(
   { params: { timing: 1000, delay: 0 } }
 );
 
-export const slide_in_left_trigger: AnimationTriggerMetadata = trigger('slide_in_left', [
+export const slideInLeft: AnimationTriggerMetadata = trigger('slideInLeft', [
   transition('* => *', [
-    useAnimation(slide_in_left)
+    useAnimation(slideInLeftAnimation)
   ])
 ]);
 

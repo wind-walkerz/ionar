@@ -3,7 +3,7 @@ import {
   bounce_in_down_trigger,
   bounce_in_trigger,
   bounce_out_up_trigger, fade_in_down_trigger, fade_in_trigger, fade_out_up_trigger,
-  rubber_band_trigger
+  rubber_band_trigger, slideInLeft
 } from '@ionar/animations';
 
 @Component({
@@ -17,6 +17,9 @@ import {
 
     fade_in_trigger,
     fade_in_down_trigger, fade_out_up_trigger,
+
+
+    slideInLeft
   ]
 })
 export class AppComponent {

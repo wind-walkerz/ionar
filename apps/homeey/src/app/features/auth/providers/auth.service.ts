@@ -4,7 +4,7 @@ import { untilDestroyed } from '@aurora-ngx/ui';
 import { ApiService, Logger } from '../../../core/services';
 import { StorageService } from './storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ProfileService } from '../../profile/providers/profile.service';
+import { ProfileService } from '../../profile/profile.service';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 

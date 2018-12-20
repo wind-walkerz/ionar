@@ -3,7 +3,7 @@ import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractCo
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
-import { ControlConfig } from './ControlConfig';
+import { ControlConfig, FormConfigs } from './ControlConfig';
 import { ValidationErrors } from '@ionar/form';
 
 /**
@@ -82,6 +82,8 @@ export class FormGroup extends AbstractControl {
 
   private _readonly: Boolean = false;
 
+  public readonly ngSubmit: EventEmitter<any>;
+
   get readonly(): Boolean {
     return this._readonly;
   }
@@ -108,12 +110,6 @@ export class FormGroup extends AbstractControl {
 
   public readonly controls: { [key: string]: FormControl } = {};
 
-  /**
-   * @description
-   * Emits an event when the form submission has been triggered.
-   */
-
-  public readonly ngSubmit: EventEmitter<any>;
 
   /**
    * Creates a new `FormGroup` instance.
@@ -122,7 +118,7 @@ export class FormGroup extends AbstractControl {
    * under which it is registered.
    *
    */
-  constructor(public formState: ControlConfig[], public formConfigs: { [key: string]: any }) {
+  constructor(public formState: ControlConfig[], public formConfigs: FormConfigs) {
     super();
 
     this._setUpControls();
@@ -333,10 +329,12 @@ export class FormGroup extends AbstractControl {
     return this.controls.hasOwnProperty(name as string) ? this.controls[name] : null;
   }
 
-  submit(): void {
+  submit(instant: boolean = false): void {
     (this as { submitted: Boolean }).submitted = true;
     this.updateValueAndValidity();
-    this.ngSubmit.emit(this.value);
+    (this as { ngSubmit: EventEmitter<any> }).ngSubmit.emit({
+      value: this.value, instant
+    });
   }
 
   /** @internal */
@@ -367,6 +365,8 @@ export class FormGroup extends AbstractControl {
   /** @internal */
   _updateValue(): void {
     (this as { value: any }).value = this._reduceValue();
+
+
   }
 
   /** @internal */
@@ -402,10 +402,7 @@ export class FormGroup extends AbstractControl {
 
   _isNotExcluded = (c: FormControl): Boolean => {
 
-    if (this.formConfigs && this.formConfigs.excludeNullValue) {
-      return !_.get(c.configuration, 'state.exclude') && !!c.value;
-    }
-    return !_.get(c.configuration, 'state.exclude');
+    return !_.get(c.configuration, 'props.exclude') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
 
   };
 

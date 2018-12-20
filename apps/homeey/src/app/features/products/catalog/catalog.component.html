@@ -7,44 +7,31 @@
 <div class="main_content">
 
 
-    <div id="sidebar">
+    <io-form
+            id="sidebar"
+            [formGroup]="formGroup"
+    >
         <main-panel>
             <div class="header">Keyword</div>
-        </main-panel>
-        <main-panel>
-            <div class="header">Category</div>
-        </main-panel>
-        <main-panel>
-            <div class="header">Colors</div>
+            <form-control [name]=" 'keywords' "></form-control>
         </main-panel>
         <main-panel>
             <div class="header">Price</div>
-
-            <div class="row item">
-                1000000
-            </div>
-            <div class="row item">
-                1000000
-            </div>
-            <div class="row item">
-                1000000
-            </div>
-            <div class="row item">
-                1000000
-            </div>
-
+            <form-control [name]=" 'base_price' "></form-control>
+        </main-panel>
+        <main-panel>
+            <div class="header">Category</div>
+            <form-control [name]=" 'category_id' "></form-control>
         </main-panel>
         <main-panel>
             <div class="header">Brand</div>
-            <ng-container *ngFor="let brand of brand_list">
-                <div class="row item">
-                    {{brand.name}}
-                </div>
-            </ng-container>
+
+            <form-control [name]=" 'brand_name' "></form-control>
+
         </main-panel>
 
         <io-btn>RESET ALL</io-btn>
-    </div>
+    </io-form>
 
 
     <div id="product_grid">
@@ -59,5 +46,11 @@
 
 
         </div>
+
+        <io-pagination
+                [total]="total_page"
+                [maxSize]="4"
+                (change)="getPage($event)"
+        ></io-pagination>
     </div>
 </div>

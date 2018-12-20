@@ -29,7 +29,7 @@ export class ApiService implements OnDestroy {
       untilDestroyed(this),
       map((res: { [key: string]: any }) => {
         if (res.status_code === 200) {
-          return res.data;
+          return res;
         } else {
           log.error(res.message);
         }

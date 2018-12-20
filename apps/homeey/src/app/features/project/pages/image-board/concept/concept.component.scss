@@ -11,8 +11,11 @@
     justify-content: center;
     margin: 3rem auto;
     position: relative;
-    max-width: 80%;
     flex-shrink: 0;
+    height: 67.5rem;
+    width: 100%;
+    max-width: 96rem;
+
 
     .marker_list {
         position: absolute;
@@ -26,6 +29,7 @@ main-panel {
     height: auto;
     padding-bottom: 3.2rem;
     flex-shrink: 0;
+
     .header {
         padding: 0 2rem;
         flex-shrink: 0;

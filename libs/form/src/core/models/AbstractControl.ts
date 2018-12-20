@@ -76,6 +76,12 @@ export abstract class AbstractControl {
   private _parent: FormGroup;
 
   /**
+   * @description
+   * Emits an event when the form submission has been triggered.
+   */
+
+
+  /**
    * A multicasting observable that emits an event every time the value of the control changes, in
    * the UI or programmatically.
    */

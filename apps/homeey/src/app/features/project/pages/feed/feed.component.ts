@@ -60,7 +60,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
         props: {
           template: this._uploadTplRef,
           hideFeedback: true,
-          hideLabel: true
+          hideLabel: true,
+          submitOnChange: true
         }
       },
       {
@@ -68,7 +69,6 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
         name: 'user_id',
         value: 1,
         props: {
-
           hidden: true
         }
       },
@@ -83,7 +83,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
 
     this.formGroup = this._fb.group(this._formConfigs, {
-      excludeNullValue: true
+      nullExclusion: true
     });
 
     this.cd.detectChanges();
@@ -96,9 +96,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 
 
-  onSendMsg = form_data => {
-
-    this._projSvs.sendChatMessage(form_data).subscribe(res => {
+  onSendMsg = formValue => {
+    this._projSvs.sendChatMessage(formValue).subscribe(res => {
       this.formGroup.reset();
       this.getChatFeed();
     });
@@ -106,7 +105,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getChatFeed = () => {
     this._projSvs.getChatFeed().subscribe(res => {
-      this.chat_feed = res;
+      this.chat_feed = res.data;
     });
   };
 

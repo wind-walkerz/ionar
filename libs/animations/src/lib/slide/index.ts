@@ -1,4 +1,4 @@
-export * from './slide_in_left';
+export * from './slideInLeft';
 export * from './slide_in_right';
 
 

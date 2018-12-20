@@ -34,9 +34,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.invoice_id = parseInt(this._route.snapshot.paramMap.get('id'));
 
     this._paymentSvs.getInvoiceDetail(this.invoice_id).subscribe(res => {
-      this.invoice_data = res;
+      this.invoice_data = res.data;
 
-      this.room_subtotal = _.sum(_.map(res.invoice_detail, (room: any) => room.total));
+      this.room_subtotal = _.sum(_.map(res.data.invoice_detail, (room: any) => room.total));
     });
   }
 

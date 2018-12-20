@@ -23,7 +23,7 @@ export interface ControlConfig {
   }
 }
 
-export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload'
+export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload' | 'menu'
 
 
 export interface ControlProperties {
@@ -37,6 +37,14 @@ export interface ControlProperties {
   exclude?: true,
   hideFeedback?: true,
   hideLabel?: true
-
+  submitOnChange?: true,
   [key: string]: any
+}
+
+
+export interface FormConfigs {
+  nullExclusion?: true,
+  readonly?: true,
+  disabled?: true,
+  submitOnChange?: true
 }

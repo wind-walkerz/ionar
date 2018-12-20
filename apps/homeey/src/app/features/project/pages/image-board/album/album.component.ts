@@ -67,7 +67,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
   getAlbumList = () => {
     this._projSvs.getAlbumList().subscribe(res => {
 
-      this.albums = _.map(res, (album: any) => this.getAlbumData(album));
+      this.albums = _.map(res.data, (album: any) => this.getAlbumData(album));
 
       this.cd.markForCheck();
     });
@@ -79,7 +79,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     const limit = isShowAll ? 0 : this._baseLimitRegister;
 
     this._projSvs.getAlbumImageCollection(album.id, limit).subscribe(res => {
-      album.image_collection = res;
+      album.image_collection = res.data;
 
       this.cd.markForCheck();
     });
