@@ -1,0 +1,17 @@
+{
+  "name": "@ionar/form",
+  "version": "1.1.0",
+  "main": "bundles/ionar-form.umd.js",
+  "module": "fesm5/ionar-form.js",
+  "es2015": "fesm2015/ionar-form.js",
+  "esm5": "esm5/ionar-form.js",
+  "esm2015": "esm2015/ionar-form.js",
+  "fesm5": "fesm5/ionar-form.js",
+  "fesm2015": "fesm2015/ionar-form.js",
+  "typings": "ionar-form.d.ts",
+  "metadata": "ionar-form.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}
