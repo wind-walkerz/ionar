@@ -8,11 +8,12 @@
 
                 <io-form
                         [formGroup]="profileFormGroup"
+                        [mediaType]="'form-data'"
                         (submit)="onSubmit($event)"
                 >
                 </io-form>
 
-                <io-btn [submitForm]="profileFormGroup" [disabled]="profileFormGroup.invalid"
+                <io-btn [submitForm]="profileFormGroup" [disabled]="profileFormGroup?.invalid"
                         class="footer_btn">
                     Update My Information
                 </io-btn>
@@ -157,19 +158,21 @@
 
 
                     <io-upload
-                            (change)="onUploaded($event)"
+                            (change)="onUploadedAvatar($event)"
                     >
                         Change
                     </io-upload>
                 </div>
+
                 <io-upload
-                        type="dropzone"
-                        (change)="onUploaded($event)"
+                        (change)="onUploadedAvatar($event)"
+                        [type]="'dropzone'"
                         *ngIf="!show_avatar_preview"
                 >
                     <p>Drag and drop file here to upload</p>
                     <img class="img-responsive" src="assets\icons\profile\upload.png" alt="">
                 </io-upload>
+
             </div>
         </tab>
     </io-tabs>

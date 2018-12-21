@@ -8,31 +8,33 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges
+  SimpleChanges, TemplateRef
 } from '@angular/core';
 
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
 import { untilDestroyed } from '@ionar/utility';
+import { ControlConfig } from '../models/ControlConfig';
 
 
 @Component({
   selector: 'form-field',
   template: `
-      <ng-container *ngIf="_control">
+      <ng-container *ngIf="control&&controlConfig">
           <ng-container
                   dynamic_field
-                  [controlConfig]="_control.configuration"
+                  [controlConfig]="controlConfig"
 
                   [events]="{
                             change: onChanged,
                             blur: onTouched,
                             enter: onEntered
                     }"
+                  [template]="template"
 
-                  [value]="_control.value"
-                  [options]="_control.configuration.options"
+                  [value]="control.value"
+                  [options]="controlConfig.options"
                   [invalid]="invalid"
                   [readonly]="formGroup.readonly"
           >
@@ -51,8 +53,10 @@ import { untilDestroyed } from '@ionar/utility';
 export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string;
-  _control: FormControl;
+  control: FormControl;
+  controlConfig: ControlConfig;
   @Input() formGroup: FormGroup;
+  @Input() template: TemplateRef<any>;
 
   invalid: Boolean = false;
 
@@ -108,8 +112,11 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   };
 
   parseContext = () => {
-    this._control = this.formGroup.get(this.name);
-    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this.formGroup.submitted);
+    this.control = this.formGroup.get(this.name);
+
+    this.controlConfig = <ControlConfig>this.control.configuration;
+
+    this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted);
     this.cd.detectChanges();
 
   };

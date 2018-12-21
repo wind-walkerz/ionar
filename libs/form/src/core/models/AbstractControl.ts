@@ -3,7 +3,9 @@ import { EventEmitter } from '@angular/core';
 
 import { ValidationErrors, ValidatorFn } from './Validator';
 import { FormControl } from './FormControl';
-import { FormGroup } from '@ionar/form';
+import { ControlConfig, FormConfigs } from '../models/ControlConfig';
+import { FormGroup } from '../models/FormGroup';
+import _ from 'lodash';
 
 /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
@@ -17,6 +19,8 @@ import { FormGroup } from '@ionar/form';
  * @publicApi
  */
 export abstract class AbstractControl {
+
+  public readonly configuration: ControlConfig | FormConfigs;
 
   /** @internal */
   public readonly pendingValue: any;
@@ -301,11 +305,14 @@ export abstract class AbstractControl {
     }
 
     if (this._parent && !opts.onlySelf) {
-
       this._parent.updateValueAndValidity(opts);
     }
 
   }
+
+  storeConfig = (config: ControlConfig | FormConfigs) => {
+    (this as { configuration: ControlConfig | FormConfigs }).configuration = config;
+  };
 
 
   /** @internal */

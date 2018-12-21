@@ -29,6 +29,8 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   @Input('value') private _value: any;
   @Input('options') private _options: any;
 
+  @Input('template') private _template: Boolean;
+
   private _compRef: ComponentRef<any>;
 
   components = {
@@ -91,7 +93,8 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
       ...this._controlConfig.props,
       value: this._value,
       options: this._options,
-      readonly: this._readonly
+      readonly: this._readonly,
+      template: this._template
     };
 
     _.forOwn(context, (value, key) => {

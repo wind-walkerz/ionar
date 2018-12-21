@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Output() toggle = new EventEmitter();
 
 
-  @HostListener('click')
+  @HostListener('click', ['$event'])
   onClick($event) {
     if (!this._toggleDir) {
       this.toggle.emit();

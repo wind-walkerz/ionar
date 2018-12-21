@@ -1,5 +1,5 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
-import { ControlConfig } from './ControlConfig';
+import { ControlConfig, FormConfigs } from './ControlConfig';
 import { AsyncValidatorFn, ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
 import _ from 'lodash';
 import { FormGroup } from '../models/FormGroup';
@@ -104,8 +104,6 @@ import { FormGroup } from '../models/FormGroup';
  */
 export class FormControl extends AbstractControl {
 
-  public readonly configuration: ControlConfig;
-
 
   /**
    * Creates a new `FormControl` instance.
@@ -116,7 +114,7 @@ export class FormControl extends AbstractControl {
   constructor(configs: ControlConfig) {
     super();
 
-    this._storeControlConfig(configs as ControlConfig);
+    this.storeConfig(configs as ControlConfig);
     this._setValidators(configs.validators);
     this._setAsyncValidators(configs.asyncValidator);
     this._initObservables();
@@ -155,7 +153,8 @@ export class FormControl extends AbstractControl {
     (this as { value: any }).value = value;
     this.markAsDirty();
     this.updateValueAndValidity(options);
-    if (this.parent.formConfigs.submitOnChange || this.configuration.props.submitOnChange) {
+
+    if (_.has((<ControlConfig>this.configuration).props, ['submitOnChange']) || _.has(<FormConfigs>this.parent.configuration, ['submitOnChange'])) {
 
       this.parent.submit(true);
     }
@@ -255,6 +254,7 @@ export class FormControl extends AbstractControl {
       this._asyncValidationSubscription =
         obs.subscribe((errors: ValidationErrors | null) => {
           if ((this.touched || this.dirty) && this.value) {
+            (this as { status: string }).status = INVALID;
             this.setErrors(errors, { emitEvent });
           }
         });
@@ -299,6 +299,7 @@ export class FormControl extends AbstractControl {
 
   /** @internal */
   _updateValue(): void {
+
   }
 
   /** @internal */
@@ -315,14 +316,11 @@ export class FormControl extends AbstractControl {
 
   private _applyControlState = () => {
 
-    (this as { value: any }).value = this.configuration.value || null;
+    (this as { value: any }).value = (<ControlConfig>this.configuration).value || null;
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});
   };
 
-  private _storeControlConfig = (config: ControlConfig) => {
-    (this as { configuration: ControlConfig }).configuration = config;
-  };
 
   /**
    * @internal

@@ -1,8 +1,33 @@
-<div class="icon">
+<div class="icon" (click)="toggleCommentThread()">
     <img class="img-responsive" src="assets/images/project/marker.png" alt="">
 </div>
 
-<!--<div class="comment_thread">-->
-<!--<div class="name">{{data.user_name}}</div>-->
-<!--<div class="message">{{data.message}}</div>-->
-<!--</div>-->
+<div class="comment_thread" *ngIf="showCommentThread && isSelected">
+    <div class="bubble">
+        <p class="text" [innerHTML]="commentData?.text" *ngIf="commentData?.text">
+        </p>
+        <img class="img-responsive" src="{{commentData?.photo}}" alt="" *ngIf="commentData?.photo">
+    </div>
+
+    <io-form
+            class="input_toolbar"
+
+            [formGroup]="formGroup"
+            (submit)="onSendComment($event)"
+    >
+
+        <form-control [name]=" 'text' "></form-control>
+
+        <form-control name="picture" class="upload_button">
+            <ng-template fieldTemplate>
+                <img class="img-responsive"
+                     src="assets/icons/project/paperclip.png" alt="">
+            </ng-template>
+        </form-control>
+
+        <io-btn class="send_button" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">
+            <img class="img-responsive" src="assets/icons/project/send.png" alt="">
+        </io-btn>
+
+    </io-form>
+</div>

@@ -1,0 +1,7 @@
+<ng-template #tpl>
+    <ng-content></ng-content>
+</ng-template>
+
+<ng-container *ngIf="template">
+    <ng-container *ngTemplateOutlet="template"></ng-container>
+</ng-container>

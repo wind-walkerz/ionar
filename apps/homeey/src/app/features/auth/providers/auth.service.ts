@@ -59,7 +59,7 @@ export class AuthService implements OnDestroy {
   login = (body: any) => {
     this.apiSvs.post('/auth/login', body).subscribe(res => {
 
-      this.token = res.access_token.toLowerCase();
+      this.token = res.data.access_token.toLowerCase();
 
       this.stoSvs.saveToken(this.token);
 

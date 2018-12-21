@@ -8,6 +8,7 @@ import { untilDestroyed } from '@ionar/utility';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Logger } from './logger.service';
+import { IonarLoadingService } from '@ionar/ui';
 
 const log = new Logger('ApiService');
 
@@ -16,7 +17,7 @@ const log = new Logger('ApiService');
 })
 
 export class ApiService implements OnDestroy {
-  constructor(private http: HttpClient, private _spinner: NgxSpinnerService) {
+  constructor(private http: HttpClient, private _loading: IonarLoadingService) {
   }
 
   private formatErrors(error: any) {
@@ -24,7 +25,7 @@ export class ApiService implements OnDestroy {
   }
 
   httpWrapper = (event: Observable<any>): Observable<any> => {
-    this._spinner.show();
+    this._loading.show();
     return event.pipe(
       untilDestroyed(this),
       map((res: { [key: string]: any }) => {
@@ -36,7 +37,7 @@ export class ApiService implements OnDestroy {
       }),
       catchError(this.formatErrors),
       finalize(() => {
-        this._spinner.hide();
+        this._loading.hide();
       })
     );
   };

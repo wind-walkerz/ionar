@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 import { ControlConfig, FormConfigs } from './ControlConfig';
-import { ValidationErrors } from '@ionar/form';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -120,7 +119,7 @@ export class FormGroup extends AbstractControl {
    */
   constructor(public formState: ControlConfig[], public formConfigs: FormConfigs) {
     super();
-
+    this.storeConfig(<FormConfigs>formConfigs);
     this._setUpControls();
     this._initObservables();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -164,12 +163,14 @@ export class FormGroup extends AbstractControl {
    */
   setValue(value: { [key: string]: any }, options: { onlySelf?: boolean, emitEvent?: boolean } = {}):
     void {
-    // this._checkAllValuesPresent(value);
-    // Object.keys(value).forEach(name => {
-    //     this._throwIfControlMissing(name);
-    //     this.controls[name].setValue(value[name], {onlySelf: true, emitEvent: options.emitEvent});
-    // });
-    // this.updateValueAndValidity(options);
+
+    _.forOwn(value, (value, name) => {
+      this._throwIfControlMissing(name);
+      this.controls[name].setValue(value, { onlySelf: true, emitEvent: options.emitEvent });
+    });
+
+
+    this.updateValueAndValidity(options);
   }
 
   /**
@@ -235,7 +236,7 @@ export class FormGroup extends AbstractControl {
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-
+    if (_.has(<FormConfigs>this.configuration, ['submitOnChange'])) this.submit(true);
 
   }
 
@@ -302,7 +303,7 @@ export class FormGroup extends AbstractControl {
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-
+    if (_.has(<FormConfigs>this.configuration, ['submitOnChange'])) this.submit(true);
   }
 
 
@@ -405,6 +406,19 @@ export class FormGroup extends AbstractControl {
     return !_.get(c.configuration, 'props.exclude') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
 
   };
+
+  /** @internal */
+  _throwIfControlMissing(name: string): void {
+    if (!_.keys(this.controls).length) {
+      throw new Error(`
+        There are no form controls registered with this group yet.  If you're using ngModel,
+        you may want to check next tick (e.g. use setTimeout).
+      `);
+    }
+    if (!this.controls[name]) {
+      throw new Error(`Cannot find form control with name: ${name}.`);
+    }
+  }
 
 
 }

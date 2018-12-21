@@ -7,9 +7,11 @@ import {
   Renderer2,
   Output,
   EventEmitter,
-  HostBinding, HostListener
+  HostBinding, HostListener, OnChanges, SimpleChanges
 } from '@angular/core';
 import _ from 'lodash';
+import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { ProjectService } from '../../../../providers/project.service';
 
 @Component({
   selector: 'marker',
@@ -17,22 +19,26 @@ import _ from 'lodash';
   templateUrl: './marker.component.html',
   styleUrls: ['./marker.component.scss']
 })
-export class MarkerComponent implements OnInit, OnDestroy {
+export class MarkerComponent implements OnInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
+  private showCommentThread: boolean = false;
+  commentData;
+  formGroup: FormGroup;
+
+  _formConfigs: ControlConfig[] = [];
+
   @Input() data: any = null;
-
-  @Output() selected = new EventEmitter()
-
-  @HostListener('click')
-  onClick() {
-    this.selected.emit(this.data.id)
-  }
+  @Input() item_id: string;
+  @Input() isSelected;
+  @Output() change = new EventEmitter();
 
   constructor(
     public elRef: ElementRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
+    private _fb: IonarFormBuilder,
+    private _projSvs: ProjectService
   ) {
   }
 
@@ -42,8 +48,56 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this._formConfigs = [
+      {
+        type: 'textarea',
+        name: 'text',
+        props: {
+          placeholder: 'Write your comment...',
+          hideFeedback: true,
+          hideLabel: true
+        },
+        validators: {
+          required: true
+        }
+      },
+      {
+        type: 'upload',
+        name: 'picture',
+        props: {
+          hideFeedback: true,
+          hideLabel: true,
+          submitOnChange: true
+        }
+      },
+      {
+        type: 'input',
+        name: 'item_id',
+        value: this.item_id,
+        props: {
+          hidden: true
+        }
+      },
+      {
+        type: 'input',
+        name: 'marker',
+        value: `${this.data.marker.x},${this.data.marker.y}`,
+        props: {
+          hidden: true
+        }
+      }
+    ];
+
+    this.formGroup = this._fb.group(this._formConfigs, {
+      nullExclusion: true
+    });
+
     this._renderer.setStyle(this.elRef.nativeElement, 'top', `${this.data.marker.y}px`);
     this._renderer.setStyle(this.elRef.nativeElement, 'left', `${this.data.marker.x}px`);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
   }
 
   ngOnDestroy(): void {
@@ -51,5 +105,21 @@ export class MarkerComponent implements OnInit, OnDestroy {
 
 
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
+  onSendComment = formValue => {
+console.log(formValue)
+    // this._projSvs.createConversation(formValue).subscribe(res => {
+    //   this.formGroup.clear();
+    // });
+  };
+
+  toggleCommentThread = () => {
+    this.change.emit(this.data.id);
+    this.showCommentThread = !this.showCommentThread;
+    if (this.data.concepts.data.length < 2) {
+
+      this.commentData = this.data.concepts.data[0];
+
+    }
+  };
 
 }

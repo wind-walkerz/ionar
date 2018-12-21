@@ -56,12 +56,13 @@
 
         <form-control name="text"></form-control>
 
-        <form-control name="profile_picture" class="upload_button"></form-control>
+        <form-control name="profile_picture" class="upload_button">
+            <ng-template fieldTemplate>
+                <img class="img-responsive"
+                     src="assets/icons/project/paperclip.png" alt="">
+            </ng-template>
+        </form-control>
 
-        <ng-template #upload>
-            <img class="img-responsive"
-                 src="assets/icons/project/paperclip.png" alt="">
-        </ng-template>
 
         <io-btn class="send_button" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">
             <img class="img-responsive" src="assets/icons/project/send.png" alt="">

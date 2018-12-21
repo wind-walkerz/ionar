@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
-import {slideInLeft } from '@ionar/animations';
+import { slideInLeft } from '@ionar/animations';
 
 @Component({
   selector: 'app-root',

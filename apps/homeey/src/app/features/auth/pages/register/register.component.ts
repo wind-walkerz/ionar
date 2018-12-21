@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../providers/auth.service';
 import { ApiService, Logger } from '../../../../core/services';
 import { AbstractControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, map, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import _ from 'lodash';
 import { ControlConfig, FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@ionar/utility';
+import { IonarLoadingService } from '@ionar/ui';
 
 
 const log = new Logger('RegisterComponent');
@@ -18,7 +19,7 @@ const log = new Logger('RegisterComponent');
   styleUrls: ['./register.component.scss']
 })
 
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
   private _formConfigs: ControlConfig[] = [];
@@ -27,12 +28,14 @@ export class RegisterComponent implements OnInit {
   constructor(
     private _apiSvs: ApiService,
     private authSvs: AuthService,
-    private _fb: IonarFormBuilder
+    private _fb: IonarFormBuilder,
+    private _loading: IonarLoadingService
   ) {
 
   }
 
   ngOnInit() {
+
 
     this._formConfigs = [
       {
@@ -64,7 +67,6 @@ export class RegisterComponent implements OnInit {
         label: 'Password',
         value: '',
         props: {
-
           type: 'password'
         },
         validators: {
@@ -88,30 +90,50 @@ export class RegisterComponent implements OnInit {
           required: true,
           equalTo: 'password'
         }
+      },
+      {
+        name: 'slug',
+        type: 'input',
+        value: 'client',
+        props: {
+          hidden: true
+        }
       }
     ];
 
     this.formGroup = this._fb.group(this._formConfigs);
   }
 
-  onRegister = form_data => {
-    this.authSvs.register(JSON.stringify(_.assign(form_data, {}, { slug: 'client' })));
+  ngOnDestroy(): void {
+
+  }
+
+  onRegister = formValue => {
+    this._loading.enabled();
+    console.log(formValue);
+    this.authSvs.register(formValue);
   };
+
 
   validateUserExist = (c: FormControl): Observable<ValidationErrors | null> => {
     const params = new HttpParams().set('email', c.value);
+    this._loading.disabled();
     return this._apiSvs.get('/auth/check-email-exists', params).pipe(
       untilDestroyed(this),
-      map((res: { status_code: any, message: any }) => {
-        if (res.status_code === 401) {
-          return {
-            'checkIfUserExists': res.message
-          };
-        }
+      map((res: any) => {
+        console.log(res);
+        // if (res.data.status_code === 401) {
+        //   return {
+        //     'checkIfUserExists': res.data.message
+        //   };
+        // }
         return null;
+      }),
+      finalize(() => {
+
       })
-    )
-      ;
+    );
+
 
   };
 }

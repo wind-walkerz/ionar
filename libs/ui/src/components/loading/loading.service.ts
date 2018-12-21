@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 export class IonarLoadingService {
 
   visibilityChange$ = new Subject();
 
-  show = () => {
-    this.visibilityChange$.next(true);
-  };
+  isDisabled: boolean = false;
 
-  hide = () => {
-    this.visibilityChange$.next(false);
-  };
+  show = () => !this.isDisabled && this.visibilityChange$.next(true);
+
+  hide = () => !this.isDisabled && this.visibilityChange$.next(false);
+
+  disabled = () => this.isDisabled = true;
+
+  enabled = () => this.isDisabled = false;
 }

@@ -1,39 +1,48 @@
 <io-form
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
-></io-form>
-
-<io-form
-        [formGroup]="formGroup"
-        (submit)="onSubmit($event)"
 >
-    <h2>Second</h2>
-    <form-control [name]="'email'"></form-control>
+    <ng-template
+            fieldTemplate
+            [name]=" 'email' "
+            let-props="props"
+            let-events="events"
+    >
 
+    </ng-template>
 </io-form>
 
-<io-form
-        [formGroup]="formGroup"
-        (submit)="onSubmit($event)"
->
-    <h2>Third</h2>
-    <ng-container *ngFor="let config of _formConfigs">
-        <form-control [name]="config.name"></form-control>
-    </ng-container>
+<!--<io-form-->
+<!--[formGroup]="formGroup"-->
+<!--(submit)="onSubmit($event)"-->
+<!--&gt;-->
+<!--<h2>Second</h2>-->
+<!--<form-control [name]="'email'"></form-control>-->
+
+<!--</io-form>-->
+
+<!--<io-form-->
+<!--[formGroup]="formGroup"-->
+<!--(submit)="onSubmit($event)"-->
+<!--&gt;-->
+<!--<h2>Third</h2>-->
+<!--<ng-container *ngFor="let config of _formConfigs">-->
+<!--<form-control [name]="config.name"></form-control>-->
+<!--</ng-container>-->
 
 
-</io-form>
+<!--</io-form>-->
 
-<io-form
-        [formGroup]="formGroup"
-        (submit)="onSubmit($event)"
->
-    <h2>Fourth</h2>
-    <app-test>
-        <form-control [name]="'email'"></form-control>
-    </app-test>
+<!--<io-form-->
+<!--[formGroup]="formGroup"-->
+<!--(submit)="onSubmit($event)"-->
+<!--&gt;-->
+<!--<h2>Fourth</h2>-->
+<!--<app-test>-->
+<!--<form-control [name]="'email'"></form-control>-->
+<!--</app-test>-->
 
-</io-form>
+<!--</io-form>-->
 
 
 <io-btn

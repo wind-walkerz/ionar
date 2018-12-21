@@ -10,7 +10,7 @@ import {
 import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
-import { untilDestroyed } from '@aurora-ngx/ui';
+import { untilDestroyed } from '@ionar/utility';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
 import { ValidatorType } from '../models/Validator';

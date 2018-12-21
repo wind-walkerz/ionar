@@ -37,15 +37,24 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.formState = [
         {
           type: 'input',
+          name: 'name',
+          label: 'Project Name',
+          value: res.name
+        },
+        {
+          type: 'input',
           name: 'full_name',
           label: 'Client Name',
-          value: `${res.client.first_name} ${res.client.last_name}`
+          value: res.full_name
         },
         {
           type: 'input',
           name: 'project_id',
           label: 'Project ID',
-          value: this._projSvs.project_id
+          value: this._projSvs.project_id,
+          props: {
+            disabled: true
+          }
         },
         {
           type: 'input',
@@ -79,6 +88,14 @@ export class InfoComponent implements OnInit, OnDestroy {
           type: 'input',
           name: 'postcode',
           value: res.post_code
+        },
+        {
+          type: 'input',
+          name: 'status',
+          value: res.status,
+          props: {
+            disabled: true
+          }
         }
       ];
 
@@ -124,5 +141,16 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.formGroup.readonly = !this.formGroup.readonly;
   };
 
+  onUpdateProjectInfo = formValue => {
+    this._projSvs.updateProjectInfo(formValue).subscribe(res => {
+
+      if (res.status_code === 200) this.formGroup.readonly = true;
+    });
+  };
+
+  onCancelUpdate = () => {
+    this.formGroup.readonly = true;
+    this.formGroup.reset();
+  };
 
 }

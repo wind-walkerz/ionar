@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { IonarLoadingService } from '@ionar/ui';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { SharedModule } from './shared/shared.module';
     CoreModule,
 
   ],
-  providers: [],
+  providers: [IonarLoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

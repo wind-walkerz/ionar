@@ -26,6 +26,7 @@ import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { FieldTemplateDirective } from './directives/field-template.directive';
 
 
 @Component({
@@ -66,7 +67,6 @@ import { Subscription } from 'rxjs';
   providers: [FormService]
 })
 
-@Injectable()
 export class FormComponent implements AfterViewChecked, OnDestroy {
 
   @Input() formGroup: FormGroup;
@@ -74,7 +74,9 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
   @Input() mediaType: String;
   @Output() submit = new EventEmitter();
 
-  @ViewChild('contentVc', { read: ElementRef }) private _contentVcRef;
+  @ViewChild('contentVc', { read: ElementRef }) protected _contentVcRef;
+
+  @ContentChildren(FieldTemplateDirective) _fieldTemplateDirList;
 
   controlRoster: string[];
 
@@ -84,9 +86,9 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
 
   viewInitialized: Boolean = false;
 
-  private _subscription: Subscription;
+  protected _subscription: Subscription;
 
-  constructor(private _formSvs: FormService, private cd: ChangeDetectorRef) {
+  constructor(protected _formSvs: FormService, protected cd: ChangeDetectorRef) {
   }
 
   ngAfterViewChecked(): void {
@@ -96,7 +98,9 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
       this.parseContext();
       this.viewInitialized = true;
       this.cd.detectChanges();
-      this.default_template = this._contentVcRef.nativeElement.parentElement.children.length === 0;
+      if (!this.default_template) {
+        this.default_template = this._contentVcRef.nativeElement.parentElement.children.length === 0;
+      }
       this.cd.detectChanges();
     }
   }
@@ -114,7 +118,9 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
     if (this._subscription) this._subscription.unsubscribe();
 
     this._subscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this), distinctUntilChanged()).subscribe((data: { value: any, instant: boolean }) => {
+
       if (this.formGroup.valid || data.instant) {
+
         this.submit.emit(this._formSvs.convertToMediaType(data.value, this.mediaType));
       }
 

@@ -88,14 +88,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
         }
       ];
       this.formGroup = this._fb.group(this._formState, {
-        nullExclusion: true
+        nullExclusion: true,
+        submitOnChange: true
       });
       this.cd.markForCheck();
 
       this.getPage(1);
 
     });
-
 
 
   }
@@ -106,12 +106,17 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 
-  getPage = (page: number) => {
-    this._productSvs.getProductList(page).subscribe(res => {
+  getPage = (page: number, formValue?: any) => {
+
+    this._productSvs.getProductList(page, formValue).subscribe(res => {
       this.product_list = res.data;
       this.total_page = res.paginator.total_pages;
       this.cd.markForCheck();
     });
+  };
+
+  onClearFilter = () => {
+    this.formGroup.clear();
   };
 
 }

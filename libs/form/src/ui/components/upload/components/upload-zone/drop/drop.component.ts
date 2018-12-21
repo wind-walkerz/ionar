@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'drop',
@@ -9,7 +9,8 @@ export class DropComponent implements OnInit {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   @Output() change = new EventEmitter();
-  @Input() properties;
+  @Input() multiple: Boolean = false;
+  @Input() template: TemplateRef<any>;
 
   @HostBinding('class.drop_hover') drop_hover: Boolean = false;
 

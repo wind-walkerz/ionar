@@ -1,6 +1,7 @@
 @import "variables";
 
 :host {
+
     .top_bar {
         background-color: #0D1D32;
         display: flex;
@@ -53,13 +54,39 @@
 
     io-pagination {
         margin: 5rem 0;
+        ::ng-deep {
+            page-link {
+                background-color: transparent;
+                border: 1px solid $primary_gray;
+                padding: 1.5rem 3.5rem;
+                font-size: 1.2rem;
+                height: 4.8rem;
+                img {
+                    max-width: 50% ;
+                }
+            }
+            page-number {
+                background-color: transparent;
+                border: 1px solid $primary_gray;
+                border-radius: .4rem;
+                color: $primary_blue;
+                font-size: 1.4rem;
+                margin: 0 .5rem;
+                width: 4.8rem;
+                height: 4.8rem;
+                &.active, &:hover {
+                    background-color: $primary_blue;
+                    color: white;
+                }
+            }
+        }
     }
 }
 
 #sidebar {
     background-color: transparent;
     grid-area: sidebar;
-
+    padding-bottom: 30rem;
     ::ng-deep {
         main-panel {
             margin-bottom: 2rem;

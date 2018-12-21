@@ -1,0 +1,49 @@
+<ng-container>
+    <page-link
+            [template]="boundary_first"
+            [disabled]="page===1"
+            (change)="selectPage(1)"
+            *ngIf="boundary"
+    ></page-link>
+    <page-link
+            [template]="direction_prev"
+            [disabled]="page===1"
+            (change)="selectPage(page - 1)"
+            *ngIf="direction"
+    ></page-link>
+
+    <ng-container *ngFor="let pageNumber of pages">
+        <page-number
+                [number]="pageNumber"
+                [currentPage]="this.page"
+                (change)="selectPage($event)"
+        ></page-number>
+    </ng-container>
+
+    <page-link
+            [template]="direction_next"
+            [disabled]="page===total"
+            (change)="selectPage(page + 1)"
+            *ngIf="direction"
+    ></page-link>
+    <page-link
+            [template]="boundary_last"
+            [disabled]="page===total"
+            (change)="selectPage(total)"
+            *ngIf="boundary"
+    ></page-link>
+</ng-container>
+
+
+<ng-template #boundaryFirstDefault>
+    <<
+</ng-template>
+<ng-template #boundaryLastDefault>
+    >>
+</ng-template>
+<ng-template #directionPrevDefault>
+    <
+</ng-template>
+<ng-template #directionNexDefault>
+    >
+</ng-template>

@@ -84,13 +84,13 @@
                         display: flex;
                         flex-direction: column;
                         position: relative;
-                        z-index: 300;
+                        z-index: 20;
 
                         form-label {
                             background-color: white;
                             margin-bottom: 1rem;
                             padding: .1rem .7rem .3rem .3rem;
-                            z-index: 200;
+                            z-index: 19;
                         }
 
                         form-field {
@@ -270,7 +270,6 @@
                 }
 
                 &.profile_avatar {
-
                     width: 60rem;
 
                     .avatar_preview {
@@ -296,10 +295,16 @@
                         }
                     }
 
-                    io-upload {
+                    ::ng-deep io-upload {
+
+                        margin-bottom: 3rem;
                         padding: 2rem;
+                        height: 25.5rem;
 
                         click {
+                            border: 1px solid black;
+                            font-size: 1.6rem;
+                            margin: 0 auto;
                             padding: 1rem 2rem;
                         }
 
@@ -307,7 +312,7 @@
                             flex-direction: column;
                             justify-content: space-between;
                             padding: 2.2rem 0;
-                            height: 15.5rem;
+                            height: 100%;
 
                             p {
                                 color: $primary_gray;
@@ -320,6 +325,7 @@
                             }
                         }
                     }
+
                 }
             }
         }

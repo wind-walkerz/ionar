@@ -2,6 +2,8 @@
         id="basic_info"
         class="panel"
         [formGroup]="formGroup"
+        [mediaType]=" 'form-data' "
+        (submit)="onUpdateProjectInfo($event)"
 >
     <div class="row heading">
         <h2>BASIC INFO</h2>
@@ -11,6 +13,19 @@
     <ng-container *ngFor="let control of formState">
         <form-control [name]="control.name" class="row item"></form-control>
     </ng-container>
+
+    <flex class="footer" *ngIf="!formGroup?.readonly">
+
+        <io-btn [type]="'danger'" (click)="onCancelUpdate()">Cancel</io-btn>
+
+        <io-btn
+                [type]="'primary'"
+                [submitForm]="formGroup"
+                [disabled]="formGroup?.invalid && formGroup?.submitted"
+        >
+            Save
+        </io-btn>
+    </flex>
 </io-form>
 
 <!--<div id="project_scope" class="panel">-->

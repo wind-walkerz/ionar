@@ -7,9 +7,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
               [name]="name"
               [value]="value"
               [class.invalid]="invalid"
-              tabindex="0"
               cols="1" rows="1"
               [placeholder]="placeholder"
+              
               (change)="$event.stopPropagation(); change.emit($event.target.value);"
               (blur)="blur.emit()"
       ></textarea>
@@ -34,10 +34,11 @@ export class TextareaComponent implements OnInit, OnChanges {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string = '';
   @Input() value: any = '';
-  @Input() placeholder: any;
+  @Input() placeholder: any = '';
   @Output() change = new EventEmitter();
   @Output() blur = new EventEmitter();
   @Input() invalid: Boolean = false;
+
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor() {
@@ -50,7 +51,6 @@ export class TextareaComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
 
   }
-
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 

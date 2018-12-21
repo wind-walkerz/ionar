@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'io-menu',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       <ng-container *ngFor="let option of options">
           <div
                   class="option"
-                  [class.selected]="option.value === value"
+                  [class.active]="option.value === value"
                   (click)="onSelectOption(option)"
           >
               {{option.label}}
@@ -15,7 +15,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   `,
   styleUrls: [`./menu.component.scss`]
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnChanges {
   @Input() options: ({ label: any, value: any, disable?: boolean })[] = [];
   @Input() name = '';
   @Input() value: any = null;
@@ -28,6 +28,9 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   onSelectOption = option => {

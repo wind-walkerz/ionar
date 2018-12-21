@@ -2,6 +2,7 @@
     cursor: pointer;
     position: absolute;
     display: flex;
+    z-index: 3;
 
     .icon {
         width: 3.2rem;
@@ -11,16 +12,20 @@
     .comment_thread {
         background-color: white;
         border-radius: .4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
         font-size: 1.4rem;
         font-weight: 500;
         padding: 1.5rem;
         position: absolute;
         left: 6.2rem;
         top: calc(-70%);
-        min-width: 25rem;
+        min-width: 35rem;
         max-width: 25rem;
+        min-height: 15rem;
         max-height: 20rem;
-
+        z-index: 2342;
         .message {
             overflow-y: scroll;
 
@@ -36,6 +41,64 @@
             position: absolute;
             top: 2.5rem;
             right: 100%;
+        }
+
+
+        io-form.input_toolbar {
+            background-color: white;
+            border: 1px solid rgba(50, 13, 16, .2);
+            border-radius: .4rem;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            position: relative;
+
+            z-index: 2342;
+            ::ng-deep form-control {
+
+                display: flex;
+                width: 100%;
+                z-index: 2342;
+
+                //form-field {
+                //    border: none;
+                //
+                //    io-textarea {
+                //        border: none;
+                //        font-size: 1rem;
+                //        font-weight: 200;
+                //        outline: 0;
+                //        resize: vertical;
+                //        height: 100%;
+                //        width: 100%;
+                //    }
+                //
+                //}
+
+                &.upload_button {
+
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0 1rem;
+                    position: relative;
+                    width: 2.2rem;
+
+                    #file_upload {
+                        position: absolute;
+                        opacity: 0;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            .send_button {
+                background-color: transparent;
+                border: none;;
+                box-shadow: none;
+                padding: 0;
+                flex: auto;
+                width: 2.2rem;
+            }
         }
     }
 }

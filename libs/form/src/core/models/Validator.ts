@@ -3,6 +3,7 @@ import { forkJoin, Observable } from 'rxjs';
 import _ from 'lodash';
 import { Form } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { ControlConfig } from '../models/ControlConfig';
 
 export interface ValidationErrors {
   [key: string]: any
@@ -128,7 +129,7 @@ export class Validators {
    */
   static stringLength = (control: FormControl): ValidationErrors | null => {
 
-    const controlConfig = control.configuration;
+    const controlConfig = <ControlConfig>control.configuration;
 
     if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
@@ -139,8 +140,8 @@ export class Validators {
     }
 
     const
-      min: number = control.configuration.validators['stringLength'].min,
-      max: number = control.configuration.validators['stringLength'].max,
+      min: number = controlConfig.validators['stringLength'].min,
+      max: number = controlConfig.validators['stringLength'].max,
       length: number = control.value ? control.value.length : 0;
 
     if (length < min) {
@@ -171,12 +172,14 @@ export class Validators {
       return null;  // don't validate empty values to allow optional controls
     }
 
-    const compareWith = _.isString(control.configuration.validators['equalTo']) ? control.configuration.validators['equalTo'] : control.configuration.validators['equalTo'].compare;
+    const controlConfig = <ControlConfig>control.configuration;
+
+    const compareWith = _.isString(controlConfig.validators['equalTo']) ? controlConfig.validators['equalTo'] : controlConfig.validators['equalTo'].compare;
 
     const compared_control = control.parent.controls[compareWith];
 
     return (JSON.stringify(control.value) === JSON.stringify(compared_control.value))
-      ? null : { equalTo: control.configuration.validators['equalTo'] };
+      ? null : { equalTo: controlConfig.validators['equalTo'] };
   };
 
 

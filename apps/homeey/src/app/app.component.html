@@ -1,14 +1,12 @@
 <app-header></app-header>
 
 
-<main [@slideInLeft]="triggerAnimation(outlet)">
+<main [@slideInLeft]="{
+    value: triggerAnimation(outlet),
+    params: {timing: 300}
+}">
     <router-outlet #outlet="outlet"></router-outlet>
 </main>
 
 
-<ngx-spinner
-        bdColor="rgba(51, 51, 51, 0.8)"
-        size="large"
-        color="#fff"
-        type="ball-spin-clockwise"
-></ngx-spinner>
+<io-loading></io-loading>

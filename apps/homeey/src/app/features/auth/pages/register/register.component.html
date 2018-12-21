@@ -32,7 +32,7 @@
     >
     </io-form>
 
-    <io-btn class="signin_button" [submitForm]="formGroup" [disabled]="formGroup.invalid">
+    <io-btn class="signin_button" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">
         Sign Up
     </io-btn>
 

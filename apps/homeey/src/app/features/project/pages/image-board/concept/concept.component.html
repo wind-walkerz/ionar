@@ -1,41 +1,59 @@
 <div class="breadcrumb"><a (click)="location.back()">< Back</a></div>
 
 <div class="image_panel" #myBounds>
-    <div class="main_image">
-        <img class="img-responsive" src="assets/images/project/image-concept-1.png" alt="">
+    <div class="main_image" (click)="onCreateConversation($event)">
+        <img
+                class="img-responsive"
+                src="assets/images/project/image-concept-1.png"
+                alt=""
+        >
     </div>
-    <div class="marker_list">
+    <ng-container *ngFor="let conv of conversation_list">
+        <marker
+                ngDraggable
+                [bounds]="myBounds"
+                [inBounds]="true"
+                (movingOffset)="onDrag()"
+                (endOffset)="onDrop($event, conv)"
+                [data]="conv"
+                [item_id]="item_id"
+                [isSelected]="selectedMarker?.id === conv.id"
+                (change)="onSelectedMarker(conv.id)"
+        >
 
-        <ng-container *ngFor="let conv of conversation_list">
-            <marker
-                    ngDraggable
-                    [bounds]="myBounds"
-                    [inBounds]="true"
-                    (endOffset)="onDrop($event, conv)"
-                    [preventDefaultEvent]="true"
-                    [data]="conv"
-                    (selected)="onSelectedMarker($event)"
-            ></marker>
-        </ng-container>
+        </marker>
+    </ng-container>
 
-    </div>
 </div>
 
-<main-panel>
+<main-panel *ngIf="selectedMarker?.concepts.data.length > 1">
     <div class="header"><h2>Comment (5)</h2></div>
 
-    <div class="input_toolbar">
+    <io-form
+            class="input_toolbar"
+            [mediaType]="'form-data'"
+            [formGroup]="formGroup"
+            (submit)="onSendComment($event)"
+    >
         <div class="avatar">
             <img class="img-responsive" src="assets/images/user_avatar_placeholder.png" alt="">
         </div>
-        <textarea class="msg_input" name="msg_input" placeholder="Write your comment..." cols="1" rows="1"></textarea>
-        <div class="upload_button">
-            <input type="file" id="file_upload" name="file_upload" multiple/>
-            <img class="img-responsive" src="assets/icons/project/paperclip.png" alt="">
-        </div>
-        <div class="send_button"><img class="img-responsive" src="assets/icons/project/send.png" alt=""></div>
 
-    </div>
+        <form-control [name]=" 'text' "></form-control>
+
+        <form-control name="picture" class="upload_button">
+            <ng-template fieldTemplate>
+                <img class="img-responsive"
+                     src="assets/icons/project/paperclip.png" alt="">
+            </ng-template>
+        </form-control>
+
+
+        <io-btn class="send_button" [submitForm]="formGroup" [disabled]="formGroup?.invalid && formGroup?.submitted">
+            <img class="img-responsive" src="assets/icons/project/send.png" alt="">
+        </io-btn>
+
+    </io-form>
 
 
     <div class="comment_list" *ngIf="selectedMarker">

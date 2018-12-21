@@ -10,6 +10,7 @@
     <io-form
             id="sidebar"
             [formGroup]="formGroup"
+            (submit)="getPage(1, $event)"
     >
         <main-panel>
             <div class="header">Keyword</div>
@@ -30,14 +31,14 @@
 
         </main-panel>
 
-        <io-btn>RESET ALL</io-btn>
+        <io-btn (click)="onClearFilter()">RESET ALL</io-btn>
     </io-form>
 
 
     <div id="product_grid">
         <div class="product_list">
             <ng-container *ngFor="let product of product_list">
-                <a class="product_tile" routerLink="../../12345">
+                <a class="product_tile" [routerLink]="['../../', product.id]">
                     <div class="image"><img class="img-responsive" src="{{product.photo}}" alt="">
                     </div>
                     <p class="name">{{product.name}}</p>
@@ -50,7 +51,15 @@
         <io-pagination
                 [total]="total_page"
                 [maxSize]="4"
+                [boundary]="false"
                 (change)="getPage($event)"
-        ></io-pagination>
+        >
+            <page-link [directionLinks]="'prev'">
+                <img class="img-responsive" src="assets/icons/left_arrow.png" alt="">
+            </page-link>
+            <page-link [directionLinks]="'next'">
+                <img class="img-responsive" src="assets/icons/right_arrow.png" alt="">
+            </page-link>
+        </io-pagination>
     </div>
 </div>

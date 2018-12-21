@@ -21,22 +21,22 @@ import { Observable, timer } from 'rxjs';
 })
 export class PageNumberComponent implements OnInit, OnChanges {
 
-  @Input() number: number;
-  @Input() currentPage: number;
+  @Input() number: number = 0;
+  @Input() currentPage: number = 0;
 
   @Output() change = new EventEmitter();
 
-  @HostListener('click')
+  @HostListener('click', ['$event'])
   onClick = e => {
     this.change.emit(this.number);
   };
 
-  @HostListener('mousedown')
+  @HostListener('mousedown', ['$event'])
   onMouseDown = e => {
     this._focusStyle = true;
   };
 
-  @HostListener('mouseup')
+  @HostListener('mouseup', ['$event'])
   onMouseUp = e => {
     setTimeout(() => {
       this._focusStyle = false;
@@ -44,8 +44,8 @@ export class PageNumberComponent implements OnInit, OnChanges {
   };
 
 
-  @HostBinding('class.active') private _activeStyle: boolean = false;
-  @HostBinding('class.focus') private _focusStyle: boolean = false;
+  @HostBinding('class.active') _activeStyle: boolean = false;
+  @HostBinding('class.focus') _focusStyle: boolean = false;
 
   ngOnInit(): void {
 

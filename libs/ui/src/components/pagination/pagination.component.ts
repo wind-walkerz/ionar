@@ -1,17 +1,20 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+  ContentChildren, AfterViewInit, TemplateRef, QueryList, ChangeDetectorRef, ViewChild
+} from '@angular/core';
 import _ from 'lodash';
+import { PageLinkComponent } from './components/page-link/page-link.component';
 
 @Component({
   selector: 'io-pagination',
-  template: `
-      <ng-container *ngFor="let pageNumber of pages">
-          <page-number
-                  [number]="pageNumber"
-                  [currentPage]="this.page"
-                  (change)="selectPage($event)"
-          ></page-number>
-      </ng-container>
-  `,
+  templateUrl: `./pagination.component.html`,
   styles: [`
       :host {
           display: flex;
@@ -21,7 +24,7 @@ import _ from 'lodash';
       }
   `]
 })
-export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
+export class PaginationComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   /**
@@ -32,12 +35,12 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   /**
    *  Whether to show the "First" and "Last" page links
    */
-  @Input() boundaryLinks: boolean = false;
+  @Input() boundary: boolean = false;
 
   /**
    *  Whether to show the "Next" and "Previous" page links
    */
-  @Input() directionLinks: boolean = true;
+  @Input() direction: boolean = true;
 
   /**
    *  Whether to show ellipsis symbols and first/last page numbers when maxSize > number of pages
@@ -67,10 +70,20 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() change = new EventEmitter();
 
-
+  boundary_first: TemplateRef<any>;
+  boundary_last: TemplateRef<any>;
+  direction_prev: TemplateRef<any>;
+  direction_next: TemplateRef<any>;
   pages: (any)[] = [];
 
-  constructor() {
+  @ContentChildren(PageLinkComponent) private _pageLinkCompList: QueryList<PageLinkComponent>;
+
+  @ViewChild('boundaryFirstDefault') private _boundaryFirstDefault: TemplateRef<any>;
+  @ViewChild('boundaryLastDefault') private _boundaryLastDefault: TemplateRef<any>;
+  @ViewChild('directionPrevDefault') private _directionPrevDefault: TemplateRef<any>;
+  @ViewChild('directionNexDefault') private _directionNexDefault: TemplateRef<any>;
+
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
@@ -91,6 +104,20 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
     this._updatePages(this.page);
   }
 
+  ngAfterViewInit(): void {
+
+
+    this.boundary_first = this._getTemplate('boundaryLinks', 'first');
+    this.boundary_last = this._getTemplate('boundaryLinks', 'last');
+
+
+    this.direction_prev = this._getTemplate('directionLinks', 'prev');
+    this.direction_next = this._getTemplate('directionLinks', 'next');
+
+
+    this.cd.detectChanges();
+  }
+
   ngOnDestroy(): void {
   }
 
@@ -98,7 +125,6 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 
   selectPage(pageNumber: number): void {
-    console.log(pageNumber);
     this._updatePages(pageNumber);
   }
 
@@ -167,7 +193,7 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   private _setPageInRange(newPageNo) {
 
     if (newPageNo !== this.page && this.total) {
-      this.page = newPageNo;
+      this.page = Math.max(Math.min(newPageNo, this.total), 1);
       this.change.emit(newPageNo);
     }
   }
@@ -193,4 +219,31 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
+  private _getTemplate = (key, value) => {
+
+    let pageLinkComp: PageLinkComponent;
+
+    _.each(this._pageLinkCompList.toArray(), (item: PageLinkComponent) => {
+      if (_.has(item, [key]) && _.get(item, [key]) === value) {
+        pageLinkComp = item;
+      }
+    });
+
+
+    return pageLinkComp ? pageLinkComp.tpl : this._getDefaultTemplate(key, value);
+  };
+
+  private _getDefaultTemplate = (key, value) => {
+
+    switch (`${key},${value}`) {
+      case 'boundaryLinks,first':
+        return this._boundaryFirstDefault;
+      case 'boundaryLinks,last':
+        return this._boundaryLastDefault;
+      case 'directionLinks,prev':
+        return this._directionPrevDefault;
+      case 'directionLinks,next':
+        return this._directionNexDefault;
+    }
+  };
 }

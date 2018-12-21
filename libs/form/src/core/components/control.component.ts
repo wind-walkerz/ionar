@@ -3,14 +3,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ContentChild, ContentChildren,
   ElementRef, Host,
   HostBinding,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer2
+  Renderer2, TemplateRef
 } from '@angular/core';
 import { FormGroup } from '../models/FormGroup';
 import { FormControl } from '../models/FormControl';
@@ -18,6 +18,8 @@ import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
 import { FormComponent } from '../core.component';
+import { ControlConfig } from '../models/ControlConfig';
+import { FieldTemplateDirective } from '../directives/field-template.directive';
 
 @Component({
   selector: 'form-control',
@@ -33,6 +35,7 @@ import { FormComponent } from '../core.component';
           <form-field
                   [name]="name"
                   [formGroup]="formGroup"
+                  [template]="field_template"
           ></form-field>
 
           <form-feedback
@@ -53,7 +56,7 @@ import { FormComponent } from '../core.component';
           margin-bottom: 1rem;
           height: auto;
           visibility: visible;
-          z-index: 99999999;
+          z-index: 50;
       }
 
       :host-context(.hide-label) {
@@ -95,9 +98,14 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   @Input() formGroup: FormGroup;
   _control: FormControl;
 
+  field_template: TemplateRef<any>;
+
   show_feedback: Boolean = true;
 
   show_label: Boolean = true;
+
+  @ContentChild(FieldTemplateDirective) private _fieldTemplateDir;
+
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
@@ -131,11 +139,15 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   parseContext = () => {
+
+    this._checkTemplate();
+
     this._control = this.formGroup.get(this.name);
+
 
     this._renderer.setAttribute(this._elRef.nativeElement, 'id', this.name);
 
-    const props = this._control.configuration.props;
+    const props = (<ControlConfig>this._control.configuration).props;
     if (_.has(props, ['hidden'])) {
 
       this._renderer.addClass(this._elRef.nativeElement, 'hidden');
@@ -154,4 +166,14 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
     this.cd.detectChanges();
   };
 
+
+  private _checkTemplate = () => {
+
+    const templateData = this._fieldTemplateDir ? this._fieldTemplateDir : _.find(this._parent._fieldTemplateDirList.toArray(), ['name', this.name]);
+
+    if (templateData) {
+
+      this.field_template = templateData._tplRef;
+    }
+  };
 }

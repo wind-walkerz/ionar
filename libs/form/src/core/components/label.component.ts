@@ -57,7 +57,7 @@ export class LabelComponent implements OnInit, OnDestroy {
 
     this._control = this.formGroup.get(this.name);
 
-    this._controlConfig = this._control.configuration;
+    this._controlConfig = <ControlConfig>this._control.configuration;
 
     this.label = this._controlConfig.label || _.startCase(this.name);
 

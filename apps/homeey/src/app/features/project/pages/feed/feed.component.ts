@@ -10,7 +10,7 @@ import { ProjectService } from '../../providers/project.service';
   styleUrls: ['./feed.component.scss']
 })
 
-export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FeedComponent implements OnInit, OnDestroy {
 
   protected _moment = moment;
 
@@ -38,9 +38,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.getChatFeed();
-  }
 
-  ngAfterViewInit(): void {
     this._formConfigs = [
       {
         type: 'textarea',
@@ -58,7 +56,6 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
         type: 'upload',
         name: 'profile_picture',
         props: {
-          template: this._uploadTplRef,
           hideFeedback: true,
           hideLabel: true,
           submitOnChange: true
@@ -85,9 +82,8 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
     this.formGroup = this._fb.group(this._formConfigs, {
       nullExclusion: true
     });
-
-    this.cd.detectChanges();
   }
+
 
   ngOnDestroy(): void {
   }
@@ -98,7 +94,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSendMsg = formValue => {
     this._projSvs.sendChatMessage(formValue).subscribe(res => {
-      this.formGroup.reset();
+      this.formGroup.clear();
       this.getChatFeed();
     });
   };

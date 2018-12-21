@@ -89,7 +89,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   addNewImage = (album, file_list) => {
 
-    this._projSvs.postNewImage(album.id, file_list[0], file_list[0].name).subscribe(res => {
+    this._projSvs.postNewImage(album.id, file_list, file_list.name).subscribe(res => {
       this.albums[_.findIndex(this.albums, album)] = this.getAlbumData(album, album.isShowAll);
     });
   };

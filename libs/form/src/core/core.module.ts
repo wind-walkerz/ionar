@@ -11,12 +11,13 @@ import { ControlComponent } from './components/control.component';
 import { LabelComponent } from './components/label.component';
 import { FeedbackComponent } from './components/feedback.component';
 import { FormComponent } from './core.component';
+import { FieldTemplateDirective } from './directives/field-template.directive';
 
 
 @NgModule({
   declarations: [
     FormComponent,
-    FieldComponent, ControlComponent, LabelComponent, FeedbackComponent,
+    FieldComponent, ControlComponent, LabelComponent, FeedbackComponent, FieldTemplateDirective,
     DynamicFieldDirective, SubmitDirective
   ],
 
@@ -26,7 +27,7 @@ import { FormComponent } from './core.component';
     FieldComponent,
     SubmitDirective,
     ControlComponent,
-    LabelComponent, FeedbackComponent
+    LabelComponent, FeedbackComponent, FieldTemplateDirective
   ]
 })
 export class CoreModule {

@@ -16,11 +16,12 @@ export class ButtonComponent implements OnInit, OnChanges {
 
   @HostBinding('class.primary') primary_style: Boolean;
   @HostBinding('class.danger') danger_style: Boolean;
-  @HostBinding('class.disabled') private isDisabled: Boolean = false;
+  @HostBinding('class.disabled') isDisabled: Boolean = false;
 
   @HostListener('click')
   onClick = () => {
     if (!this.disabled) {
+
       this.animated = true;
       setTimeout(() => this.animated = false, 100);
     }

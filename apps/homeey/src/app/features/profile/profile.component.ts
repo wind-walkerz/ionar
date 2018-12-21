@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { AuthService } from '../auth/providers/auth.service';
 import { ProfileService } from './profile.service';
+import { Form } from '@angular/forms';
 
 
 @Component({
@@ -11,39 +12,13 @@ import { ProfileService } from './profile.service';
 })
 export class ProfileComponent implements OnInit {
 
+  //////////////////         Form  Groups
+
   profileFormGroup: FormGroup;
 
   changePassFormGroup: FormGroup;
 
-  private _profileFormConfigs: ControlConfig[] = [
-    {
-      type: 'input',
-      name: 'email',
-      props: {
-        label: 'Email'
-      },
-      validators: {
-        required: true,
-        email: true
-      }
-
-    },
-    {
-      type: 'input',
-      name: 'name',
-      props: {
-        label: 'Name'
-      }
-    },
-    {
-      type: 'input',
-      name: 'phone',
-      props: {
-        label: 'Mobile',
-        type: 'phone'
-      }
-    }
-  ];
+  private _profileFormConfigs: ControlConfig[] = [];
 
   private _changePassFormConfigs: ControlConfig[] = [
     {
@@ -84,6 +59,10 @@ export class ProfileComponent implements OnInit {
       }
     }
   ];
+
+  ////////////////           Variables
+
+  profile;
 
 
   show_avatar_preview: Boolean = false;
@@ -162,36 +141,61 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authSvs: AuthService,
-    private profileSvs: ProfileService,
+    private _profileSvs: ProfileService,
     private cd: ChangeDetectorRef,
     private _fb: IonarFormBuilder
   ) {
   }
 
   ngOnInit() {
+    this._profileSvs.getUserProfile().subscribe((res: any) => {
+      this.profile = res.data;
 
-    this.profileFormGroup = this._fb.group(this._profileFormConfigs, {
-      nullExclusion: true
+      this._profileFormConfigs = [
+        {
+          type: 'input',
+          name: 'email',
+          label: 'Email',
+          value: res.data.email,
+          validators: {
+            required: true,
+            email: true
+          }
+
+        },
+        {
+          type: 'input',
+          name: 'name',
+          label: 'Name',
+          value: `${res.data.first_name} ${res.data.last_name}`
+        },
+        {
+          type: 'input',
+          name: 'phone',
+          label: 'Mobile',
+          value: res.data.contact_number,
+          props: {
+
+            type: 'phone'
+          }
+        }
+      ];
+
+      this.profileFormGroup = this._fb.group(this._profileFormConfigs);
+
+
+      if (res.data.profile_picture) {
+        this.show_avatar_preview = true;
+        this.avatar_preview = res.data.profile_picture;
+      }
     });
 
+
     this.changePassFormGroup = this._fb.group(this._changePassFormConfigs);
+
+
   }
 
-
-  onUploaded = file_list => {
-
-    if (file_list.length > 0) {
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file_list[0]);
-      reader.onload = () => {
-        this.avatar_preview = reader.result;
-
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-        this.show_avatar_preview = true;
-      };
-    }
-  };
 
   cancelAvatarPreview = () => {
     this.avatar_preview = null;
@@ -200,6 +204,24 @@ export class ProfileComponent implements OnInit {
 
 
   onSubmit = formValue => {
-  }
+    this._profileSvs.updateUserProfile(formValue).subscribe(res => {
 
+    });
+  };
+
+  onUploadedAvatar = file => {
+
+
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.avatar_preview = reader.result;
+
+      // need to run CD since file load runs outside of zone
+
+      this.show_avatar_preview = true;
+      this.cd.markForCheck();
+
+    };
+  };
 };

@@ -3,28 +3,26 @@
 <div id="product_detail">
     <div class="image_carousel">
         <div class="singleMediaViewer">
-            <img class="img-responsive" src="assets/images/merchandise/product_detail.png" alt="">
+            <img class="img-responsive" src="{{product?.photo}}" alt="">
         </div>
-        <div class="alt_images">
-            <div class="thumbnail">
-                <img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">
-            </div>
-            <div class="thumbnail">
-                <img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">
-            </div>
-            <div class="thumbnail">
-                <img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">
-            </div>
-            <div class="thumbnail">
-                <img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">
-            </div>
-        </div>
+        <!--<div class="alt_images">-->
+        <!--<div class="thumbnail">-->
+        <!--<img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">-->
+        <!--</div>-->
+        <!--<div class="thumbnail">-->
+        <!--<img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">-->
+        <!--</div>-->
+        <!--<div class="thumbnail">-->
+        <!--<img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">-->
+        <!--</div>-->
+        <!--<div class="thumbnail">-->
+        <!--<img class="img-responsive" src="assets/images/merchandise/contrast-living-room-1@2x.png" alt="">-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
     <div class="info">
-        <h1 class="name">Nelson Bedside Table</h1>
-        <p class="description">Phasellus ac dui id lectus venenatis laoreet ac eu ex. Donec luctus felis quis massa
-            posuere iaculis. Donec porta ante ac felis sagittis, sit amet rutrum urna placerat. Sed nec malesuada lorem,
-            vitae tincidunt odio.</p>
+        <h1 class="name">{{product?.name}}</h1>
+        <p class="description" [innerHTML]="product?.description"></p>
 
         <div class="row">
             <p>SKU:</p>

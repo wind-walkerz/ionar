@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LoadingComponent } from './loading.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CircleComponent } from './spinner/circle.component';
+import { IonarLoadingService } from './loading.service';
 
 
 @NgModule({

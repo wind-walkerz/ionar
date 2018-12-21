@@ -49,7 +49,10 @@ export class ProjectService implements OnInit {
 
     return this.api.get(`/homeey/get-project-info`, params).pipe(map(res => res.data.item.attributes));
 
-    ;
+  };
+
+  updateProjectInfo = (data): Observable<any> => {
+    return this.api.post(`/homeey/update-project`, data);
   };
 
   /********************************************************************************************************************
@@ -83,7 +86,7 @@ export class ProjectService implements OnInit {
     return this.api.post(`/homeey/project/new-image-board`, formData);
   };
 
-  getImageConcept = (item_id: any = 43): Observable<any> => {
+  getImageConcept = (item_id: string): Observable<any> => {
 
     const params = new HttpParams().set('item_id', item_id);
 
@@ -94,9 +97,12 @@ export class ProjectService implements OnInit {
     return this.api.post(`/homeey/project/new-album`, data);
   };
 
-  updateMarkerCoordinate = (): Observable<any> => {
-    return this.api.post('/homeey/update-item-concept', data)
-  }
+  updateMarkerCoordinate = (data: FormData): Observable<any> => {
+    return this.api.post('/homeey/update-item-concept', data);
+  };
 
+  createConversation = (data) => {
+    return this.api.post(`/homeey/create-item-concept`, data);
+  }
 
 }

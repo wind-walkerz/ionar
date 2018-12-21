@@ -18,7 +18,11 @@ export class ProfileService implements OnDestroy {
   ngOnDestroy(): void {
   }
 
-  _getUserProfile = (): Observable<HttpEvent<any>> => {
+  getUserProfile = (): Observable<HttpEvent<any>> => {
     return this._apiSvs.get('/auth/profile');
   };
+
+  updateUserProfile = (data): Observable<HttpEvent<any>> => {
+    return this._apiSvs.post('/auth/post-profile', data);
+  }
 }
