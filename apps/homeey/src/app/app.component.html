@@ -1,9 +1,9 @@
 <app-header></app-header>
 
 
-<main [@slideInLeft]="{
+<main [@slideInDown]="{
     value: triggerAnimation(outlet),
-    params: {timing: 300}
+    params: {timing: 1000}
 }">
     <router-outlet #outlet="outlet"></router-outlet>
 </main>

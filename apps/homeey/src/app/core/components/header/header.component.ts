@@ -2,12 +2,17 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, On
 import { AuthService } from '../../../features/auth/providers/auth.service';
 import { HeaderService } from './header.service';
 import { untilDestroyed } from '@ionar/utility';
+import { slideInDown } from '@ionar/animations';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [slideInDown],
+  host: {
+    '[@slideInDown]': 'true'
+  }
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 

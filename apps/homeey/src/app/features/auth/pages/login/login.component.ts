@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth.service';
 import _ from 'lodash';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
 import { ControlConfig } from '../../../../../../../../libs/form/src/core/models/ControlConfig';
+import { slideInLeft, slideInUp } from '@ionar/animations';
 
 
 const log = new Logger('LoginComponent');
@@ -12,7 +13,8 @@ const log = new Logger('LoginComponent');
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [slideInUp]
 })
 export class LoginComponent implements OnInit {
 

@@ -1,0 +1,33 @@
+import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+export declare class InputComponent implements OnInit, OnChanges, OnDestroy {
+    private cd;
+    type: string;
+    name: string;
+    placeholder: string;
+    value: any;
+    invalid: Boolean;
+    disabled: Boolean;
+    range: any[];
+    readonly: Boolean;
+    change: EventEmitter<{}>;
+    blur: EventEmitter<{}>;
+    enter: EventEmitter<{}>;
+    template: TemplateRef<any>;
+    host_focus: Boolean;
+    host_invalid: Boolean;
+    templateContext: any;
+    constructor(cd: ChangeDetectorRef);
+    ngOnInit(): void;
+    ngOnChanges(): void;
+    ngOnDestroy(): void;
+    onFocus: () => void;
+    onBlur: () => void;
+    onChange: (e: any) => void;
+    onKeyPress: (e: KeyboardEvent) => void;
+    onKeyDown: (e: KeyboardEvent) => void;
+    onPaste: (e: ClipboardEvent) => void;
+    onPhoneKeyDown: (e: KeyboardEvent) => void;
+    onPhonePaste: (e: ClipboardEvent) => void;
+    onNumberKeyDown: (e: KeyboardEvent) => void;
+    onNumberPaste: (e: ClipboardEvent) => void;
+}

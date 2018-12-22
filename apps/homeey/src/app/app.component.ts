@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
-import { slideInLeft } from '@ionar/animations';
+import { Component, OnInit } from '@angular/core';
+import { slideInDown } from '@ionar/animations';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
-    slideInLeft
+    slideInDown
   ]
 })
 export class AppComponent implements OnInit {

@@ -1,0 +1,21 @@
+{
+  "name": "@ionar/utility",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+  },
+  "main": "bundles/ionar-utility.umd.js",
+  "module": "fesm5/ionar-utility.js",
+  "es2015": "fesm2015/ionar-utility.js",
+  "esm5": "esm5/ionar-utility.js",
+  "esm2015": "esm2015/ionar-utility.js",
+  "fesm5": "fesm5/ionar-utility.js",
+  "fesm2015": "fesm2015/ionar-utility.js",
+  "typings": "ionar-utility.d.ts",
+  "metadata": "ionar-utility.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

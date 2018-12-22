@@ -1,0 +1,21 @@
+{
+  "name": "ionar",
+  "version": "1.1.0",
+  "dependencies": {
+    "@ionar/animations": "latest",
+    "@ionar/form": "latest",
+    "@ionar/ui": "latest",
+    "@ionar/utility": "latest",
+    "tslib": "^1.9.0"
+  },
+  "main": "bundles/ionar.umd.js",
+  "module": "fesm5/ionar.js",
+  "es2015": "fesm2015/ionar.js",
+  "esm5": "esm5/ionar.js",
+  "esm2015": "esm2015/ionar.js",
+  "fesm5": "fesm5/ionar.js",
+  "fesm2015": "fesm2015/ionar.js",
+  "typings": "ionar.d.ts",
+  "metadata": "ionar.metadata.json",
+  "sideEffects": false
+}

@@ -1,0 +1,77 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { FormGroup } from '../models/FormGroup';
+var SubmitDirective = /** @class */ (function () {
+    function SubmitDirective(_elRef) {
+        var _this = this;
+        this._elRef = _elRef;
+        this.disabled = false;
+        this.onClick = function (e) {
+            if (!_this.disabled) {
+                _this._formGr.submit();
+            }
+        };
+    }
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        // console.log(this._formGr)
+    };
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnChanges = /**
+     * @return {?}
+     */
+    function () {
+        // console.log(this._formGr)
+    };
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    SubmitDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[submitForm]'
+                },] }
+    ];
+    /** @nocollapse */
+    SubmitDirective.ctorParameters = function () { return [
+        { type: ElementRef }
+    ]; };
+    SubmitDirective.propDecorators = {
+        _formGr: [{ type: Input, args: ['submitForm',] }],
+        disabled: [{ type: Input }],
+        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+    };
+    return SubmitDirective;
+}());
+export { SubmitDirective };
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    SubmitDirective.prototype._formGr;
+    /** @type {?} */
+    SubmitDirective.prototype.disabled;
+    /** @type {?} */
+    SubmitDirective.prototype.onClick;
+    /**
+     * @type {?}
+     * @private
+     */
+    SubmitDirective.prototype._elRef;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3VibWl0LmRpcmVjdGl2ZS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0Bpb25hci9mb3JtLyIsInNvdXJjZXMiOlsiY29yZS9kaXJlY3RpdmVzL3N1Ym1pdC5kaXJlY3RpdmUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsVUFBVSxFQUFFLFlBQVksRUFBRSxLQUFLLEVBQWdDLE1BQU0sZUFBZSxDQUFDO0FBQ3pHLE9BQU8sRUFBRSxTQUFTLEVBQUUsTUFBTSxxQkFBcUIsQ0FBQztBQUVoRDtJQWtCRSx5QkFBb0IsTUFBa0I7UUFBdEMsaUJBRUM7UUFGbUIsV0FBTSxHQUFOLE1BQU0sQ0FBWTtRQVo3QixhQUFRLEdBQVksS0FBSyxDQUFDO1FBR25DLFlBQU8sR0FBRyxVQUFDLENBQWE7WUFFdEIsSUFBSSxDQUFDLEtBQUksQ0FBQyxRQUFRLEVBQUU7Z0JBRWxCLEtBQUksQ0FBQyxPQUFPLENBQUMsTUFBTSxFQUFFLENBQUM7YUFDdkI7UUFFSCxDQUFDLENBQUM7SUFJRixDQUFDOzs7O0lBR0Qsa0NBQVE7OztJQUFSO1FBQ0UsNEJBQTRCO0lBQzlCLENBQUM7Ozs7SUFFRCxxQ0FBVzs7O0lBQVg7UUFDRSw0QkFBNEI7SUFDOUIsQ0FBQzs7OztJQUVELHFDQUFXOzs7SUFBWDtJQUVBLENBQUM7O2dCQWpDRixTQUFTLFNBQUM7b0JBQ1QsUUFBUSxFQUFFLGNBQWM7aUJBQ3pCOzs7O2dCQUxtQixVQUFVOzs7MEJBUTNCLEtBQUssU0FBQyxZQUFZOzJCQUNsQixLQUFLOzBCQUVMLFlBQVksU0FBQyxPQUFPLEVBQUUsQ0FBQyxRQUFRLENBQUM7O0lBNEJuQyxzQkFBQztDQUFBLEFBcENELElBb0NDO1NBakNZLGVBQWU7Ozs7OztJQUUxQixrQ0FBZ0Q7O0lBQ2hELG1DQUFtQzs7SUFFbkMsa0NBUUU7Ozs7O0lBRVUsaUNBQTBCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgRGlyZWN0aXZlLCBFbGVtZW50UmVmLCBIb3N0TGlzdGVuZXIsIElucHV0LCBPbkNoYW5nZXMsIE9uRGVzdHJveSwgT25Jbml0IH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XHJcbmltcG9ydCB7IEZvcm1Hcm91cCB9IGZyb20gJy4uL21vZGVscy9Gb3JtR3JvdXAnO1xyXG5cclxuQERpcmVjdGl2ZSh7XHJcbiAgc2VsZWN0b3I6ICdbc3VibWl0Rm9ybV0nXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBTdWJtaXREaXJlY3RpdmUgaW1wbGVtZW50cyBPbkluaXQsIE9uRGVzdHJveSwgT25DaGFuZ2VzIHtcclxuXHJcbiAgQElucHV0KCdzdWJtaXRGb3JtJykgcHJpdmF0ZSBfZm9ybUdyOiBGb3JtR3JvdXA7XHJcbiAgQElucHV0KCkgZGlzYWJsZWQ6IEJvb2xlYW4gPSBmYWxzZTtcclxuXHJcbiAgQEhvc3RMaXN0ZW5lcignY2xpY2snLCBbJyRldmVudCddKVxyXG4gIG9uQ2xpY2sgPSAoZTogTW91c2VFdmVudCkgPT4ge1xyXG5cclxuICAgIGlmICghdGhpcy5kaXNhYmxlZCkge1xyXG5cclxuICAgICAgdGhpcy5fZm9ybUdyLnN1Ym1pdCgpO1xyXG4gICAgfVxyXG5cclxuICB9O1xyXG5cclxuICBjb25zdHJ1Y3Rvcihwcml2YXRlIF9lbFJlZjogRWxlbWVudFJlZikge1xyXG5cclxuICB9XHJcblxyXG5cclxuICBuZ09uSW5pdCgpOiB2b2lkIHtcclxuICAgIC8vIGNvbnNvbGUubG9nKHRoaXMuX2Zvcm1HcilcclxuICB9XHJcblxyXG4gIG5nT25DaGFuZ2VzKCkge1xyXG4gICAgLy8gY29uc29sZS5sb2codGhpcy5fZm9ybUdyKVxyXG4gIH1cclxuXHJcbiAgbmdPbkRlc3Ryb3koKSB7XHJcblxyXG4gIH1cclxuXHJcblxyXG59XHJcbiJdfQ==

@@ -1,13 +1,10 @@
 {
   "name": "ionar",
-  "version": "1.0.5",
-  "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  },
+  "version": "1.1.0",
   "dependencies": {
     "@ionar/ui": "latest",
     "@ionar/form": "latest",
-    "@ionar/utility": "latest"
+    "@ionar/utility": "latest",
+    "@ionar/animations": "latest"
   }
 }

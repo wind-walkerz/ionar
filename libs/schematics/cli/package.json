@@ -1,0 +1,11 @@
+{
+  "name": "@ionar/cli-schematics",
+  "version": "1.0.0",
+  "description": "Schematics specific to Angular",
+  "schematics": "./collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "latest",
+    "@angular-devkit/schematics": "latest",
+    "@ionar/cli-schematics": "^1.0.0"
+  }
+}
