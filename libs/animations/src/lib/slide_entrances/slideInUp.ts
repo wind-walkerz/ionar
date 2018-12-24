@@ -6,7 +6,6 @@ import {
   AnimationTriggerMetadata,
   group,
   keyframes,
-  query,
   style,
   transition,
   trigger,
@@ -36,9 +35,8 @@ export const slideInUpAnimation: AnimationReferenceMetadata = animation(
 export const slideInUp: AnimationTriggerMetadata = trigger('slideInUp', [
   transition('* => *', [
     group([
-      query('*', useAnimation(slideInUpAnimation)),
-      query('*', animateChild())
+      useAnimation(slideInUpAnimation),
+      animateChild()
     ])
   ])
 ]);
-

@@ -8,9 +8,10 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output, TemplateRef
+  Output,
+  TemplateRef
 } from '@angular/core';
-
+import _ from 'lodash';
 
 @Component({
   selector: 'io-input',
@@ -104,8 +105,9 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
     this.cd.markForCheck();
   };
 
-  onChange = e => {
+  onChange = _.debounce(e => {
     e.stopPropagation();
+    console.log(e.target.value);
     let value = e.target.value;
     const min = parseInt(this.range[0], 10);
     const max = parseInt(this.range[1], 10);
@@ -115,7 +117,7 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
 
     this.change.emit(value);
 
-  };
+  }, 500);
 
   //  Keyboard & Clipboard Event  //
 

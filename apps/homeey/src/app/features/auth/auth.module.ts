@@ -6,12 +6,12 @@ const authRoutes: Routes = [
   {
     path: 'login',
     loadChildren: './pages/login/login.module#LoginModule',
-    data: { animation: 'auth/login' }
+    data: { animation: 'login' }
   },
   {
     path: 'register',
     loadChildren: './pages/register/register.module#RegisterModule',
-    data: { animation: 'auth/register' }
+    data: { animation: 'register' }
   },
   {
     path: 'forgot-password',

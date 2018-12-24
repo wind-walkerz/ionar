@@ -2,24 +2,24 @@
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
-    <ng-template
-            fieldTemplate
-            [name]=" 'email' "
-            let-props="props"
-            let-events="events"
-    >
+    <!--<ng-template-->
+            <!--fieldTemplate-->
+            <!--[name]=" 'email' "-->
+            <!--let-props="props"-->
+            <!--let-events="events"-->
+    <!--&gt;-->
 
-    </ng-template>
+    <!--</ng-template>-->
 </io-form>
 
-<!--<io-form-->
-<!--[formGroup]="formGroup"-->
-<!--(submit)="onSubmit($event)"-->
-<!--&gt;-->
-<!--<h2>Second</h2>-->
-<!--<form-control [name]="'email'"></form-control>-->
+<io-form
+        [formGroup]="formGroup"
+        (submit)="onSubmit($event)"
+>
+    <h2>Second</h2>
+    <form-control [name]="'email'"></form-control>
 
-<!--</io-form>-->
+</io-form>
 
 <!--<io-form-->
 <!--[formGroup]="formGroup"-->

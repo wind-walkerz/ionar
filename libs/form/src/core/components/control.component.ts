@@ -3,14 +3,16 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ContentChild, ContentChildren,
-  ElementRef, Host,
-  HostBinding,
+  Component,
+  ContentChild,
+  ElementRef,
+  Host,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer2, TemplateRef
+  Renderer2,
+  TemplateRef
 } from '@angular/core';
 import { FormGroup } from '../models/FormGroup';
 import { FormControl } from '../models/FormControl';
@@ -26,23 +28,11 @@ import { FieldTemplateDirective } from '../directives/field-template.directive';
   template: `
 
       <ng-container *ngIf="formGroup">
-          <form-label
-                  [name]="name"
-                  [formGroup]="formGroup"
-                  *ngIf="show_label"
-          ></form-label>
+          <form-label *ngIf="show_label"></form-label>
 
-          <form-field
-                  [name]="name"
-                  [formGroup]="formGroup"
-                  [template]="field_template"
-          ></form-field>
+          <form-field></form-field>
 
-          <form-feedback
-                  [name]="name"
-                  [formGroup]="formGroup"
-                  *ngIf="show_feedback"
-          ></form-feedback>
+          <form-feedback *ngIf="show_feedback"></form-feedback>
       </ng-container>
 
   `,
@@ -98,7 +88,7 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   @Input() formGroup: FormGroup;
   _control: FormControl;
 
-  field_template: TemplateRef<any>;
+  fieldTemplate: TemplateRef<any>;
 
   show_feedback: Boolean = true;
 
@@ -173,7 +163,7 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
 
     if (templateData) {
 
-      this.field_template = templateData._tplRef;
+      this.fieldTemplate = templateData._tplRef;
     }
   };
 }

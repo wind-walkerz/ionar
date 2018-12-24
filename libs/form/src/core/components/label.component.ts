@@ -1,9 +1,9 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
-  Input,
+  Host,
   OnDestroy,
   OnInit
 } from '@angular/core';
@@ -11,8 +11,8 @@ import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
 import { FormGroup } from '../models/FormGroup';
-import { untilDestroyed } from '@ionar/utility';
 import _ from 'lodash';
+import { ControlComponent } from './control.component';
 
 
 @Component({
@@ -32,35 +32,44 @@ import _ from 'lodash';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LabelComponent implements OnInit, OnDestroy {
-  @Input() name: string;
-  @Input() formGroup: FormGroup;
-  _controlConfig: ControlConfig;
-  _control: FormControl;
+export class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
+  formGroup: FormGroup;
+  controlConfig: ControlConfig;
+  control: FormControl;
 
   label: any;
 
   constructor(
     private _formSvs: FormService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Host() private _parent: ControlComponent
   ) {
   }
 
   ngOnInit() {
-    this.parseContext();
+
+  }
+
+  ngAfterViewChecked(): void {
+    if (this._parent.formGroup) {
+      this.formGroup = this._parent.formGroup;
+
+      this.parseContext();
+    }
   }
 
   ngOnDestroy(): void {
+    this.cd.detach();
   }
 
   parseContext = () => {
 
-    this._control = this.formGroup.get(this.name);
+    this.control = this.formGroup.get(this._parent.name);
 
-    this._controlConfig = <ControlConfig>this._control.configuration;
+    this.controlConfig = <ControlConfig>this.control.configuration;
 
-    this.label = this._controlConfig.label || _.startCase(this.name);
+    this.label = this.controlConfig.label || _.startCase(this._parent.name);
 
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   };
 }

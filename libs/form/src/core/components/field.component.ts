@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  Host,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -14,14 +14,16 @@ import {
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
-import { untilDestroyed } from '@ionar/utility';
 import { ControlConfig } from '../models/ControlConfig';
+import { ControlComponent } from './control.component';
+import { Subscription } from 'rxjs';
+import { untilDestroyed } from '@ionar/utility';
 
 
 @Component({
   selector: 'form-field',
   template: `
-      <ng-container *ngIf="control&&controlConfig">
+      <ng-container *ngIf="formGroup">
           <ng-container
                   dynamic_field
                   [controlConfig]="controlConfig"
@@ -52,31 +54,29 @@ import { ControlConfig } from '../models/ControlConfig';
 })
 export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
-  @Input() name: string;
+
+  formGroup: FormGroup;
   control: FormControl;
   controlConfig: ControlConfig;
-  @Input() formGroup: FormGroup;
-  @Input() template: TemplateRef<any>;
 
   invalid: Boolean = false;
+  template: TemplateRef<any>
+
+  private _statusSubscription: Subscription;
+  private _submitSubscription: Subscription;
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
     private _formSvs: FormService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Host() private _parent: ControlComponent
   ) {
   }
 
   ngOnInit() {
-    this.parseContext();
+    // this.parseContext();
+    //
 
-    this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
-      this.parseContext();
-    });
-
-    this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-      this.parseContext();
-    });
   }
 
   ngAfterViewInit(): void {
@@ -84,7 +84,22 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   }
 
   ngAfterViewChecked(): void {
+    if (this._parent.formGroup) {
+      this.formGroup = this._parent.formGroup;
 
+      if (this._statusSubscription) this._statusSubscription.unsubscribe();
+      if (this._submitSubscription) this._submitSubscription.unsubscribe();
+
+      this._statusSubscription = this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+        this.parseContext();
+      });
+
+      this._submitSubscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+        this.parseContext();
+      });
+
+      this.parseContext();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -92,18 +107,18 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   }
 
   ngOnDestroy(): void {
-    // this.cd.detach();
+    this.cd.detach();
   }
 
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 
   onChanged = e => {
-    this._formSvs.getControl(this.name).setValue(e);
+    this._formSvs.getControl(this._parent.name).setValue(e);
   };
 
   onTouched = () => {
-    this._formSvs.getControl(this.name).markAsTouched();
+    this._formSvs.getControl(this._parent.name).markAsTouched();
   };
 
   onEntered = () => {
@@ -112,10 +127,11 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   };
 
   parseContext = () => {
-    this.control = this.formGroup.get(this.name);
+    this.control = this.formGroup.get(this._parent.name);
 
     this.controlConfig = <ControlConfig>this.control.configuration;
 
+    this.template = this._parent.fieldTemplate
     this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted);
     this.cd.detectChanges();
 

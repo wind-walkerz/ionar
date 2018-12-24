@@ -67,7 +67,7 @@ import { FieldTemplateDirective } from './directives/field-template.directive';
   providers: [FormService]
 })
 
-export class FormComponent implements AfterViewChecked, OnDestroy {
+export  class FormComponent implements AfterViewChecked, OnDestroy {
 
   @Input() formGroup: FormGroup;
 

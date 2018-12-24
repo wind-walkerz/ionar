@@ -1,8 +1,9 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  Host,
   OnChanges,
   OnDestroy,
   OnInit
@@ -13,7 +14,9 @@ import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
-import { ValidatorType } from '../models/Validator';
+import { ControlComponent } from './control.component';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'form-feedback',
@@ -41,36 +44,49 @@ import { ValidatorType } from '../models/Validator';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
+export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  @Input() name: string;
-
   _control: FormControl;
-  @Input() formGroup: FormGroup;
+  formGroup: FormGroup;
 
   invalid: Boolean = false;
   error_list: string[] | null;
   show_feedback: Boolean = true;
 
+
+  private _statusSubscription: Subscription;
+  private _submitSubscription: Subscription;
+
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
     private _formSvs: FormService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Host() private _parent: ControlComponent
   ) {
   }
 
   ngOnInit() {
-    this.parseContext();
 
+  }
 
-    this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+  ngAfterViewChecked(): void {
+    if (this._parent.formGroup) {
+      this.formGroup = this._parent.formGroup;
+
+      if (this._statusSubscription) this._statusSubscription.unsubscribe();
+      if (this._submitSubscription) this._submitSubscription.unsubscribe();
+
+      this._statusSubscription = this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+        this.parseContext();
+      });
+
+      this._submitSubscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+        this.parseContext();
+      });
+
       this.parseContext();
-    });
-
-    this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-      this.parseContext();
-    });
+    }
   }
 
 
@@ -92,20 +108,20 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
 
     switch (validator) {
       case 'required':
-        if (this.name === 'confirm_password') {
+        if (this._parent.name === 'confirm_password') {
           return feedback['required'] || `You need to confirm password`;
         }
-        return feedback['required'] || `${_.startCase(this.name)}  is required`;
+        return feedback['required'] || `${_.startCase(this._parent.name)}  is required`;
       case 'agreement':
         return feedback['agreement'] || `You must agree to the terms and conditions before continuing!`;
       case 'email' :
         return feedback['email'] || `Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'`;
       case 'email_existed':
-        return feedback['email_existed'] || `${_.startCase(this.name)} is existed! Please use another one`;
+        return feedback['email_existed'] || `${_.startCase(this._parent.name)} is existed! Please use another one`;
 
       case 'stringLength' :
 
-        return value.minLength ? `${_.startCase(this.name)} cannot be shorter than ${value.minLength}` : `${_.startCase(this.name)} cannot be longer than ${value.maxLength}`;
+        return value.minLength ? `${_.startCase(this._parent.name)} cannot be shorter than ${value.minLength}` : `${_.startCase(this._parent.name)} cannot be longer than ${value.maxLength}`;
 
       case 'equalTo' :
 
@@ -129,9 +145,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 
   parseContext = () => {
-    // this.formGroup = this._formSvs.getFormGroup();
-
-    this._control = this.formGroup.get(this.name);
+    this._control = this.formGroup.get(this._parent.name);
     this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this.formGroup.submitted);
     this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
     this.cd.detectChanges();

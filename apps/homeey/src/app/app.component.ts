@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { slideInDown } from '@ionar/animations';
+import { routerAnimation } from './shared/animations/router.animation';
 
 
 @Component({
@@ -7,7 +7,7 @@ import { slideInDown } from '@ionar/animations';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
-    slideInDown
+    routerAnimation
   ]
 })
 export class AppComponent implements OnInit {

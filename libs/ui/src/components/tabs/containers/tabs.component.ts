@@ -27,11 +27,13 @@ import { TabComponent } from '../component/tab.component';
               </tab-label>
           </ng-container>
       </div>
+      
       <tab-content
               *ngIf="activeTab"
               [template]="activeTab._contentComp ? activeTab._contentComp._templateRef : activeTab._tabTemplateRef"
       >
       </tab-content>
+    
 
   `,
   styleUrls: ['./tabs.component.scss']

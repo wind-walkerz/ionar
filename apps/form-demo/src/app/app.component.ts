@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
+import { Form } from '@angular/forms';
 
 
 @Component({
@@ -14,6 +15,9 @@ export class AppComponent implements AfterViewInit {
   formGroup: FormGroup;
 
   _formConfigs: ControlConfig[] = [];
+
+
+  secondFormGroup: FormGroup
 
 
   constructor(
@@ -49,6 +53,8 @@ export class AppComponent implements AfterViewInit {
     ];
 
     this.formGroup = this._fb.group(this._formConfigs);
+
+    this.secondFormGroup = this._fb.group(this._formConfigs)
     this.cd.detectChanges();
   }
 

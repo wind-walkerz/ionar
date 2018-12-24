@@ -11,7 +11,7 @@ import {
 } from '@angular/animations';
 
 
-export const fade_in: AnimationReferenceMetadata = animation(
+export const fadeInAnimation: AnimationReferenceMetadata = animation(
   [
     animate(
       '{{ timing }}ms {{ delay }}ms',
@@ -24,9 +24,9 @@ export const fade_in: AnimationReferenceMetadata = animation(
   { params: { timing: 1000, delay: 0 } }
 );
 
-export const fade_in_trigger: AnimationTriggerMetadata = trigger('fade_in', [
+export const fadeIn: AnimationTriggerMetadata = trigger('fadeIn', [
   transition('* => *', [
-    useAnimation(fade_in)
+    useAnimation(fadeInAnimation)
   ])
 ]);
 
