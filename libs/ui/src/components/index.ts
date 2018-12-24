@@ -1,1 +1,1 @@
-export {IonarLoadingService} from './loading/loading.service';
+export { IonarLoadingService } from './loading/loading.service';

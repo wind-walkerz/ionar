@@ -1,12 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { untilDestroyed } from '@aurora-ngx/ui';
 import { ApiService, Logger } from '../../../core/services';
 import { StorageService } from './storage.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ProfileService } from '../../profile/profile.service';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 
 const log = new Logger('AuthService');

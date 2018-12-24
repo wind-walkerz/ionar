@@ -18,7 +18,7 @@ import { IonarLoadingService } from '@ionar/ui';
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    CoreModule,
+    CoreModule
 
   ],
   providers: [IonarLoadingService],

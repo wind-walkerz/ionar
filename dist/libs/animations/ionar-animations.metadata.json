@@ -1,1 +1,1 @@
-{"__symbolic":"module","version":4,"exports":[{"from":"./lib/slide_out_right"}],"metadata":{},"origins":{},"importAs":"@ionar/animations"}
+{"__symbolic":"module","version":4,"exports":[{"from":"./lib/slideOutDown"}],"metadata":{},"origins":{},"importAs":"@ionar/animations"}

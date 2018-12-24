@@ -1,4 +1,4 @@
-import { animate, animation, keyframes, style, transition, trigger, useAnimation, state } from '@angular/animations';
+import { animate, animation, keyframes, style, transition, trigger, useAnimation, state, animateChild, group, query } from '@angular/animations';
 
 /**
  * @fileoverview added by tsickle
@@ -254,16 +254,16 @@ const bounce_out_up_trigger = trigger('bounce_out_up', [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
-const fade_in = animation([
+const fadeInAnimation = animation([
     animate('{{ timing }}ms {{ delay }}ms', keyframes([
         style({ opacity: 0 }),
         style({ opacity: 1 })
     ]))
 ], { params: { timing: 1000, delay: 0 } });
 /** @type {?} */
-const fade_in_trigger = trigger('fade_in', [
+const fadeIn = trigger('fadeIn', [
     transition('* => *', [
-        useAnimation(fade_in)
+        useAnimation(fadeInAnimation)
     ])
 ]);
 
@@ -347,7 +347,7 @@ const slideInLeft = trigger('slideInLeft', [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
-const slide_in_right = animation([
+const slideInRightAnimation = animation([
     animate('{{ timing }}ms {{ delay }}ms', keyframes([
         style({
             transform: `translate3d(100%, 0, 0)`,
@@ -359,9 +359,12 @@ const slide_in_right = animation([
     ]))
 ], { params: { timing: 1000, delay: 0 } });
 /** @type {?} */
-const slide_in_right_trigger = trigger('slide_in_right', [
+const slideInRight = trigger('slideInRight', [
     transition('* => *', [
-        useAnimation(slide_in_right)
+        group([
+            query('*', useAnimation(slideInRightAnimation)),
+            query('*', animateChild())
+        ])
     ])
 ]);
 
@@ -370,7 +373,61 @@ const slide_in_right_trigger = trigger('slide_in_right', [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
-const slide_out_left = animation([
+const slideInDownAnimation = animation([
+    animate('{{ timing }}ms {{ delay }}ms', keyframes([
+        style({
+            transform: `translate3d(0, -100%, 0)`,
+            visibility: 'visible'
+        }),
+        style({
+            transform: `translate3d(0, 0, 0)`
+        })
+    ]))
+], { params: { timing: 1000, delay: 0 } });
+/** @type {?} */
+const slideInDown = trigger('slideInDown', [
+    transition('* => *', [
+        query('*', useAnimation(slideInDownAnimation)),
+    ])
+]);
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const slideInUpAnimation = animation([
+    animate('{{ timing }}ms {{ delay }}ms', keyframes([
+        style({
+            transform: `translate3d(0, 100%, 0)`,
+            visibility: 'visible'
+        }),
+        style({
+            transform: `translate3d(0, 0, 0)`
+        })
+    ]))
+], { params: { timing: 1000, delay: 0 } });
+/** @type {?} */
+const slideInUp = trigger('slideInUp', [
+    transition('* => *', [
+        group([
+            useAnimation(slideInUpAnimation),
+            animateChild()
+        ])
+    ])
+]);
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const slideOutLeftAnimation = animation([
     animate('{{ timing }}ms {{ delay }}ms', keyframes([
         style({
             transform: `translate3d(0, 0, 0)`
@@ -382,9 +439,9 @@ const slide_out_left = animation([
     ]))
 ], { params: { timing: 1000, delay: 0 } });
 /** @type {?} */
-const slide_out_left_trigger = trigger('slide_out_left', [
+const slideOutLeft = trigger('slideOutLeft', [
     transition('* => *', [
-        useAnimation(slide_out_left)
+        useAnimation(slideOutLeftAnimation)
     ])
 ]);
 
@@ -393,7 +450,7 @@ const slide_out_left_trigger = trigger('slide_out_left', [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
-const slide_out_right = animation([
+const slideOutRightAnimation = animation([
     animate('{{ timing }}ms {{ delay }}ms', keyframes([
         style({
             transform: `translate3d(0, 0, 0)`
@@ -405,9 +462,55 @@ const slide_out_right = animation([
     ]))
 ], { params: { timing: 1000, delay: 0 } });
 /** @type {?} */
-const slide_out_right_trigger = trigger('slide_out_right', [
+const slideOutRight = trigger('slideOutRight', [
     transition('* => *', [
-        useAnimation(slide_out_right)
+        useAnimation(slideOutRightAnimation)
+    ])
+]);
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const slideOutUpAnimation = animation([
+    animate('{{ timing }}ms {{ delay }}ms', keyframes([
+        style({
+            transform: `translate3d(0, 0, 0)`
+        }),
+        style({
+            transform: `translate3d(0, -100%, 0)`,
+            visibility: 'hidden'
+        })
+    ]))
+], { params: { timing: 1000, delay: 0 } });
+/** @type {?} */
+const slideOutUp = trigger('slideOutUp', [
+    transition('* => *', [
+        useAnimation(slideOutUpAnimation)
+    ])
+]);
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const slideOutDownAnimation = animation([
+    animate('{{ timing }}ms {{ delay }}ms', keyframes([
+        style({
+            transform: `translate3d(0, 0, 0)`
+        }),
+        style({
+            transform: `translate3d(0, 100%, 0)`,
+            visibility: 'hidden'
+        })
+    ]))
+], { params: { timing: 1000, delay: 0 } });
+/** @type {?} */
+const slideOutDown = trigger('slideOutDown', [
+    transition('* => *', [
+        useAnimation(slideOutDownAnimation)
     ])
 ]);
 
@@ -426,6 +529,6 @@ const slide_out_right_trigger = trigger('slide_out_right', [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { bounce, bounce_trigger, flash, flash_trigger, pulse, pulse_trigger, rubber_band, rubber_band_trigger, rotate, rotate_trigger, bounce_in, bounce_in_trigger, bounce_in_down, bounce_in_down_trigger, bounce_out_up, bounce_out_up_trigger, fade_in, fade_in_trigger, fade_in_down, fade_in_down_trigger, fade_out_up, fade_out_up_trigger, slideInLeftAnimation, slideInLeft, slide_in_right, slide_in_right_trigger, slide_out_left, slide_out_left_trigger, slide_out_right, slide_out_right_trigger };
+export { bounce, bounce_trigger, flash, flash_trigger, pulse, pulse_trigger, rubber_band, rubber_band_trigger, rotate, rotate_trigger, bounce_in, bounce_in_trigger, bounce_in_down, bounce_in_down_trigger, bounce_out_up, bounce_out_up_trigger, fadeInAnimation, fadeIn, fade_in_down, fade_in_down_trigger, fade_out_up, fade_out_up_trigger, slideInLeftAnimation, slideInLeft, slideInRightAnimation, slideInRight, slideInDownAnimation, slideInDown, slideInUpAnimation, slideInUp, slideOutLeftAnimation, slideOutLeft, slideOutRightAnimation, slideOutRight, slideOutUpAnimation, slideOutUp, slideOutDownAnimation, slideOutDown };
 
 //# sourceMappingURL=ionar-animations.js.map

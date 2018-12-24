@@ -1,7 +1,7 @@
 {
   "name": "ionar",
-  "version": "1.1.0",
-  "dependencies": {
+  "version": "1.2.0",
+  "peerDependencies": {
     "@ionar/ui": "latest",
     "@ionar/form": "latest",
     "@ionar/utility": "latest",

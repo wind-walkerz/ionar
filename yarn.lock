@@ -225,32 +225,6 @@
   dependencies:
     tslib "^1.9.0"
 
-"@aurora-ngx/animations@^1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@aurora-ngx/animations/-/animations-1.0.3.tgz#d741863da1856bb5795771942373593a00f93848"
-  integrity sha512-+Plezllt7CAIYNwe8vMC9vqXBozaUbtPtUs36X/jSm6sAa1mXgLjihl81yhicQQ5xFr24U7kQp18SdY+8aMCNA==
-  dependencies:
-    tslib "^1.9.0"
-
-"@aurora-ngx/forms@^1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@aurora-ngx/forms/-/forms-1.0.18.tgz#ee1b2a8e3d685f1a7251e1131eee7fd138ab044d"
-  integrity sha512-ccLwLw2HZNHf78UzyHgPHx91Gk3kd+1n5OCAbBv5RtQPoiA8HR3jHMHnFcaP5orvEYPfBahrRKaIZFjhuLVjVw==
-  dependencies:
-    tslib "^1.9.0"
-
-"@aurora-ngx/schematics@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@aurora-ngx/schematics/-/schematics-1.0.12.tgz#46872eaa9ae5842c650b175520899ecd4ce7d7d7"
-  integrity sha512-WHIBpqdcTge5b+Issfb9MmdaYBNjjLEUcKO3rQ/VeTLxAvwSkemnf+iTBkgPUuacvVPz16O+axMU5ozpcnZBZQ==
-
-"@aurora-ngx/ui@^1.0.25":
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/@aurora-ngx/ui/-/ui-1.0.25.tgz#40ee35c10ccaef7342969e1c1d021f379a20ac53"
-  integrity sha512-BodWk9VEKmpWLfV0K9aYHHQNvMLOjiptUq+X879MSOPFhhrKr9b3SvRlmw352hMwttJQ50UsxfgfN9OpJiw+Fg==
-  dependencies:
-    tslib "^1.9.0"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.0.0-beta.35":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"

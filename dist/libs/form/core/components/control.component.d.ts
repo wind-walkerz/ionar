@@ -12,7 +12,7 @@ export declare class ControlComponent implements OnInit, AfterViewInit, AfterVie
     name: any;
     formGroup: FormGroup;
     _control: FormControl;
-    field_template: TemplateRef<any>;
+    fieldTemplate: TemplateRef<any>;
     show_feedback: Boolean;
     show_label: Boolean;
     private _fieldTemplateDir;

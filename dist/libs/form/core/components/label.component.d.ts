@@ -1,18 +1,20 @@
-import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { ControlConfig } from '../models/ControlConfig';
 import { FormGroup } from '../models/FormGroup';
-export declare class LabelComponent implements OnInit, OnDestroy {
+import { ControlComponent } from './control.component';
+export declare class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
     private _formSvs;
     private cd;
-    name: string;
+    private _parent;
     formGroup: FormGroup;
-    _controlConfig: ControlConfig;
-    _control: FormControl;
+    controlConfig: ControlConfig;
+    control: FormControl;
     label: any;
-    constructor(_formSvs: FormService, cd: ChangeDetectorRef);
+    constructor(_formSvs: FormService, cd: ChangeDetectorRef, _parent: ControlComponent);
     ngOnInit(): void;
+    ngAfterViewChecked(): void;
     ngOnDestroy(): void;
     parseContext: () => void;
 }

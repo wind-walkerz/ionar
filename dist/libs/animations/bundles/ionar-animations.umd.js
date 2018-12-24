@@ -285,16 +285,16 @@
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
-    var fade_in = animations.animation([
+    var fadeInAnimation = animations.animation([
         animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
             animations.style({ opacity: 0 }),
             animations.style({ opacity: 1 })
         ]))
     ], { params: { timing: 1000, delay: 0 } });
     /** @type {?} */
-    var fade_in_trigger = animations.trigger('fade_in', [
+    var fadeIn = animations.trigger('fadeIn', [
         animations.transition('* => *', [
-            animations.useAnimation(fade_in)
+            animations.useAnimation(fadeInAnimation)
         ])
     ]);
 
@@ -378,7 +378,7 @@
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
-    var slide_in_right = animations.animation([
+    var slideInRightAnimation = animations.animation([
         animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
             animations.style({
                 transform: "translate3d(100%, 0, 0)",
@@ -390,9 +390,12 @@
         ]))
     ], { params: { timing: 1000, delay: 0 } });
     /** @type {?} */
-    var slide_in_right_trigger = animations.trigger('slide_in_right', [
+    var slideInRight = animations.trigger('slideInRight', [
         animations.transition('* => *', [
-            animations.useAnimation(slide_in_right)
+            animations.group([
+                animations.query('*', animations.useAnimation(slideInRightAnimation)),
+                animations.query('*', animations.animateChild())
+            ])
         ])
     ]);
 
@@ -401,7 +404,61 @@
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
-    var slide_out_left = animations.animation([
+    var slideInDownAnimation = animations.animation([
+        animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
+            animations.style({
+                transform: "translate3d(0, -100%, 0)",
+                visibility: 'visible'
+            }),
+            animations.style({
+                transform: "translate3d(0, 0, 0)"
+            })
+        ]))
+    ], { params: { timing: 1000, delay: 0 } });
+    /** @type {?} */
+    var slideInDown = animations.trigger('slideInDown', [
+        animations.transition('* => *', [
+            animations.query('*', animations.useAnimation(slideInDownAnimation)),
+        ])
+    ]);
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    /** @type {?} */
+    var slideInUpAnimation = animations.animation([
+        animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
+            animations.style({
+                transform: "translate3d(0, 100%, 0)",
+                visibility: 'visible'
+            }),
+            animations.style({
+                transform: "translate3d(0, 0, 0)"
+            })
+        ]))
+    ], { params: { timing: 1000, delay: 0 } });
+    /** @type {?} */
+    var slideInUp = animations.trigger('slideInUp', [
+        animations.transition('* => *', [
+            animations.group([
+                animations.useAnimation(slideInUpAnimation),
+                animations.animateChild()
+            ])
+        ])
+    ]);
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    /** @type {?} */
+    var slideOutLeftAnimation = animations.animation([
         animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
             animations.style({
                 transform: "translate3d(0, 0, 0)"
@@ -413,9 +470,9 @@
         ]))
     ], { params: { timing: 1000, delay: 0 } });
     /** @type {?} */
-    var slide_out_left_trigger = animations.trigger('slide_out_left', [
+    var slideOutLeft = animations.trigger('slideOutLeft', [
         animations.transition('* => *', [
-            animations.useAnimation(slide_out_left)
+            animations.useAnimation(slideOutLeftAnimation)
         ])
     ]);
 
@@ -424,7 +481,7 @@
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
-    var slide_out_right = animations.animation([
+    var slideOutRightAnimation = animations.animation([
         animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
             animations.style({
                 transform: "translate3d(0, 0, 0)"
@@ -436,9 +493,55 @@
         ]))
     ], { params: { timing: 1000, delay: 0 } });
     /** @type {?} */
-    var slide_out_right_trigger = animations.trigger('slide_out_right', [
+    var slideOutRight = animations.trigger('slideOutRight', [
         animations.transition('* => *', [
-            animations.useAnimation(slide_out_right)
+            animations.useAnimation(slideOutRightAnimation)
+        ])
+    ]);
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    /** @type {?} */
+    var slideOutUpAnimation = animations.animation([
+        animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
+            animations.style({
+                transform: "translate3d(0, 0, 0)"
+            }),
+            animations.style({
+                transform: "translate3d(0, -100%, 0)",
+                visibility: 'hidden'
+            })
+        ]))
+    ], { params: { timing: 1000, delay: 0 } });
+    /** @type {?} */
+    var slideOutUp = animations.trigger('slideOutUp', [
+        animations.transition('* => *', [
+            animations.useAnimation(slideOutUpAnimation)
+        ])
+    ]);
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    /** @type {?} */
+    var slideOutDownAnimation = animations.animation([
+        animations.animate('{{ timing }}ms {{ delay }}ms', animations.keyframes([
+            animations.style({
+                transform: "translate3d(0, 0, 0)"
+            }),
+            animations.style({
+                transform: "translate3d(0, 100%, 0)",
+                visibility: 'hidden'
+            })
+        ]))
+    ], { params: { timing: 1000, delay: 0 } });
+    /** @type {?} */
+    var slideOutDown = animations.trigger('slideOutDown', [
+        animations.transition('* => *', [
+            animations.useAnimation(slideOutDownAnimation)
         ])
     ]);
 
@@ -473,20 +576,28 @@
     exports.bounce_in_down_trigger = bounce_in_down_trigger;
     exports.bounce_out_up = bounce_out_up;
     exports.bounce_out_up_trigger = bounce_out_up_trigger;
-    exports.fade_in = fade_in;
-    exports.fade_in_trigger = fade_in_trigger;
+    exports.fadeInAnimation = fadeInAnimation;
+    exports.fadeIn = fadeIn;
     exports.fade_in_down = fade_in_down;
     exports.fade_in_down_trigger = fade_in_down_trigger;
     exports.fade_out_up = fade_out_up;
     exports.fade_out_up_trigger = fade_out_up_trigger;
     exports.slideInLeftAnimation = slideInLeftAnimation;
     exports.slideInLeft = slideInLeft;
-    exports.slide_in_right = slide_in_right;
-    exports.slide_in_right_trigger = slide_in_right_trigger;
-    exports.slide_out_left = slide_out_left;
-    exports.slide_out_left_trigger = slide_out_left_trigger;
-    exports.slide_out_right = slide_out_right;
-    exports.slide_out_right_trigger = slide_out_right_trigger;
+    exports.slideInRightAnimation = slideInRightAnimation;
+    exports.slideInRight = slideInRight;
+    exports.slideInDownAnimation = slideInDownAnimation;
+    exports.slideInDown = slideInDown;
+    exports.slideInUpAnimation = slideInUpAnimation;
+    exports.slideInUp = slideInUp;
+    exports.slideOutLeftAnimation = slideOutLeftAnimation;
+    exports.slideOutLeft = slideOutLeft;
+    exports.slideOutRightAnimation = slideOutRightAnimation;
+    exports.slideOutRight = slideOutRight;
+    exports.slideOutUpAnimation = slideOutUpAnimation;
+    exports.slideOutUp = slideOutUp;
+    exports.slideOutDownAnimation = slideOutDownAnimation;
+    exports.slideOutDown = slideOutDown;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

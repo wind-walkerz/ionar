@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import _ from 'lodash';
 export declare class InputComponent implements OnInit, OnChanges, OnDestroy {
     private cd;
     type: string;
@@ -22,7 +23,7 @@ export declare class InputComponent implements OnInit, OnChanges, OnDestroy {
     ngOnDestroy(): void;
     onFocus: () => void;
     onBlur: () => void;
-    onChange: (e: any) => void;
+    onChange: ((e: any) => void) & _.Cancelable;
     onKeyPress: (e: KeyboardEvent) => void;
     onKeyDown: (e: KeyboardEvent) => void;
     onPaste: (e: ClipboardEvent) => void;

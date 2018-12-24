@@ -19,8 +19,14 @@ import {
   AnimationReferenceMetadata,
   useAnimation
 } from '@angular/animations';
-import { slide_in_left, slide_in_right, slide_out_left, slide_out_right } from '@aurora-ngx/animations';
+
 import { SlideComponent } from './slide.component';
+import {
+  slideInLeftAnimation,
+  slideInRightAnimation,
+  slideOutLeftAnimation,
+  slideOutRightAnimation
+} from '@ionar/animations';
 
 
 @Component({
@@ -118,8 +124,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getAniType = (entrance = 'entrance', direction = 'next'): AnimationReferenceMetadata =>
     (entrance === 'entrance')
-      ? (direction === 'next') ? useAnimation(slide_in_right, { params: { timing: 500 } }) : useAnimation(slide_in_left, { params: { timing: 500 } })
-      : (direction === 'next') ? useAnimation(slide_out_left, { params: { timing: 500 } }) : useAnimation(slide_out_right, { params: { timing: 500 } });
+      ? (direction === 'next') ? useAnimation(slideInRightAnimation, { params: { timing: 500 } }) : useAnimation(slideInLeftAnimation, { params: { timing: 500 } })
+      : (direction === 'next') ? useAnimation(slideOutLeftAnimation, { params: { timing: 500 } }) : useAnimation(slideOutRightAnimation, { params: { timing: 500 } });
 
 
 }

@@ -1,11 +1,10 @@
-import { rotate_trigger } from '@aurora-ngx/animations';
 import { CommonModule } from '@angular/common';
 import { __assign, __extends } from 'tslib';
 import { Subject, forkJoin } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, HostBinding, NgModule, TemplateRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, ComponentFactoryResolver, Directive, ViewContainerRef, Injectable, ContentChildren, ContentChild, Host, Renderer2 } from '@angular/core';
 import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, HostBinding, NgModule, TemplateRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, ComponentFactoryResolver, Directive, ViewContainerRef, Injectable, ContentChildren, ContentChild, Host, Renderer2, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -69,7 +68,7 @@ var SelectComponent = /** @class */ (function () {
     SelectComponent.decorators = [
         { type: Component, args: [{
                     selector: 'io-select',
-                    template: "<control\r\n        [label]=\"selected_option?.label\"\r\n        [show_menu]=\"show_menu\"\r\n        (click)=\"onToggleMenu()\"\r\n></control>\r\n\r\n<menu\r\n        [options]=\"options\"\r\n        (onSelectOption)=\"onChange($event)\"\r\n        *ngIf=\"show_menu\"\r\n></menu>",
+                    template: "<control\n        [label]=\"selected_option?.label\"\n        [show_menu]=\"show_menu\"\n        (click)=\"onToggleMenu()\"\n></control>\n\n<menu\n        [options]=\"options\"\n        (onSelectOption)=\"onChange($event)\"\n        *ngIf=\"show_menu\"\n></menu>",
                     styles: [":host{display:flex;position:relative;flex:1}"]
                 }] }
     ];
@@ -111,8 +110,7 @@ var ControlComponent = /** @class */ (function () {
     ControlComponent.decorators = [
         { type: Component, args: [{
                     selector: 'control',
-                    template: "<div id=\"value\">\r\n    <span *ngIf=\"!label\">Please select</span>\r\n    <span *ngIf=\"label\">{{label}}</span>\r\n</div>\r\n\r\n<div id=\"icon\" [@rotate]=\"{\r\n    value: show_menu ? 'animated' : 'default',\r\n    params: { deg: 90 }\r\n    }\">\r\n    <i class=\"fas fa-angle-right\"></i>\r\n</div>\r\n",
-                    animations: [rotate_trigger],
+                    template: "<div id=\"value\">\n    <span *ngIf=\"!label\">Please select</span>\n    <span *ngIf=\"label\">{{label}}</span>\n</div>\n\n<div id=\"icon\">\n    <i class=\"fas fa-angle-right\"></i>\n</div>\n",
                     styles: [":host{background-color:#fff;border-radius:5px;box-sizing:border-box;border:1px solid #d9d9d9;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:1.5rem;outline:0;padding:0 1rem;transition:.3s cubic-bezier(.645,.045,.355,1);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:100%;height:40px;z-index:1}:host:focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff}:host .fa-angle-right{font-size:2rem}"]
                 }] }
     ];
@@ -342,7 +340,7 @@ var ClickComponent = /** @class */ (function () {
     ClickComponent.decorators = [
         { type: Component, args: [{
                     selector: 'click',
-                    template: "<ng-container *ngTemplateOutlet=\"template\"></ng-container>\r\n\r\n\r\n<input\r\n        type=\"file\"\r\n        [multiple]=\"multiple\"\r\n        (change)=\"$event.stopPropagation();change.emit($event.target.files)\"\r\n>",
+                    template: "<ng-container *ngTemplateOutlet=\"template\"></ng-container>\n\n\n<input\n        type=\"file\"\n        [multiple]=\"multiple\"\n        (change)=\"$event.stopPropagation();change.emit($event.target.files)\"\n>",
                     styles: [":host{background-color:#fff;border-radius:.4rem;color:rgba(0,0,0,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;outline:0;position:relative;transition:.3s cubic-bezier(.645,.045,.355,1);width:100%;height:4rem;max-width:20rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}:host:focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff;color:#40a9ff}:host.invalid{border-color:#f5222d}:host.invalid:focus{border-color:#ff4d4f;outline:0;box-shadow:0 0 0 2px rgba(245,34,45,.2)}input{display:flex;outline:0;opacity:0;position:absolute;width:100%;height:100%;z-index:1}"]
                 }] }
     ];
@@ -455,7 +453,7 @@ var FileComponent = /** @class */ (function () {
     FileComponent.decorators = [
         { type: Component, args: [{
                     selector: 'file',
-                    template: "<img [src]=\"image\" alt=\"\">\r\n\r\n<p>{{name}}</p>\r\n\r\n<i class=\"fas fa-times remove-icon\"></i>",
+                    template: "<img [src]=\"image\" alt=\"\">\n\n<p>{{name}}</p>\n\n<i class=\"fas fa-times remove-icon\"></i>",
                     styles: [":host{border:1px dashed #d9d9d9;border-radius:.4rem;display:flex;margin-top:1rem;padding:.8rem;width:100%;height:6.6rem}:host img{width:5rem;height:5rem}:host p{margin-left:2rem}:host .remove-icon{color:#f5222d;font-size:1.2rem;margin-left:auto}"]
                 }] }
     ];
@@ -523,8 +521,9 @@ var InputComponent = /** @class */ (function () {
             _this.host_focus = false;
             _this.cd.markForCheck();
         };
-        this.onChange = function (e) {
+        this.onChange = _.debounce(function (e) {
             e.stopPropagation();
+            console.log(e.target.value);
             /** @type {?} */
             var value = e.target.value;
             /** @type {?} */
@@ -535,7 +534,7 @@ var InputComponent = /** @class */ (function () {
                 value = e.target.value = _this.range[1];
             }
             _this.change.emit(value);
-        };
+        }, 500);
         //  Keyboard & Clipboard Event  //
         this.onKeyPress = function (e) {
             if (e.keyCode === 13)
@@ -752,7 +751,7 @@ var CheckboxComponent = /** @class */ (function () {
     CheckboxComponent.decorators = [
         { type: Component, args: [{
                     selector: 'io-checkbox',
-                    template: "<div class=\"checkbox\" [class.active]=\"value\">\r\n    <i class=\"fas fa-check icon\"></i>\r\n</div>\r\n<p class=\"label\">{{label}}</p>\r\n\r\n\r\n",
+                    template: "<div class=\"checkbox\" [class.active]=\"value\">\n    <i class=\"fas fa-check icon\"></i>\n</div>\n<p class=\"label\">{{label}}</p>\n\n\n",
                     styles: [":host{display:flex;align-items:center}:host .checkbox{background-color:#fff;border-radius:.3em;box-sizing:border-box;border:1px solid #d9d9d9;display:flex;align-items:center;justify-content:center;margin-right:.3em;padding:0;touch-action:manipulation;transition:.3s;width:1.8em;height:1.8em}:host .checkbox:hover{border-color:#1890ff}:host .checkbox.active{background-color:#1890ff;border-color:#1890ff}:host .icon{color:#fff}"]
                 }] }
     ];
@@ -1179,7 +1178,7 @@ var FormService = /** @class */ (function () {
  * \@publicApi
  * @abstract
  */
-var /**
+var  /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
@@ -2107,7 +2106,7 @@ function _mergeErrors(arrayOfErrors) {
  *
  * \@publicApi
  */
-var /**
+var  /**
  * Tracks the value and validation status of an individual form control.
  *
  * This is one of the three fundamental building blocks of Angular forms, along with
@@ -2716,7 +2715,7 @@ function coerceToAsyncValidator(asyncValidators) {
  *
  * \@publicApi
  */
-var /**
+var  /**
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
  * A `FormGroup` aggregates the values of each child `FormControl` into one object,
@@ -3541,165 +3540,6 @@ FormGroup = /** @class */ (function (_super) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var FieldComponent = /** @class */ (function () {
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    function FieldComponent(_formSvs, cd) {
-        var _this = this;
-        this._formSvs = _formSvs;
-        this.cd = cd;
-        this.invalid = false;
-        ///-----------------------------------------------  Main Functions   -----------------------------------------------///
-        this.onChanged = function (e) {
-            _this._formSvs.getControl(_this.name).setValue(e);
-        };
-        this.onTouched = function () {
-            _this._formSvs.getControl(_this.name).markAsTouched();
-        };
-        this.onEntered = function () {
-            // this.formSvs._onEntered()
-            // if (this.name === 'password') this.focus = true;
-        };
-        this.parseContext = function () {
-            _this.control = _this.formGroup.get(_this.name);
-            _this.controlConfig = (/** @type {?} */ (_this.control.configuration));
-            _this.invalid = _this.control.invalid && (_this.control.dirty || _this.control.touched || _this.formGroup.submitted);
-            _this.cd.detectChanges();
-        };
-    }
-    /**
-     * @return {?}
-     */
-    FieldComponent.prototype.ngOnInit = /**
-     * @return {?}
-     */
-    function () {
-        var _this = this;
-        this.parseContext();
-        this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
-            _this.parseContext();
-        });
-        this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
-            _this.parseContext();
-        });
-    };
-    /**
-     * @return {?}
-     */
-    FieldComponent.prototype.ngAfterViewInit = /**
-     * @return {?}
-     */
-    function () {
-    };
-    /**
-     * @return {?}
-     */
-    FieldComponent.prototype.ngAfterViewChecked = /**
-     * @return {?}
-     */
-    function () {
-    };
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    FieldComponent.prototype.ngOnChanges = /**
-     * @param {?} changes
-     * @return {?}
-     */
-    function (changes) {
-    };
-    /**
-     * @return {?}
-     */
-    FieldComponent.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-        // this.cd.detach();
-    };
-    FieldComponent.decorators = [
-        { type: Component, args: [{
-                    selector: 'form-field',
-                    template: "\n      <ng-container *ngIf=\"control&&controlConfig\">\n          <ng-container\n                  dynamic_field\n                  [controlConfig]=\"controlConfig\"\n\n                  [events]=\"{\n                            change: onChanged,\n                            blur: onTouched,\n                            enter: onEntered\n                    }\"\n                  [template]=\"template\"\n\n                  [value]=\"control.value\"\n                  [options]=\"controlConfig.options\"\n                  [invalid]=\"invalid\"\n                  [readonly]=\"formGroup.readonly\"\n          >\n          </ng-container>\n      </ng-container>\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    styles: ["\n      :host {\n          display: flex;\n          width: 100%;\n          height: 100%;\n      }\n  "]
-                }] }
-    ];
-    /** @nocollapse */
-    FieldComponent.ctorParameters = function () { return [
-        { type: FormService },
-        { type: ChangeDetectorRef }
-    ]; };
-    FieldComponent.propDecorators = {
-        name: [{ type: Input }],
-        formGroup: [{ type: Input }],
-        template: [{ type: Input }]
-    };
-    return FieldComponent;
-}());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-var SubmitDirective = /** @class */ (function () {
-    function SubmitDirective(_elRef) {
-        var _this = this;
-        this._elRef = _elRef;
-        this.disabled = false;
-        this.onClick = function (e) {
-            if (!_this.disabled) {
-                _this._formGr.submit();
-            }
-        };
-    }
-    /**
-     * @return {?}
-     */
-    SubmitDirective.prototype.ngOnInit = /**
-     * @return {?}
-     */
-    function () {
-        // console.log(this._formGr)
-    };
-    /**
-     * @return {?}
-     */
-    SubmitDirective.prototype.ngOnChanges = /**
-     * @return {?}
-     */
-    function () {
-        // console.log(this._formGr)
-    };
-    /**
-     * @return {?}
-     */
-    SubmitDirective.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-    };
-    SubmitDirective.decorators = [
-        { type: Directive, args: [{
-                    selector: '[submitForm]'
-                },] }
-    ];
-    /** @nocollapse */
-    SubmitDirective.ctorParameters = function () { return [
-        { type: ElementRef }
-    ]; };
-    SubmitDirective.propDecorators = {
-        _formGr: [{ type: Input, args: ['submitForm',] }],
-        disabled: [{ type: Input }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
-    };
-    return SubmitDirective;
-}());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 var FieldTemplateDirective = /** @class */ (function () {
     function FieldTemplateDirective(_vcRef, _tplRef) {
         this._vcRef = _vcRef;
@@ -3852,7 +3692,7 @@ var ControlComponent$1 = /** @class */ (function () {
             /** @type {?} */
             var templateData = _this._fieldTemplateDir ? _this._fieldTemplateDir : _.find(_this._parent._fieldTemplateDirList.toArray(), ['name', _this.name]);
             if (templateData) {
-                _this.field_template = templateData._tplRef;
+                _this.fieldTemplate = templateData._tplRef;
             }
         };
     }
@@ -3903,7 +3743,7 @@ var ControlComponent$1 = /** @class */ (function () {
     ControlComponent.decorators = [
         { type: Component, args: [{
                     selector: 'form-control',
-                    template: "\n\n      <ng-container *ngIf=\"formGroup\">\n          <form-label\n                  [name]=\"name\"\n                  [formGroup]=\"formGroup\"\n                  *ngIf=\"show_label\"\n          ></form-label>\n\n          <form-field\n                  [name]=\"name\"\n                  [formGroup]=\"formGroup\"\n                  [template]=\"field_template\"\n          ></form-field>\n\n          <form-feedback\n                  [name]=\"name\"\n                  [formGroup]=\"formGroup\"\n                  *ngIf=\"show_feedback\"\n          ></form-feedback>\n      </ng-container>\n\n  ",
+                    template: "\n\n      <ng-container *ngIf=\"formGroup\">\n          <form-label *ngIf=\"show_label\"></form-label>\n\n          <form-field></form-field>\n\n          <form-feedback *ngIf=\"show_feedback\"></form-feedback>\n      </ng-container>\n\n  ",
                     changeDetection: ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: grid;\n          grid-template-areas: \"label   field\" \". feedback\";\n          grid-template-columns: 3fr 7fr;\n          grid-template-rows: 1fr auto;\n          margin-bottom: 1rem;\n          height: auto;\n          visibility: visible;\n          z-index: 50;\n      }\n\n      :host-context(.hide-label) {\n          grid-template-areas: \"field\" \"feedback\";\n          grid-template-columns: 1fr;\n      }\n\n      :host-context(.hide-feedback) {\n          grid-template-areas: \"label   field\";\n          grid-template-columns: 3fr 7fr;\n      }\n\n      :host-context(.hide-label.hide-feedback) {\n          grid-template-areas: \"field\";\n      }\n\n      :host-context(.hidden) {\n          display: none !important;\n      }\n\n      form-label {\n          grid-area: label;\n      }\n\n      form-field {\n          grid-area: field;\n      }\n\n      form-feedback {\n          grid-area: feedback;\n      }\n  "]
                 }] }
@@ -3928,16 +3768,183 @@ var ControlComponent$1 = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var LabelComponent = /** @class */ (function () {
-    function LabelComponent(_formSvs, cd) {
+var FieldComponent = /** @class */ (function () {
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    function FieldComponent(_formSvs, cd, _parent) {
         var _this = this;
         this._formSvs = _formSvs;
         this.cd = cd;
+        this._parent = _parent;
+        this.invalid = false;
+        ///-----------------------------------------------  Main Functions   -----------------------------------------------///
+        this.onChanged = function (e) {
+            _this._formSvs.getControl(_this._parent.name).setValue(e);
+        };
+        this.onTouched = function () {
+            _this._formSvs.getControl(_this._parent.name).markAsTouched();
+        };
+        this.onEntered = function () {
+            // this.formSvs._onEntered()
+            // if (this.name === 'password') this.focus = true;
+        };
         this.parseContext = function () {
-            _this._control = _this.formGroup.get(_this.name);
-            _this._controlConfig = (/** @type {?} */ (_this._control.configuration));
-            _this.label = _this._controlConfig.label || _.startCase(_this.name);
-            _this.cd.markForCheck();
+            _this.control = _this.formGroup.get(_this._parent.name);
+            _this.controlConfig = (/** @type {?} */ (_this.control.configuration));
+            _this.template = _this._parent.fieldTemplate;
+            _this.invalid = _this.control.invalid && (_this.control.dirty || _this.control.touched || _this.formGroup.submitted);
+            _this.cd.detectChanges();
+        };
+    }
+    /**
+     * @return {?}
+     */
+    FieldComponent.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        // this.parseContext();
+        //
+    };
+    /**
+     * @return {?}
+     */
+    FieldComponent.prototype.ngAfterViewInit = /**
+     * @return {?}
+     */
+    function () {
+    };
+    /**
+     * @return {?}
+     */
+    FieldComponent.prototype.ngAfterViewChecked = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        if (this._parent.formGroup) {
+            this.formGroup = this._parent.formGroup;
+            if (this._statusSubscription)
+                this._statusSubscription.unsubscribe();
+            if (this._submitSubscription)
+                this._submitSubscription.unsubscribe();
+            this._statusSubscription = this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
+                _this.parseContext();
+            });
+            this._submitSubscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
+                _this.parseContext();
+            });
+            this.parseContext();
+        }
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    FieldComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+    };
+    /**
+     * @return {?}
+     */
+    FieldComponent.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+        this.cd.detach();
+    };
+    FieldComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'form-field',
+                    template: "\n      <ng-container *ngIf=\"formGroup\">\n          <ng-container\n                  dynamic_field\n                  [controlConfig]=\"controlConfig\"\n\n                  [events]=\"{\n                            change: onChanged,\n                            blur: onTouched,\n                            enter: onEntered\n                    }\"\n                  [template]=\"template\"\n\n                  [value]=\"control.value\"\n                  [options]=\"controlConfig.options\"\n                  [invalid]=\"invalid\"\n                  [readonly]=\"formGroup.readonly\"\n          >\n          </ng-container>\n      </ng-container>\n  ",
+                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    styles: ["\n      :host {\n          display: flex;\n          width: 100%;\n          height: 100%;\n      }\n  "]
+                }] }
+    ];
+    /** @nocollapse */
+    FieldComponent.ctorParameters = function () { return [
+        { type: FormService },
+        { type: ChangeDetectorRef },
+        { type: ControlComponent$1, decorators: [{ type: Host }] }
+    ]; };
+    return FieldComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var SubmitDirective = /** @class */ (function () {
+    function SubmitDirective(_elRef) {
+        var _this = this;
+        this._elRef = _elRef;
+        this.disabled = false;
+        this.onClick = function (e) {
+            if (!_this.disabled) {
+                _this._formGr.submit();
+            }
+        };
+    }
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        // console.log(this._formGr)
+    };
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnChanges = /**
+     * @return {?}
+     */
+    function () {
+        // console.log(this._formGr)
+    };
+    /**
+     * @return {?}
+     */
+    SubmitDirective.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    SubmitDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[submitForm]'
+                },] }
+    ];
+    /** @nocollapse */
+    SubmitDirective.ctorParameters = function () { return [
+        { type: ElementRef }
+    ]; };
+    SubmitDirective.propDecorators = {
+        _formGr: [{ type: Input, args: ['submitForm',] }],
+        disabled: [{ type: Input }],
+        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+    };
+    return SubmitDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var LabelComponent = /** @class */ (function () {
+    function LabelComponent(_formSvs, cd, _parent) {
+        var _this = this;
+        this._formSvs = _formSvs;
+        this.cd = cd;
+        this._parent = _parent;
+        this.parseContext = function () {
+            _this.control = _this.formGroup.get(_this._parent.name);
+            _this.controlConfig = (/** @type {?} */ (_this.control.configuration));
+            _this.label = _this.controlConfig.label || _.startCase(_this._parent.name);
+            _this.cd.detectChanges();
         };
     }
     /**
@@ -3947,7 +3954,18 @@ var LabelComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        this.parseContext();
+    };
+    /**
+     * @return {?}
+     */
+    LabelComponent.prototype.ngAfterViewChecked = /**
+     * @return {?}
+     */
+    function () {
+        if (this._parent.formGroup) {
+            this.formGroup = this._parent.formGroup;
+            this.parseContext();
+        }
     };
     /**
      * @return {?}
@@ -3956,6 +3974,7 @@ var LabelComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        this.cd.detach();
     };
     LabelComponent.decorators = [
         { type: Component, args: [{
@@ -3968,12 +3987,9 @@ var LabelComponent = /** @class */ (function () {
     /** @nocollapse */
     LabelComponent.ctorParameters = function () { return [
         { type: FormService },
-        { type: ChangeDetectorRef }
+        { type: ChangeDetectorRef },
+        { type: ControlComponent$1, decorators: [{ type: Host }] }
     ]; };
-    LabelComponent.propDecorators = {
-        name: [{ type: Input }],
-        formGroup: [{ type: Input }]
-    };
     return LabelComponent;
 }());
 
@@ -3983,10 +3999,11 @@ var LabelComponent = /** @class */ (function () {
  */
 var FeedbackComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    function FeedbackComponent(_formSvs, cd) {
+    function FeedbackComponent(_formSvs, cd, _parent) {
         var _this = this;
         this._formSvs = _formSvs;
         this.cd = cd;
+        this._parent = _parent;
         this.invalid = false;
         this.show_feedback = true;
         this.generate_feedback = function (validator, value) {
@@ -3998,18 +4015,18 @@ var FeedbackComponent = /** @class */ (function () {
                 return null;
             switch (validator) {
                 case 'required':
-                    if (_this.name === 'confirm_password') {
+                    if (_this._parent.name === 'confirm_password') {
                         return "You need to confirm password";
                     }
-                    return _.startCase(_this.name) + "  is required";
+                    return _.startCase(_this._parent.name) + "  is required";
                 case 'agreement':
                     return "You must agree to the terms and conditions before continuing!";
                 case 'email':
                     return "Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'";
                 case 'email_existed':
-                    return _.startCase(_this.name) + " is existed! Please use another one";
+                    return _.startCase(_this._parent.name) + " is existed! Please use another one";
                 case 'stringLength':
-                    return value.minLength ? _.startCase(_this.name) + " cannot be shorter than " + value.minLength : _.startCase(_this.name) + " cannot be longer than " + value.maxLength;
+                    return value.minLength ? _.startCase(_this._parent.name) + " cannot be shorter than " + value.minLength : _.startCase(_this._parent.name) + " cannot be longer than " + value.maxLength;
                 case 'equalTo':
                     return "Confirm password is not equal to password";
                 default:
@@ -4018,8 +4035,7 @@ var FeedbackComponent = /** @class */ (function () {
         };
         ///-----------------------------------------------  Main Functions   -----------------------------------------------///
         this.parseContext = function () {
-            // this.formGroup = this._formSvs.getFormGroup();
-            _this._control = _this.formGroup.get(_this.name);
+            _this._control = _this.formGroup.get(_this._parent.name);
             _this.invalid = _this._control.invalid && (_this._control.dirty || _this._control.touched || _this.formGroup.submitted);
             _this.error_list = _.map(_this._control.errors, function (value, key) { return _this.generate_feedback(key, value); });
             _this.cd.detectChanges();
@@ -4032,14 +4048,29 @@ var FeedbackComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+    };
+    /**
+     * @return {?}
+     */
+    FeedbackComponent.prototype.ngAfterViewChecked = /**
+     * @return {?}
+     */
+    function () {
         var _this = this;
-        this.parseContext();
-        this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
-            _this.parseContext();
-        });
-        this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
-            _this.parseContext();
-        });
+        if (this._parent.formGroup) {
+            this.formGroup = this._parent.formGroup;
+            if (this._statusSubscription)
+                this._statusSubscription.unsubscribe();
+            if (this._submitSubscription)
+                this._submitSubscription.unsubscribe();
+            this._statusSubscription = this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
+                _this.parseContext();
+            });
+            this._submitSubscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
+                _this.parseContext();
+            });
+            this.parseContext();
+        }
     };
     /**
      * @param {?} changes
@@ -4070,12 +4101,9 @@ var FeedbackComponent = /** @class */ (function () {
     /** @nocollapse */
     FeedbackComponent.ctorParameters = function () { return [
         { type: FormService },
-        { type: ChangeDetectorRef }
+        { type: ChangeDetectorRef },
+        { type: ControlComponent$1, decorators: [{ type: Host }] }
     ]; };
-    FeedbackComponent.propDecorators = {
-        name: [{ type: Input }],
-        formGroup: [{ type: Input }]
-    };
     return FeedbackComponent;
 }());
 
@@ -4139,7 +4167,31 @@ var IonarFormModule = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+var IonarFormBuilder = /** @class */ (function () {
+    function IonarFormBuilder() {
+        this.group = function (formState, formConfigs) {
+            return new FormGroup(formState, formConfigs);
+        };
+    }
+    IonarFormBuilder.decorators = [
+        { type: Injectable, args: [{
+                    providedIn: 'root'
+                },] }
+    ];
+    /** @nocollapse */ IonarFormBuilder.ngInjectableDef = defineInjectable({ factory: function IonarFormBuilder_Factory() { return new IonarFormBuilder(); }, token: IonarFormBuilder, providedIn: "root" });
+    return IonarFormBuilder;
+}());
 
-export { IonarFormModule, ControlComponent$1 as ɵf, FeedbackComponent as ɵh, FieldComponent as ɵe, LabelComponent as ɵg, FormComponent as ɵb, CoreModule as ɵa, DynamicFieldDirective as ɵi, FieldTemplateDirective as ɵd, SubmitDirective as ɵj, FormService as ɵc, CheckboxComponent as ɵo, CheckboxModule as ɵn, InputComponent as ɵm, InputModule as ɵl, MenuComponent$1 as ɵbc, MenuModule as ɵbb, ControlComponent as ɵw, MenuComponent as ɵx, OptionComponent as ɵy, SelectComponent as ɵv, SelectModule as ɵu, TextareaComponent as ɵba, TextareaModule as ɵz, FileComponent as ɵt, ClickComponent as ɵr, DropComponent as ɵs, UploadComponent as ɵq, UploadModule as ɵp, UIModule as ɵk };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { FormControl, FormGroup, IonarFormBuilder, IonarFormModule, Validators, ControlComponent$1 as ɵf, FeedbackComponent as ɵh, FieldComponent as ɵe, LabelComponent as ɵg, FormComponent as ɵb, CoreModule as ɵa, DynamicFieldDirective as ɵi, FieldTemplateDirective as ɵd, SubmitDirective as ɵj, AbstractControl as ɵbd, FormService as ɵc, CheckboxComponent as ɵo, CheckboxModule as ɵn, InputComponent as ɵm, InputModule as ɵl, MenuComponent$1 as ɵbc, MenuModule as ɵbb, ControlComponent as ɵw, MenuComponent as ɵx, OptionComponent as ɵy, SelectComponent as ɵv, SelectModule as ɵu, TextareaComponent as ɵba, TextareaModule as ɵz, FileComponent as ɵt, ClickComponent as ɵr, DropComponent as ɵs, UploadComponent as ɵq, UploadModule as ɵp, UIModule as ɵk };
 
 //# sourceMappingURL=ionar-form.js.map

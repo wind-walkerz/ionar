@@ -11,6 +11,7 @@ export { CoreModule as ɵa } from './core/core.module';
 export { DynamicFieldDirective as ɵi } from './core/directives/dynamic-field.directive';
 export { FieldTemplateDirective as ɵd } from './core/directives/field-template.directive';
 export { SubmitDirective as ɵj } from './core/directives/submit.directive';
+export { AbstractControl as ɵbd } from './core/models/AbstractControl';
 export { FormService as ɵc } from './core/providers/form.service';
 export { CheckboxComponent as ɵo } from './ui/components/checkbox/checkbox.component';
 export { CheckboxModule as ɵn } from './ui/components/checkbox/checkbox.module';

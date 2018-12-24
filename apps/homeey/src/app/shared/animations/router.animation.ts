@@ -4,7 +4,6 @@ import { fadeInAnimation } from '@ionar/animations';
 export const routerAnimation = trigger('routerAnimation', [
   transition('* => *', [
     useAnimation(fadeInAnimation, { params: { timing: 600 } }),
-    query(':enter', animateChild())
   ])
 
 ]);

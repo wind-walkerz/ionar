@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('@ionar/utility'), require('lodash'), require('@angular/common'), require('@angular/animations'), require('@aurora-ngx/animations'), require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', '@ionar/utility', 'lodash', '@angular/common', '@angular/animations', '@aurora-ngx/animations', '@angular/core'], factory) :
-    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global.utility,global._,global.ng.common,global.ng.animations,global.animations$1,global.ng.core));
-}(this, (function (exports,rxjs,utility,_,common,animations,animations$1,core) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('@ionar/utility'), require('lodash'), require('@angular/common'), require('@angular/animations'), require('@angular/core'), require('@ionar/animations')) :
+    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', '@ionar/utility', 'lodash', '@angular/common', '@angular/animations', '@angular/core', '@ionar/animations'], factory) :
+    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global.utility,global._,global.ng.common,global.ng.animations,global.ng.core,global.animations$1));
+}(this, (function (exports,rxjs,utility,_,common,animations,core,animations$1) { 'use strict';
 
     _ = _ && _.hasOwnProperty('default') ? _['default'] : _;
 
@@ -720,7 +720,7 @@
         TabsComponent.decorators = [
             { type: core.Component, args: [{
                         selector: 'io-tabs',
-                        template: "\n      <ng-template>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <div class=\"label_container\">\n          <ng-container *ngFor=\"let tab of contentList; let i =index\">\n              <tab-label\n                      [ngClass]=\"tab.active && 'active'\"\n                      (click)=\"selectTab(i)\"\n                      [text]=\"tab.label\"\n                      [template]=\"tab._labelComp?._templateRef\"\n              >\n              </tab-label>\n          </ng-container>\n      </div>\n      <tab-content\n              *ngIf=\"activeTab\"\n              [template]=\"activeTab._contentComp ? activeTab._contentComp._templateRef : activeTab._tabTemplateRef\"\n      >\n      </tab-content>\n\n  ",
+                        template: "\n      <ng-template>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <div class=\"label_container\">\n          <ng-container *ngFor=\"let tab of contentList; let i =index\">\n              <tab-label\n                      [ngClass]=\"tab.active && 'active'\"\n                      (click)=\"selectTab(i)\"\n                      [text]=\"tab.label\"\n                      [template]=\"tab._labelComp?._templateRef\"\n              >\n              </tab-label>\n          </ng-container>\n      </div>\n      \n      <tab-content\n              *ngIf=\"activeTab\"\n              [template]=\"activeTab._contentComp ? activeTab._contentComp._templateRef : activeTab._tabTemplateRef\"\n      >\n      </tab-content>\n    \n\n  ",
                         styles: [":host{display:flex;flex-direction:column;position:relative}:host ::ng-deep .label_container{display:flex}:host ::ng-deep .label_container tab-label{cursor:pointer}"]
                     }] }
         ];
@@ -1998,8 +1998,8 @@
                     direction = 'next';
                 }
                 return (entrance === 'entrance')
-                    ? (direction === 'next') ? animations.useAnimation(animations$1.slide_in_right, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slide_in_left, { params: { timing: 500 } })
-                    : (direction === 'next') ? animations.useAnimation(animations$1.slide_out_left, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slide_out_right, { params: { timing: 500 } });
+                    ? (direction === 'next') ? animations.useAnimation(animations$1.slideInRightAnimation, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slideInLeftAnimation, { params: { timing: 500 } })
+                    : (direction === 'next') ? animations.useAnimation(animations$1.slideOutLeftAnimation, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slideOutRightAnimation, { params: { timing: 500 } });
             };
         }
         /**
