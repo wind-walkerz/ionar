@@ -33,4 +33,4 @@ IonarModule.decorators = [
 
 export { IonarModule };
 
-//# sourceMappingURL=ionar.js.map
+//# sourceMappingURL=ionar-core.js.map

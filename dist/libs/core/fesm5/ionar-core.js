@@ -36,4 +36,4 @@ var IonarModule = /** @class */ (function () {
 
 export { IonarModule };
 
-//# sourceMappingURL=ionar.js.map
+//# sourceMappingURL=ionar-core.js.map

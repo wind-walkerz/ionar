@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@ionar/ui'), require('@ionar/form')) :
-    typeof define === 'function' && define.amd ? define('ionar', ['exports', '@angular/core', '@ionar/ui', '@ionar/form'], factory) :
-    (factory((global.ionar = {}),global.ng.core,global.ui,global.form));
+    typeof define === 'function' && define.amd ? define('@ionar/core', ['exports', '@angular/core', '@ionar/ui', '@ionar/form'], factory) :
+    (factory((global.ionar = global.ionar || {}, global.ionar.core = {}),global.ng.core,global.ui,global.form));
 }(this, (function (exports,core,ui,form) { 'use strict';
 
     /**
@@ -42,4 +42,4 @@
 
 })));
 
-//# sourceMappingURL=ionar.umd.js.map
+//# sourceMappingURL=ionar-core.umd.js.map

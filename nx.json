@@ -8,11 +8,6 @@
     "nx.json": "*"
   },
   "projects": {
-    "ionar": {
-      "tags": [
-        "ionar"
-      ]
-    },
     "ui": {
       "tags": []
     },

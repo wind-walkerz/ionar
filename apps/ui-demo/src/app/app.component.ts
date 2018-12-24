@@ -1,5 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import { IonarLoadingService } from '@ionar/ui';
+import { IonarToastService } from '../../../../libs/ui/src/components/toast/toast.service';
 
 @Component({
   selector: 'ionar-root',
@@ -9,13 +10,14 @@ import { IonarLoadingService } from '@ionar/ui';
 export class AppComponent implements OnInit, AfterViewInit {
   title: Boolean = true;
 
-  constructor(private _loadingSvs: IonarLoadingService) {
+  constructor(private _loadingSvs: IonarLoadingService, private _toast: IonarToastService) {
 
   }
 
   ngOnInit(): void {
 
   }
+
   ngAfterViewInit(): void {
     this._loadingSvs.show();
 
@@ -23,5 +25,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     //   this._loadingSvs.hide()
     // }, 2000)
   }
+
+  sendMessage = () => {
+    this._toast.sendMessage('928374298');
+
+  };
 
 }

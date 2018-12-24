@@ -1,3 +1,66 @@
 {
-  "ionar-ionar": []
+  "animation-demo": [
+    {
+      "projectName": "animations",
+      "type": "es6Import"
+    }
+  ],
+  "animations": [],
+  "form-demo": [
+    {
+      "projectName": "form",
+      "type": "es6Import"
+    }
+  ],
+  "ui-demo": [
+    {
+      "projectName": "ui",
+      "type": "es6Import"
+    }
+  ],
+  "utility": [],
+  "homeey": [
+    {
+      "projectName": "ui",
+      "type": "es6Import"
+    },
+    {
+      "projectName": "utility",
+      "type": "es6Import"
+    },
+    {
+      "projectName": "animations",
+      "type": "es6Import"
+    },
+    {
+      "projectName": "form",
+      "type": "es6Import"
+    }
+  ],
+  "form": [
+    {
+      "projectName": "utility",
+      "type": "es6Import"
+    }
+  ],
+  "core": [
+    {
+      "projectName": "ui",
+      "type": "es6Import"
+    },
+    {
+      "projectName": "form",
+      "type": "es6Import"
+    }
+  ],
+  "ui": [
+    {
+      "projectName": "utility",
+      "type": "es6Import"
+    },
+    {
+      "projectName": "animations",
+      "type": "es6Import"
+    }
+  ]
 }

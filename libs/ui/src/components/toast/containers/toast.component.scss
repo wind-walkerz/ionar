@@ -1,0 +1,25 @@
+:host {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    margin: 1.6rem 1.6rem 0 0;
+
+    width: 25%;
+    z-index: 90;
+
+    .toast-message {
+        padding: 1rem 1.6rem;
+        border-radius: .4rem;
+        box-shadow: 0 .4rem 1.2rem rgba(0,0,0,0.15);
+        background: #fff;
+        line-height: 1.5;
+        position: relative;
+        margin-bottom: 1.3rem;
+        overflow: hidden;
+        &.success {
+            background-color: #23d160;
+        }
+    }
+}
