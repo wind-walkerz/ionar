@@ -3,9 +3,8 @@ import {AuthService} from '../../providers/auth.service';
 import {Logger} from '../../../../core/services';
 import _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
-import { ControlConfig } from '../../../../../../../../libs/form/src/core/models/ControlConfig';
-import { FormGroup, IonarFormBuilder } from '@ionar/form';
-import { Form } from '@angular/forms';
+import {ControlConfig, FormGroup, IonarFormBuilder} from '@ionar/form';
+
 
 
 const log = new Logger('ForgotPasswordComponent');
