@@ -1,9 +1,10 @@
-import { FormControl } from './FormControl';
+import { FormControl } from '../models/FormControl';
 import { forkJoin, Observable } from 'rxjs';
 import _ from 'lodash';
 import { Form } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { ControlConfig } from '../models/ControlConfig';
+import { AbstractControlConfig, AbstractControlState } from './Form';
+
 
 export interface ValidationErrors {
   [key: string]: any
@@ -128,20 +129,19 @@ export class Validators {
    * `minlength` if the validation check fails, otherwise `null`.
    */
   static stringLength = (control: FormControl): ValidationErrors | null => {
-
-    const controlConfig = <ControlConfig>control.configuration;
+    const state = <AbstractControlState>control.state;
 
     if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
     }
 
-    if (controlConfig.type !== ('input' || 'textarea')) {
+    if (state.type !== ('input' || 'textarea')) {
       throw new Error(`'stringLength' validator can only be used with control type 'input' or 'textarea'`);
     }
 
     const
-      min: number = controlConfig.validators['stringLength'].min,
-      max: number = controlConfig.validators['stringLength'].max,
+      min: number = state.validators['stringLength'].min,
+      max: number = state.validators['stringLength'].max,
       length: number = control.value ? control.value.length : 0;
 
     if (length < min) {
@@ -172,14 +172,14 @@ export class Validators {
       return null;  // don't validate empty values to allow optional controls
     }
 
-    const controlConfig = <ControlConfig>control.configuration;
+    const state = <AbstractControlState>control.state;
 
-    const compareWith = _.isString(controlConfig.validators['equalTo']) ? controlConfig.validators['equalTo'] : controlConfig.validators['equalTo'].compare;
+    const compareWith = _.isString(state.validators['equalTo']) ? state.validators['equalTo'] : state.validators['equalTo'].compare;
 
     const compared_control = control.parent.controls[compareWith];
 
     return (JSON.stringify(control.value) === JSON.stringify(compared_control.value))
-      ? null : { equalTo: controlConfig.validators['equalTo'] };
+      ? null : { equalTo: state.validators['equalTo'] };
   };
 
 
@@ -212,7 +212,7 @@ export class Validators {
   static composeAsync(asyncValidators: AsyncValidatorFn[]): AsyncValidatorFn | null {
     if (!asyncValidators) return null;
     const presentValidators: AsyncValidatorFn[] = asyncValidators.filter(isPresent) as any;
-    if (presentValidators.length == 0) return null;
+    if (presentValidators.length === 0) return null;
 
     return function(control: FormControl) {
       const observables = _executeAsyncValidators(control, presentValidators);

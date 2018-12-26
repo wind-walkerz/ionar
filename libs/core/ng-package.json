@@ -9,6 +9,9 @@
     "@ionar/form",
     "@ionar/utility",
     "@ionar/animations",
-    "@ionar/cli-schematics"
+    "@ionar/cli-schematics",
+    "uuid",
+    "lodash",
+    "moment"
   ]
 }

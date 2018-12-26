@@ -1,6 +1,8 @@
 import { FormGroup } from '../models/FormGroup';
-import { ControlConfig, FormConfigs } from '../models/ControlConfig';
+
 import { Injectable } from '@angular/core';
+import { AbstractControlConfig, AbstractControlState, FormGroupState } from '../interfaces/Form';
+import { FormService } from './form.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +10,8 @@ import { Injectable } from '@angular/core';
 
 export class IonarFormBuilder {
 
-
-  group = (formState: ControlConfig[], formConfigs?: FormConfigs): FormGroup => {
-
-    return new FormGroup(formState, formConfigs);
+  group = (state: FormGroupState, config?: AbstractControlConfig): FormGroup => {
+    return new FormGroup(state, config);
   };
 }
 

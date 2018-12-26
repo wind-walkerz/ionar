@@ -107,7 +107,6 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
 
   onChange = _.debounce(e => {
     e.stopPropagation();
-    console.log(e.target.value);
     let value = e.target.value;
     const min = parseInt(this.range[0], 10);
     const max = parseInt(this.range[1], 10);

@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
-import { Form } from '@angular/forms';
 
 
 @Component({
@@ -10,14 +9,11 @@ import { Form } from '@angular/forms';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  _formConfigs: ControlConfig[] = [];
-
-
-  secondFormGroup: FormGroup
+  _formConfigs;
 
 
   constructor(
@@ -28,20 +24,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-
-
-  }
-
-
-  onSubmit = form_data => {
-    console.log(form_data);
-  };
-
-  ngAfterViewInit(): void {
-    this._formConfigs = [
-      {
+    this._formConfigs = {
+      email: new FormControl({
         type: 'input',
-        name: 'email',
         value: '023984092',
         props: {
           placeholder: 'Write your comment...'
@@ -49,14 +34,22 @@ export class AppComponent implements AfterViewInit {
         validators: {
           required: true
         }
-      }
-    ];
+      }),
+      array: new FormGroup({
+        username: new FormControl({
+          type: 'input'
+        })
+      })
+    };
 
-    this.formGroup = this._fb.group(this._formConfigs);
+    this.formGroup = this._fb.group(this._formConfigs, {});
 
-    this.secondFormGroup = this._fb.group(this._formConfigs)
-    this.cd.detectChanges();
   }
+
+
+  onSubmit = form_data => {
+    console.log(form_data);
+  };
 
   onReset = () => {
     this.formGroup.reset({
@@ -75,7 +68,9 @@ export class AppComponent implements AfterViewInit {
   };
 
   toggleReadMode = () => {
-    this.formGroup.readonly = !this.formGroup.readonly;
+    this.formGroup.configuration = {
+      readonly: !this.formGroup.configuration.readonly
+    };
   };
 }
 

@@ -1,7 +1,7 @@
 import { AfterViewInit, Injectable, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup } from '../models/FormGroup';
 import { AbstractControl } from '../models/AbstractControl';
-import { ValidationConfigs } from '../models/Validator';
+import { FormControl } from '../models/FormControl';
 import { Observable, Subject } from 'rxjs';
 import _ from 'lodash';
 
@@ -12,7 +12,7 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   private formGroup: FormGroup;
 
-  $initialize = new Subject()
+  $initialize = new Subject();
 
 
   ngAfterViewInit(): void {
@@ -30,11 +30,24 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   initialize = (formGroup: FormGroup) => {
     this.formGroup = formGroup;
-    this.$initialize.next(formGroup)
+    this.$initialize.next(formGroup);
+  };
+
+  mergeControls = (controls: { [name: string]: any }) => {
+    let result = [];
+
+    _.forOwn(controls, (value: AbstractControl, name: string) => {
+      if (value instanceof FormControl) result.push(name);
+
+      if (value instanceof FormGroup) result = result.concat(this.mergeControls(value.controls));
+
+
+    });
+
+    return result;
   };
 
 
-  getFormGroup = (): FormGroup => this.formGroup;
   getControl = (name): AbstractControl => this.formGroup.get(name);
 
   convertToFormData = data => {

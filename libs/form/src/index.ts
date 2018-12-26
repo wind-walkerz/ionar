@@ -4,7 +4,7 @@ export { FormControl } from './core/models/FormControl';
 
 export { FormGroup } from './core/models/FormGroup';
 
-export *  from './core/models/Validator';
-export * from './core/models/ControlConfig';
+export *  from './core/interfaces/Validator';
+
 
 export { IonarFormBuilder } from './core/providers/form_builder';

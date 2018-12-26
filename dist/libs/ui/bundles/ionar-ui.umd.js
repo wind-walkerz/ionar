@@ -1,10 +1,11 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('@ionar/utility'), require('lodash'), require('@angular/common'), require('@angular/animations'), require('@angular/core'), require('@ionar/animations')) :
-    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', '@ionar/utility', 'lodash', '@angular/common', '@angular/animations', '@angular/core', '@ionar/animations'], factory) :
-    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global.utility,global._,global.ng.common,global.ng.animations,global.ng.core,global.animations$1));
-}(this, (function (exports,rxjs,utility,_,common,animations,core,animations$1) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('lodash'), require('uuid/v1'), require('@ionar/utility'), require('@angular/common'), require('@angular/animations'), require('@angular/core'), require('@ionar/animations')) :
+    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', 'lodash', 'uuid/v1', '@ionar/utility', '@angular/common', '@angular/animations', '@angular/core', '@ionar/animations'], factory) :
+    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global._,global.uuid,global.utility,global.ng.common,global.ng.animations,global.ng.core,global.animations$1));
+}(this, (function (exports,rxjs,_,uuid,utility,common,animations,i0,animations$1) { 'use strict';
 
     _ = _ && _.hasOwnProperty('default') ? _['default'] : _;
+    uuid = uuid && uuid.hasOwnProperty('default') ? uuid['default'] : uuid;
 
     /**
      * @fileoverview added by tsickle
@@ -14,7 +15,7 @@
         function FlexElement() {
         }
         FlexElement.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'flex',
                         template: "\n      <ng-content></ng-content>\n  ",
                         styles: ["\n      :host {\n          display: flex;\n      }\n  "]
@@ -72,7 +73,7 @@
                 this.isDisabled = this.disabled;
             };
         ButtonComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-btn',
                         template: "\n      <ng-content></ng-content>\n  ",
                         styles: [":host{background-color:#fff;border:1px solid #d9d9d9;border-radius:.4rem;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:rgba(0,0,0,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0;font-size:1.4rem;font-weight:400;margin:0 auto;outline:0;padding:.5rem 1.5rem;position:relative;text-align:center;touch-action:manipulation;transition:.3s cubic-bezier(.645,.045,.355,1);text-shadow:0 -1px 0 rgba(0,0,0,.12);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap;height:3.2rem}:host:hover{border-color:#40a9ff;color:#40a9ff}:host:active{border-color:#096dd9;color:#096dd9}:host.disabled{cursor:not-allowed}:host-context(.primary){background-color:#1890ff;border-color:#1890ff;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:#fff}:host-context(.primary):hover{background-color:#40a9ff;border-color:#40a9ff}:host-context(.primary):active{background-color:#096dd9;border-color:#096dd9}:host-context(.danger){background-color:#f5222d;border-color:#f5222d;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:#fff}:host-context(.danger):hover{background-color:#ff5654;border-color:#ff5654}:host-context(.danger):active{background-color:#cb2d35;border-color:#cb2d35}"]
@@ -81,12 +82,12 @@
         /** @nocollapse */
         ButtonComponent.ctorParameters = function () { return []; };
         ButtonComponent.propDecorators = {
-            disabled: [{ type: core.Input }],
-            type: [{ type: core.Input }],
-            primary_style: [{ type: core.HostBinding, args: ['class.primary',] }],
-            danger_style: [{ type: core.HostBinding, args: ['class.danger',] }],
-            isDisabled: [{ type: core.HostBinding, args: ['class.disabled',] }],
-            onClick: [{ type: core.HostListener, args: ['click',] }]
+            disabled: [{ type: i0.Input }],
+            type: [{ type: i0.Input }],
+            primary_style: [{ type: i0.HostBinding, args: ['class.primary',] }],
+            danger_style: [{ type: i0.HostBinding, args: ['class.danger',] }],
+            isDisabled: [{ type: i0.HostBinding, args: ['class.disabled',] }],
+            onClick: [{ type: i0.HostListener, args: ['click',] }]
         };
         return ButtonComponent;
     }());
@@ -99,7 +100,7 @@
         function ButtonModule() {
         }
         ButtonModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         declarations: [
                             ButtonComponent
                         ],
@@ -120,7 +121,7 @@
         function ElementModule() {
         }
         ElementModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         declarations: [
                             FlexElement
                         ],
@@ -145,9 +146,9 @@
         function ModalComponent(eRef) {
             var _this = this;
             this.eRef = eRef;
-            this.onCancel = new core.EventEmitter();
-            this.onOk = new core.EventEmitter();
-            this.close = new core.EventEmitter();
+            this.onCancel = new i0.EventEmitter();
+            this.onOk = new i0.EventEmitter();
+            this.close = new i0.EventEmitter();
             ///-----------------------------------------------  Main Functions   -----------------------------------------------///
             this.onClose = function () {
                 _this.close.emit();
@@ -183,7 +184,7 @@
             function (changes) {
             };
         ModalComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-modal',
                         template: "<div class=\"mask\" *ngIf=\"visible\" (click)=\"onClose()\">\r\n\r\n</div>\r\n\r\n<div class=\"content\" *ngIf=\"visible\">\r\n    <ng-content></ng-content>\r\n</div>\r\n\r\n",
                         styles: [".mask{display:flex;align-items:center;justify-content:center;position:fixed;top:0;right:0;left:0;bottom:0;background-color:rgba(0,0,0,.65);height:100%;z-index:399}:host{display:flex;justify-content:center}:host .content{display:flex;flex-direction:column;position:relative;background-color:#fff;border:0;border-radius:4px;background-clip:padding-box;box-shadow:0 4px 12px rgba(0,0,0,.15);width:52rem;height:52rem;z-index:400}"]
@@ -192,16 +193,16 @@
         /** @nocollapse */
         ModalComponent.ctorParameters = function () {
             return [
-                { type: core.ElementRef }
+                { type: i0.ElementRef }
             ];
         };
         ModalComponent.propDecorators = {
-            visible: [{ type: core.Input }],
-            onCancel: [{ type: core.Output }],
-            onOk: [{ type: core.Output }],
-            close: [{ type: core.Output }],
-            _maskElRef: [{ type: core.ViewChild, args: ['mask', { read: core.ElementRef },] }],
-            onKeydownHandler: [{ type: core.HostListener, args: ['document:keydown.escape', ['$event'],] }]
+            visible: [{ type: i0.Input }],
+            onCancel: [{ type: i0.Output }],
+            onOk: [{ type: i0.Output }],
+            close: [{ type: i0.Output }],
+            _maskElRef: [{ type: i0.ViewChild, args: ['mask', { read: i0.ElementRef },] }],
+            onKeydownHandler: [{ type: i0.HostListener, args: ['document:keydown.escape', ['$event'],] }]
         };
         return ModalComponent;
     }());
@@ -214,7 +215,7 @@
         function ModalModule() {
         }
         ModalModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         declarations: [
                             ModalComponent
                         ],
@@ -233,7 +234,7 @@
      */
     var CollapseToggleDirective = /** @class */ (function () {
         function CollapseToggleDirective() {
-            this.toggle = new core.EventEmitter();
+            this.toggle = new i0.EventEmitter();
         }
         /**
          * @param {?} $event
@@ -247,15 +248,15 @@
                 this.toggle.emit();
             };
         CollapseToggleDirective.decorators = [
-            { type: core.Directive, args: [{
+            { type: i0.Directive, args: [{
                         selector: '[collapse-toggle]'
                     },] }
         ];
         /** @nocollapse */
         CollapseToggleDirective.ctorParameters = function () { return []; };
         CollapseToggleDirective.propDecorators = {
-            toggle: [{ type: core.Output }],
-            onClick: [{ type: core.HostListener, args: ['click',] }]
+            toggle: [{ type: i0.Output }],
+            onClick: [{ type: i0.HostListener, args: ['click',] }]
         };
         return CollapseToggleDirective;
     }());
@@ -267,7 +268,7 @@
     var HeaderComponent = /** @class */ (function () {
         function HeaderComponent() {
             ///-----------------------------------------------  Variables   -----------------------------------------------///
-            this.toggle = new core.EventEmitter();
+            this.toggle = new i0.EventEmitter();
             this.collapsed = false;
         }
         /**
@@ -312,7 +313,7 @@
             function () {
             };
         HeaderComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'collapse-header',
                         exportAs: 'collapse-header',
                         template: "    \n          <ng-content></ng-content>\n  "
@@ -321,10 +322,10 @@
         /** @nocollapse */
         HeaderComponent.ctorParameters = function () { return []; };
         HeaderComponent.propDecorators = {
-            toggle: [{ type: core.Output }],
-            onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }],
-            collapsed: [{ type: core.HostBinding, args: ['class.collapsed',] }],
-            _toggleDir: [{ type: core.ContentChild, args: [CollapseToggleDirective,] }]
+            toggle: [{ type: i0.Output }],
+            onClick: [{ type: i0.HostListener, args: ['click', ['$event'],] }],
+            collapsed: [{ type: i0.HostBinding, args: ['class.collapsed',] }],
+            _toggleDir: [{ type: i0.ContentChild, args: [CollapseToggleDirective,] }]
         };
         return HeaderComponent;
     }());
@@ -373,13 +374,13 @@
             function () {
             };
         ContentComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'collapse-content',
                         template: "\n      <ng-content></ng-content>"
                     }] }
         ];
         ContentComponent.propDecorators = {
-            display: [{ type: core.HostBinding, args: ['style.display',] }]
+            display: [{ type: i0.HostBinding, args: ['style.display',] }]
         };
         return ContentComponent;
     }());
@@ -428,7 +429,7 @@
             function () {
             };
         PanelComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'collapse-panel',
                         template: "\n      <ng-content select=\"collapse-header\"></ng-content>\n\n      <ng-content select=\"collapse-content\"></ng-content>\n\n  "
                     }] }
@@ -436,8 +437,8 @@
         /** @nocollapse */
         PanelComponent.ctorParameters = function () { return []; };
         PanelComponent.propDecorators = {
-            _headerComp: [{ type: core.ContentChild, args: [HeaderComponent,] }],
-            _contentComp: [{ type: core.ContentChild, args: [ContentComponent,] }]
+            _headerComp: [{ type: i0.ContentChild, args: [HeaderComponent,] }],
+            _contentComp: [{ type: i0.ContentChild, args: [ContentComponent,] }]
         };
         return PanelComponent;
     }());
@@ -482,7 +483,7 @@
             function () {
             };
         CollapsibleComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-collapsible',
                         template: "\n      <ng-container *ngIf=\"!single\">\n          <ng-content select=\"collapse-panel\"></ng-content>\n      </ng-container>\n\n      <ng-container *ngIf=\"single\">\n          <ng-content select=\"collapse-header\"></ng-content>\n\n          <ng-content select=\"collapse-content\"></ng-content>\n      </ng-container>\n  ",
                         styles: [":host{display:flex;flex-direction:column}:host ::ng-deep collapse-panel{background-color:#fff;border:1px solid rgba(0,0,0,.16);border-radius:.4rem;box-shadow:0 .3rem .6rem rgba(0,0,0,.16)}:host ::ng-deep collapse-header{border-bottom:1px solid rgba(0,0,0,.16);cursor:pointer;display:flex;align-items:center;font-size:2rem;font-weight:600;margin:.1rem 0;padding:.6rem 1rem}:host ::ng-deep collapse-header.collapsed{border-bottom:0}:host ::ng-deep collapse-content{padding:2rem}"]
@@ -491,9 +492,9 @@
         /** @nocollapse */
         CollapsibleComponent.ctorParameters = function () { return []; };
         CollapsibleComponent.propDecorators = {
-            _panelComp: [{ type: core.ContentChild, args: [PanelComponent,] }],
-            _headerComp: [{ type: core.ContentChild, args: [HeaderComponent,] }],
-            _contentComp: [{ type: core.ContentChild, args: [ContentComponent,] }]
+            _panelComp: [{ type: i0.ContentChild, args: [PanelComponent,] }],
+            _headerComp: [{ type: i0.ContentChild, args: [HeaderComponent,] }],
+            _contentComp: [{ type: i0.ContentChild, args: [ContentComponent,] }]
         };
         return CollapsibleComponent;
     }());
@@ -506,7 +507,7 @@
         function CollapsibleModule() {
         }
         CollapsibleModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             common.CommonModule
                         ],
@@ -563,7 +564,7 @@
             function () {
             };
         TabLabelComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'tab-label',
                         template: "\n      <ng-template #tpl>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <ng-container *ngIf=\"text\">\n          {{text}}\n      </ng-container>\n      <ng-container #vcRef></ng-container>\n  "
                     }] }
@@ -571,10 +572,10 @@
         /** @nocollapse */
         TabLabelComponent.ctorParameters = function () { return []; };
         TabLabelComponent.propDecorators = {
-            text: [{ type: core.Input }],
-            template: [{ type: core.Input }],
-            _templateRef: [{ type: core.ViewChild, args: ['tpl', { read: core.TemplateRef },] }],
-            _vcRef: [{ type: core.ViewChild, args: ['vcRef', { read: core.ViewContainerRef },] }]
+            text: [{ type: i0.Input }],
+            template: [{ type: i0.Input }],
+            _templateRef: [{ type: i0.ViewChild, args: ['tpl', { read: i0.TemplateRef },] }],
+            _vcRef: [{ type: i0.ViewChild, args: ['vcRef', { read: i0.ViewContainerRef },] }]
         };
         return TabLabelComponent;
     }());
@@ -622,7 +623,7 @@
                 this.createView();
             };
         TabContentComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'tab-content',
                         template: "\n      <ng-template #content>\n          <ng-content></ng-content>\n      </ng-template>\n    \n    <ng-container #vcRef>\n        \n    </ng-container>\n  "
                     }] }
@@ -630,9 +631,9 @@
         /** @nocollapse */
         TabContentComponent.ctorParameters = function () { return []; };
         TabContentComponent.propDecorators = {
-            template: [{ type: core.Input }],
-            _templateRef: [{ type: core.ViewChild, args: ['content', { read: core.TemplateRef },] }],
-            _vcRef: [{ type: core.ViewChild, args: ['vcRef', { read: core.ViewContainerRef },] }]
+            template: [{ type: i0.Input }],
+            _templateRef: [{ type: i0.ViewChild, args: ['content', { read: i0.TemplateRef },] }],
+            _vcRef: [{ type: i0.ViewChild, args: ['vcRef', { read: i0.ViewContainerRef },] }]
         };
         return TabContentComponent;
     }());
@@ -667,7 +668,7 @@
             function () {
             };
         TabComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'tab',
                         template: "\n      <ng-template #tab>\n          <ng-content></ng-content>\n      </ng-template>\n  "
                     }] }
@@ -675,10 +676,10 @@
         /** @nocollapse */
         TabComponent.ctorParameters = function () { return []; };
         TabComponent.propDecorators = {
-            label: [{ type: core.Input }],
-            _tabTemplateRef: [{ type: core.ViewChild, args: ['tab', { read: core.TemplateRef },] }],
-            _labelComp: [{ type: core.ContentChild, args: [TabLabelComponent,] }],
-            _contentComp: [{ type: core.ContentChild, args: [TabContentComponent,] }]
+            label: [{ type: i0.Input }],
+            _tabTemplateRef: [{ type: i0.ViewChild, args: ['tab', { read: i0.TemplateRef },] }],
+            _labelComp: [{ type: i0.ContentChild, args: [TabLabelComponent,] }],
+            _contentComp: [{ type: i0.ContentChild, args: [TabContentComponent,] }]
         };
         return TabComponent;
     }());
@@ -718,7 +719,7 @@
                 this.cd.detectChanges();
             };
         TabsComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-tabs',
                         template: "\n      <ng-template>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <div class=\"label_container\">\n          <ng-container *ngFor=\"let tab of contentList; let i =index\">\n              <tab-label\n                      [ngClass]=\"tab.active && 'active'\"\n                      (click)=\"selectTab(i)\"\n                      [text]=\"tab.label\"\n                      [template]=\"tab._labelComp?._templateRef\"\n              >\n              </tab-label>\n          </ng-container>\n      </div>\n      \n      <tab-content\n              *ngIf=\"activeTab\"\n              [template]=\"activeTab._contentComp ? activeTab._contentComp._templateRef : activeTab._tabTemplateRef\"\n      >\n      </tab-content>\n    \n\n  ",
                         styles: [":host{display:flex;flex-direction:column;position:relative}:host ::ng-deep .label_container{display:flex}:host ::ng-deep .label_container tab-label{cursor:pointer}"]
@@ -727,11 +728,11 @@
         /** @nocollapse */
         TabsComponent.ctorParameters = function () {
             return [
-                { type: core.ChangeDetectorRef }
+                { type: i0.ChangeDetectorRef }
             ];
         };
         TabsComponent.propDecorators = {
-            contentList: [{ type: core.ContentChildren, args: [TabComponent,] }]
+            contentList: [{ type: i0.ContentChildren, args: [TabComponent,] }]
         };
         return TabsComponent;
     }());
@@ -744,7 +745,7 @@
         function TabsModule() {
         }
         TabsModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [common.CommonModule],
                         declarations: [TabsComponent, TabComponent, TabLabelComponent, TabContentComponent
                         ],
@@ -765,7 +766,20 @@
             ///-----------------------------------------------  Variables   -----------------------------------------------///
             this.visible = false;
             this.visibilityChange$ = new rxjs.Subject();
+            this.change = new i0.EventEmitter();
         }
+        /**
+         * @param {?} e
+         * @return {?}
+         */
+        MenuComponent.prototype.onClick = /**
+         * @param {?} e
+         * @return {?}
+         */
+            function (e) {
+                if (e.target instanceof HTMLElement)
+                    this.change.emit();
+            };
         ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
         ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
         /**
@@ -798,24 +812,26 @@
             function () {
             };
         MenuComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'dropdown-menu',
                         template: "\n      <ng-content></ng-content>",
-                        changeDetection: core.ChangeDetectionStrategy.OnPush,
+                        changeDetection: i0.ChangeDetectionStrategy.OnPush,
                         styles: ["\n      :host {\n          display: flex;\n          flex-shrink: 0;\n      }\n  "]
                     }] }
         ];
         /** @nocollapse */
         MenuComponent.ctorParameters = function () {
             return [
-                { type: core.ElementRef }
+                { type: i0.ElementRef }
             ];
         };
         MenuComponent.propDecorators = {
-            visible: [{ type: core.Input }],
-            template: [{ type: core.Input }],
-            tplRef: [{ type: core.ViewChild, args: ['tpl',] }],
-            vcRef: [{ type: core.ViewChild, args: ['vc', { read: core.ViewContainerRef },] }]
+            visible: [{ type: i0.Input }],
+            template: [{ type: i0.Input }],
+            tplRef: [{ type: i0.ViewChild, args: ['tpl',] }],
+            vcRef: [{ type: i0.ViewChild, args: ['vc', { read: i0.ViewContainerRef },] }],
+            change: [{ type: i0.Output }],
+            onClick: [{ type: i0.HostListener, args: ['click', ['$event'],] }]
         };
         return MenuComponent;
     }());
@@ -827,7 +843,7 @@
     var ToggleComponent = /** @class */ (function () {
         function ToggleComponent() {
             ///-----------------------------------------------  Variables   -----------------------------------------------///
-            this.change = new core.EventEmitter();
+            this.change = new i0.EventEmitter();
         }
         /**
          * @param {?} e
@@ -861,7 +877,7 @@
             function () {
             };
         ToggleComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'dropdown-toggle',
                         template: "\n      <ng-content></ng-content>",
                         styles: ["\n      :host {\n          display: flex;\n          flex-shrink: 0;\n      }\n  "]
@@ -870,8 +886,8 @@
         /** @nocollapse */
         ToggleComponent.ctorParameters = function () { return []; };
         ToggleComponent.propDecorators = {
-            change: [{ type: core.Output }],
-            onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
+            change: [{ type: i0.Output }],
+            onClick: [{ type: i0.HostListener, args: ['click', ['$event'],] }]
         };
         return ToggleComponent;
     }());
@@ -931,6 +947,9 @@
                 this._toggleComp.change.subscribe(function () {
                     _this.showDropdownMenu = !_this.showDropdownMenu;
                 });
+                this._menuComp.change.subscribe(function () {
+                    _this.showDropdownMenu = !_this.showDropdownMenu;
+                });
                 this.cd.detectChanges();
             };
         /**
@@ -952,23 +971,23 @@
             function () {
             };
         DropdownComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-dropdown',
                         template: "\n      <ng-content select=\"dropdown-toggle\"></ng-content>\n\n      <ng-container *ngIf=\"showDropdownMenu && visible\">\n          <ng-content select=\"dropdown-menu\"></ng-content>\n      </ng-container>\n  ",
-                        changeDetection: core.ChangeDetectionStrategy.OnPush
+                        changeDetection: i0.ChangeDetectionStrategy.OnPush
                     }] }
         ];
         /** @nocollapse */
         DropdownComponent.ctorParameters = function () {
             return [
-                { type: core.ElementRef },
-                { type: core.ChangeDetectorRef }
+                { type: i0.ElementRef },
+                { type: i0.ChangeDetectorRef }
             ];
         };
         DropdownComponent.propDecorators = {
-            _menuComp: [{ type: core.ContentChild, args: [MenuComponent,] }],
-            _toggleComp: [{ type: core.ContentChild, args: [ToggleComponent,] }],
-            onClickOutside: [{ type: core.HostListener, args: ['document:click', ['$event'],] }]
+            _menuComp: [{ type: i0.ContentChild, args: [MenuComponent,] }],
+            _toggleComp: [{ type: i0.ContentChild, args: [ToggleComponent,] }],
+            onClickOutside: [{ type: i0.HostListener, args: ['document:click', ['$event'],] }]
         };
         return DropdownComponent;
     }());
@@ -981,7 +1000,7 @@
         function DropdownModule() {
         }
         DropdownModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             common.CommonModule
                         ],
@@ -1011,7 +1030,7 @@
             this.enabled = function () { return _this.isDisabled = false; };
         }
         IonarLoadingService.decorators = [
-            { type: core.Injectable }
+            { type: i0.Injectable }
         ];
         return IonarLoadingService;
     }());
@@ -1063,10 +1082,10 @@
             function () {
             };
         LoadingComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-loading',
                         template: "<div class=\"content\" *ngIf=\"visible\">\r\n    <sk-circle></sk-circle>\r\n</div>",
-                        changeDetection: core.ChangeDetectionStrategy.OnPush,
+                        changeDetection: i0.ChangeDetectionStrategy.OnPush,
                         styles: [":host .content{background-color:rgba(51,51,51,.8);display:flex;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100!important}"]
                     }] }
         ];
@@ -1074,7 +1093,7 @@
         LoadingComponent.ctorParameters = function () {
             return [
                 { type: IonarLoadingService },
-                { type: core.ChangeDetectorRef }
+                { type: i0.ChangeDetectorRef }
             ];
         };
         return LoadingComponent;
@@ -1146,15 +1165,15 @@
                 this.cancel();
             };
         SpinnerComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'spinner',
                         template: ''
                     }] }
         ];
         SpinnerComponent.propDecorators = {
-            delay: [{ type: core.Input }],
-            color: [{ type: core.Input }],
-            isRunning: [{ type: core.Input }]
+            delay: [{ type: i0.Input }],
+            color: [{ type: i0.Input }],
+            isRunning: [{ type: i0.Input }]
         };
         return SpinnerComponent;
     }());
@@ -1228,7 +1247,7 @@
             return _this;
         }
         CircleComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'sk-circle',
                         template: SpinnerTemplate,
                         styles: ["\n      .circle-spinner {\n          position: relative;\n          margin: 25px auto;\n          width: 5rem;\n          height: 5rem;\n      }\n\n      .circle-spinner > div {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-color: transparent !important;\n      }\n\n      .circle-spinner div:before {\n          display: block;\n          margin: 0 auto;\n          width: 15%;\n          height: 15%;\n          border-radius: 100%;\n          background-color: white;\n          content: '';\n          -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;\n          animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;\n      }\n\n      .circle-spinner .circle2 {\n          -webkit-transform: rotate(30deg);\n          -ms-transform: rotate(30deg);\n          transform: rotate(30deg);\n      }\n\n      .circle-spinner .circle3 {\n          -webkit-transform: rotate(60deg);\n          -ms-transform: rotate(60deg);\n          transform: rotate(60deg);\n      }\n\n      .circle-spinner .circle4 {\n          -webkit-transform: rotate(90deg);\n          -ms-transform: rotate(90deg);\n          transform: rotate(90deg);\n      }\n\n      .circle-spinner .circle5 {\n          -webkit-transform: rotate(120deg);\n          -ms-transform: rotate(120deg);\n          transform: rotate(120deg);\n      }\n\n      .circle-spinner .circle6 {\n          -webkit-transform: rotate(150deg);\n          -ms-transform: rotate(150deg);\n          transform: rotate(150deg);\n      }\n\n      .circle-spinner .circle7 {\n          -webkit-transform: rotate(180deg);\n          -ms-transform: rotate(180deg);\n          transform: rotate(180deg);\n      }\n\n      .circle-spinner .circle8 {\n          -webkit-transform: rotate(210deg);\n          -ms-transform: rotate(210deg);\n          transform: rotate(210deg);\n      }\n\n      .circle-spinner .circle9 {\n          -webkit-transform: rotate(240deg);\n          -ms-transform: rotate(240deg);\n          transform: rotate(240deg);\n      }\n\n      .circle-spinner .circle10 {\n          -webkit-transform: rotate(270deg);\n          -ms-transform: rotate(270deg);\n          transform: rotate(270deg);\n      }\n\n      .circle-spinner .circle11 {\n          -webkit-transform: rotate(300deg);\n          -ms-transform: rotate(300deg);\n          transform: rotate(300deg);\n      }\n\n      .circle-spinner .circle12 {\n          -webkit-transform: rotate(330deg);\n          -ms-transform: rotate(330deg);\n          transform: rotate(330deg);\n      }\n\n      .circle-spinner .circle2:before {\n          -webkit-animation-delay: -1.1s;\n          animation-delay: -1.1s;\n      }\n\n      .circle-spinner .circle3:before {\n          -webkit-animation-delay: -1s;\n          animation-delay: -1s;\n      }\n\n      .circle-spinner .circle4:before {\n          -webkit-animation-delay: -0.9s;\n          animation-delay: -0.9s;\n      }\n\n      .circle-spinner .circle5:before {\n          -webkit-animation-delay: -0.8s;\n          animation-delay: -0.8s;\n      }\n\n      .circle-spinner .circle6:before {\n          -webkit-animation-delay: -0.7s;\n          animation-delay: -0.7s;\n      }\n\n      .circle-spinner .circle7:before {\n          -webkit-animation-delay: -0.6s;\n          animation-delay: -0.6s;\n      }\n\n      .circle-spinner .circle8:before {\n          -webkit-animation-delay: -0.5s;\n          animation-delay: -0.5s;\n      }\n\n      .circle-spinner .circle9:before {\n          -webkit-animation-delay: -0.4s;\n          animation-delay: -0.4s;\n      }\n\n      .circle-spinner .circle10:before {\n          -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n      }\n\n      .circle-spinner .circle11:before {\n          -webkit-animation-delay: -0.2s;\n          animation-delay: -0.2s;\n      }\n\n      .circle-spinner .circle12:before {\n          -webkit-animation-delay: -0.1s;\n          animation-delay: -0.1s;\n      }\n\n      @-webkit-keyframes sk-circleBounceDelay {\n          0%, 80%, 100% {\n              -webkit-transform: scale(0);\n              transform: scale(0);\n          }\n          40% {\n              -webkit-transform: scale(1);\n              transform: scale(1);\n          }\n      }\n\n      @keyframes sk-circleBounceDelay {\n          0%, 80%, 100% {\n              -webkit-transform: scale(0);\n              transform: scale(0);\n          }\n          40% {\n              -webkit-transform: scale(1);\n              transform: scale(1);\n          }\n      }\n  "]
@@ -1245,7 +1264,7 @@
         function LoadingModule() {
         }
         LoadingModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             common.CommonModule
                         ],
@@ -1268,7 +1287,7 @@
         function PageLinkComponent() {
             var _this = this;
             this.disabled = false;
-            this.change = new core.EventEmitter();
+            this.change = new i0.EventEmitter();
             this.onClick = function (e) {
                 if (!_this.disabled) {
                     _this.change.emit();
@@ -1296,7 +1315,7 @@
             function () {
             };
         PageLinkComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'page-link',
                         template: "<ng-template #tpl>\r\n    <ng-content></ng-content>\r\n</ng-template>\r\n\r\n<ng-container *ngIf=\"template\">\r\n    <ng-container *ngTemplateOutlet=\"template\"></ng-container>\r\n</ng-container>",
                         host: {
@@ -1308,13 +1327,13 @@
         /** @nocollapse */
         PageLinkComponent.ctorParameters = function () { return []; };
         PageLinkComponent.propDecorators = {
-            directionLinks: [{ type: core.Input }],
-            boundaryLinks: [{ type: core.Input }],
-            disabled: [{ type: core.Input }],
-            change: [{ type: core.Output }],
-            template: [{ type: core.Input }],
-            tpl: [{ type: core.ViewChild, args: ['tpl',] }],
-            onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
+            directionLinks: [{ type: i0.Input }],
+            boundaryLinks: [{ type: i0.Input }],
+            disabled: [{ type: i0.Input }],
+            change: [{ type: i0.Output }],
+            template: [{ type: i0.Input }],
+            tpl: [{ type: i0.ViewChild, args: ['tpl',] }],
+            onClick: [{ type: i0.HostListener, args: ['click', ['$event'],] }]
         };
         return PageLinkComponent;
     }());
@@ -1357,7 +1376,7 @@
              *  Current page. Page numbers start with 1
              */
             this.page = 1;
-            this.change = new core.EventEmitter();
+            this.change = new i0.EventEmitter();
             this.pages = [];
             this._getTemplate = function (key, value) {
                 /** @type {?} */
@@ -1586,7 +1605,7 @@
                 }
             };
         PaginationComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-pagination',
                         template: "<ng-container>\r\n    <page-link\r\n            [template]=\"boundary_first\"\r\n            [disabled]=\"page===1\"\r\n            (change)=\"selectPage(1)\"\r\n            *ngIf=\"boundary\"\r\n    ></page-link>\r\n    <page-link\r\n            [template]=\"direction_prev\"\r\n            [disabled]=\"page===1\"\r\n            (change)=\"selectPage(page - 1)\"\r\n            *ngIf=\"direction\"\r\n    ></page-link>\r\n\r\n    <ng-container *ngFor=\"let pageNumber of pages\">\r\n        <page-number\r\n                [number]=\"pageNumber\"\r\n                [currentPage]=\"this.page\"\r\n                (change)=\"selectPage($event)\"\r\n        ></page-number>\r\n    </ng-container>\r\n\r\n    <page-link\r\n            [template]=\"direction_next\"\r\n            [disabled]=\"page===total\"\r\n            (change)=\"selectPage(page + 1)\"\r\n            *ngIf=\"direction\"\r\n    ></page-link>\r\n    <page-link\r\n            [template]=\"boundary_last\"\r\n            [disabled]=\"page===total\"\r\n            (change)=\"selectPage(total)\"\r\n            *ngIf=\"boundary\"\r\n    ></page-link>\r\n</ng-container>\r\n\r\n\r\n<ng-template #boundaryFirstDefault>\r\n    <<\r\n</ng-template>\r\n<ng-template #boundaryLastDefault>\r\n    >>\r\n</ng-template>\r\n<ng-template #directionPrevDefault>\r\n    <\r\n</ng-template>\r\n<ng-template #directionNexDefault>\r\n    >\r\n</ng-template>",
                         styles: ["\n      :host {\n          display: flex;\n          justify-content: center;\n          height: auto;\n          flex-shrink: 0;\n      }\n  "]
@@ -1595,24 +1614,24 @@
         /** @nocollapse */
         PaginationComponent.ctorParameters = function () {
             return [
-                { type: core.ChangeDetectorRef }
+                { type: i0.ChangeDetectorRef }
             ];
         };
         PaginationComponent.propDecorators = {
-            disabled: [{ type: core.Input }],
-            boundary: [{ type: core.Input }],
-            direction: [{ type: core.Input }],
-            ellipses: [{ type: core.Input }],
-            rotate: [{ type: core.Input }],
-            total: [{ type: core.Input }],
-            maxSize: [{ type: core.Input }],
-            page: [{ type: core.Input }],
-            change: [{ type: core.Output }],
-            _pageLinkCompList: [{ type: core.ContentChildren, args: [PageLinkComponent,] }],
-            _boundaryFirstDefault: [{ type: core.ViewChild, args: ['boundaryFirstDefault',] }],
-            _boundaryLastDefault: [{ type: core.ViewChild, args: ['boundaryLastDefault',] }],
-            _directionPrevDefault: [{ type: core.ViewChild, args: ['directionPrevDefault',] }],
-            _directionNexDefault: [{ type: core.ViewChild, args: ['directionNexDefault',] }]
+            disabled: [{ type: i0.Input }],
+            boundary: [{ type: i0.Input }],
+            direction: [{ type: i0.Input }],
+            ellipses: [{ type: i0.Input }],
+            rotate: [{ type: i0.Input }],
+            total: [{ type: i0.Input }],
+            maxSize: [{ type: i0.Input }],
+            page: [{ type: i0.Input }],
+            change: [{ type: i0.Output }],
+            _pageLinkCompList: [{ type: i0.ContentChildren, args: [PageLinkComponent,] }],
+            _boundaryFirstDefault: [{ type: i0.ViewChild, args: ['boundaryFirstDefault',] }],
+            _boundaryLastDefault: [{ type: i0.ViewChild, args: ['boundaryLastDefault',] }],
+            _directionPrevDefault: [{ type: i0.ViewChild, args: ['directionPrevDefault',] }],
+            _directionNexDefault: [{ type: i0.ViewChild, args: ['directionNexDefault',] }]
         };
         return PaginationComponent;
     }());
@@ -1626,7 +1645,7 @@
             var _this = this;
             this.number = 0;
             this.currentPage = 0;
-            this.change = new core.EventEmitter();
+            this.change = new i0.EventEmitter();
             this.onClick = function (e) {
                 _this.change.emit(_this.number);
             };
@@ -1661,21 +1680,21 @@
                 this._activeStyle = this.number === this.currentPage;
             };
         PageNumberComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'page-number',
                         template: "\n      {{number}}\n  ",
                         styles: [":host{background-color:#fff;border:1px solid #dee2e6;color:#007bff;cursor:pointer;display:flex;justify-content:center;align-items:center;margin-left:-1px;padding:1rem;transition:.3s;z-index:1}:host:hover{background-color:#e9ecef;color:#0056b3}:host.active{background-color:#007bff;border-color:#007bff;color:#fff}:host.focus{outline:0;box-shadow:0 0 0 .2rem rgba(0,123,255,.25);z-index:3}"]
                     }] }
         ];
         PageNumberComponent.propDecorators = {
-            number: [{ type: core.Input }],
-            currentPage: [{ type: core.Input }],
-            change: [{ type: core.Output }],
-            onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }],
-            onMouseDown: [{ type: core.HostListener, args: ['mousedown', ['$event'],] }],
-            onMouseUp: [{ type: core.HostListener, args: ['mouseup', ['$event'],] }],
-            _activeStyle: [{ type: core.HostBinding, args: ['class.active',] }],
-            _focusStyle: [{ type: core.HostBinding, args: ['class.focus',] }]
+            number: [{ type: i0.Input }],
+            currentPage: [{ type: i0.Input }],
+            change: [{ type: i0.Output }],
+            onClick: [{ type: i0.HostListener, args: ['click', ['$event'],] }],
+            onMouseDown: [{ type: i0.HostListener, args: ['mousedown', ['$event'],] }],
+            onMouseUp: [{ type: i0.HostListener, args: ['mouseup', ['$event'],] }],
+            _activeStyle: [{ type: i0.HostBinding, args: ['class.active',] }],
+            _focusStyle: [{ type: i0.HostBinding, args: ['class.focus',] }]
         };
         return PageNumberComponent;
     }());
@@ -1688,7 +1707,7 @@
         function PaginationModule() {
         }
         PaginationModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             common.CommonModule
                         ],
@@ -1707,16 +1726,204 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    var IonarToastService = /** @class */ (function () {
+        function IonarToastService() {
+            var _this = this;
+            this._messageList = [];
+            this.newMessage$ = new rxjs.Subject();
+            this._duration = 2000;
+            this.info = function (message, duration) {
+                if (duration === void 0) {
+                    duration = _this._duration;
+                }
+                return _this.sendMessage({
+                    id: uuid(),
+                    text: message,
+                    type: 'info'
+                }, duration);
+            };
+            this.success = function (message, duration) {
+                if (duration === void 0) {
+                    duration = _this._duration;
+                }
+                return _this.sendMessage({
+                    id: uuid(),
+                    text: message,
+                    type: 'success'
+                }, duration);
+            };
+            this.danger = function (message, duration) {
+                if (duration === void 0) {
+                    duration = _this._duration;
+                }
+                return _this.sendMessage({
+                    id: uuid(),
+                    text: message,
+                    type: 'danger'
+                }, duration);
+            };
+        }
+        /**
+         * @return {?}
+         */
+        IonarToastService.prototype.getMessages = /**
+         * @return {?}
+         */
+            function () {
+                return this._messageList;
+            };
+        /**
+         * @param {?} message
+         * @param {?} duration
+         * @return {?}
+         */
+        IonarToastService.prototype.sendMessage = /**
+         * @param {?} message
+         * @param {?} duration
+         * @return {?}
+         */
+            function (message, duration) {
+                var _this = this;
+                this._messageList = this._messageList.concat(message);
+                this.newMessage$.next(this._messageList);
+                setTimeout(function () { return _this.deleteMessage(message.id); }, duration);
+            };
+        /**
+         * @param {?} id
+         * @return {?}
+         */
+        IonarToastService.prototype.deleteMessage = /**
+         * @param {?} id
+         * @return {?}
+         */
+            function (id) {
+                this._messageList = _.reject(this._messageList, ['id', id]);
+                this.newMessage$.next(this._messageList);
+            };
+        IonarToastService.decorators = [
+            { type: i0.Injectable, args: [{
+                        providedIn: 'root'
+                    },] }
+        ];
+        /** @nocollapse */ IonarToastService.ngInjectableDef = i0.defineInjectable({ factory: function IonarToastService_Factory() { return new IonarToastService(); }, token: IonarToastService, providedIn: "root" });
+        return IonarToastService;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var ToastComponent = /** @class */ (function () {
+        function ToastComponent(_toast) {
+            var _this = this;
+            this._toast = _toast;
+            ///-----------------------------------------------  Variables   -----------------------------------------------///
+            this.message_list = [];
+            ///-----------------------------------------------  Main Functions  -----------------------------------------------///
+            this.deleteMessage = function (index) {
+                _this._toast.deleteMessage(index);
+            };
+        }
+        Object.defineProperty(ToastComponent.prototype, "_showToastContainer", {
+            get: /**
+             * @return {?}
+             */ function () {
+                return this.message_list.length > 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+        /**
+         * @return {?}
+         */
+        ToastComponent.prototype.ngOnInit =
+            ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+            /**
+             * @return {?}
+             */
+            function () {
+                var _this = this;
+                this.message_list = this._toast.getMessages();
+                this._toast.newMessage$.pipe(utility.untilDestroyed(this)).subscribe(function (message_list) {
+                    _this.message_list = message_list;
+                    _this.ngOnChanges(null);
+                });
+            };
+        /**
+         * @param {?} changes
+         * @return {?}
+         */
+        ToastComponent.prototype.ngOnChanges = /**
+         * @param {?} changes
+         * @return {?}
+         */
+            function (changes) {
+                if (this.message_list.length > 0) ;
+            };
+        /**
+         * @return {?}
+         */
+        ToastComponent.prototype.ngOnDestroy = /**
+         * @return {?}
+         */
+            function () {
+            };
+        ToastComponent.decorators = [
+            { type: i0.Component, args: [{
+                        selector: 'io-toast',
+                        template: "<ng-container *ngFor=\"let message of message_list\">\r\n    <div class=\"toast-message\" [ngClass]=\"message.type\">\r\n        {{message.text}}\r\n\r\n        <div class=\"delete\" (click)=\"deleteMessage(message.id)\">x</div>\r\n    </div>\r\n\r\n</ng-container>",
+                        styles: [":host{display:none;position:fixed;top:0;right:0;bottom:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
+                    }] }
+        ];
+        /** @nocollapse */
+        ToastComponent.ctorParameters = function () {
+            return [
+                { type: IonarToastService }
+            ];
+        };
+        ToastComponent.propDecorators = {
+            _showToastContainer: [{ type: i0.HostBinding, args: ['class.show',] }]
+        };
+        return ToastComponent;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var ToastModule = /** @class */ (function () {
+        function ToastModule() {
+        }
+        ToastModule.decorators = [
+            { type: i0.NgModule, args: [{
+                        declarations: [
+                            ToastComponent
+                        ],
+                        imports: [
+                            common.CommonModule
+                        ],
+                        exports: [ToastComponent]
+                    },] }
+        ];
+        return ToastModule;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     var ComponentModule = /** @class */ (function () {
         function ComponentModule() {
         }
         ComponentModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
-                            ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule
+                            ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
                         ],
                         exports: [
-                            ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule
+                            ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
                         ]
                     },] }
         ];
@@ -1759,19 +1966,19 @@
                 this.matchHeight(this._elRef.nativeElement);
             };
         SquareDirective.decorators = [
-            { type: core.Directive, args: [{
+            { type: i0.Directive, args: [{
                         selector: '[square]'
                     },] }
         ];
         /** @nocollapse */
         SquareDirective.ctorParameters = function () {
             return [
-                { type: core.ElementRef },
-                { type: core.Renderer2 }
+                { type: i0.ElementRef },
+                { type: i0.Renderer2 }
             ];
         };
         SquareDirective.propDecorators = {
-            onResize: [{ type: core.HostListener, args: ['window:resize',] }]
+            onResize: [{ type: i0.HostListener, args: ['window:resize',] }]
         };
         return SquareDirective;
     }());
@@ -1804,19 +2011,19 @@
                 this._elRef.nativeElement.scrollTop = this._elRef.nativeElement.scrollHeight;
             };
         ScrollDownDirective.decorators = [
-            { type: core.Directive, args: [{
+            { type: i0.Directive, args: [{
                         selector: '[scroll-down]'
                     },] }
         ];
         /** @nocollapse */
         ScrollDownDirective.ctorParameters = function () {
             return [
-                { type: core.ElementRef },
-                { type: core.Renderer2 }
+                { type: i0.ElementRef },
+                { type: i0.Renderer2 }
             ];
         };
         ScrollDownDirective.propDecorators = {
-            active: [{ type: core.Input }]
+            active: [{ type: i0.Input }]
         };
         return ScrollDownDirective;
     }());
@@ -1829,7 +2036,7 @@
         function DirectiveModule() {
         }
         DirectiveModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         declarations: [
                             SquareDirective, ScrollDownDirective
                         ],
@@ -1874,14 +2081,14 @@
             function () {
             };
         SlideDirective.decorators = [
-            { type: core.Directive, args: [{
+            { type: i0.Directive, args: [{
                         selector: '[slide]'
                     },] }
         ];
         /** @nocollapse */
         SlideDirective.ctorParameters = function () {
             return [
-                { type: core.TemplateRef }
+                { type: i0.TemplateRef }
             ];
         };
         return SlideDirective;
@@ -1906,7 +2113,7 @@
                 this.cd.detectChanges();
             };
         SlideComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'slide',
                         template: "\n      <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n  ",
                         styles: ["\n      :host {\n          display: flex;\n          position: absolute;\n          flex: 1;\n          width: 100%;\n          height: 100%;\n\n      }\n  "]
@@ -1915,12 +2122,12 @@
         /** @nocollapse */
         SlideComponent.ctorParameters = function () {
             return [
-                { type: core.ElementRef },
-                { type: core.ChangeDetectorRef }
+                { type: i0.ElementRef },
+                { type: i0.ChangeDetectorRef }
             ];
         };
         SlideComponent.propDecorators = {
-            template: [{ type: core.Input }]
+            template: [{ type: i0.Input }]
         };
         return SlideComponent;
     }());
@@ -2029,7 +2236,7 @@
                 this.slideCompRef.destroy();
             };
         CarouselComponent.decorators = [
-            { type: core.Component, args: [{
+            { type: i0.Component, args: [{
                         selector: 'io-carousel',
                         template: "<div class=\"arrow-left\" (click)=\"previousSlide()\">\r\n   <\r\n</div>\r\n\r\n<ng-container  #carousel>\r\n\r\n</ng-container>\r\n\r\n\r\n\r\n<div class=\"arrow-right\" (click)=\"nextSlide()\">\r\n    >\r\n</div>\r\n\r\n",
                         styles: [":host{background-color:transparent;display:flex;position:relative;min-height:300px;min-width:700px}.arrow-left,.arrow-right{cursor:pointer;display:flex;align-items:center;font-size:2.5rem;position:absolute;height:100%;z-index:2;width:10rem}.arrow-left .fa-chevron-left,.arrow-left fa-chevron-right,.arrow-right .fa-chevron-left,.arrow-right fa-chevron-right{color:#000}.arrow-left{left:0}.arrow-right{right:0}"]
@@ -2038,15 +2245,15 @@
         /** @nocollapse */
         CarouselComponent.ctorParameters = function () {
             return [
-                { type: core.ChangeDetectorRef },
-                { type: core.ViewContainerRef },
+                { type: i0.ChangeDetectorRef },
+                { type: i0.ViewContainerRef },
                 { type: animations.AnimationBuilder },
-                { type: core.ComponentFactoryResolver }
+                { type: i0.ComponentFactoryResolver }
             ];
         };
         CarouselComponent.propDecorators = {
-            item_dir_list: [{ type: core.ContentChildren, args: [SlideDirective,] }],
-            carousel: [{ type: core.ViewChild, args: ['carousel', { read: core.ViewContainerRef },] }]
+            item_dir_list: [{ type: i0.ContentChildren, args: [SlideDirective,] }],
+            carousel: [{ type: i0.ViewChild, args: ['carousel', { read: i0.ViewContainerRef },] }]
         };
         return CarouselComponent;
     }());
@@ -2059,7 +2266,7 @@
         function CarouselModule() {
         }
         CarouselModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             common.CommonModule
                         ],
@@ -2083,7 +2290,7 @@
         function PackagesModule() {
         }
         PackagesModule.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             CarouselModule
                         ],
@@ -2103,7 +2310,7 @@
         function IonarUI() {
         }
         IonarUI.decorators = [
-            { type: core.NgModule, args: [{
+            { type: i0.NgModule, args: [{
                         imports: [
                             ComponentModule,
                             ElementModule,
@@ -2138,6 +2345,7 @@
 
     exports.IonarUI = IonarUI;
     exports.IonarLoadingService = IonarLoadingService;
+    exports.IonarToastService = IonarToastService;
     exports.ɵe = CollapsibleComponent;
     exports.ɵd = CollapsibleModule;
     exports.ɵi = ContentComponent;
@@ -2166,18 +2374,21 @@
     exports.ɵl = TabComponent;
     exports.ɵk = TabsComponent;
     exports.ɵj = TabsModule;
-    exports.ɵbl = DirectiveModule;
-    exports.ɵbn = ScrollDownDirective;
-    exports.ɵbm = SquareDirective;
-    exports.ɵbf = ButtonComponent;
-    exports.ɵbe = ButtonModule;
-    exports.ɵbc = ElementModule;
-    exports.ɵbd = FlexElement;
-    exports.ɵbi = CarouselComponent;
-    exports.ɵbh = CarouselModule;
-    exports.ɵbk = SlideComponent;
-    exports.ɵbj = SlideDirective;
-    exports.ɵbg = PackagesModule;
+    exports.ɵbd = ToastComponent;
+    exports.ɵbc = ToastModule;
+    exports.ɵbe = IonarToastService;
+    exports.ɵbo = DirectiveModule;
+    exports.ɵbq = ScrollDownDirective;
+    exports.ɵbp = SquareDirective;
+    exports.ɵbi = ButtonComponent;
+    exports.ɵbh = ButtonModule;
+    exports.ɵbf = ElementModule;
+    exports.ɵbg = FlexElement;
+    exports.ɵbl = CarouselComponent;
+    exports.ɵbk = CarouselModule;
+    exports.ɵbn = SlideComponent;
+    exports.ɵbm = SlideDirective;
+    exports.ɵbj = PackagesModule;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -1,8 +1,14 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
-import { ControlConfig, FormConfigs } from './ControlConfig';
-import { AsyncValidatorFn, ValidationConfigs, ValidationErrors, ValidatorFn, Validators } from './Validator';
+import {
+  AsyncValidatorFn,
+  ValidationConfigs,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '../interfaces/Validator';
 import _ from 'lodash';
-import { FormGroup } from '../models/FormGroup';
+
+import { AbstractControlConfig, FormControlState, FormGroupState } from '../interfaces/Form';
 
 
 /**
@@ -108,15 +114,18 @@ export class FormControl extends AbstractControl {
   /**
    * Creates a new `FormControl` instance.
    *
-   * @param configs Initializes the control with an object that defines the initial state.
+   * @param config Initializes the control with an object that defines the initial state.
    *
    */
-  constructor(configs: ControlConfig) {
-    super();
+  constructor(state: FormControlState, configuration?: AbstractControlConfig) {
+    super(
+      <FormControlState>state,
+      <AbstractControlConfig | null>configuration
+    );
 
-    this.storeConfig(configs as ControlConfig);
-    this._setValidators(configs.validators);
-    this._setAsyncValidators(configs.asyncValidator);
+    this._setValidators(state.validators);
+    this._initAsyncValidator();
+    this._setAsyncValidators(state.asyncValidator);
     this._initObservables();
     this._applyControlState();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -154,7 +163,7 @@ export class FormControl extends AbstractControl {
     this.markAsDirty();
     this.updateValueAndValidity(options);
 
-    if (_.has((<ControlConfig>this.configuration).props, ['submitOnChange']) || _.has(<FormConfigs>this.parent.configuration, ['submitOnChange'])) {
+    if (_.has(this.configuration, ['submitOnChange'])) {
 
       this.parent.submit(true);
     }
@@ -246,21 +255,6 @@ export class FormControl extends AbstractControl {
   }
 
 
-  _runAsyncValidator = _.debounce((emitEvent?: boolean) => {
-
-    if (this.asyncValidator) {
-      (this as { status: string }).status = PENDING;
-      const obs = this.asyncValidator(this);
-      this._asyncValidationSubscription =
-        obs.subscribe((errors: ValidationErrors | null) => {
-          if ((this.touched || this.dirty) && this.value) {
-            (this as { status: string }).status = INVALID;
-            this.setErrors(errors, { emitEvent });
-          }
-        });
-    }
-  }, 500);
-
   _cancelExistingSubscription(): void {
     if (this._asyncValidationSubscription) {
       this._asyncValidationSubscription.unsubscribe();
@@ -283,9 +277,29 @@ export class FormControl extends AbstractControl {
    * overwrites any existing async validators.
    */
   private _setAsyncValidators = (asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): void => {
+
+
     (this as { asyncValidator: ValidatorFn | null }).asyncValidator = coerceToAsyncValidator(asyncValidators);
   };
 
+
+  /** @internal */
+  _initAsyncValidator() {
+    (<AbstractControl>this)._runAsyncValidator = _.debounce((emitEvent?: boolean) => {
+
+      if (this.asyncValidator) {
+        (this as { status: string }).status = PENDING;
+        const obs = this.asyncValidator(this);
+        this._asyncValidationSubscription =
+          obs.subscribe((errors: ValidationErrors | null) => {
+            if ((this.touched || this.dirty) && this.value) {
+              (this as { status: string }).status = INVALID;
+              this.setErrors(errors, { emitEvent });
+            }
+          });
+      }
+    }, 500);
+  }
 
   /** @internal */
   _calculateStatus(): string {
@@ -316,7 +330,7 @@ export class FormControl extends AbstractControl {
 
   private _applyControlState = () => {
 
-    (this as { value: any }).value = (<ControlConfig>this.configuration).value || null;
+    (this as { value: any }).value = this.state.value || null;
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});
   };

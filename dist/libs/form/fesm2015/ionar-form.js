@@ -487,7 +487,6 @@ class InputComponent {
         };
         this.onChange = _.debounce(e => {
             e.stopPropagation();
-            console.log(e.target.value);
             /** @type {?} */
             let value = e.target.value;
             /** @type {?} */
@@ -2054,7 +2053,7 @@ class FormGroup extends AbstractControl {
             this.readonly = _.has(this.formConfigs, ['readonly']);
         };
         this._isNotExcluded = (c) => {
-            return !_.get(c.configuration, 'props.exclude') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
+            return !_.get(c.configuration, 'props.excluded') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
         };
         this.storeConfig((/** @type {?} */ (formConfigs)));
         this._setUpControls();

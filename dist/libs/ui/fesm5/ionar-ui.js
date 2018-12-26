@@ -1,10 +1,11 @@
-import { Subject } from 'rxjs';
-import { untilDestroyed } from '@ionar/utility';
 import { __extends, __read } from 'tslib';
+import { Subject } from 'rxjs';
 import _ from 'lodash';
+import uuid from 'uuid/v1';
+import { untilDestroyed } from '@ionar/utility';
 import { CommonModule } from '@angular/common';
 import { AnimationBuilder, useAnimation } from '@angular/animations';
-import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 import { slideInLeftAnimation, slideInRightAnimation, slideOutLeftAnimation, slideOutRightAnimation } from '@ionar/animations';
 
 /**
@@ -762,7 +763,20 @@ var MenuComponent = /** @class */ (function () {
         ///-----------------------------------------------  Variables   -----------------------------------------------///
         this.visible = false;
         this.visibilityChange$ = new Subject();
+        this.change = new EventEmitter();
     }
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    MenuComponent.prototype.onClick = /**
+     * @param {?} e
+     * @return {?}
+     */
+    function (e) {
+        if (e.target instanceof HTMLElement)
+            this.change.emit();
+    };
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     /**
@@ -810,7 +824,9 @@ var MenuComponent = /** @class */ (function () {
         visible: [{ type: Input }],
         template: [{ type: Input }],
         tplRef: [{ type: ViewChild, args: ['tpl',] }],
-        vcRef: [{ type: ViewChild, args: ['vc', { read: ViewContainerRef },] }]
+        vcRef: [{ type: ViewChild, args: ['vc', { read: ViewContainerRef },] }],
+        change: [{ type: Output }],
+        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
     };
     return MenuComponent;
 }());
@@ -924,6 +940,9 @@ var DropdownComponent = /** @class */ (function () {
         var _this = this;
         this.viewInitialized = true;
         this._toggleComp.change.subscribe(function () {
+            _this.showDropdownMenu = !_this.showDropdownMenu;
+        });
+        this._menuComp.change.subscribe(function () {
             _this.showDropdownMenu = !_this.showDropdownMenu;
         });
         this.cd.detectChanges();
@@ -1645,16 +1664,197 @@ var PaginationModule = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+var IonarToastService = /** @class */ (function () {
+    function IonarToastService() {
+        var _this = this;
+        this._messageList = [];
+        this.newMessage$ = new Subject();
+        this._duration = 2000;
+        this.info = function (message, duration) {
+            if (duration === void 0) { duration = _this._duration; }
+            return _this.sendMessage({
+                id: uuid(),
+                text: message,
+                type: 'info'
+            }, duration);
+        };
+        this.success = function (message, duration) {
+            if (duration === void 0) { duration = _this._duration; }
+            return _this.sendMessage({
+                id: uuid(),
+                text: message,
+                type: 'success'
+            }, duration);
+        };
+        this.danger = function (message, duration) {
+            if (duration === void 0) { duration = _this._duration; }
+            return _this.sendMessage({
+                id: uuid(),
+                text: message,
+                type: 'danger'
+            }, duration);
+        };
+    }
+    /**
+     * @return {?}
+     */
+    IonarToastService.prototype.getMessages = /**
+     * @return {?}
+     */
+    function () {
+        return this._messageList;
+    };
+    /**
+     * @param {?} message
+     * @param {?} duration
+     * @return {?}
+     */
+    IonarToastService.prototype.sendMessage = /**
+     * @param {?} message
+     * @param {?} duration
+     * @return {?}
+     */
+    function (message, duration) {
+        var _this = this;
+        this._messageList = this._messageList.concat(message);
+        this.newMessage$.next(this._messageList);
+        setTimeout(function () { return _this.deleteMessage(message.id); }, duration);
+    };
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    IonarToastService.prototype.deleteMessage = /**
+     * @param {?} id
+     * @return {?}
+     */
+    function (id) {
+        this._messageList = _.reject(this._messageList, ['id', id]);
+        this.newMessage$.next(this._messageList);
+    };
+    IonarToastService.decorators = [
+        { type: Injectable, args: [{
+                    providedIn: 'root'
+                },] }
+    ];
+    /** @nocollapse */ IonarToastService.ngInjectableDef = defineInjectable({ factory: function IonarToastService_Factory() { return new IonarToastService(); }, token: IonarToastService, providedIn: "root" });
+    return IonarToastService;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var ToastComponent = /** @class */ (function () {
+    function ToastComponent(_toast) {
+        var _this = this;
+        this._toast = _toast;
+        ///-----------------------------------------------  Variables   -----------------------------------------------///
+        this.message_list = [];
+        ///-----------------------------------------------  Main Functions  -----------------------------------------------///
+        this.deleteMessage = function (index) {
+            _this._toast.deleteMessage(index);
+        };
+    }
+    Object.defineProperty(ToastComponent.prototype, "_showToastContainer", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this.message_list.length > 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    ToastComponent.prototype.ngOnInit = 
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        this.message_list = this._toast.getMessages();
+        this._toast.newMessage$.pipe(untilDestroyed(this)).subscribe(function (message_list) {
+            _this.message_list = message_list;
+            _this.ngOnChanges(null);
+        });
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ToastComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        if (this.message_list.length > 0) ;
+    };
+    /**
+     * @return {?}
+     */
+    ToastComponent.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    ToastComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'io-toast',
+                    template: "<ng-container *ngFor=\"let message of message_list\">\r\n    <div class=\"toast-message\" [ngClass]=\"message.type\">\r\n        {{message.text}}\r\n\r\n        <div class=\"delete\" (click)=\"deleteMessage(message.id)\">x</div>\r\n    </div>\r\n\r\n</ng-container>",
+                    styles: [":host{display:none;position:fixed;top:0;right:0;bottom:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
+                }] }
+    ];
+    /** @nocollapse */
+    ToastComponent.ctorParameters = function () { return [
+        { type: IonarToastService }
+    ]; };
+    ToastComponent.propDecorators = {
+        _showToastContainer: [{ type: HostBinding, args: ['class.show',] }]
+    };
+    return ToastComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var ToastModule = /** @class */ (function () {
+    function ToastModule() {
+    }
+    ToastModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: [
+                        ToastComponent
+                    ],
+                    imports: [
+                        CommonModule
+                    ],
+                    exports: [ToastComponent]
+                },] }
+    ];
+    return ToastModule;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var ComponentModule = /** @class */ (function () {
     function ComponentModule() {
     }
     ComponentModule.decorators = [
         { type: NgModule, args: [{
                     imports: [
-                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule
+                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
                     ],
                     exports: [
-                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule
+                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
                     ]
                 },] }
     ];
@@ -2056,6 +2256,6 @@ var IonarUI = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { IonarUI, IonarLoadingService, CollapsibleComponent as ɵe, CollapsibleModule as ɵd, ContentComponent as ɵi, HeaderComponent as ɵg, PanelComponent as ɵf, CollapseToggleDirective as ɵh, ComponentModule as ɵa, MenuComponent as ɵq, ToggleComponent as ɵr, DropdownComponent as ɵp, DropdownModule as ɵo, LoadingComponent as ɵt, LoadingModule as ɵs, IonarLoadingService as ɵu, CircleComponent as ɵx, SpinnerComponent as ɵv, SpinnerTemplate as ɵw, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵba, PageNumberComponent as ɵbb, PaginationComponent as ɵz, PaginationModule as ɵy, TabContentComponent as ɵn, TabLabelComponent as ɵm, TabComponent as ɵl, TabsComponent as ɵk, TabsModule as ɵj, DirectiveModule as ɵbl, ScrollDownDirective as ɵbn, SquareDirective as ɵbm, ButtonComponent as ɵbf, ButtonModule as ɵbe, ElementModule as ɵbc, FlexElement as ɵbd, CarouselComponent as ɵbi, CarouselModule as ɵbh, SlideComponent as ɵbk, SlideDirective as ɵbj, PackagesModule as ɵbg };
+export { IonarUI, IonarLoadingService, IonarToastService, CollapsibleComponent as ɵe, CollapsibleModule as ɵd, ContentComponent as ɵi, HeaderComponent as ɵg, PanelComponent as ɵf, CollapseToggleDirective as ɵh, ComponentModule as ɵa, MenuComponent as ɵq, ToggleComponent as ɵr, DropdownComponent as ɵp, DropdownModule as ɵo, LoadingComponent as ɵt, LoadingModule as ɵs, IonarLoadingService as ɵu, CircleComponent as ɵx, SpinnerComponent as ɵv, SpinnerTemplate as ɵw, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵba, PageNumberComponent as ɵbb, PaginationComponent as ɵz, PaginationModule as ɵy, TabContentComponent as ɵn, TabLabelComponent as ɵm, TabComponent as ɵl, TabsComponent as ɵk, TabsModule as ɵj, ToastComponent as ɵbd, ToastModule as ɵbc, IonarToastService as ɵbe, DirectiveModule as ɵbo, ScrollDownDirective as ɵbq, SquareDirective as ɵbp, ButtonComponent as ɵbi, ButtonModule as ɵbh, ElementModule as ɵbf, FlexElement as ɵbg, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
 
 //# sourceMappingURL=ionar-ui.js.map

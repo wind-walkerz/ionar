@@ -1,32 +1,27 @@
 import {
-  AfterContentChecked,
-  AfterContentInit,
   AfterViewChecked,
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren, ElementRef,
+  ContentChildren,
+  ElementRef,
   EventEmitter,
-  Injectable,
   Input,
-  OnChanges,
   OnDestroy,
-  OnInit,
   Output,
-  QueryList,
-  SimpleChanges, ViewChild
+  ViewChild
 } from '@angular/core';
 import { FormService } from './providers/form.service';
 
 import { FormGroup } from './models/FormGroup';
 import { FormControl } from './models/FormControl';
-import { ControlComponent } from './components/control.component';
+
 import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { FieldTemplateDirective } from './directives/field-template.directive';
+import { AbstractControl } from './models/AbstractControl';
 
 
 @Component({
@@ -37,23 +32,24 @@ import { FieldTemplateDirective } from './directives/field-template.directive';
               <ng-content></ng-content>
           </ng-template>
 
-          <ng-container *ngIf="viewInitialized">
+          <!--<ng-container *ngIf="viewInitialized">-->
 
-              <ng-container *ngIf="!default_template">
-                  <ng-container [ngTemplateOutlet]="contentVc"></ng-container>
-              </ng-container>
+              <!--<ng-container *ngIf="!default_template">-->
+                  <!--<ng-container [ngTemplateOutlet]="contentVc"></ng-container>-->
+              <!--</ng-container>-->
 
-              <ng-container *ngIf="default_template">
-                  <ng-container *ngFor="let name of controlRoster">
-                      <form-control
-                              [name]="name"
-                              [formGroup]="formGroup"
-                      >
-                      </form-control>
-                  </ng-container>
-              </ng-container>
+              <!--<ng-container *ngIf="default_template">-->
+                  <!--<ng-container *ngFor="let item of formGroup.controls | keyvalue">-->
 
-          </ng-container>
+                      <!--<form-control-->
+                              <!--[name]="item.key"-->
+                      <!--&gt;-->
+                      <!--</form-control>-->
+
+                  <!--</ng-container>-->
+              <!--</ng-container>-->
+
+          <!--</ng-container>-->
 
       </ng-container>
 
@@ -67,7 +63,7 @@ import { FieldTemplateDirective } from './directives/field-template.directive';
   providers: [FormService]
 })
 
-export  class FormComponent implements AfterViewChecked, OnDestroy {
+export class FormComponent implements AfterViewChecked, OnDestroy {
 
   @Input() formGroup: FormGroup;
 
@@ -78,9 +74,7 @@ export  class FormComponent implements AfterViewChecked, OnDestroy {
 
   @ContentChildren(FieldTemplateDirective) _fieldTemplateDirList;
 
-  controlRoster: string[];
-
-  controls: FormControl[];
+  controls;
 
   default_template: Boolean;
 
@@ -111,9 +105,8 @@ export  class FormComponent implements AfterViewChecked, OnDestroy {
 
   parseContext = () => {
     this._formSvs.initialize(this.formGroup);
-    this.controlRoster = _.keys(this.formGroup.controls);
 
-    this.controls = _.values(this.formGroup.controls);
+    console.log(this._formSvs.mergeControls(this.formGroup.controls))
 
     if (this._subscription) this._subscription.unsubscribe();
 

@@ -523,7 +523,6 @@ var InputComponent = /** @class */ (function () {
         };
         this.onChange = _.debounce(function (e) {
             e.stopPropagation();
-            console.log(e.target.value);
             /** @type {?} */
             var value = e.target.value;
             /** @type {?} */
@@ -2817,7 +2816,7 @@ FormGroup = /** @class */ (function (_super) {
             _this.readonly = _.has(_this.formConfigs, ['readonly']);
         };
         _this._isNotExcluded = function (c) {
-            return !_.get(c.configuration, 'props.exclude') && !(_.has(_this.formConfigs, ['nullExclusion']) && !c.value);
+            return !_.get(c.configuration, 'props.excluded') && !(_.has(_this.formConfigs, ['nullExclusion']) && !c.value);
         };
         _this.storeConfig((/** @type {?} */ (formConfigs)));
         _this._setUpControls();

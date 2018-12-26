@@ -1,6 +1,6 @@
 {
   "name": "@ionar/form",
-  "version": "1.2.0",
+  "version": "1.4.1",
   "main": "bundles/ionar-form.umd.js",
   "module": "fesm5/ionar-form.js",
   "es2015": "fesm2015/ionar-form.js",

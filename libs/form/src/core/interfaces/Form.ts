@@ -1,14 +1,25 @@
 import { TemplateRef } from '@angular/core';
+import { AbstractControl } from '../models/AbstractControl';
 
 import { AsyncValidatorFn, ValidationConfigs } from './Validator';
+
+export interface FormGroupState {
+  [name: string]: AbstractControl
+}
+
+
+export interface FormArrayState {
+  [name: string]: AbstractControl
+}
+
 
 /**
  * Interface for configs provided to an `AbstractControl`.
  *
  * @publicApi
  */
-export interface ControlConfig {
-  name: string,
+
+export interface FormControlState {
   type: ControlType,
   label?: string,
   value?: any,
@@ -23,28 +34,28 @@ export interface ControlConfig {
   }
 }
 
+
 export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload' | 'menu'
 
 
 export interface ControlProperties {
-
   placeholder?: string,
-  template?: TemplateRef<any>,
   className?: string,
   id?: string,
-  disabled?: true,
-  hidden?: true,
-  excluded?: true,
-  hideFeedback?: true,
-  hideLabel?: true
-  submitOnChange?: true,
+
   [key: string]: any
 }
 
+export type AbstractControlState = FormGroupState | FormControlState | FormArrayState
 
-export interface FormConfigs {
-  nullExclusion?: true,
-  readonly?: true,
-  disabled?: true,
-  submitOnChange?: true
+export interface AbstractControlConfig {
+  nullExclusion?: Boolean,
+  readonly?: Boolean,
+  disabled?: Boolean,
+  hidden?: Boolean,
+  excluded?: Boolean,
+  submitOnChange?: Boolean,
+  hideFeedback?: Boolean,
+  hideLabel?: Boolean,
+  template?: TemplateRef<any>,
 }

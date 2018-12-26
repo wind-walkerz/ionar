@@ -6,30 +6,35 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
+  OnInit, TemplateRef,
   ViewContainerRef
 } from '@angular/core';
 
 import _ from 'lodash';
-import { ControlConfig } from '../models/ControlConfig';
+
 
 import { untilDestroyed } from '@ionar/utility';
 import { InputComponent, MenuComponent, TextareaComponent, UploadComponent } from '../../ui';
+import { FormGroup } from '../models/FormGroup';
+import { AbstractControl } from '../models/AbstractControl';
+import { AbstractControlConfig, FormControlState } from '../interfaces/Form';
 
 
 @Directive({
   selector: '[dynamic_field]'
 })
 export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
+  @Input('formGroup') private _formGroup: FormGroup;
+  @Input('control') private _control: AbstractControl;
+
+  @Input('value') private _value;
+  @Input('invalid') private _invalid: Boolean;
   @Input('readonly') private _readonly: Boolean;
-  @Input('controlConfig') private _controlConfig: ControlConfig;
+  @Input('template') private _template: TemplateRef<any>;
+
   @Input('events') private _events: { [key: string]: Function };
 
-  @Input('invalid') private _invalid: Boolean;
-  @Input('value') private _value: any;
-  @Input('options') private _options: any;
-
-  @Input('template') private _template: Boolean;
+  @Input('name') private _name: string;
 
   private _compRef: ComponentRef<any>;
 
@@ -66,7 +71,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   createComponent = () => {
-    const component = this.components[this._controlConfig.type];
+    const component = this.components[(<FormControlState>this._control.state).type];
     const factory = this._resolver.resolveComponentFactory<any>(component);
     this._compRef = this._vcRef.createComponent(factory);
     this.initContext();
@@ -87,12 +92,15 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   };
 
   private parseContext = (status = 'initial') => {
+    const state = <FormControlState>this._control.state,
+      controlConfig = <AbstractControlConfig>this._control.configuration;
+
     const context = {
-      name: this._controlConfig.name,
+      name: this._name,
       invalid: this._invalid,
-      ...this._controlConfig.props,
+      ...state.props,
       value: this._value,
-      options: this._options,
+      options: state.value,
       readonly: this._readonly,
       template: this._template
     };

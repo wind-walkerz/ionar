@@ -16,6 +16,7 @@ import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
 import { ControlComponent } from './control.component';
 import { Subscription } from 'rxjs';
+import { AbstractControl } from '../models/AbstractControl';
 
 
 @Component({
@@ -47,7 +48,7 @@ import { Subscription } from 'rxjs';
 export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  _control: FormControl;
+  _control: AbstractControl;
   formGroup: FormGroup;
 
   invalid: Boolean = false;

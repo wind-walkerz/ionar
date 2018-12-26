@@ -1,11 +1,10 @@
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 
-import { ValidationErrors, ValidatorFn } from './Validator';
-import { FormControl } from './FormControl';
-import { ControlConfig, FormConfigs } from '../models/ControlConfig';
+import { ValidationErrors, ValidatorFn } from '../interfaces/Validator';
 import { FormGroup } from '../models/FormGroup';
 import _ from 'lodash';
+import { AbstractControlConfig, AbstractControlState } from '../interfaces/Form';
 
 /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
@@ -19,8 +18,6 @@ import _ from 'lodash';
  * @publicApi
  */
 export abstract class AbstractControl {
-
-  public readonly configuration: ControlConfig | FormConfigs;
 
   /** @internal */
   public readonly pendingValue: any;
@@ -75,9 +72,12 @@ export abstract class AbstractControl {
 
   public readonly asyncValidator: ValidatorFn | null;
 
+  public _runAsyncValidator: Function;
+
   public _asyncValidationSubscription: any;
 
   private _parent: FormGroup;
+
 
   /**
    * @description
@@ -97,6 +97,46 @@ export abstract class AbstractControl {
    */
   public readonly statusChanges: Observable<any>;
 
+  /**
+   * Initialize the AbstractControl instance.
+   *
+   * @param configuration
+   *
+   */
+  constructor(public state: AbstractControlState, private _configuration: AbstractControlConfig | null) {
+  }
+
+  /**
+   * The parent control.
+   */
+  get parent(): FormGroup {
+    return this._parent;
+  }
+
+  get configuration(): AbstractControlConfig {
+
+    let parentConfig;
+
+    if (this.parent && this.parent.configuration) parentConfig = {
+      ...this.parent.configuration
+    };
+
+    return {
+      ...parentConfig,
+      ...this._configuration
+    };
+  }
+
+  set configuration(newConfig: AbstractControlConfig) {
+
+    this._configuration = {
+      ...this._configuration,
+      ...newConfig
+    };
+
+    this.updateValueAndValidity({ emitEvent: true });
+
+  }
 
   /**
    * A control is `enabled` as long as its `status` is not `DISABLED`.
@@ -171,14 +211,6 @@ export abstract class AbstractControl {
    */
   get dirty(): boolean {
     return !this.pristine;
-  }
-
-
-  /**
-   * The parent control.
-   */
-  get parent(): FormGroup {
-    return this._parent;
   }
 
 
@@ -309,10 +341,6 @@ export abstract class AbstractControl {
     }
 
   }
-
-  storeConfig = (config: ControlConfig | FormConfigs) => {
-    (this as { configuration: ControlConfig | FormConfigs }).configuration = config;
-  };
 
 
   /** @internal */

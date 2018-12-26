@@ -20,8 +20,10 @@ import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
 import { FormComponent } from '../core.component';
-import { ControlConfig } from '../models/ControlConfig';
+
 import { FieldTemplateDirective } from '../directives/field-template.directive';
+
+import { AbstractControl } from '../models/AbstractControl';
 
 @Component({
   selector: 'form-control',
@@ -86,7 +88,7 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   @Input() name: any = '';
 
   @Input() formGroup: FormGroup;
-  _control: FormControl;
+  _control: AbstractControl;
 
   fieldTemplate: TemplateRef<any>;
 
@@ -134,22 +136,21 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
 
     this._control = this.formGroup.get(this.name);
 
-
     this._renderer.setAttribute(this._elRef.nativeElement, 'id', this.name);
 
-    const props = (<ControlConfig>this._control.configuration).props;
-    if (_.has(props, ['hidden'])) {
+    const config = this._control.configuration;
+    if (_.get(config, ['hidden'])) {
 
       this._renderer.addClass(this._elRef.nativeElement, 'hidden');
     }
 
-    if (_.has(props, ['hideLabel'])) {
+    if (_.get(config, ['hideLabel'])) {
       this.show_label = false;
       this._renderer.addClass(this._elRef.nativeElement, 'hide-label');
     }
 
 
-    if (_.has(props, ['hideFeedback'])) {
+    if (_.get(config, ['hideFeedback'])) {
       this.show_feedback = false;
       this._renderer.addClass(this._elRef.nativeElement, 'hide-feedback');
     }

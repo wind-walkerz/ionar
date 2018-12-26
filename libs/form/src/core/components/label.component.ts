@@ -9,10 +9,12 @@ import {
 } from '@angular/core';
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
-import { ControlConfig } from '../models/ControlConfig';
+
 import { FormGroup } from '../models/FormGroup';
 import _ from 'lodash';
 import { ControlComponent } from './control.component';
+
+import { AbstractControl } from '../models/AbstractControl';
 
 
 @Component({
@@ -34,8 +36,7 @@ import { ControlComponent } from './control.component';
 })
 export class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
   formGroup: FormGroup;
-  controlConfig: ControlConfig;
-  control: FormControl;
+  control: AbstractControl;
 
   label: any;
 
@@ -66,9 +67,8 @@ export class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     this.control = this.formGroup.get(this._parent.name);
 
-    this.controlConfig = <ControlConfig>this.control.configuration;
 
-    this.label = this.controlConfig.label || _.startCase(this._parent.name);
+    this.label = this.control.state.label || _.startCase(this._parent.name);
 
     this.cd.detectChanges();
   };

@@ -14,10 +14,11 @@ import {
 import { FormService } from '../providers/form.service';
 import { FormControl } from '../models/FormControl';
 import { FormGroup } from '../models/FormGroup';
-import { ControlConfig } from '../models/ControlConfig';
 import { ControlComponent } from './control.component';
 import { Subscription } from 'rxjs';
 import { untilDestroyed } from '@ionar/utility';
+
+import { AbstractControl } from '../models/AbstractControl';
 
 
 @Component({
@@ -26,23 +27,22 @@ import { untilDestroyed } from '@ionar/utility';
       <ng-container *ngIf="formGroup">
           <ng-container
                   dynamic_field
-                  [controlConfig]="controlConfig"
-
+                  [formGroup]="formGroup"
+                  [control]="control"
                   [events]="{
                             change: onChanged,
                             blur: onTouched,
                             enter: onEntered
                     }"
-                  [template]="template"
-
+                  [name]="name"
                   [value]="control.value"
-                  [options]="controlConfig.options"
                   [invalid]="invalid"
-                  [readonly]="formGroup.readonly"
+                  [readonly]="control.configuration.readonly"
           >
           </ng-container>
       </ng-container>
   `,
+  // formGroup.readonly || control.configuration.readonly
   styles: [`
       :host {
           display: flex;
@@ -56,11 +56,10 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   formGroup: FormGroup;
-  control: FormControl;
-  controlConfig: ControlConfig;
-
+  control: AbstractControl;
+  name: string;
   invalid: Boolean = false;
-  template: TemplateRef<any>
+  template: TemplateRef<any>;
 
   private _statusSubscription: Subscription;
   private _submitSubscription: Subscription;
@@ -127,12 +126,12 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
   };
 
   parseContext = () => {
-    this.control = this.formGroup.get(this._parent.name);
+    this.name = this._parent.name;
+    this.control = this.formGroup.get(this.name);
 
-    this.controlConfig = <ControlConfig>this.control.configuration;
+    this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted),
+      this.template = this._parent.fieldTemplate;
 
-    this.template = this._parent.fieldTemplate
-    this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted);
     this.cd.detectChanges();
 
   };

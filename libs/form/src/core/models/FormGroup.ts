@@ -3,7 +3,9 @@ import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractCo
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
-import { ControlConfig, FormConfigs } from './ControlConfig';
+
+import { AbstractControlConfig, FormGroupState } from '../interfaces/Form';
+import { FormService } from '../providers/form.service';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -79,20 +81,8 @@ import { ControlConfig, FormConfigs } from './ControlConfig';
  */
 export class FormGroup extends AbstractControl {
 
-  private _readonly: Boolean = false;
-
   public readonly ngSubmit: EventEmitter<any>;
 
-  get readonly(): Boolean {
-    return this._readonly;
-  }
-
-  set readonly(status: Boolean) {
-
-    this._readonly = status;
-
-    this.updateValueAndValidity({ emitEvent: true });
-  }
 
   /**
    * @description
@@ -107,19 +97,22 @@ export class FormGroup extends AbstractControl {
    *
    */
 
-  public readonly controls: { [key: string]: FormControl } = {};
+  public readonly controls: { [key: string]: AbstractControl } = {};
 
 
   /**
    * Creates a new `FormGroup` instance.
    *
-   * @param formState A collection of child controls. The key for each child is the name
+   * @param state A collection of child controls. The key for each child is the name
    * under which it is registered.
    *
    */
-  constructor(public formState: ControlConfig[], public formConfigs: FormConfigs) {
-    super();
-    this.storeConfig(<FormConfigs>formConfigs);
+  constructor(state: FormGroupState, configuration?: AbstractControlConfig) {
+    super(
+      <FormGroupState>state,
+      <AbstractControlConfig | null>configuration
+    );
+
     this._setUpControls();
     this._initObservables();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -231,12 +224,12 @@ export class FormGroup extends AbstractControl {
    * ```
    */
   reset(value: any = {}, options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    _.each(_.keys(this.controls), name => {
-      this.controls[name].reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
+    _.forOwn(this.controls, (c: AbstractControl, name: string) => {
+      c.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-    if (_.has(<FormConfigs>this.configuration, ['submitOnChange'])) this.submit(true);
+    if (_.has(this.configuration, ['submitOnChange'])) this.submit(true);
 
   }
 
@@ -298,12 +291,12 @@ export class FormGroup extends AbstractControl {
    * ```
    */
   clear(options: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    _.each(_.keys(this.controls), name => {
-      this.controls[name].clear({ onlySelf: true, emitEvent: options.emitEvent });
+    _.forOwn(this.controls, (c: AbstractControl, name: string) => {
+      c.clear({ onlySelf: true, emitEvent: options.emitEvent });
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-    if (_.has(<FormConfigs>this.configuration, ['submitOnChange'])) this.submit(true);
+    if (_.has(this.configuration, ['submitOnChange'])) this.submit(true);
   }
 
 
@@ -324,7 +317,7 @@ export class FormGroup extends AbstractControl {
    *
    * * `this.form.get(['person', 'name']);`
    */
-  get(name: string = null): FormControl | null {
+  get(name: string = null): AbstractControl | null {
     if (name == null) return null;
 
     return this.controls.hasOwnProperty(name as string) ? this.controls[name] : null;
@@ -348,9 +341,9 @@ export class FormGroup extends AbstractControl {
 
   /** @internal */
   _setUpControls(): void {
-    _.each(this.formState, (c: ControlConfig) => {
-      this.controls[c.name] = new FormControl(c);
-      this.controls[c.name].setParent(this);
+    _.forOwn(this.state, (c: AbstractControl, name: string) => {
+      this.controls[name] = c;
+      this.controls[name].setParent(this);
     });
   }
 
@@ -378,16 +371,16 @@ export class FormGroup extends AbstractControl {
   /** @internal */
   _reduceValue() {
     const form_value: { [k: string]: AbstractControl } = {};
-    _.each(_.keys(this.controls), k => {
-      if (this._isNotExcluded(this.controls[k])) {
-        form_value[k] = this.controls[k].value;
+    _.forOwn(this.controls, (c: AbstractControl, name: string) => {
+      if (this._isNotExcluded(c)) {
+        form_value[name] = c.value;
       }
     });
     return form_value;
   }
 
   private _applyFormState = () => {
-    this.readonly = _.has(this.formConfigs, ['readonly']);
+    // this.readonly = _.has(this.configuration, ['readonly']);
   };
 
   /** @internal */
@@ -401,9 +394,9 @@ export class FormGroup extends AbstractControl {
     return !!_.find(this.controls, ['status', status]);
   }
 
-  _isNotExcluded = (c: FormControl): Boolean => {
+  _isNotExcluded = (c: AbstractControl): Boolean => {
 
-    return !_.get(c.configuration, 'props.excluded') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
+    return !_.get(c.configuration, 'excluded') && !(_.has(this.configuration, ['nullExclusion']) && !c.value);
 
   };
 

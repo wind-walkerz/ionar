@@ -22,19 +22,19 @@
         "libs/core/src/index.ts"
       ],
       "@ionar/ui": [
-        //        "dist/libs/ui",
+//                "dist/libs/ui",
         "libs/ui/src/index.ts"
       ],
       "@ionar/utility": [
-        //        "dist/libs/utility",
+//                "dist/libs/utility",
         "libs/utility/src/index.ts"
       ],
       "@ionar/form": [
-        //        "dist/libs/form",
+//                "dist/libs/form",
         "libs/form/src/index.ts"
       ],
       "@ionar/animations": [
-        //        "dist/libs/animations",
+//                "dist/libs/animations",
         "libs/animations/src/index.ts"
       ]
     }
