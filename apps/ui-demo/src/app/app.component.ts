@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage = () => {
-    this._toast.sendMessage('928374298');
+    this._toast.info('928374298');
 
   };
 

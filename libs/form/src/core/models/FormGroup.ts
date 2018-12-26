@@ -403,7 +403,7 @@ export class FormGroup extends AbstractControl {
 
   _isNotExcluded = (c: FormControl): Boolean => {
 
-    return !_.get(c.configuration, 'props.exclude') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
+    return !_.get(c.configuration, 'props.excluded') && !(_.has(this.formConfigs, ['nullExclusion']) && !c.value);
 
   };
 

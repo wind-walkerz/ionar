@@ -64,6 +64,11 @@ export class DropdownComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     this._toggleComp.change.subscribe(() => {
       this.showDropdownMenu = !this.showDropdownMenu;
     });
+
+    this._menuComp.change.subscribe(() => {
+      this.showDropdownMenu = !this.showDropdownMenu;
+    });
+
     this.cd.detectChanges();
   }
 

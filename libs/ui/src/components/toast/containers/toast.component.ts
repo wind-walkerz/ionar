@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, HostBinding } from '@angular/core';
 import { IonarToastService } from '../toast.service';
 import { untilDestroyed } from '@ionar/utility';
 
@@ -7,11 +7,15 @@ import { untilDestroyed } from '@ionar/utility';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss']
 })
-export class ToastComponent implements OnInit, OnDestroy {
+export class ToastComponent implements OnInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  message_list;
+  message_list = [];
+
+  @HostBinding('class.show') get _showToastContainer() {
+    return this.message_list.length > 0;
+  };
 
   constructor(private _toast: IonarToastService) {
   }
@@ -21,10 +25,17 @@ export class ToastComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.message_list = this._toast.getMessages();
 
-    this._toast.newMessage$.pipe(untilDestroyed(this)).subscribe(message_list => {
+    this._toast.newMessage$.pipe(untilDestroyed(this)).subscribe((message_list: any) => {
       this.message_list = message_list;
+      this.ngOnChanges(null);
     });
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.message_list.length > 0) {
+
+    }
   }
 
   ngOnDestroy(): void {
@@ -32,5 +43,9 @@ export class ToastComponent implements OnInit, OnDestroy {
 
 
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
+
+  deleteMessage = index => {
+    this._toast.deleteMessage(index);
+  };
 
 }

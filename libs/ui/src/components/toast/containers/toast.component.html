@@ -1,6 +1,8 @@
 <ng-container *ngFor="let message of message_list">
-    <div class="toast-message success">
-        {{message}}
+    <div class="toast-message" [ngClass]="message.type">
+        {{message.text}}
+
+        <div class="delete" (click)="deleteMessage(message.id)">x</div>
     </div>
 
 </ng-container>

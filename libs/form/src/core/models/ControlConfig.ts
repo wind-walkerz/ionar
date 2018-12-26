@@ -34,7 +34,7 @@ export interface ControlProperties {
   id?: string,
   disabled?: true,
   hidden?: true,
-  exclude?: true,
+  excluded?: true,
   hideFeedback?: true,
   hideLabel?: true
   submitOnChange?: true,

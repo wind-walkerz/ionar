@@ -4,6 +4,13 @@
 :host {
     ::ng-deep {
 
+        io-toast {
+            margin-top: 8rem;
+            .toast-message {
+                font-size: 1.6rem;
+            }
+        }
+
         .breadcrumb {
             justify-self: start;
             color: $primary_blue;

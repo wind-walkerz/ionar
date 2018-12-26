@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerAnimation } from './shared/animations/router.animation';
+import { IonarToastService } from '@ionar/ui';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   triggerAnimation(outlet) {

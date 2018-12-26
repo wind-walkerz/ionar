@@ -16,6 +16,10 @@
     {
       "projectName": "ui",
       "type": "es6Import"
+    },
+    {
+      "projectName": "core",
+      "type": "es6Import"
     }
   ],
   "utility": [],

@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter, HostListener,
   Input, OnChanges,
   OnDestroy,
-  OnInit, SimpleChanges,
+  OnInit, Output, SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewContainerRef
@@ -35,6 +35,14 @@ export class MenuComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('tpl') tplRef: TemplateRef<any>;
   @ViewChild('vc', { read: ViewContainerRef }) vcRef: ViewContainerRef;
 
+  @Output() change = new EventEmitter();
+
+  @HostListener('click', ['$event'])
+  onClick(e: Event) {
+
+    if (e.target instanceof HTMLElement) this.change.emit();
+  }
+
 
   constructor(public elRef: ElementRef) {
   }
@@ -48,8 +56,6 @@ export class MenuComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.visibilityChange$.next(this.visible);
-
-
   }
 
   ngOnDestroy(): void {

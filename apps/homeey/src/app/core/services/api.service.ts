@@ -8,7 +8,7 @@ import { untilDestroyed } from '@ionar/utility';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Logger } from './logger.service';
-import { IonarLoadingService } from '@ionar/ui';
+import { IonarLoadingService, IonarToastService } from '@ionar/ui';
 
 const log = new Logger('ApiService');
 
@@ -17,7 +17,11 @@ const log = new Logger('ApiService');
 })
 
 export class ApiService implements OnDestroy {
-  constructor(private http: HttpClient, private _loading: IonarLoadingService) {
+  constructor(
+    private http: HttpClient,
+    private _loading: IonarLoadingService,
+    private _toast: IonarToastService
+  ) {
   }
 
   private formatErrors(error: any) {
@@ -30,6 +34,7 @@ export class ApiService implements OnDestroy {
       untilDestroyed(this),
       map((res: { [key: string]: any }) => {
         if (res.status_code === 200) {
+          this._toast.success(res.message);
           return res;
         } else {
           log.error(res.message);

@@ -5,7 +5,6 @@ import { StorageService } from './storage.service';
 import { Subject } from 'rxjs';
 
 
-
 const log = new Logger('AuthService');
 
 @Injectable({
@@ -13,8 +12,6 @@ const log = new Logger('AuthService');
 })
 
 export class AuthService implements OnDestroy {
-
-  private _token: string = null;
   private _userId: string = null;
 
   public authenticationChange$ = new Subject();
@@ -24,7 +21,7 @@ export class AuthService implements OnDestroy {
     private apiSvs: ApiService,
     private router: Router
   ) {
-    this.token = this.stoSvs.getToken();
+
   }
 
 
@@ -32,11 +29,11 @@ export class AuthService implements OnDestroy {
   }
 
   get token() {
-    return this._token;
+    return this.stoSvs.getToken();
   }
 
   set token(token: any) {
-    this._token = token;
+    this.stoSvs.saveToken(token);
   }
 
   get user_id() {
@@ -58,8 +55,6 @@ export class AuthService implements OnDestroy {
 
       this.token = res.data.access_token.toLowerCase();
 
-      this.stoSvs.saveToken(this.token);
-
       this.router.navigate(['/dashboard']);
 
       this.authenticationChange$.next(this.isAuthenticated());
@@ -69,7 +64,7 @@ export class AuthService implements OnDestroy {
 
   logout = () => {
     return this.apiSvs.get('/auth/logout').subscribe(res => {
-      this.token = null;
+
       this.stoSvs.destroyToken();
       this.router.navigate(['/auth']);
       this.authenticationChange$.next(this.isAuthenticated());

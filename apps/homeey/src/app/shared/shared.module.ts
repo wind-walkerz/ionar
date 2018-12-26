@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { IonarModule } from 'ionar';
+import { IonarModule } from '@ionar/core';
 import { SharedComponentModule } from './components/component.module';
 import { AngularDraggableModule } from 'angular2-draggable';
 
