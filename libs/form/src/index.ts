@@ -4,6 +4,8 @@ export { FormControl } from './core/models/FormControl';
 
 export { FormGroup } from './core/models/FormGroup';
 
+export { FormArray } from './core/models/FormArray';
+
 export *  from './core/interfaces/Validator';
 export * from './core/interfaces/Form'
 

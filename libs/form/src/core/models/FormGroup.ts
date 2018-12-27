@@ -113,6 +113,58 @@ export class FormGroup extends AbstractControl {
   }
 
   /**
+   * Registers a control with the group's list of controls.
+   *
+   * This method does not update the value or validity of the control.
+   * Use {@link FormGroup#addControl addControl} instead.
+   *
+   * @param name The control name to register in the collection
+   * @param control Provides the control for the given name
+   */
+  registerControl(name: string, control: AbstractControl): AbstractControl {
+    if (this.controls[name]) return this.controls[name];
+    control.setParent(this);
+    this.controls[name] = control;
+    return control;
+  }
+
+  /**
+   * Add a control to this group.
+   *
+   * This method also updates the value and validity of the control.
+   *
+   * @param name The control name to add to the collection
+   * @param control Provides the control for the given name
+   */
+  addControl(name: string, control: AbstractControl): void {
+    this.registerControl(name, control);
+    this.updateValueAndValidity();
+  }
+
+  /**
+   * Remove a control from this group.
+   *
+   * @param name The control name to remove from the collection
+   */
+  removeControl(name: string): void {
+    delete (this.controls[name]);
+    this.updateValueAndValidity();
+  }
+
+  /**
+   * Replace an existing control.
+   *
+   * @param name The control name to replace in the collection
+   * @param control Provides the control for the given name
+   */
+  setControl(name: string, control: AbstractControl): void {
+    delete (this.controls[name]);
+    if (control) this.registerControl(name, control);
+    this.updateValueAndValidity();
+
+  }
+
+  /**
    * Sets the value of the `FormGroup`. It accepts an object that matches
    * the structure of the group, with control names as keys.
    *
@@ -147,10 +199,10 @@ export class FormGroup extends AbstractControl {
    * observables emit events with the latest status and value when the control value is updated.
    * When false, no events are emitted.
    */
-  setValue(value: { [key: string]: any }, options: { onlySelf?: boolean, emitEvent?: boolean } = {}):
+  setValue(formValue: { [key: string]: any }, options: { onlySelf?: boolean, emitEvent?: boolean } = {}):
     void {
 
-    _.forOwn(value, (value, name) => {
+    _.forOwn(formValue, (value, name) => {
       this._throwIfControlMissing(name);
       this.controls[name].setValue(value, { onlySelf: true, emitEvent: options.emitEvent });
     });
@@ -368,8 +420,6 @@ export class FormGroup extends AbstractControl {
       this.controls[name] = c;
     });
   }
-
-
 
 
   private _extractPathFromName = (name: string) => {

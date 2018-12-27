@@ -116,10 +116,7 @@ export class FormArray extends AbstractControl {
   push(control: AbstractControl): void {
     control.setParent(this);
     (<AbstractControl[]>this.controls).push(control);
-
-
     this.updateValueAndValidity();
-    // this._onCollectionChange();
   }
 
   /**
@@ -143,7 +140,7 @@ export class FormArray extends AbstractControl {
   removeAt(index: number): void {
 
     (<AbstractControl[]>this.controls).splice(index, 1);
-    // this.updateValueAndValidity();
+    this.updateValueAndValidity();
   }
 
   /**
@@ -153,13 +150,12 @@ export class FormArray extends AbstractControl {
    * @param control The `AbstractControl` control to replace the existing control
    */
   setControl(index: number, control: AbstractControl): void {
-    if (this.controls[index]) this.controls[index]._registerOnCollectionChange(() => {
-    });
+
     (<AbstractControl[]>this.controls).splice(index, 1);
 
     if (control) {
+      control.setParent(this);
       (<AbstractControl[]>this.controls).splice(index, 0, control);
-      // this._registerControl(control);
     }
 
     this.updateValueAndValidity();

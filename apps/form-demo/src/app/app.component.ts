@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
+import { FormArray } from '../../../../libs/form/src/core/models/FormArray';
 
 
 @Component({
@@ -39,78 +40,49 @@ export class AppComponent implements OnInit {
         }
 
       },
-      control_array: this._fb.array([
+      username: this._fb.array([
         {
           component: 'input',
           props: {
+            placeholder: 'Write your comment...',
             value: '1'
           }
         },
         {
           component: 'input',
           props: {
+            placeholder: 'Write your comment...',
             value: '2'
-        }
-        }
-      ]),
-
-      group_array: this._fb.array([
-        this._fb.group({
-          group_array_child_1: {
-            component: 'input',
-            props: {
-              value: '3'
-            }
-          },
-          group_array_child_2: {
-            component: 'input',
-            props: {
-              value: '4'
-            }
           }
-        })
-      ]),
-
-      nested_control_array_inside_group_array: this._fb.array([
-        this._fb.group({
-          group_array_child_3: {
-            component: 'input',
-            props: {
-              value: '5'
-            }
-          },
-          group_array_child_4: this._fb.array([
-            {
-              component: 'input',
-              props: {
-                value: '6'
-              }
-            },
-            {
-              component: 'input',
-              props: {
-                value: '7'
-              }
-            }
-          ]),
-          group_array_child_5: this._fb.group({
-            nestedgroup_array_child_1: {
-              component: 'input',
-              props: {
-                value: '8'
-              }
-            },
-            nestedgroup_array_child_2: {
-              component: 'input',
-              props: {
-                value: '9'
-              }
-            }
-          })
-        })
+        }
       ])
-
     });
+
+
+    (<FormArray>this.formGroup.get('username')).push(this._fb.control({
+      component: 'input',
+      props: {
+        placeholder: 'Write your comment...',
+        value: '3'
+      }
+    }));
+
+    (<FormArray>this.formGroup.get('username')).insert(1, this._fb.control({
+      component: 'input',
+      props: {
+        placeholder: 'Write your comment...',
+        value: '8'
+      }
+    }));
+
+    (<FormArray>this.formGroup.get('username')).setControl(1, this._fb.control({
+      component: 'input',
+      props: {
+        value: 1039
+      }
+    }));
+
+    (<FormArray>this.formGroup.get('username')).removeAt(2);
 
 
     console.log(this.formGroup);
