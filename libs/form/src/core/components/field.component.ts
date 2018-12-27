@@ -24,10 +24,9 @@ import { AbstractControl } from '../models/AbstractControl';
 @Component({
   selector: 'form-field',
   template: `
-      <ng-container *ngIf="formGroup">
+      <ng-container *ngIf="control">
           <ng-container
                   dynamic_field
-                  [formGroup]="formGroup"
                   [control]="control"
                   [events]="{
                             change: onChanged,
@@ -35,14 +34,13 @@ import { AbstractControl } from '../models/AbstractControl';
                             enter: onEntered
                     }"
                   [name]="name"
-                  [value]="control.value"
                   [invalid]="invalid"
-                  [readonly]="control.configuration.readonly"
+                  [options]="control?.options"
           >
           </ng-container>
       </ng-container>
   `,
-  // formGroup.readonly || control.configuration.readonly
+  // formGroup.readonly || control.options.readonly
   styles: [`
       :host {
           display: flex;
@@ -129,9 +127,12 @@ export class FieldComponent implements OnInit, AfterViewInit, AfterViewChecked, 
     this.name = this._parent.name;
     this.control = this.formGroup.get(this.name);
 
-    this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted),
-      this.template = this._parent.fieldTemplate;
+    if (this.control) {
 
+      this.invalid = this.control.invalid && (this.control.dirty || this.control.touched || this.formGroup.submitted),
+        this.template = this._parent.fieldTemplate;
+
+    }
     this.cd.detectChanges();
 
   };

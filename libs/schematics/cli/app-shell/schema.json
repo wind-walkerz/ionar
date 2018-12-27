@@ -64,12 +64,12 @@
       "type": "string",
       "format": "path",
       "default": "tsconfig.server",
-      "description": "The name of the TypeScript configuration file."
+      "description": "The name of the TypeScript options file."
     },
     "testTsconfigFileName": {
       "type": "string",
       "format": "path",
-      "description": "The name of the TypeScript configuration file for tests.",
+      "description": "The name of the TypeScript options file for tests.",
       "default": "tsconfig.spec"
     },
     "appDir": {

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import { AuthService } from '../auth/providers/auth.service';
 import { ProfileService } from './profile.service';
 
@@ -17,12 +17,12 @@ export class ProfileComponent implements OnInit {
 
   changePassFormGroup: FormGroup;
 
-  private _profileFormConfigs: ControlConfig[] = [];
+  private _profileFormConfigs: FormGroupState;
 
-  private _changePassFormConfigs: ControlConfig[] = [
-    {
-      type: 'input',
-      name: 'current_password',
+  private _changePassFormConfigs: FormGroupState = {
+    current_password: {
+      component: 'input',
+
       props: {
         type: 'password',
         label: 'Current Password'
@@ -31,9 +31,8 @@ export class ProfileComponent implements OnInit {
         required: true
       }
     },
-    {
-      type: 'input',
-      name: 'password',
+    password: {
+      component: 'input',
       props: {
         type: 'password',
         label: 'New Password'
@@ -45,9 +44,8 @@ export class ProfileComponent implements OnInit {
         }
       }
     },
-    {
-      type: 'input',
-      name: 'confirm_password',
+    confirm_password: {
+      component: 'input',
       props: {
         type: 'password',
         label: 'Confirm Password'
@@ -57,7 +55,7 @@ export class ProfileComponent implements OnInit {
         equalTo: 'password'
       }
     }
-  ];
+  };
 
   ////////////////           Variables
 
@@ -150,53 +148,56 @@ export class ProfileComponent implements OnInit {
     this._profileSvs.getUserProfile().subscribe((res: any) => {
       this.profile = res.data;
 
-      this._profileFormConfigs = [
-        {
-          type: 'input',
-          name: 'email',
-          label: 'Email',
-          value: res.data.email,
+      this._profileFormConfigs = {
+        email: {
+          component: 'input',
           props: {
-            disabled: true,
-            excluded: true
+            label: 'Email',
+            value: res.data.email
           },
           validators: {
             required: true,
             email: true
+          },
+          options: {
+            disabled: true,
+            excluded: true
+          }
+        },
+        first_name: {
+          component: 'input',
+          props: {
+            label: 'First Name',
+            value: `${res.data.first_name}`
+          }
+        },
+        last_name: {
+          component: 'input',
+          props: {
+            label: 'Last Name',
+            value: `${res.data.last_name}`
           }
 
         },
-        {
-          type: 'input',
-          name: 'first_name',
-          label: 'First Name',
-          value: `${res.data.first_name}`
-        },
-        {
-          type: 'input',
-          name: 'last_name',
-          label: 'Last Name',
-          value: `${res.data.last_name}`
-        },
-        {
-          type: 'input',
-          name: 'contact_number',
-          label: 'Mobile',
-          value: res.data.contact_number,
+        contact_number: {
+          component: 'input',
           props: {
-
+            label: 'Mobile',
+            value: res.data.contact_number,
             type: 'phone'
           }
         },
-        {
-          type: 'input',
-          name: 'Design_Style',
-          value: 1,
+        Design_Style: {
+          component: 'input',
           props: {
+            value: 1
+          },
+          options: {
             hidden: true
           }
         }
-      ];
+      };
+
 
       this.profileFormGroup = this._fb.group(this._profileFormConfigs);
 
@@ -228,24 +229,19 @@ export class ProfileComponent implements OnInit {
 
   onUploadedAvatar = file => {
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('profile_picture', file)
+    formData.append('profile_picture', file);
 
-    this._profileSvs.updateUserProfile(formData).subscribe(res => {
+    formData.append('Design_Style', '1');
 
-    })
+    this._profileSvs.updateUserProfile(formData).subscribe((res: any) => {
 
-    // const reader: FileReader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //   this.avatar_preview = reader.result;
-    //
-    //   // need to run CD since file load runs outside of zone
-    //
-    //   this.show_avatar_preview = true;
-    //   this.cd.markForCheck();
-    //
-    // };
+      if (res.status_code === 200) {
+        this.show_avatar_preview = true;
+        this.avatar_preview = res.data.profile_picture;
+      }
+    });
+
   };
 };

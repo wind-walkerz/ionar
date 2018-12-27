@@ -37,11 +37,11 @@ function addAppToWorkspaceFile(options, workspace) {
         // const workspacePath = '/angular.json';
         // const workspaceBuffer = host.read(workspacePath);
         // if (workspaceBuffer === null) {
-        //   throw new SchematicsException(`Configuration file (${workspacePath}) not found.`);
+        //   throw new SchematicsException(`options file (${workspacePath}) not found.`);
         // }
         // const workspaceJson = parseJson(workspaceBuffer.toString());
         // if (workspaceJson.value === null) {
-        //   throw new SchematicsException(`Unable to parse configuration file (${workspacePath}).`);
+        //   throw new SchematicsException(`Unable to parse options file (${workspacePath}).`);
         // }
         let projectRoot = options.projectRoot !== undefined
             ? options.projectRoot

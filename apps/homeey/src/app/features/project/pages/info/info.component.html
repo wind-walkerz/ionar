@@ -10,8 +10,8 @@
         <a (click)="toggleEditMode()">Edit</a>
     </div>
 
-    <ng-container *ngFor="let control of formState">
-        <form-control [name]="control.name" class="row item"></form-control>
+    <ng-container *ngFor="let item of formState | keyvalue">
+        <form-control [name]="item.key" class="row item"></form-control>
     </ng-container>
 
     <flex class="footer" *ngIf="!formGroup?.readonly">

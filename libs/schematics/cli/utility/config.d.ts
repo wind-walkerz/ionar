@@ -72,11 +72,11 @@ export interface AppConfig {
    */
   test?: string;
   /**
-   * The name of the TypeScript configuration file.
+   * The name of the TypeScript options file.
    */
   tsconfig?: string;
   /**
-   * The name of the TypeScript configuration file for unit tests.
+   * The name of the TypeScript options file for unit tests.
    */
   testTsconfig?: string;
   /**
@@ -170,7 +170,7 @@ export interface AppConfig {
 export interface CliConfig {
   $schema?: string;
   /**
-   * The global configuration of the project.
+   * The global options of the project.
    */
   project?: {
     /**
@@ -187,7 +187,7 @@ export interface CliConfig {
    */
   apps?: AppConfig[];
   /**
-   * Configuration for end-to-end tests.
+   * options for end-to-end tests.
    */
   e2e?: {
     protractor?: {
@@ -211,7 +211,7 @@ export interface CliConfig {
      */
     project: string;
     /**
-     * Location of the tslint.json configuration.
+     * Location of the tslint.json options.
      */
     tslintConfig?: string;
     /**
@@ -220,7 +220,7 @@ export interface CliConfig {
     exclude?: string | string[];
   }[];
   /**
-   * Configuration for unit tests.
+   * options for unit tests.
    */
   test?: {
     karma?: {
@@ -430,7 +430,7 @@ export interface CliConfig {
        */
       sslCert?: string;
       /**
-       * Proxy configuration file.
+       * Proxy options file.
        */
       proxyConfig?: string;
     };

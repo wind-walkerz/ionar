@@ -4,6 +4,8 @@ import { AbstractControl } from '../models/AbstractControl';
 import { FormControl } from '../models/FormControl';
 import { Observable, Subject } from 'rxjs';
 import _ from 'lodash';
+import { FormArray } from '../models/FormArray';
+import { FormArrayState, FormGroupState } from '@ionar/form';
 
 
 @Injectable()
@@ -33,16 +35,33 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
     this.$initialize.next(formGroup);
   };
 
-  mergeControls = (controls: { [name: string]: any }) => {
+  mergeControls = (controls: FormGroupState | FormArrayState, parent_name: string = null) => {
     let result = [];
-
-    _.forOwn(controls, (value: AbstractControl, name: string) => {
-      if (value instanceof FormControl) result.push(name);
-
-      if (value instanceof FormGroup) result = result.concat(this.mergeControls(value.controls));
+    //
 
 
-    });
+    if (_.isPlainObject(controls)) {
+      _.forOwn(controls, (c: AbstractControl, name: string) => {
+        const control_name = parent_name ? `${parent_name}[${name}]` : name;
+
+        if (c instanceof FormControl) result.push(control_name);
+
+        if (c instanceof FormGroup) result = result.concat(this.mergeControls(c.controls, control_name));
+
+        if (c instanceof FormArray) result = result.concat(this.mergeControls(c.controls, control_name));
+      });
+    }
+
+    if (_.isArray(controls)) {
+      _.each(controls, (c: AbstractControl, index) => {
+
+        if (c instanceof FormControl) result.push(`${parent_name}[${index}]`);
+
+        if (c instanceof FormGroup) result = result.concat(this.mergeControls(c.controls, `${parent_name}[${index}]`));
+
+        if (c instanceof FormArray) result = result.concat(this.mergeControls(c.controls, `${parent_name}[${index}]`));
+      });
+    }
 
     return result;
   };

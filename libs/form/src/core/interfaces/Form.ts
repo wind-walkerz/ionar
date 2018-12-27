@@ -8,10 +8,7 @@ export interface FormGroupState {
 }
 
 
-export interface FormArrayState {
-  [name: string]: AbstractControl
-}
-
+export type FormArrayState = AbstractControl[]
 
 /**
  * Interface for configs provided to an `AbstractControl`.
@@ -20,10 +17,7 @@ export interface FormArrayState {
  */
 
 export interface FormControlState {
-  type: ControlType,
-  label?: string,
-  value?: any,
-  options?: Array<{ value: any, label: any, [property: string]: any }>,
+  component: ComponentType,
   props?: ControlProperties,
   validators?: ValidationConfigs,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
@@ -31,24 +25,28 @@ export interface FormControlState {
     valid?: any,
     invalid?: any,
     validating?: any
-  }
+  },
+  options?: AbstractControlOptions
 }
 
 
-export type ControlType = 'input' | 'select' | 'textarea' | 'radio' | 'upload' | 'menu'
+export type ComponentType = 'input' | 'select' | 'textarea' | 'radio' | 'upload' | 'menu'
 
 
 export interface ControlProperties {
   placeholder?: string,
   className?: string,
   id?: string,
+  label?: string,
+  value?: any,
+  options?: Array<{ value: any, label: any, [property: string]: any }>,
 
   [key: string]: any
 }
 
 export type AbstractControlState = FormGroupState | FormControlState | FormArrayState
 
-export interface AbstractControlConfig {
+export interface AbstractControlOptions {
   nullExclusion?: Boolean,
   readonly?: Boolean,
   disabled?: Boolean,

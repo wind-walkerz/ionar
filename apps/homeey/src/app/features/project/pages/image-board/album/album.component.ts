@@ -17,7 +17,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   isCreateAlbum: Boolean = false;
 
-  private _baseLimitRegister: number = 11;
+  private _baseLimitRegister = 11;
 
   formGroup: FormGroup;
 
@@ -32,24 +32,30 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.formGroup = this._fb.group([{
-      type: 'input',
-      name: 'name',
-      props: {
-        hideLabel: true
+    this.formGroup = this._fb.group({
+      name: {
+        component: 'input',
+
+        options: {
+          hideLabel: true
+        },
+        validators: {
+          required: 'Please insert album name!'
+        }
       },
-      validators: {
-        required: 'Please insert album name!'
-      }
-    },
-      {
-        type: 'input',
-        name: 'project_id',
-        value: this._projSvs.project_id,
+      project_id: {
+        component: 'input',
+
+
         props: {
+          value: this._projSvs.project_id
+
+        },
+        options: {
           hidden: true
         }
-      }]);
+      }
+    });
 
     this.getAlbumList();
   }

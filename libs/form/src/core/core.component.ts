@@ -32,24 +32,24 @@ import { AbstractControl } from './models/AbstractControl';
               <ng-content></ng-content>
           </ng-template>
 
-          <!--<ng-container *ngIf="viewInitialized">-->
+          <ng-container *ngIf="viewInitialized">
 
-              <!--<ng-container *ngIf="!default_template">-->
-                  <!--<ng-container [ngTemplateOutlet]="contentVc"></ng-container>-->
-              <!--</ng-container>-->
+              <ng-container *ngIf="!default_template">
+                  <ng-container [ngTemplateOutlet]="contentVc"></ng-container>
+              </ng-container>
 
-              <!--<ng-container *ngIf="default_template">-->
-                  <!--<ng-container *ngFor="let item of formGroup.controls | keyvalue">-->
+              <ng-container *ngIf="default_template">
+                  <ng-container *ngFor="let name of controls ">
 
-                      <!--<form-control-->
-                              <!--[name]="item.key"-->
-                      <!--&gt;-->
-                      <!--</form-control>-->
+                      <form-control
+                              [name]="name"
+                      >
+                      </form-control>
 
-                  <!--</ng-container>-->
-              <!--</ng-container>-->
+                  </ng-container>
+              </ng-container>
 
-          <!--</ng-container>-->
+          </ng-container>
 
       </ng-container>
 
@@ -74,7 +74,7 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
 
   @ContentChildren(FieldTemplateDirective) _fieldTemplateDirList;
 
-  controls;
+  controls: String[] = [];
 
   default_template: Boolean;
 
@@ -106,7 +106,7 @@ export class FormComponent implements AfterViewChecked, OnDestroy {
   parseContext = () => {
     this._formSvs.initialize(this.formGroup);
 
-    console.log(this._formSvs.mergeControls(this.formGroup.controls))
+    this.controls = this._formSvs.mergeControls(this.formGroup.controls);
 
     if (this._subscription) this._subscription.unsubscribe();
 

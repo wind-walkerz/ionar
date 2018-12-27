@@ -31,10 +31,10 @@ function updateConfigFile(options) {
             throw new Error(`Target is not defined for this project.`);
         }
         let applyTo = project.architect[options.target].options;
-        if (options.configuration &&
+        if (options.options &&
             project.architect[options.target].configurations &&
-            project.architect[options.target].configurations[options.configuration]) {
-            applyTo = project.architect[options.target].configurations[options.configuration];
+            project.architect[options.target].configurations[options.options]) {
+            applyTo = project.architect[options.target].configurations[options.options];
         }
         applyTo.serviceWorker = true;
         host.overwrite(workspacePath, JSON.stringify(workspace, null, 2));

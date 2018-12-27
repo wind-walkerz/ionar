@@ -48,11 +48,11 @@ export interface Schema {
      */
     test?: string;
     /**
-     * The name of the TypeScript configuration file.
+     * The name of the TypeScript options file.
      */
     tsconfigFileName?: string;
     /**
-     * The name of the TypeScript configuration file for tests.
+     * The name of the TypeScript options file for tests.
      */
     testTsconfigFileName?: string;
     /**

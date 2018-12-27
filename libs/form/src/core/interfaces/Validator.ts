@@ -1,9 +1,9 @@
-import { FormControl } from '../models/FormControl';
+import { AbstractControl } from '../models/AbstractControl';
 import { forkJoin, Observable } from 'rxjs';
 import _ from 'lodash';
-import { Form } from '@angular/forms';
+
 import { map } from 'rxjs/operators';
-import { AbstractControlConfig, AbstractControlState } from './Form';
+import { AbstractControlState, FormControlState } from './Form';
 
 
 export interface ValidationErrors {
@@ -35,7 +35,7 @@ export type ValidatorType = { message?: any, [name: string]: any }
  * @publicApi
  */
 export interface ValidatorFn {
-  (control: FormControl): ValidationErrors | null
+  (control: AbstractControl): ValidationErrors | null
 }
 
 
@@ -43,14 +43,14 @@ export interface ValidatorFn {
  * @publicApi
  */
 export interface AsyncValidatorFn {
-  (control: FormControl): Observable<ValidationErrors | null>;
+  (control: AbstractControl): Observable<ValidationErrors | null>;
 }
 
 /**
  * @description
  * Provides a set of built-in validators that can be used by form controls.
  *
- * A validator is a function that processes a `FormControl` or collection of
+ * A validator is a function that processes a `AbstractControl` or collection of
  * controls and returns an error map or null. A null map means that validation has passed.
  * @publicApi
  */
@@ -66,7 +66,7 @@ export class Validators {
    * ### Validate that the field is non-empty
    *
    * ```typescript
-   * const control = new FormControl('', Validators.required);
+   * const control = new AbstractControl('', Validators.required);
    *
    * console.log(control.errors); // {required: true}
    * ```
@@ -75,7 +75,7 @@ export class Validators {
    * if the validation check fails, otherwise `null`.
    *
    */
-  static required = (c: FormControl): ValidationErrors | null =>
+  static required = (c: AbstractControl): ValidationErrors | null =>
     isEmptyInputValue(c.value) ? { 'required': true } : null;
 
   /**
@@ -87,7 +87,7 @@ export class Validators {
    * ### Validate that the field matches a valid email pattern
    *
    * ```typescript
-   * const control = new FormControl('bad@', Validators.email);
+   * const control = new AbstractControl('bad@', Validators.email);
    *
    * console.log(control.errors); // {email: true}
    * ```
@@ -96,7 +96,7 @@ export class Validators {
    * if the validation check fails, otherwise `null`.
    *
    */
-  static email = (control: FormControl): ValidationErrors | null => {
+  static email = (control: AbstractControl): ValidationErrors | null => {
 
     if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
@@ -116,7 +116,7 @@ export class Validators {
    * ### Validate that the field has a minimum of 3 characters
    *
    * ```typescript
-   * const control = new FormControl('ng', Validators.minLength(3));
+   * const control = new AbstractControl('ng', Validators.minLength(3));
    *
    * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
    * ```
@@ -128,14 +128,14 @@ export class Validators {
    * @returns A validator function that returns an error map with the
    * `minlength` if the validation check fails, otherwise `null`.
    */
-  static stringLength = (control: FormControl): ValidationErrors | null => {
-    const state = <AbstractControlState>control.state;
+  static stringLength = (control: AbstractControl): ValidationErrors | null => {
+    const state = <FormControlState>control.state;
 
     if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
     }
 
-    if (state.type !== ('input' || 'textarea')) {
+    if (state.component !== ('input' || 'textarea')) {
       throw new Error(`'stringLength' validator can only be used with control type 'input' or 'textarea'`);
     }
 
@@ -166,13 +166,13 @@ export class Validators {
   };
 
 
-  static equalTo = (control: FormControl): ValidationErrors | null => {
+  static equalTo = (control: AbstractControl): ValidationErrors | null => {
 
     if (isEmptyInputValue(control.value)) {
       return null;  // don't validate empty values to allow optional controls
     }
 
-    const state = <AbstractControlState>control.state;
+    const state = <FormControlState>control.state;
 
     const compareWith = _.isString(state.validators['equalTo']) ? state.validators['equalTo'] : state.validators['equalTo'].compare;
 
@@ -196,7 +196,7 @@ export class Validators {
     const presentValidators: ValidatorFn[] = validators.filter(isPresent) as any;
     if (presentValidators.length === 0) return null;
 
-    return function(control: FormControl) {
+    return function(control: AbstractControl) {
       return _mergeErrors(_executeValidators(control, presentValidators));
     };
   };
@@ -214,7 +214,7 @@ export class Validators {
     const presentValidators: AsyncValidatorFn[] = asyncValidators.filter(isPresent) as any;
     if (presentValidators.length === 0) return null;
 
-    return function(control: FormControl) {
+    return function(control: AbstractControl) {
       const observables = _executeAsyncValidators(control, presentValidators);
 
       return forkJoin(observables).pipe(
@@ -247,11 +247,11 @@ function isPresent(o: any): boolean {
   return o != null;
 }
 
-function _executeValidators(control: FormControl, validators: ValidatorFn[]): any[] {
+function _executeValidators(control: AbstractControl, validators: ValidatorFn[]): any[] {
   return validators.map(v => v(control));
 }
 
-function _executeAsyncValidators(control: FormControl, validators: AsyncValidatorFn[]): any[] {
+function _executeAsyncValidators(control: AbstractControl, validators: AsyncValidatorFn[]): any[] {
   return validators.map(v => v(control));
 }
 

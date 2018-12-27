@@ -72,7 +72,7 @@ export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, O
   }
 
   ngAfterViewChecked(): void {
-    if (this._parent.formGroup) {
+    if (this._parent.formGroup && this._control) {
       this.formGroup = this._parent.formGroup;
 
       if (this._statusSubscription) this._statusSubscription.unsubscribe();
@@ -97,10 +97,10 @@ export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, O
 
     const feedback = {};
 
-    // console.log(_.values(this._control.configuration.validators))
+    // console.log(_.values(this._control.options.validators))
 
 
-    // _.mapValues(this._control.configuration.validators, (value: any) => {
+    // _.mapValues(this._control.options.validators, (value: any) => {
     //   feedback[validator] = _.isString(value) ? value : value.message || null;
     // });
 

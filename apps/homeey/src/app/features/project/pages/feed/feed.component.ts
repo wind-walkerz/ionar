@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import moment from 'moment';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import { ProjectService } from '../../providers/project.service';
 
 
@@ -18,7 +18,7 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
 
-  _formConfigs: ControlConfig[] = [];
+  _formConfigs: FormGroupState;
 
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
@@ -39,45 +39,50 @@ export class FeedComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getChatFeed();
 
-    this._formConfigs = [
-      {
-        type: 'textarea',
-        name: 'text',
+
+    this._formConfigs = {
+      text: {
+        component: 'textarea',
         props: {
-          placeholder: 'Write your comment...',
-          hideFeedback: true,
-          hideLabel: true
+          placeholder: 'Write your comment...'
         },
         validators: {
           required: true
+        },
+        options: {
+          hideFeedback: true,
+          hideLabel: true
         }
       },
-      {
-        type: 'upload',
-        name: 'profile_picture',
-        props: {
+      picture: {
+        component: 'upload',
+
+        options: {
           hideFeedback: true,
           hideLabel: true,
           submitOnChange: true
         }
       },
-      {
-        type: 'input',
-        name: 'user_id',
-        value: 1,
+      user_id: {
+        component: 'input',
         props: {
+          value: 1
+        },
+        options: {
           hidden: true
         }
       },
-      {
-        type: 'input',
-        name: 'project_id',
-        value: this._projSvs.project_id,
+      project_id: {
+        component: 'input',
         props: {
+          value: this._projSvs.project_id
+        },
+
+        options: {
           hidden: true
         }
       }
-    ];
+    };
 
     this.formGroup = this._fb.group(this._formConfigs, {
       nullExclusion: true

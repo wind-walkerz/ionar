@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from '../products.service';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import {FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 
 import _ from 'lodash';
 import { forkJoin } from 'rxjs';
@@ -16,7 +16,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   formGroup: FormGroup;
-  _formState: ControlConfig[] = [];
+  _formState: FormGroupState;
 
 
   product_list = [];
@@ -41,52 +41,59 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     forkJoin(brandList$, categoryList$).subscribe(([brands, categories]) => {
 
-      this._formState = [
-        {
-          name: 'keywords',
-          type: 'input',
-          props: {
+      this._formState = {
+        keywords: {
+          component: 'input',
+          options: {
             hideLabel: true
           }
         },
-        {
-          name: 'base_price',
-          type: 'menu',
-          options: [
-            {
-              label: '0 - 300$',
-              value: '0,300'
-            },
-            {
-              label: '300$ - 600$',
-              value: '300,600'
-            },
-            {
-              label: '> 600$',
-              value: '600'
-            }
-          ],
+        base_price: {
+          component: 'menu',
           props: {
+            options: [
+              {
+                label: '0 - 300$',
+                value: '0,300'
+              },
+              {
+                label: '300$ - 600$',
+                value: '300,600'
+              },
+              {
+                label: '> 600$',
+                value: '600'
+              }
+            ]
+          },
+          options: {
             hideLabel: true
           }
         },
-        {
-          name: 'category_id',
-          type: 'menu',
-          options: _.map(categories.data, (cate: any) => ({ label: _.startCase(cate.name), value: cate.id })),
+        category_id: {
+
+          component: 'menu',
+
           props: {
+            options: _.map(categories.data, (cate: any) => ({ label: _.startCase(cate.name), value: cate.id }))
+          },
+          options: {
             hideLabel: true
           }
         },
-        {
-          name: 'brand_name',
-          type: 'menu',
-          options: _.map(brands.data, (brand: any) => ({ label: _.startCase(brand.name), value: brand.name })),
+        brand_name: {
+
+          component: 'menu',
+
           props: {
+            options: _.map(brands.data, (brand: any) => ({ label: _.startCase(brand.name), value: brand.name }))
+          },
+          options: {
             hideLabel: true
           }
         }
-      ];
+      };
+
       this.formGroup = this._fb.group(this._formState, {
         nullExclusion: true,
         submitOnChange: true

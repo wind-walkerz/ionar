@@ -10,7 +10,7 @@ import {
     HostBinding, HostListener, OnChanges, SimpleChanges
 } from '@angular/core';
 import _ from 'lodash';
-import {ControlConfig, FormGroup, IonarFormBuilder} from '@ionar/form';
+import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import {ProjectService} from '../../../../providers/project.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class MarkerComponent implements OnInit, OnChanges, OnDestroy {
     commentData;
     formGroup: FormGroup;
 
-    _formConfigs: ControlConfig[] = [];
+    _formConfigs: FormGroupState;
 
     @Input() data: any = null;
     @Input() item_id: string;
@@ -48,45 +48,51 @@ export class MarkerComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit() {
 
-        this._formConfigs = [
-            {
-                type: 'textarea',
-                name: 'text',
+        this._formConfigs = {
+            text: {
+                component: 'textarea',
+
                 props: {
                     placeholder: 'Write your comment...',
-                    hideFeedback: true,
-                    hideLabel: true
+
                 },
                 validators: {
                     required: true
+                },
+                options: {
+                    hideFeedback: true,
+                    hideLabel: true
                 }
             },
-            {
-                type: 'upload',
-                name: 'picture',
-                props: {
+            picture: {
+                component: 'upload',
+
+                options: {
                     hideFeedback: true,
                     hideLabel: true,
                     submitOnChange: true
                 }
             },
-            {
-                type: 'input',
-                name: 'item_id',
-                value: this.item_id,
+            item_id: {
+                component: 'input',
+
+
                 props: {
+                    value: this.item_id
+
+                },
+                options: {
                     hidden: true
                 }
             },
-            {
-                type: 'input',
-                name: 'marker',
-                value: `${this.data.marker.x},${this.data.marker.y}`,
-                props: {
+            marker: {
+                component: 'input',
+
+                options: {
                     hidden: true
                 }
             }
-        ];
+        };
 
         this.formGroup = this._fb.group(this._formConfigs, {
             nullExclusion: true

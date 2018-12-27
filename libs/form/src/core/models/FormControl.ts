@@ -8,7 +8,7 @@ import {
 } from '../interfaces/Validator';
 import _ from 'lodash';
 
-import { AbstractControlConfig, FormControlState, FormGroupState } from '../interfaces/Form';
+import { AbstractControlOptions, FormControlState, FormGroupState } from '../interfaces/Form';
 
 
 /**
@@ -117,16 +117,16 @@ export class FormControl extends AbstractControl {
    * @param config Initializes the control with an object that defines the initial state.
    *
    */
-  constructor(state: FormControlState, configuration?: AbstractControlConfig) {
+  constructor(state: FormControlState) {
     super(
       <FormControlState>state,
-      <AbstractControlConfig | null>configuration
+      <AbstractControlOptions | null>state.options
     );
 
     this._setValidators(state.validators);
-    this._initAsyncValidator();
     this._setAsyncValidators(state.asyncValidator);
     this._initObservables();
+    this._initValidators();
     this._applyControlState();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
@@ -136,9 +136,9 @@ export class FormControl extends AbstractControl {
    * Sets a new value for the form control.
    *
    * @param value The new value for the control.
-   * @param options Configuration options that determine how the control proopagates changes
+   * @param options options options that determine how the control proopagates changes
    * and emits events when the value changes.
-   * The configuration options are passed to the {@link IonarAbstractControl#updateValueAndValidity
+   * The options options are passed to the {@link IonarAbstractControl#updateValueAndValidity
    * updateValueAndValidity} method.
    *
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -163,9 +163,9 @@ export class FormControl extends AbstractControl {
     this.markAsDirty();
     this.updateValueAndValidity(options);
 
-    if (_.has(this.configuration, ['submitOnChange'])) {
+    if (_.has(this.options, ['submitOnChange'])) {
 
-      this.parent.submit(true);
+      this.root.submit(true);
     }
 
   }
@@ -178,7 +178,7 @@ export class FormControl extends AbstractControl {
    * @param formState Resets the control with an initial value,
    * or an object that defines the initial value and disabled state.
    *
-   * @param options Configuration options that determine how the control propagates changes
+   * @param options options options that determine how the control propagates changes
    * and emits events after the value changes.
    *
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -194,6 +194,10 @@ export class FormControl extends AbstractControl {
     this.markAsUntouched(options);
     this._applyControlState();
     this.updateValueAndValidity(options);
+    if (_.has(this.options, ['submitOnChange'])) {
+
+      this.root.submit(true);
+    }
   }
 
   /**
@@ -203,7 +207,7 @@ export class FormControl extends AbstractControl {
    * @param formState Resets the control with an initial value,
    * or an object that defines the initial value and disabled state.
    *
-   * @param options Configuration options that determine how the control propagates changes
+   * @param options options options that determine how the control propagates changes
    * and emits events after the value changes.
    *
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -219,6 +223,10 @@ export class FormControl extends AbstractControl {
     this.markAsUntouched(options);
     (this as { value: any }).value = null;
     this.updateValueAndValidity(options);
+    if (_.has(this.options, ['submitOnChange'])) {
+
+      this.root.submit(true);
+    }
   }
 
 
@@ -250,18 +258,6 @@ export class FormControl extends AbstractControl {
   }
 
 
-  _runValidator(): ValidationErrors | null {
-    return this.validator ? this.validator(this) : null;
-  }
-
-
-  _cancelExistingSubscription(): void {
-    if (this._asyncValidationSubscription) {
-      this._asyncValidationSubscription.unsubscribe();
-    }
-  }
-
-
   /**
    * Sets the synchronous validators that are active on this control.  Calling
    * this overwrites any existing sync validators.
@@ -284,53 +280,20 @@ export class FormControl extends AbstractControl {
 
 
   /** @internal */
-  _initAsyncValidator() {
-    (<AbstractControl>this)._runAsyncValidator = _.debounce((emitEvent?: boolean) => {
-
-      if (this.asyncValidator) {
-        (this as { status: string }).status = PENDING;
-        const obs = this.asyncValidator(this);
-        this._asyncValidationSubscription =
-          obs.subscribe((errors: ValidationErrors | null) => {
-            if ((this.touched || this.dirty) && this.value) {
-              (this as { status: string }).status = INVALID;
-              this.setErrors(errors, { emitEvent });
-            }
-          });
-      }
-    }, 500);
-  }
-
-  /** @internal */
-  _calculateStatus(): string {
-
-    if (this.disabled) return DISABLED;
-    if (this.errors) return INVALID;
-    if (this.pending) return PENDING;
-
-    return VALID;
-  }
-
-  /** @internal */
   _updateValue(): void {
 
   }
 
-  /** @internal */
-  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    this._cancelExistingSubscription();
-    (this as { errors: ValidationErrors | null }).errors = this._runValidator();
-    (this as { status: string }).status = this._calculateStatus();
-
-    if (this.status === VALID || this.status === PENDING) {
-      this._runAsyncValidator(opts.emitEvent);
-    }
-  }
-
 
   private _applyControlState = () => {
+    (<FormControl>this.value) = null;
+    const properties = (<FormControlState>this.state).props;
 
-    (this as { value: any }).value = this.state.value || null;
+    if (properties) {
+      (<FormControl>this.value) = properties.value;
+    }
+
+
     // state.disabled ? this.disable({onlySelf: true, emitEvent: false}) :
     //         this.enable({onlySelf: true, emitEvent: false});
   };
@@ -341,6 +304,11 @@ export class FormControl extends AbstractControl {
    */
   _allControlsDisabled(): boolean {
     return this.disabled;
+  }
+
+  /** @internal */
+  _anyControlsHaveStatus(status: string): boolean {
+    return false;
   }
 }
 

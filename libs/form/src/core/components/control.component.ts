@@ -29,7 +29,7 @@ import { AbstractControl } from '../models/AbstractControl';
   selector: 'form-control',
   template: `
 
-      <ng-container *ngIf="formGroup">
+      <ng-container *ngIf="viewInitialized">
           <form-label *ngIf="show_label"></form-label>
 
           <form-field></form-field>
@@ -87,7 +87,9 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: any = '';
 
-  @Input() formGroup: FormGroup;
+  viewInitialized: Boolean = false;
+
+  formGroup: FormGroup;
   _control: AbstractControl;
 
   fieldTemplate: TemplateRef<any>;
@@ -118,7 +120,6 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
 
   ngAfterViewChecked(): void {
     if (this._parent.formGroup) {
-      this.formGroup = this._parent.formGroup;
       this.parseContext();
     }
   }
@@ -132,28 +133,37 @@ export class ControlComponent implements OnInit, AfterViewInit, AfterViewChecked
 
   parseContext = () => {
 
+    this.viewInitialized = true;
+    this.formGroup = this._parent.formGroup;
+
     this._checkTemplate();
 
-    this._control = this.formGroup.get(this.name);
+    this._control = this._parent.formGroup.get(this.name);
 
     this._renderer.setAttribute(this._elRef.nativeElement, 'id', this.name);
 
-    const config = this._control.configuration;
-    if (_.get(config, ['hidden'])) {
 
-      this._renderer.addClass(this._elRef.nativeElement, 'hidden');
+    if (this._control) {
+      const options = this._control.options;
+
+      if (_.get(options, ['hidden'])) {
+
+        this._renderer.addClass(this._elRef.nativeElement, 'hidden');
+      }
+
+      if (_.get(options, ['hideLabel'])) {
+        this.show_label = false;
+        this._renderer.addClass(this._elRef.nativeElement, 'hide-label');
+      }
+
+
+      if (_.get(options, ['hideFeedback'])) {
+        this.show_feedback = false;
+        this._renderer.addClass(this._elRef.nativeElement, 'hide-feedback');
+      }
+
     }
 
-    if (_.get(config, ['hideLabel'])) {
-      this.show_label = false;
-      this._renderer.addClass(this._elRef.nativeElement, 'hide-label');
-    }
-
-
-    if (_.get(config, ['hideFeedback'])) {
-      this.show_feedback = false;
-      this._renderer.addClass(this._elRef.nativeElement, 'hide-feedback');
-    }
     this.cd.detectChanges();
   };
 

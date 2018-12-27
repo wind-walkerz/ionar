@@ -15,6 +15,7 @@ import _ from 'lodash';
 import { ControlComponent } from './control.component';
 
 import { AbstractControl } from '../models/AbstractControl';
+import { FormControlState } from '../interfaces/Form';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
   formGroup: FormGroup;
   control: AbstractControl;
 
-  label: any;
+  label: any = _.startCase(this._parent.name);
 
   constructor(
     private _formSvs: FormService,
@@ -68,7 +69,9 @@ export class LabelComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.control = this.formGroup.get(this._parent.name);
 
 
-    this.label = this.control.state.label || _.startCase(this._parent.name);
+    if (this.control && (<FormControlState>this.control.state).props) {
+      this.label = (<FormControlState>this.control.state).props.label || _.startCase(this._parent.name);
+    }
 
     this.cd.detectChanges();
   };

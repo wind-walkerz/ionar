@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { ProjectService } from '../../../providers/project.service';
 import { $e } from 'codelyzer/angular/styles/chars';
 import { ActivatedRoute } from '@angular/router';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 
 @Component({
   selector: 'concept',
@@ -27,7 +27,7 @@ export class ConceptComponent implements OnInit, AfterViewInit, OnDestroy {
 
   formGroup: FormGroup;
 
-  _formConfigs: ControlConfig[] = [];
+  _formConfigs: FormGroupState;
 
   @ViewChild('myBounds', { read: ElementRef }) private _boundaryRef;
 
@@ -52,7 +52,7 @@ export class ConceptComponent implements OnInit, AfterViewInit, OnDestroy {
       this.onUpdateMarkerCoordinate(conversation);
     }
 
-    this.count = 0
+    this.count = 0;
   };
 
 
@@ -70,44 +70,51 @@ export class ConceptComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.item_id = this._route.snapshot.paramMap.get('id');
 
-    this._formConfigs = [
-      {
-        type: 'textarea',
-        name: 'text',
+    this._formConfigs = {
+      text: {
+        component: 'textarea',
+
         props: {
           placeholder: 'Write your comment...',
-          hideFeedback: true,
-          hideLabel: true
+
         },
         validators: {
           required: true
+        },
+        options: {
+          hideFeedback: true,
+          hideLabel: true
         }
       },
-      {
-        type: 'upload',
-        name: 'picture',
-        props: {
+      picture: {
+        component: 'upload',
+
+        options: {
           hideFeedback: true,
           hideLabel: true,
           submitOnChange: true
         }
       },
-      {
-        type: 'input',
-        name: 'item_id',
-        value: this.item_id,
+      item_id: {
+        component: 'input',
+
+
         props: {
+          value: this.item_id
+
+        },
+        options: {
           hidden: true
         }
       },
-      {
-        type: 'input',
-        name: 'marker',
-        props: {
+      marker: {
+        component: 'input',
+
+        options: {
           hidden: true
         }
       }
-    ];
+    };
 
     this.formGroup = this._fb.group(this._formConfigs, {
       nullExclusion: true
@@ -158,7 +165,7 @@ export class ConceptComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._projSvs.createConversation(formValue).subscribe(res => {
       this.formGroup.clear();
-      this.onGetConversationList()
+      this.onGetConversationList();
     });
   };
 

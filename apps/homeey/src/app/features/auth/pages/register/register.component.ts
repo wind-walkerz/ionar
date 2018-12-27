@@ -4,7 +4,7 @@ import { ApiService, Logger } from '../../../../core/services';
 import { AbstractControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import _ from 'lodash';
-import { ControlConfig, FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
+import { FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@ionar/utility';
@@ -22,9 +22,6 @@ const log = new Logger('RegisterComponent');
 export class RegisterComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
-  private _formConfigs: ControlConfig[] = [];
-
-
   constructor(
     private _apiSvs: ApiService,
     private authSvs: AuthService,
@@ -35,13 +32,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-
-    this._formConfigs = [
-      {
-        name: 'username',
-        type: 'input',
-        label: 'Username',
+    this.formGroup = this._fb.group({
+      username: {
+        component: 'input',
+        props: {
+          label: 'Username'
+        },
         validators: {
           required: true,
           stringLength: {
@@ -50,23 +46,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         }
       },
-      {
-        name: 'email',
-        type: 'input',
-        label: 'Email',
-        value: '',
+      email: {
+        component: 'input',
+        props: {
+          label: 'Email',
+          value: ''
+        },
         validators: {
           required: true,
           email: true
         },
         asyncValidator: [this.validateUserExist]
       },
-      {
-        name: 'password',
-        type: 'input',
-        label: 'Password',
-        value: '',
+      password: {
+
+        component: 'input',
+
         props: {
+          label: 'Password',
+          value: '',
           type: 'password'
         },
         validators: {
@@ -76,32 +74,37 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         }
       },
-      {
-        name: 'confirm_password',
-        type: 'input',
-        label: 'Confirm Password',
-        value: '',
+      confirm_password: {
+
+        component: 'input',
+
         props: {
-          exclude: true,
+          label: 'Confirm Password',
+          value: '',
+
           type: 'password'
         },
 
         validators: {
           required: true,
           equalTo: 'password'
+        },
+        options: {
+          excluded: true
         }
       },
-      {
-        name: 'slug',
-        type: 'input',
-        value: 'client',
+      slug: {
+        component: 'input',
+
         props: {
+          value: 'client'
+
+        },
+        options: {
           hidden: true
         }
       }
-    ];
-
-    this.formGroup = this._fb.group(this._formConfigs);
+    });
   }
 
   ngOnDestroy(): void {

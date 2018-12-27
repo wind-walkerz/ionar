@@ -17,20 +17,22 @@ import { untilDestroyed } from '@ionar/utility';
 import { InputComponent, MenuComponent, TextareaComponent, UploadComponent } from '../../ui';
 import { FormGroup } from '../models/FormGroup';
 import { AbstractControl } from '../models/AbstractControl';
-import { AbstractControlConfig, FormControlState } from '../interfaces/Form';
+import { AbstractControlOptions, FormControlState } from '../interfaces/Form';
 
 
 @Directive({
   selector: '[dynamic_field]'
 })
 export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
-  @Input('formGroup') private _formGroup: FormGroup;
+
   @Input('control') private _control: AbstractControl;
 
-  @Input('value') private _value;
+
   @Input('invalid') private _invalid: Boolean;
-  @Input('readonly') private _readonly: Boolean;
+
   @Input('template') private _template: TemplateRef<any>;
+
+  @Input('options') private _options: AbstractControlOptions | null;
 
   @Input('events') private _events: { [key: string]: Function };
 
@@ -71,7 +73,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   createComponent = () => {
-    const component = this.components[(<FormControlState>this._control.state).type];
+    const component = this.components[(<FormControlState>this._control.state).component];
     const factory = this._resolver.resolveComponentFactory<any>(component);
     this._compRef = this._vcRef.createComponent(factory);
     this.initContext();
@@ -92,17 +94,14 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   };
 
   private parseContext = (status = 'initial') => {
-    const state = <FormControlState>this._control.state,
-      controlConfig = <AbstractControlConfig>this._control.configuration;
+    const state = <FormControlState>this._control.state;
 
     const context = {
       name: this._name,
       invalid: this._invalid,
       ...state.props,
-      value: this._value,
-      options: state.value,
-      readonly: this._readonly,
-      template: this._template
+      template: this._template,
+      ...this._options
     };
 
     _.forOwn(context, (value, key) => {

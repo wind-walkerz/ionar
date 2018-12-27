@@ -1,97 +1,93 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../providers/auth.service';
-import {Logger} from '../../../../core/services';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../providers/auth.service';
+import { Logger } from '../../../../core/services';
 import _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
-import {ControlConfig, FormGroup, IonarFormBuilder} from '@ionar/form';
-
+import { FormGroup, IonarFormBuilder } from '@ionar/form';
 
 
 const log = new Logger('ForgotPasswordComponent');
 
 @Component({
-    selector: 'forgot-password',
-    templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.scss']
+  selector: 'forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
 
-    ///-----------------------------------------------  Variables   -----------------------------------------------///
+  ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-    forgotPassFormGroup: FormGroup
-    private _forgotPassFormConfigs: ControlConfig[] = [
-        {
-            type: 'input',
-            name: 'email',
-            label: 'Email',
-            validators: {
-                required: true,
-                email: true
-            }
+  forgotPassFormGroup: FormGroup;
 
+
+  changePassFormGroup: FormGroup;
+
+
+  _token: string;
+
+  ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+
+
+  constructor(
+    private authSvs: AuthService,
+    private router: ActivatedRoute,
+    private _fb: IonarFormBuilder
+  ) {
+  }
+
+  ngOnInit() {
+    this.forgotPassFormGroup = this._fb.group({
+      email: {
+        component: 'input',
+       props: {
+         label: 'Email',
+       },
+        validators: {
+          required: true,
+          email: true
         }
-    ];
+      }
+    });
 
-
-    changePassFormGroup: FormGroup
-    private _changePassFormConfigs: ControlConfig[] = [
-        {
-            type: 'input',
-            name: 'password',
-            props: {
-                label: 'New Password',
-                type: 'password'
-            },
-            validators: {
-                required: true,
-                stringLength: {
-                    min: 6
-                }
-            }
+    this.changePassFormGroup = this._fb.group({
+      password: {
+        component: 'input',
+        props: {
+          label: 'New Password',
+          type: 'password'
         },
-        {
-            type: 'input',
-            name: 'confirm_password',
-            props: {
-                label: 'Confirm Password',
-                type: 'password'
-            },
-            validators: {
-                required: true,
-                equalTo: 'password'
-            }
+        validators: {
+          required: true,
+          stringLength: {
+            min: 6
+          }
         }
-    ];
+      },
+      confirm_password: {
+        component: 'input',
+        props: {
+          label: 'Confirm Password',
+          type: 'password'
+        },
+        validators: {
+          required: true,
+          equalTo: 'password'
+        }
+      }
+    });
 
-    _token: string;
+    this._token = this.router.snapshot.queryParamMap.get('token');
+  }
 
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-
-
-    constructor(
-      private authSvs: AuthService,
-      private router: ActivatedRoute,
-      private _fb: IonarFormBuilder
-    ) {
-    }
-
-    ngOnInit() {
-        this.forgotPassFormGroup = this._fb.group(this._forgotPassFormConfigs)
-
-        this.changePassFormGroup = this._fb.group(this._changePassFormConfigs)
-
-        this._token = this.router.snapshot.queryParamMap.get('token');
-    }
-
-    ///-----------------------------------------------  General Functions   -----------------------------------------------///
+  ///-----------------------------------------------  General Functions   -----------------------------------------------///
 
 
-    onForgotPassword = form_data => {
-        this.authSvs.reset_password(JSON.stringify(_.assign(form_data, {}, {slug: 'client'})));
-    };
+  onForgotPassword = form_data => {
+    this.authSvs.reset_password(JSON.stringify(_.assign(form_data, {}, { slug: 'client' })));
+  };
 
-    onChangePassword = form_data => {
-        this.authSvs.change_password(JSON.stringify(_.assign(form_data, {}, {slug: 'client'})));
-    };
+  onChangePassword = form_data => {
+    this.authSvs.change_password(JSON.stringify(_.assign(form_data, {}, { slug: 'client' })));
+  };
 
 }

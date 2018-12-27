@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 
-import { AbstractControlConfig, FormGroupState } from '../interfaces/Form';
+import { AbstractControlOptions, FormControlState, FormGroupState } from '../interfaces/Form';
 import { FormService } from '../providers/form.service';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
+import { FormArray } from './FormArray';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -90,15 +92,6 @@ export class FormGroup extends AbstractControl {
    */
   public readonly submitted: boolean = false;
 
-  /**
-   *
-   * @param controls A collection of child controls. The key for each child is the name
-   * under which it is registered.
-   *
-   */
-
-  public readonly controls: { [key: string]: AbstractControl } = {};
-
 
   /**
    * Creates a new `FormGroup` instance.
@@ -107,16 +100,16 @@ export class FormGroup extends AbstractControl {
    * under which it is registered.
    *
    */
-  constructor(state: FormGroupState, configuration?: AbstractControlConfig) {
+  constructor(state: FormGroupState, options?: AbstractControlOptions) {
     super(
-      <FormGroupState>state,
-      <AbstractControlConfig | null>configuration
+      null,
+      <AbstractControlOptions | null>options
     );
-
-    this._setUpControls();
-    this._initObservables();
-    this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     this._applyFormState();
+    this._setUpControls(state);
+    this._initObservables();
+
+    this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
   /**
@@ -142,9 +135,9 @@ export class FormGroup extends AbstractControl {
    * that doesn't exist or if you excluding the value of a control.
    *
    * @param value The new value for the control that matches the structure of the group.
-   * @param options Configuration options that determine how the control propagates changes
+   * @param options options options that determine how the control propagates changes
    * and emits events after the value changes.
-   * The configuration options are passed to the {@link IonarAbstractControl#updateValueAndValidity
+   * The options options are passed to the {@link IonarAbstractControl#updateValueAndValidity
    * updateValueAndValidity} method.
    *
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -178,7 +171,7 @@ export class FormGroup extends AbstractControl {
    * @param formState Resets the control with an initial value,
    * or an object that defines the initial value and disabled state.
    *
-   * @param options Configuration options that determine how the control propagates changes
+   * @param options options options that determine how the control propagates changes
    * and emits events when the group is reset.
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
    * false.
@@ -186,7 +179,7 @@ export class FormGroup extends AbstractControl {
    * `valueChanges`
    * observables emit events with the latest status and value when the control is reset.
    * When false, no events are emitted.
-   * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+   * The options options are passed to the {@link AbstractControl#updateValueAndValidity
    * updateValueAndValidity} method.
    *
    * @usageNotes
@@ -229,7 +222,7 @@ export class FormGroup extends AbstractControl {
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-    if (_.has(this.configuration, ['submitOnChange'])) this.submit(true);
+    if (_.has(this.options, ['submitOnChange'])) this.submit(true);
 
   }
 
@@ -245,7 +238,7 @@ export class FormGroup extends AbstractControl {
    * @param formState Resets the control with an initial value,
    * or an object that defines the initial value and disabled state.
    *
-   * @param options Configuration options that determine how the control propagates changes
+   * @param options options options that determine how the control propagates changes
    * and emits events when the group is reset.
    * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
    * false.
@@ -253,7 +246,7 @@ export class FormGroup extends AbstractControl {
    * `valueChanges`
    * observables emit events with the latest status and value when the control is reset.
    * When false, no events are emitted.
-   * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+   * The options options are passed to the {@link AbstractControl#updateValueAndValidity
    * updateValueAndValidity} method.
    *
    * @usageNotes
@@ -296,7 +289,7 @@ export class FormGroup extends AbstractControl {
     });
     (this as { submitted: Boolean }).submitted = false;
     this.updateValueAndValidity(options);
-    if (_.has(this.configuration, ['submitOnChange'])) this.submit(true);
+    if (_.has(this.options, ['submitOnChange'])) this.submit(true);
   }
 
 
@@ -319,32 +312,18 @@ export class FormGroup extends AbstractControl {
    */
   get(name: string = null): AbstractControl | null {
     if (name == null) return null;
+    return _.get(this.controls, this._extractPathFromName(name)) || null;
 
-    return this.controls.hasOwnProperty(name as string) ? this.controls[name] : null;
   }
 
   submit(instant: boolean = false): void {
-    (this as { submitted: Boolean }).submitted = true;
-    this.updateValueAndValidity();
-    (this as { ngSubmit: EventEmitter<any> }).ngSubmit.emit({
-      value: this.value, instant
-    });
-  }
-
-  /** @internal */
-  _calculateStatus(): string {
-    // // if (this._allControlsDisabled()) return DISABLED;
-    if (this._anyControlsHaveStatus(INVALID)) return INVALID;
-    if (this._anyControlsHaveStatus(PENDING)) return PENDING;
-    return VALID;
-  }
-
-  /** @internal */
-  _setUpControls(): void {
-    _.forOwn(this.state, (c: AbstractControl, name: string) => {
-      this.controls[name] = c;
-      this.controls[name].setParent(this);
-    });
+    if (this.root === this) {
+      (this as { submitted: Boolean }).submitted = true;
+      this.updateValueAndValidity();
+      (this as { ngSubmit: EventEmitter<any> }).ngSubmit.emit({
+        value: this.value, instant
+      });
+    }
   }
 
 
@@ -359,14 +338,8 @@ export class FormGroup extends AbstractControl {
   /** @internal */
   _updateValue(): void {
     (this as { value: any }).value = this._reduceValue();
-
-
   }
 
-  /** @internal */
-  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
-    (this as { status: string }).status = this._calculateStatus();
-  }
 
   /** @internal */
   _reduceValue() {
@@ -380,24 +353,27 @@ export class FormGroup extends AbstractControl {
   }
 
   private _applyFormState = () => {
-    // this.readonly = _.has(this.configuration, ['readonly']);
+    if (!this.parent && !this.root) {
+      this.setRoot(this);
+    }
   };
 
-  /** @internal */
-  _allControlsDisabled(): boolean {
-    return _.every(this.controls, (c: AbstractControl) => c.disabled);
-  }
 
   /** @internal */
-  _anyControlsHaveStatus(status: string): boolean {
-
-    return !!_.find(this.controls, ['status', status]);
+  _setUpControls(controlConfig: FormGroupState): void {
+    (<FormGroupState>this.controls) = {};
+    _.forOwn(controlConfig, (c: AbstractControl, name: string) => {
+      c.setParent(this);
+      c.setRoot(this.root);
+      this.controls[name] = c;
+    });
   }
 
-  _isNotExcluded = (c: AbstractControl): Boolean => {
 
-    return !_.get(c.configuration, 'excluded') && !(_.has(this.configuration, ['nullExclusion']) && !c.value);
 
+
+  private _extractPathFromName = (name: string) => {
+    return _.replace(name, new RegExp(/[\[']+/g), '.controls[');
   };
 
   /** @internal */
@@ -413,6 +389,17 @@ export class FormGroup extends AbstractControl {
     }
   }
 
+
+  /** @internal */
+  _allControlsDisabled(): boolean {
+    return _.every(_.values(this.controls), (c: AbstractControl) => c.disabled);
+  }
+
+  /** @internal */
+  _anyControlsHaveStatus(status: string): boolean {
+
+    return !!_.find(_.values(this.controls), ['status', status]);
+  }
 
 }
 

@@ -36,11 +36,11 @@ function getConfigPath(tree) {
     if (tree.exists(possiblePath)) {
         return possiblePath;
     }
-    throw new schematics_1.SchematicsException('Could not find configuration file');
+    throw new schematics_1.SchematicsException('Could not find options file');
 }
 function migrateKarmaConfiguration(config) {
     return (host, context) => {
-        context.logger.info(`Updating karma configuration`);
+        context.logger.info(`Updating karma options`);
         try {
             const karmaPath = config && config.test && config.test.karma && config.test.karma.config
                 ? config.test.karma.config
@@ -70,7 +70,7 @@ function migrateConfiguration(oldConfig, logger) {
     return (host, context) => {
         const oldConfigPath = getConfigPath(host);
         const configPath = core_1.normalize('angular.json');
-        context.logger.info(`Updating configuration`);
+        context.logger.info(`Updating options`);
         const config = {
             '$schema': './node_modules/@angular/cli/raw_animations/config/schema.json',
             version: 1,
@@ -623,17 +623,17 @@ function updateTsLintConfig() {
 function default_1() {
     return (host, context) => {
         if (host.exists('/.angular.json') || host.exists('/angular.json')) {
-            context.logger.info('Found a modern configuration file. Nothing to be done.');
+            context.logger.info('Found a modern options file. Nothing to be done.');
             return host;
         }
         const configPath = getConfigPath(host);
         const configBuffer = host.read(core_1.normalize(configPath));
         if (configBuffer == null) {
-            throw new schematics_1.SchematicsException(`Could not find configuration file (${configPath})`);
+            throw new schematics_1.SchematicsException(`Could not find options file (${configPath})`);
         }
         const config = core_1.parseJson(configBuffer.toString(), core_1.JsonParseMode.Loose);
         if (typeof config != 'object' || Array.isArray(config) || config === null) {
-            throw new schematics_1.SchematicsException('Invalid angular-cli.json configuration; expected an object.');
+            throw new schematics_1.SchematicsException('Invalid angular-cli.json options; expected an object.');
         }
         return schematics_1.chain([
             migrateKarmaConfiguration(config),
@@ -642,7 +642,7 @@ function default_1() {
             updatePackageJson(config),
             updateTsLintConfig(),
             (host, context) => {
-                context.logger.warn(core_1.tags.oneLine `Some configuration options have been changed,
+                context.logger.warn(core_1.tags.oneLine `Some options options have been changed,
           please make sure to update any npm scripts which you may have modified.`);
                 return host;
             },

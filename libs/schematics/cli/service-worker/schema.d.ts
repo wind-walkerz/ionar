@@ -16,7 +16,7 @@ export interface Schema {
    */
   target: string;
   /**
-   * The configuration to apply service worker to.
+   * The options to apply service worker to.
    */
-  configuration: string;
+  options: string;
 }

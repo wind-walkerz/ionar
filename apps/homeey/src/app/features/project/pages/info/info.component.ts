@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProjectService } from '../../providers/project.service';
-import { ControlConfig, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 
 @Component({
   selector: 'info',
@@ -13,10 +13,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   formGroup: FormGroup;
-  formState: ControlConfig[] = [];
-
-  show_avatar_preview: Boolean = false;
-  avatar_preview: any;
+  formState: FormGroupState;
 
   project_info;
 
@@ -34,70 +31,77 @@ export class InfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._projSvs.getProjectInfo().subscribe(res => {
-      this.formState = [
-        {
-          type: 'input',
-          name: 'name',
-          label: 'Project Name',
-          value: res.name
-        },
-        {
-          type: 'input',
-          name: 'full_name',
-          label: 'Client Name',
-          value: res.full_name
-        },
-        {
-          type: 'input',
-          name: 'project_id',
-          label: 'Project ID',
-          value: this._projSvs.project_id,
+      this.formState = {
+        name: {
+          component: 'input',
           props: {
+            label: 'Project Name',
+            value: res.name
+          }
+        },
+        full_name: {
+          component: 'input',
+          props: {
+            label: 'Client Name',
+            value: res.full_name
+          }
+        },
+        project_id: {
+          component: 'input',
+          props: {
+            label: 'Project ID',
+            value: this._projSvs.project_id
+          },
+          options: {
             disabled: true
           }
         },
-        {
-          type: 'input',
-          name: 'email',
-          label: 'E-mail',
-          value: res.email,
+        email: {
+          component: 'input',
+          props: {
+            label: 'E-mail',
+            value: res.email
+          },
           validators: {
             required: true,
             email: true
           }
         },
-        {
-          type: 'input',
-          name: 'phone',
+        phone: {
+          component: 'input',
           props: {
-            type: 'phone'
+            type: 'phone',
+            value: res.mobile
+          }
+        },
+        property_name: {
+          component: 'input',
+          props: {
+            value: res.property_name
+          }
+        },
+        city: {
+          component: 'input',
+          props: {
+            value: res.city
+          }
+        },
+        postcode: {
+          component: 'input',
+          props: {
+            value: res.post_code
+          }
+        },
+        status: {
+          component: 'input',
+          props: {
+            value: res.status
           },
-          value: res.mobile
-        },
-        {
-          type: 'input',
-          name: 'property_name',
-          value: res.property_name
-        },
-        {
-          type: 'input',
-          name: 'city',
-          value: res.city
-        },
-        {
-          type: 'input',
-          name: 'postcode',
-          value: res.post_code
-        },
-        {
-          type: 'input',
-          name: 'status',
-          value: res.status,
-          props: {
+          options: {
             disabled: true
           }
         }
-      ];
+      };
 
       this.formGroup = this._fb.group(this.formState, {
         readonly: true
@@ -116,40 +120,22 @@ export class InfoComponent implements OnInit, OnDestroy {
   ///-----------------------------------------------  Main Functions  -----------------------------------------------///
 
 
-  onUploaded = file_list => {
-
-    if (file_list.length > 0) {
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file_list[0]);
-      reader.onload = () => {
-        this.avatar_preview = reader.result;
-
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-        this.show_avatar_preview = true;
-      };
-    }
-  };
-
-  cancelAvatarPreview = () => {
-    this.avatar_preview = null;
-    this.show_avatar_preview = false;
-  };
-
-
   toggleEditMode = () => {
-    this.formGroup.readonly = !this.formGroup.readonly;
+    this.formGroup.setOptions({
+      readonly: !this.formGroup.options.readonly
+    });
   };
 
   onUpdateProjectInfo = formValue => {
     this._projSvs.updateProjectInfo(formValue).subscribe(res => {
 
-      if (res.status_code === 200) this.formGroup.readonly = true;
+      if (res.status_code === 200) this.formGroup.setOptions({
+        readonly: true
+      });
     });
   };
 
   onCancelUpdate = () => {
-    this.formGroup.readonly = true;
     this.formGroup.reset();
   };
 

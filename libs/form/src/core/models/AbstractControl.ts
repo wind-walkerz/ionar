@@ -3,8 +3,17 @@ import { EventEmitter } from '@angular/core';
 
 import { ValidationErrors, ValidatorFn } from '../interfaces/Validator';
 import { FormGroup } from '../models/FormGroup';
+import { FormControl } from '../models/FormControl';
 import _ from 'lodash';
-import { AbstractControlConfig, AbstractControlState } from '../interfaces/Form';
+import {
+  AbstractControlOptions,
+  AbstractControlState,
+  FormArrayState,
+  FormControlState,
+  FormGroupState
+} from '../interfaces/Form';
+
+import { FormArray } from './FormArray';
 
 /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
@@ -72,12 +81,24 @@ export abstract class AbstractControl {
 
   public readonly asyncValidator: ValidatorFn | null;
 
-  public _runAsyncValidator: Function;
+  public runAsyncValidator: Function;
 
   public _asyncValidationSubscription: any;
 
-  private _parent: FormGroup;
+  private _parent: FormGroup | FormArray;
 
+  private _root: FormGroup;
+
+  private _initialOptions: AbstractControlOptions | null;
+
+  /**
+   *
+   * @param controls A collection of child controls. The key for each child is the name
+   * under which it is registered.
+   *
+   */
+
+  public readonly controls: FormGroupState | FormArrayState
 
   /**
    * @description
@@ -100,37 +121,44 @@ export abstract class AbstractControl {
   /**
    * Initialize the AbstractControl instance.
    *
-   * @param configuration
+   * @param options
    *
    */
-  constructor(public state: AbstractControlState, private _configuration: AbstractControlConfig | null) {
+  constructor(public state: AbstractControlState | null, private _options: AbstractControlOptions | null) {
+    this._storeInitialOptions(_options);
+    this.runAsyncValidator = () => {
+    };
   }
 
   /**
    * The parent control.
    */
-  get parent(): FormGroup {
+  get parent(): FormGroup | FormArray {
     return this._parent;
   }
 
-  get configuration(): AbstractControlConfig {
+  get root(): FormGroup {
+    return this._root;
+  }
+
+  get options(): AbstractControlOptions {
 
     let parentConfig;
 
-    if (this.parent && this.parent.configuration) parentConfig = {
-      ...this.parent.configuration
+    if (this.parent && this.parent.options) parentConfig = {
+      ...this.parent.options
     };
 
     return {
       ...parentConfig,
-      ...this._configuration
-    };
+      ...this._initialOptions
+    } || null;
   }
 
-  set configuration(newConfig: AbstractControlConfig) {
+  set options(newConfig: AbstractControlOptions) {
 
-    this._configuration = {
-      ...this._configuration,
+    this._options = {
+      ...this._options,
       ...newConfig
     };
 
@@ -218,7 +246,7 @@ export abstract class AbstractControl {
    * Marks the control as `touched`. A control is touched by focus and
    * blur events that do not change the value; compare `markAsDirty`;
    *
-   *  @param opts Configuration options that determine how the control propagates changes
+   *  @param opts options options that determine how the control propagates changes
    * and emits events events after marking is applied.
    * * `onlySelf`: When true, mark only this control. When false or not supplied,
    * marks all direct ancestors. Default is false.
@@ -235,7 +263,7 @@ export abstract class AbstractControl {
    * If the control has any children, also marks all children as `untouched`
    * and recalculates the `touched` status of all parent controls.
    *
-   *  @param opts Configuration options that determine how the control propagates changes
+   *  @param opts options options that determine how the control propagates changes
    * and emits events after the marking is applied.
    * * `onlySelf`: When true, mark only this control. When false or not supplied,
    * marks all direct ancestors. Default is false.
@@ -248,7 +276,7 @@ export abstract class AbstractControl {
    * Marks the control as `dirty`. A control becomes dirty when
    * the control's value is changed through the UI; compare `markAsTouched`.
    *
-   *  @param opts Configuration options that determine how the control propagates changes
+   *  @param opts options options that determine how the control propagates changes
    * and emits events after marking is applied.
    * * `onlySelf`: When true, mark only this control. When false or not supplied,
    * marks all direct ancestors. Default is false.
@@ -264,7 +292,7 @@ export abstract class AbstractControl {
    * and recalculates the `pristine` status of all parent
    * controls.
    *
-   *  @param opts Configuration options that determine how the control emits events after
+   *  @param opts options options that determine how the control emits events after
    * marking is applied.
    * * `onlySelf`: When true, mark only this control. When false or not supplied,
    * marks all direct ancestors. Default is false..
@@ -272,6 +300,34 @@ export abstract class AbstractControl {
   markAsPristine(opts: { onlySelf?: boolean } = {}): void {
     (this as { pristine: boolean }).pristine = true;
   }
+
+  /**
+   * Sets options on a form control .
+   *
+   * Calling `setOptions` also updates the validity of the parent control.
+   *
+   * @usageNotes
+   * ### Manually set the options for a control
+   *
+   * ```
+   * const login = new FormControl('someLogin');
+   * login.setErrors({
+   *   notUnique: true
+   * });
+   *
+   * expect(login.valid).toEqual(false);
+   * expect(login.errors).toEqual({ notUnique: true });
+   *
+   * login.setValue('someOtherLogin');
+   *
+   * expect(login.valid).toEqual(true);
+   * ```
+   */
+  setOptions(options: AbstractControlOptions | null, opts: { emitEvent?: boolean } = {}): void {
+    this._initialOptions = options;
+    this._updateControlsOptions(opts.emitEvent !== false);
+  }
+
 
   /**
    * Sets errors on a form control when running validations manually, rather than automatically.
@@ -304,8 +360,23 @@ export abstract class AbstractControl {
   /**
    * @param parent Sets the parent of the control
    */
-  setParent(parent: FormGroup): void {
+  setParent(parent: FormGroup | FormArray): void {
     this._parent = parent;
+  }
+
+  /**
+   * @param root Sets the root of the form
+   */
+  setRoot(root: FormGroup): void {
+    this._root = root;
+  }
+
+  updateOptions(options: AbstractControlOptions | null, opts: { emitEvent?: boolean } = {}): void {
+    this._initialOptions = {
+      ...this._initialOptions,
+      ...options
+    };
+    this._updateControlsOptions(opts.emitEvent !== false);
   }
 
 
@@ -314,7 +385,7 @@ export abstract class AbstractControl {
    *
    * By default, it also updates the value and validity of its ancestors.
    *
-   * @param opts Configuration options determine how the control propagates changes and emits events
+   * @param opts options options determine how the control propagates changes and emits events
    * after updates and validity checks are applied.
    * * `onlySelf`: When true, only update this control. When false or not supplied,
    * update all direct ancestors. Default is false..
@@ -326,7 +397,13 @@ export abstract class AbstractControl {
     this._setInitialStatus();
     this._updateValue();
     if (this.enabled) {
-      this._updateValidity(opts);
+      this._cancelExistingSubscription();
+      (this as { errors: ValidationErrors | null }).errors = this._runValidator();
+      (this as { status: string }).status = this._calculateStatus();
+
+      if (this.status === VALID || this.status === PENDING) {
+        this.runAsyncValidator(opts.emitEvent);
+      }
 
     }
 
@@ -344,15 +421,33 @@ export abstract class AbstractControl {
 
 
   /** @internal */
-  _initObservables() {
-    (this as { valueChanges: Observable<any> }).valueChanges = new EventEmitter();
-    (this as { statusChanges: Observable<any> }).statusChanges = new EventEmitter();
+  private _calculateStatus(): string {
+    if (this._allControlsDisabled()) return DISABLED;
+    if (this.errors) return INVALID;
+    if (this._anyControlsHaveStatus(INVALID)) return INVALID;
+    if (this._anyControlsHaveStatus(PENDING)) return PENDING;
+    return VALID;
   }
 
+
+  private _runValidator(): ValidationErrors | null {
+    return this.validator ? this.validator(this) : null;
+  }
+
+
+  private _cancelExistingSubscription(): void {
+    if (this._asyncValidationSubscription) {
+      this._asyncValidationSubscription.unsubscribe();
+    }
+  }
 
   private _setInitialStatus() {
     (this as { status: string }).status = this._allControlsDisabled() ? DISABLED : VALID;
   }
+
+  private _storeInitialOptions = (options: AbstractControlOptions | null) => {
+    this._initialOptions = options;
+  };
 
 
   /** @internal */
@@ -361,10 +456,44 @@ export abstract class AbstractControl {
   }
 
   /** @internal */
-  _updateValidity(opts: { onlySelf?: boolean, emitEvent?: boolean } = {}): void {
+  _isNotExcluded = (c: AbstractControl): Boolean => {
 
+    return !_.get(c.options, 'excluded') && !(_.has(this.options, ['nullExclusion']) && !c.value);
+
+  };
+
+  /** @internal */
+  _initObservables() {
+    (this as { valueChanges: Observable<any> }).valueChanges = new EventEmitter();
+    (this as { statusChanges: Observable<any> }).statusChanges = new EventEmitter();
   }
 
+  /** @internal */
+  _initValidators() {
+    (<AbstractControl>this).runAsyncValidator = _.debounce((emitEvent?: boolean) => {
+
+      if (this.asyncValidator) {
+        (this as { status: string }).status = PENDING;
+        const obs = this.asyncValidator(this);
+        this._asyncValidationSubscription =
+          obs.subscribe((errors: ValidationErrors | null) => {
+            if ((this.touched || this.dirty) && this.value) {
+              (this as { status: string }).status = INVALID;
+              this.setErrors(errors, { emitEvent });
+            }
+          });
+      }
+    }, 500);
+  }
+
+  /** @internal */
+  _updateControlsOptions(emitEvent: boolean): void {
+    (this as { status: string }).status = this._calculateStatus();
+
+    if (emitEvent) {
+      (this.statusChanges as EventEmitter<string>).emit(this.status);
+    }
+  }
 
   /** @internal */
   _updateControlsErrors(emitEvent: boolean): void {
@@ -373,11 +502,11 @@ export abstract class AbstractControl {
     if (emitEvent) {
       (this.statusChanges as EventEmitter<string>).emit(this.status);
     }
+
+    if (this._parent) {
+      this._parent._updateControlsErrors(emitEvent);
+    }
   }
-
-
-  /** @internal */
-  abstract _calculateStatus(): string
 
 
   /**
@@ -397,6 +526,9 @@ export abstract class AbstractControl {
 
   /** @internal */
   abstract _allControlsDisabled(): boolean;
+
+  /** @internal */
+  abstract _anyControlsHaveStatus(status: string): boolean
 }
 
 
