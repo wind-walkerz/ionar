@@ -1,7 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
-import { FormArray } from '../../../../libs/form/src/core/models/FormArray';
+
+import { isFormArray, isFormControl, isFormGroup } from '../../../../libs/form/src/core/utils/helpers';
 
 
 @Component({
@@ -13,7 +14,9 @@ import { FormArray } from '../../../../libs/form/src/core/models/FormArray';
 export class AppComponent implements OnInit {
 
   formGroup: FormGroup;
-
+  isFormControl = isFormControl;
+  isFormGroup = isFormGroup;
+  isFormArray = isFormArray;
 
   constructor(
     private _fb: IonarFormBuilder,
@@ -26,66 +29,49 @@ export class AppComponent implements OnInit {
 
 
     this.formGroup = this._fb.group({
-      email: {
-        component: 'input',
-        props: {
-          placeholder: 'Write your comment...',
-          value: '023984092'
+      // email: {
+      //   component: 'input',
+      //   props: {
+      //     // label: 'sdlkfjslk',
+      //     placeholder: 'Write your comment...',
+      //     value: '023984092'
+      //   },
+      //   validators: {
+      //     required: true
+      //   },
+      //   options: {
+      //     // hidden: true,
+      //     // hideLabel: true
+      //   }
+      //
+      // },
+      // username: this._fb.array([
+      //   {
+      //     component: 'input',
+      //     props: {
+      //       placeholder: 'Write your comment...',
+      //       value: '1'
+      //     }
+      //   },
+      //   {
+      //     component: 'input',
+      //     props: {
+      //       placeholder: 'Write your comment...',
+      //       value: '2'
+      //     }
+      //   }
+      // ]),
+      password: this._fb.group({
+        pass_1: {
+          component: 'input'
         },
-        validators: {
-          required: true
-        },
-        options: {
-          hidden: false
+        pass_2: {
+          component: 'input'
         }
-
-      },
-      username: this._fb.array([
-        {
-          component: 'input',
-          props: {
-            placeholder: 'Write your comment...',
-            value: '1'
-          }
-        },
-        {
-          component: 'input',
-          props: {
-            placeholder: 'Write your comment...',
-            value: '2'
-          }
-        }
-      ])
+      })
     });
 
 
-    (<FormArray>this.formGroup.get('username')).push(this._fb.control({
-      component: 'input',
-      props: {
-        placeholder: 'Write your comment...',
-        value: '3'
-      }
-    }));
-
-    (<FormArray>this.formGroup.get('username')).insert(1, this._fb.control({
-      component: 'input',
-      props: {
-        placeholder: 'Write your comment...',
-        value: '8'
-      }
-    }));
-
-    (<FormArray>this.formGroup.get('username')).setControl(1, this._fb.control({
-      component: 'input',
-      props: {
-        value: 1039
-      }
-    }));
-
-    (<FormArray>this.formGroup.get('username')).removeAt(2);
-
-
-    console.log(this.formGroup);
   }
 
 

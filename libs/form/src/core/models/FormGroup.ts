@@ -348,7 +348,7 @@ export class FormGroup extends AbstractControl {
   /**
    * Retrieves a child control given the control's name or path.
    *
-   * @param name A dot-delimited string or array of string/number values that define the path to the
+   * @param path A dot-delimited string or array of string/number values that define the path to the
    * control.
    *
    * @usageNotes
@@ -362,9 +362,10 @@ export class FormGroup extends AbstractControl {
    *
    * * `this.form.get(['person', 'name']);`
    */
-  get(name: string = null): AbstractControl | null {
-    if (name == null) return null;
-    return _.get(this.controls, this._extractPathFromName(name)) || null;
+
+  get(path: string[] | string | null): AbstractControl | null {
+    if (!path) return null;
+    return _.get(this.controls, path) || null;
 
   }
 
@@ -422,9 +423,6 @@ export class FormGroup extends AbstractControl {
   }
 
 
-  private _extractPathFromName = (name: string) => {
-    return _.replace(name, new RegExp(/[\[']+/g), '.controls[');
-  };
 
   /** @internal */
   _throwIfControlMissing(name: string): void {

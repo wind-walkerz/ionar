@@ -16,7 +16,83 @@
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
+    <!--<ng-template *ngTemplateOutlet="test"></ng-template>-->
+
+
+    <ng-container
+            *ngFor="let item of formGroup.controls | keyvalue; let i = index"
+            [ngTemplateOutlet]="abstractControlTpl"
+            [ngTemplateOutletContext]="{ $implicit: item, prefix:  'prefix' + i}">
+
+    </ng-container>
+
+    <!--<ng-container *ngFor="let item of formGroup.controls | keyvalue">-->
+    <!--<ng-container *ngIf="isFormGroup(item.value)">-->
+
+    <!--<form-group [name]="item.key">-->
+    <!--<ng-container *ngFor="let item of item.value.controls | keyvalue">-->
+    <!--<ng-container *ngIf="isFormControl(item.value)">-->
+    <!--<form-control [name]="item.key"></form-control>-->
+    <!--</ng-container>-->
+    <!--</ng-container>-->
+    <!--</form-group>-->
+
+    <!--</ng-container>-->
+    <!--</ng-container>-->
+
+    <!--<form-control [name]=" 'email' "></form-control>-->
+
+    <!--<form-array [name]="'username'">-->
+    <!--<ng-container *ngFor="let item of formGroup.get('username').controls; let i = index">-->
+    <!--<form-control [name]="i"></form-control>-->
+    <!--</ng-container>-->
+    <!--</form-array>-->
+
+    <!--<form-group [name]=" 'password' ">-->
+    <!--<ng-container *ngFor="let item of formGroup.get('password').controls | keyvalue">-->
+    <!--<form-control [name]="item.key"></form-control>-->
+    <!--</ng-container>-->
+    <!--</form-group>-->
+
+    <ng-template #abstractControlTpl let-data let-prefix="prefix">
+        <ng-container *ngIf="isFormControl(data.value)">
+            <form-control [name]="data.key"></form-control>
+        </ng-container>
+
+        <!--<ng-container *ngIf="isFormArray(data.value)">-->
+
+        <!--<ng-template *ngTemplateOutlet="formArrayTpl;context: {data: data}">-->
+
+        <!--</ng-template>-->
+
+        <!--</ng-container>-->
+
+        <ng-container *ngIf="isFormGroup(data.value)">
+
+            <form-group [name]="data.key">
+                <ng-container
+                        *ngFor="let item of data.value.controls | keyvalue; let i = index"
+                        [ngTemplateOutlet]="abstractControlTpl"
+                        [ngTemplateOutletContext]="{$implicit: item,  prefix: prefix + 'prefix' + i }"
+                >
+                    <!--<form-control [name]="data.key"></form-control>-->
+                </ng-container>
+            </form-group>
+        </ng-container>
+
+    </ng-template>
+
 </io-form>
+
+
+<!--<ng-template #formArrayTpl let-data="data">-->
+<!--<form-array [name]="data.key">-->
+<!--<ng-container *ngFor="let item of data.value.controls; let i = index">-->
+<!--<ng-template *ngTemplateOutlet="recursive;context: {data:{key: i, value: item}}"></ng-template>-->
+<!--</ng-container>-->
+<!--</form-array>-->
+<!--</ng-template>-->
+
 
 <!--<io-form-->
 <!--[formGroup]="formGroup"-->

@@ -12,11 +12,6 @@ import { FormArrayState, FormGroupState } from '@ionar/form';
 
 export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
-  private formGroup: FormGroup;
-
-  $initialize = new Subject();
-
-
   ngAfterViewInit(): void {
   }
 
@@ -29,11 +24,6 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
   ngOnInit(): void {
   }
 
-
-  initialize = (formGroup: FormGroup) => {
-    this.formGroup = formGroup;
-    this.$initialize.next(formGroup);
-  };
 
   mergeControls = (controls: FormGroupState | FormArrayState, parent_name: string = null) => {
     let result = [];
@@ -66,8 +56,6 @@ export class FormService implements OnInit, AfterViewInit, OnChanges, OnDestroy 
     return result;
   };
 
-
-  getControl = (name): AbstractControl => this.formGroup.get(name);
 
   convertToFormData = data => {
     const form = new FormData();

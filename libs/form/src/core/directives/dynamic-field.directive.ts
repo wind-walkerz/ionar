@@ -16,7 +16,7 @@ import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { InputComponent, MenuComponent, TextareaComponent, UploadComponent } from '../../ui';
 import { FormGroup } from '../models/FormGroup';
-import { AbstractControl } from '../models/AbstractControl';
+import { FormControl } from '../models/FormControl';
 import { AbstractControlOptions, FormControlState } from '../interfaces/Form';
 
 
@@ -25,18 +25,14 @@ import { AbstractControlOptions, FormControlState } from '../interfaces/Form';
 })
 export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
-  @Input('control') private _control: AbstractControl;
-
-
-  @Input('invalid') private _invalid: Boolean;
+  @Input('name') private _name: string;
+  @Input('root') private _root: FormGroup;
+  @Input('control') private _control: FormControl;
 
   @Input('template') private _template: TemplateRef<any>;
 
-  @Input('options') private _options: AbstractControlOptions | null;
-
   @Input('events') private _events: { [key: string]: Function };
 
-  @Input('name') private _name: string;
 
   private _compRef: ComponentRef<any>;
 
@@ -59,10 +55,17 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.createComponent();
+
+    this._root.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+      this.ngOnChanges();
+    });
+
+    this._root.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+      this.ngOnChanges();
+    });
   }
 
   ngOnChanges() {
-
     if (this._compRef) {
       this.updateContext();
     }
@@ -94,14 +97,15 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
   };
 
   private parseContext = (status = 'initial') => {
-    const state = <FormControlState>this._control.state;
+    const state = <FormControlState>this._control.state,
+      options = <AbstractControlOptions>this._control.options;
 
     const context = {
       name: this._name,
-      invalid: this._invalid,
+      invalid: this._control.invalid && (this._control.dirty || this._control.touched || this._root.submitted),
       ...state.props,
       template: this._template,
-      ...this._options
+      ...options
     };
 
     _.forOwn(context, (value, key) => {

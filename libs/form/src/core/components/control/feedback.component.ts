@@ -6,30 +6,31 @@ import {
   Host,
   OnChanges,
   OnDestroy,
-  OnInit
+  OnInit, Optional, SimpleChanges, SkipSelf
 } from '@angular/core';
-import { FormService } from '../providers/form.service';
+import { FormService } from '../../providers/form.service';
 
 import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
-import { FormControl } from '../models/FormControl';
-import { FormGroup } from '../models/FormGroup';
-import { ControlComponent } from './control.component';
+import { FormControl } from '../../models/FormControl';
+import { FormGroup } from '../../models/FormGroup';
+
 import { Subscription } from 'rxjs';
-import { AbstractControl } from '../models/AbstractControl';
+import { AbstractControl } from '../../models/AbstractControl';
+import { FormControlComponent } from '../form-control.component';
 
 
 @Component({
   selector: 'form-feedback',
   template: `
-      <ng-container *ngIf="show_feedback">
-          <ng-container *ngIf="invalid">
-              <ng-container *ngFor="let err of error_list">
-                  <div class="feedback">{{err}}</div>
-              </ng-container>
 
+      <ng-container *ngIf="invalid">
+          <ng-container *ngFor="let err of error_list">
+              <div class="feedback">{{err}}</div>
           </ng-container>
+
       </ng-container>
+
   `,
   //language=SCSS
   styles: [`
@@ -45,65 +46,53 @@ import { AbstractControl } from '../models/AbstractControl';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy {
+export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  _control: AbstractControl;
-  formGroup: FormGroup;
+  /**
+   * @description
+   * The parent  for the component
+   *
+   * @internal
+   */
+  _parent: FormControlComponent | null = null;
 
-  invalid: Boolean = false;
-  error_list: string[] | null;
-  show_feedback: Boolean = true;
+  private get _control(): FormControl {
+    return this._parent.control;
+  };
 
+  public get invalid(): Boolean {
+    return this._control.invalid && (this._control.dirty || this._control.touched || this._parent.root.submitted);
+  };
 
-  private _statusSubscription: Subscription;
-  private _submitSubscription: Subscription;
+  public get error_list(): string[] | null {
+    return _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
+  };
+
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
-    private _formSvs: FormService,
     private cd: ChangeDetectorRef,
-    @Host() private _parent: ControlComponent
+    @Optional() @Host() @SkipSelf()  parent: FormControlComponent
   ) {
+    this._parent = parent;
   }
 
   ngOnInit() {
 
-  }
+    this._parent.root.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
+      this.cd.markForCheck();
+    });
 
-  ngAfterViewChecked(): void {
-    if (this._parent.formGroup && this._control) {
-      this.formGroup = this._parent.formGroup;
-
-      if (this._statusSubscription) this._statusSubscription.unsubscribe();
-      if (this._submitSubscription) this._submitSubscription.unsubscribe();
-
-      this._statusSubscription = this.formGroup.statusChanges.pipe(untilDestroyed(this)).subscribe(status => {
-        this.parseContext();
-      });
-
-      this._submitSubscription = this.formGroup.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
-        this.parseContext();
-      });
-
-      this.parseContext();
-    }
+    this._parent.root.ngSubmit.pipe(untilDestroyed(this)).subscribe(data => {
+      this.cd.markForCheck();
+    });
   }
 
 
   generate_feedback = (validator, value) => {
 
-    // const feedback = this._control.validateOptions.feedback
-
     const feedback = {};
-
-    // console.log(_.values(this._control.options.validators))
-
-
-    // _.mapValues(this._control.options.validators, (value: any) => {
-    //   feedback[validator] = _.isString(value) ? value : value.message || null;
-    // });
-
 
     if (!validator) return null;
 
@@ -135,7 +124,7 @@ export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, O
 
   };
 
-  ngOnChanges(changes): void {
+  ngOnChanges(changes: SimpleChanges): void {
 
   }
 
@@ -145,11 +134,5 @@ export class FeedbackComponent implements OnInit, OnChanges, AfterViewChecked, O
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 
-  parseContext = () => {
-    this._control = this.formGroup.get(this._parent.name);
-    this.invalid = this._control.invalid && (this._control.dirty || this._control.touched || this.formGroup.submitted);
-    this.error_list = _.map(this._control.errors, (value, key) => this.generate_feedback(key, value));
-    this.cd.detectChanges();
-  };
 
 }
