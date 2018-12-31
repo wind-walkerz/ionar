@@ -16,7 +16,7 @@ import _ from 'lodash';
 import { ControlContainer } from '../interfaces/ControlContainer';
 import { FormComponent, formProvider } from '../core.component';
 import { controlNameBinding } from './form-control.component';
-import { FormGroupTestName } from '../directives/form-group';
+
 
 export const formGroupProvider: any = {
   provide: ControlContainer,
@@ -26,17 +26,15 @@ export const formGroupProvider: any = {
 
 @Component({
   selector: 'form-group',
-  template: `
-
+  template: `    
       <ng-content></ng-content>
-
   `,
 
   styles: [`
 
   `],
 
-  viewProviders: [formGroupProvider],
+  providers: [formGroupProvider],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormGroupComponent implements OnInit, OnChanges, OnDestroy {
@@ -67,7 +65,7 @@ export class FormGroupComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
-    this._vcRef.clear()
+    this._vcRef.clear();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

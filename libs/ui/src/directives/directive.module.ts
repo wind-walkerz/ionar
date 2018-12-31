@@ -4,6 +4,7 @@ import { SquareDirective } from './square/square.directive';
 import { ScrollDownDirective } from './scroll/scroll-down';
 
 
+
 @NgModule({
   declarations: [
     SquareDirective, ScrollDownDirective

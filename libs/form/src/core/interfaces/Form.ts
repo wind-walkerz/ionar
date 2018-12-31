@@ -4,7 +4,7 @@ import { AbstractControl } from '../models/AbstractControl';
 import { AsyncValidatorFn, ValidationConfigs } from './Validator';
 
 export interface FormGroupState {
-  [name: string]: AbstractControl
+  [name: string]: AbstractControl | FormControlState
 }
 
 

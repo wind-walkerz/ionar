@@ -21,7 +21,7 @@ import { FormService } from '../providers/form.service';
 import _ from 'lodash';
 import { FormComponent, formProvider } from '../core.component';
 
-import { FieldTemplateDirective } from '../directives/field-template.directive';
+// import { FormTemplateDirective } from '../directives/field-template.directive';
 
 import { AbstractControl } from '../models/AbstractControl';
 import { NgControl } from '../interfaces/NgControl';
@@ -39,11 +39,11 @@ export const controlNameBinding: any = {
 @Component({
   selector: 'form-control',
   template: `
-      <!--<form-label *ngIf="show_label"></form-label>-->
+      <form-label *ngIf="show_label"></form-label>
 
-      <!--<form-field></form-field>-->
+      <form-field></form-field>
 
-      <!--<form-feedback *ngIf="show_feedback"></form-feedback>-->
+      <form-feedback *ngIf="show_feedback"></form-feedback>
   `,
 
   styles: [`
@@ -88,7 +88,7 @@ export const controlNameBinding: any = {
           grid-area: feedback;
       }
   `],
-  // viewProviders: [controlNameBinding],
+  providers: [controlNameBinding],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -118,7 +118,7 @@ export class FormControlComponent extends NgControl implements OnInit, AfterView
 
   show_label: Boolean = true;
 
-  @ContentChild(FieldTemplateDirective) private _fieldTemplateDir;
+  // @ContentChild(FormTemplateDirective) private _fieldTemplateDir;
 
   @HostBinding('attr.id')
   private get attribute(): string {
@@ -127,17 +127,16 @@ export class FormControlComponent extends NgControl implements OnInit, AfterView
 
   @HostBinding('class.hidden')
   private get hiddenStyle(): Boolean {
-    // return this.control.options && _.get(this.control.options, ['hidden']);
-    return null;
+    return _.get(this.control.options, ['hidden']);
   }
 
 
   @HostBinding('class.hideLabel')
   private get hideLabelStyle(): Boolean {
-    // if (this.control.options && _.get(this.control.options, ['hideLabel'])) {
-    //   this.show_label = false;
-    //   return true;
-    // }
+    if (_.get(this.control.options, ['hideLabel'])) {
+      this.show_label = false;
+      return true;
+    }
     return false;
 
   }
@@ -145,32 +144,22 @@ export class FormControlComponent extends NgControl implements OnInit, AfterView
   @HostBinding('class.hideFeedback')
   private get hideFeedbackStyle(): Boolean {
 
-    // if (this.control.options && _.get(this.control.options, ['hideFeedback'])) {
-    //   this.show_feedback = false;
-    //   return true;
-    // }
+    if (_.get(this.control.options, ['hideFeedback'])) {
+      this.show_feedback = false;
+      return true;
+    }
     return false;
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
-    // @Inject(forwardRef(() => ControlContainer)) parent: ControlContainer,
     @Optional() @Host() @SkipSelf() parent: ControlContainer,
-    @Optional() @Host() @SkipSelf() rootParent: FormComponent,
-    // private _elRef: ElementRefm,
-
+    @Optional() @Host() @SkipSelf() rootParent: FormComponent
   ) {
     super();
 
-    //
-    // this._parent = parent || rootParent;
-    console.log('parent', parent);
-
-    console.log('root', rootParent);
-    // console.log(this._elRef.nativeElement);
-    // console.log('group', groupParent);
-    // console.log('array', arrayParent);
-    // console.log(<FormControl>this._parent.root.get(this.path))
+    this._parent = parent || rootParent;
+    console.log('parent', this._parent);
   }
 
   ngOnInit() {

@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { InputComponent } from './input.component';
 import { CommonModule } from '@angular/common';
+import { IonarUI } from '@ionar/ui';
 
 @NgModule({
   declarations: [
     InputComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    IonarUI
   ],
   exports: [
     InputComponent

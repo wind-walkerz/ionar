@@ -34,7 +34,7 @@ export class IonarFormBuilder {
    * * `asyncValidator`: A single async validator or array of async validator functions
    *
    */
-  group = (state: { [name: string]: AbstractControl | FormControlState }, options?: AbstractControlOptions | null): FormGroup => {
+  group = (state: FormGroupState, options?: AbstractControlOptions | null): FormGroup => {
     const controls = <FormGroupState>this._reduceControls(state);
     return new FormGroup(controls, options);
   };
@@ -87,7 +87,7 @@ export class IonarFormBuilder {
   };
 
   /** @internal */
-  _reduceControls(controlsConfig: { [name: string]: AbstractControl | FormControlState } | FormArrayState | FormControlState[]): FormGroupState | FormArrayState {
+  _reduceControls(controlsConfig: FormGroupState | FormArrayState | FormControlState[]): FormGroupState | FormArrayState {
     let controls: FormGroupState | FormArrayState;
 
     if (_.isPlainObject(controlsConfig)) {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from '../products.service';
-import {FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
+import { FormControlState, FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 
 import _ from 'lodash';
 import { forkJoin } from 'rxjs';

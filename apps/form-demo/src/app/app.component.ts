@@ -29,22 +29,22 @@ export class AppComponent implements OnInit {
 
 
     this.formGroup = this._fb.group({
-      // email: {
-      //   component: 'input',
-      //   props: {
-      //     // label: 'sdlkfjslk',
-      //     placeholder: 'Write your comment...',
-      //     value: '023984092'
-      //   },
-      //   validators: {
-      //     required: true
-      //   },
-      //   options: {
-      //     // hidden: true,
-      //     // hideLabel: true
-      //   }
-      //
-      // },
+      email: {
+        component: 'input',
+        props: {
+          // label: 'sdlkfjslk',
+          placeholder: 'Write your comment...',
+          value: '023984092'
+        },
+        validators: {
+          required: true
+        },
+        options: {
+          // hidden: true,
+          // hideLabel: true
+        }
+
+      },
       // username: this._fb.array([
       //   {
       //     component: 'input',
@@ -61,14 +61,14 @@ export class AppComponent implements OnInit {
       //     }
       //   }
       // ]),
-      password: this._fb.group({
-        pass_1: {
-          component: 'input'
-        },
-        pass_2: {
-          component: 'input'
-        }
-      })
+      // password: this._fb.group({
+      //   pass_1: {
+      //     component: 'input'
+      //   },
+      //   pass_2: {
+      //     component: 'input'
+      //   }
+      // })
     });
 
 

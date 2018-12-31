@@ -18,7 +18,7 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
 
-  _formConfigs: FormGroupState;
+  _formState: FormGroupState;
 
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
@@ -40,7 +40,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.getChatFeed();
 
 
-    this._formConfigs = {
+    this._formState = {
       text: {
         component: 'textarea',
         props: {
@@ -84,7 +84,7 @@ export class FeedComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.formGroup = this._fb.group(this._formConfigs, {
+    this.formGroup = this._fb.group(this._formState, {
       nullExclusion: true
     });
   }

@@ -1,7 +1,9 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ContentChild, ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -9,22 +11,23 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef, ViewChild, ViewContainerRef
 } from '@angular/core';
 import _ from 'lodash';
+
+import { isEmptyTemplate } from '@ionar/ui';
+
+import { DefaultContentComponent } from '../../../../../ui/src/elements/default-content/default-content.component';
+
 
 @Component({
   selector: 'io-input',
   templateUrl: `./input.component.html`,
   styleUrls: ['./input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.disabled]': 'disabled',
-    '[class.readonly]': 'readonly'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InputComponent implements OnInit, OnChanges, OnDestroy {
+export class InputComponent implements OnInit, OnChanges, AfterViewInit, AfterViewChecked, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
@@ -37,6 +40,7 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() invalid: Boolean = false;
   @Input() disabled: Boolean = false;
+  @Input() focused: Boolean = false;
   @Input() range = [];
   @Input() readonly: Boolean = false;
 
@@ -44,50 +48,77 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
   @Output() blur = new EventEmitter();
   @Output() enter = new EventEmitter();
 
-  @Input() template: TemplateRef<any>;
-
-  @HostBinding('class.focus') host_focus: Boolean = false;
-  @HostBinding('class.invalid') host_invalid: Boolean = false;
+  @Input('template') template: TemplateRef<any> = null;
 
 
-  templateContext;
+  @ViewChild('default_template', { read: TemplateRef }) private _defaultTemplate: TemplateRef<any>;
+  @ViewChild('content_template', { read: TemplateRef }) private _contentTemplate: TemplateRef<any>;
 
-  constructor(private cd: ChangeDetectorRef) {
+
+  @ViewChild('container', { read: ViewContainerRef }) private _container: ViewContainerRef;
+
+  @ContentChild(DefaultContentComponent) private _defaultContentDir;
+
+  @HostBinding('class.focus')
+  private get _isFocused() {
+    return this.focused;
+  }
+
+  @HostBinding('class.invalid')
+  private get _isInvalid() {
+    return this.invalid;
+  }
+
+  @HostBinding('class.disabled')
+  private get _isDisabled() {
+    return this.disabled;
+  }
+
+  @HostBinding('class.readonly')
+  private get _isReadonly() {
+    return this.readonly;
+  }
+
+  constructor(
+    private cd: ChangeDetectorRef,
+    private _elRef: ElementRef,
+    private _vcRef: ViewContainerRef
+  ) {
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   ngOnInit(): void {
 
-    this.templateContext = {
-      props: {
-        value: this.value,
-        type: this.type,
-        name: this.name,
-        placeholder: this.placeholder,
-        invalid: this.invalid,
-        disabled: this.disabled,
-        range: this.range,
-        readonly: this.readonly
-      },
-      events: {
-        change: this.change,
-        blur: this.blur,
-        enter: this.enter,
-        keydown: this.onKeyDown,
-        keypress: this.onKeyPress,
-        paste: this.onPaste
-      }
-    };
+    if (!this.template) {
+      this.template = this._contentTemplate;
 
-    this.host_invalid = this.invalid;
+      this.cd.detectChanges();
 
-    this.cd.markForCheck();
+      this.template = (isEmptyTemplate(this._elRef)) ? this._defaultTemplate : this._contentTemplate;
+
+      this.cd.detectChanges();
+    }
+
+
+    this._defaultContentDir.template = this._defaultTemplate;
+
+
   }
 
   ngOnChanges(): void {
-    this.host_invalid = this.invalid;
-    this.cd.markForCheck();
+
+  }
+
+  ngAfterViewInit(): void {
+
+    // console.log(isEmptyTemplate(this._vcRef));
+
+    // this.cd.detectChanges();
+  }
+
+  ngAfterViewChecked(): void {
+
   }
 
   ngOnDestroy(): void {
@@ -96,12 +127,12 @@ export class InputComponent implements OnInit, OnChanges, OnDestroy {
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
 
   onFocus = () => {
-    this.host_focus = true;
+    // this.focused = true;
   };
 
   onBlur = () => {
     this.blur.emit();
-    this.host_focus = false;
+    this.focused = false;
     this.cd.markForCheck();
   };
 

@@ -1,10 +1,9 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
-  ElementRef,
+  ContentChildren, ElementRef,
   EventEmitter, forwardRef,
   Input, OnChanges,
   OnDestroy, OnInit,
@@ -12,19 +11,15 @@ import {
   ViewChild, ViewContainerRef
 } from '@angular/core';
 import { FormService } from './providers/form.service';
-
 import { FormGroup } from './models/FormGroup';
-import { FormControl } from './models/FormControl';
-
-import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { FieldTemplateDirective } from './directives/field-template.directive';
 
 import { ControlContainer } from './interfaces/ControlContainer';
 import { ReactiveErrors } from './utils/reactive_errors';
 
 import { isFormArray, isFormGroup, isFormControl } from './utils/helpers';
+import { isEmptyTemplate } from '@ionar/ui';
 
 
 export const formProvider: any = {
@@ -35,79 +30,31 @@ export const formProvider: any = {
 @Component({
   selector: 'io-form',
   template: `
-
-        <ng-content></ng-content>
-
       <ng-container>
 
-          <!--<ng-container #contentVc>-->
-          <!--<ng-content></ng-content>-->
-          <!--</ng-container>-->
-
-          <!--<ng-container *ngIf="!default_template">-->
-          <!--<ng-content></ng-content>-->
-          <!--</ng-container>-->
-
-          <!--<ng-container *ngIf="default_template">-->
-          <!--<ng-container *ngFor="let item of form.controls | keyvalue">-->
-          <!--<ng-container *ngTemplateOutlet="abstractControl;context: {data:item}"></ng-container>-->
-          <!--</ng-container>-->
-          <!--</ng-container>-->
+          <ng-container *ngIf="!default_template">
+              <ng-content></ng-content>
+          </ng-container>
 
 
-          <!--<ng-template #formGroup let-data="data">-->
-          <!--<form-group [name]="data.key">-->
-          <!--<ng-container *ngFor="let item of data.value.controls | keyvalue">-->
-          <!--<ng-container *ngTemplateOutlet="abstractControl;context: {data:item}"></ng-container>-->
-          <!--</ng-container>-->
-          <!--</form-group>-->
-          <!--</ng-template>-->
-
-          <!--<ng-template #formArray let-data="data">-->
-          <!--<form-array [name]="data.key">-->
-          <!--<ng-container *ngFor="let item of data.value.controls; let i = index">-->
-          <!--<ng-container-->
-          <!--*ngTemplateOutlet="abstractControl;context: {data:{key: i, value: item}}"></ng-container>-->
-          <!--</ng-container>-->
-          <!--</form-array>-->
-          <!--</ng-template>-->
-
-          <!--<ng-template #abstractControl let-data="data">-->
-          <!--<ng-container *ngIf="isFormControl(data.value)">-->
-          <!--<form-control [name]="data.key"></form-control>-->
-          <!--</ng-container>-->
-
-          <!--<ng-container *ngIf="isFormArray(data.value)">-->
-
-          <!--<ng-container *ngTemplateOutlet="formArray;context: {data: data}">-->
-
-          <!--</ng-container>-->
-
-          <!--</ng-container>-->
-
-          <!--<ng-container *ngIf="isFormGroup(data.value)">-->
-
-          <!--<ng-container *ngTemplateOutlet="formGroup;context: {data: data}">-->
-
-          <!--</ng-container>-->
-
-          <!--</ng-container>-->
-
-          <!--</ng-template>-->
+          <ng-container *ngIf="default_template">
+              <ng-container *ngFor="let item of form.controls | keyvalue">
+                  <ng-container *ngIf="isFormControl(item.value)">
+                      <form-control [name]="item.key"></form-control>
+                  </ng-container>
+              </ng-container>
+          </ng-container>
 
       </ng-container>
-
-
-
   `,
   styles: [`
 
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  viewProviders: [FormService]
+  providers: [FormService, formProvider]
 })
 
-export class FormComponent extends ControlContainer implements OnInit, OnChanges, OnDestroy {
+export class FormComponent extends ControlContainer implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   /**
    * @description
@@ -123,21 +70,20 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
    */
   @Output() submit = new EventEmitter();
 
-  @ViewChild('contentVc', { read: ViewContainerRef }) protected _contentVcRef: ViewContainerRef;
+  @ViewChild('contentVc', { read: ViewContainerRef }) private _contentVcRef: ViewContainerRef;
 
-  @ContentChildren(FieldTemplateDirective) _fieldTemplateDirList;
+  // @ContentChildren(FormTemplateDirective) _fieldTemplateDirList;
 
   controlNames: String[] = [];
 
   default_template: Boolean;
 
   isFormControl = isFormControl;
-  isFormGroup = isFormGroup;
-  isFormArray = isFormArray;
 
   constructor(
     private _formSvs: FormService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _elRef: ElementRef
   ) {
     super();
   }
@@ -153,8 +99,6 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
     if (!changes.form.previousValue && changes.form.currentValue) {
 
-      console.log(this.form);
-
       this.form.ngSubmit
         .pipe(untilDestroyed(this), distinctUntilChanged())
         .subscribe((data: { value: any, instant: boolean }) => {
@@ -167,12 +111,15 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
         });
 
 
-      // this.default_template = !this._contentVcRef.element.nativeElement.nextElementSibling;
-
       this.controlNames = this._formSvs.mergeControls(this.form.controls);
 
-      // this._contentVcRef.clear();
+
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.default_template = isEmptyTemplate(this._elRef);
+    this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {
