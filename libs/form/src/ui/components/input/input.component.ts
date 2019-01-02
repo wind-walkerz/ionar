@@ -10,14 +10,13 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   TemplateRef, ViewChild, ViewContainerRef
 } from '@angular/core';
 import _ from 'lodash';
 
-import { isEmptyTemplate } from '@ionar/ui';
-
-import { DefaultContentComponent } from '../../../../../ui/src/elements/default-content/default-content.component';
+import { DefaultContentComponent, isEmptyTemplate } from '@ionar/ui';
+import { ComponentContext, IoAbstractUiComponent } from '../../../../../ui/src/interfaces';
 
 
 @Component({
@@ -27,7 +26,7 @@ import { DefaultContentComponent } from '../../../../../ui/src/elements/default-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InputComponent implements OnInit, OnChanges, AfterViewInit, AfterViewChecked, OnDestroy {
+export class InputComponent extends IoAbstractUiComponent implements OnInit, OnChanges, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
@@ -35,29 +34,18 @@ export class InputComponent implements OnInit, OnChanges, AfterViewInit, AfterVi
   @Input() type = '';
   @Input() name = '';
   @Input() placeholder = '';
-  @Input() value: any = null;
+  @Input() value: any = '';
 
+  @Input() range = [];
 
   @Input() invalid: Boolean = false;
   @Input() disabled: Boolean = false;
   @Input() focused: Boolean = false;
-  @Input() range = [];
   @Input() readonly: Boolean = false;
 
   @Output() change = new EventEmitter();
   @Output() blur = new EventEmitter();
   @Output() enter = new EventEmitter();
-
-  @Input('template') template: TemplateRef<any> = null;
-
-
-  @ViewChild('default_template', { read: TemplateRef }) private _defaultTemplate: TemplateRef<any>;
-  @ViewChild('content_template', { read: TemplateRef }) private _contentTemplate: TemplateRef<any>;
-
-
-  @ViewChild('container', { read: ViewContainerRef }) private _container: ViewContainerRef;
-
-  @ContentChild(DefaultContentComponent) private _defaultContentDir;
 
   @HostBinding('class.focus')
   private get _isFocused() {
@@ -79,49 +67,42 @@ export class InputComponent implements OnInit, OnChanges, AfterViewInit, AfterVi
     return this.readonly;
   }
 
+
   constructor(
-    private cd: ChangeDetectorRef,
-    private _elRef: ElementRef,
-    private _vcRef: ViewContainerRef
+    cd: ChangeDetectorRef,
+    _elRef: ElementRef
   ) {
+    super(cd, _elRef);
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   ngOnInit(): void {
-
-    if (!this.template) {
-      this.template = this._contentTemplate;
-
-      this.cd.detectChanges();
-
-      this.template = (isEmptyTemplate(this._elRef)) ? this._defaultTemplate : this._contentTemplate;
-
-      this.cd.detectChanges();
-    }
-
-
-    this._defaultContentDir.template = this._defaultTemplate;
-
-
+    super.ngOnInit();
+    this.setContext(
+      {
+        type: this.type,
+        name: this.name,
+        value: this.value,
+        placeholder: this.placeholder
+      },
+      {
+        input: this.onChange,
+        blur: this.onBlur,
+        focus: this.onFocus,
+        keydown: this.onKeyDown,
+        paste: this.onPaste,
+        keypress: this.onKeyPress
+      }
+    );
   }
 
-  ngOnChanges(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-
-    // console.log(isEmptyTemplate(this._vcRef));
-
-    // this.cd.detectChanges();
-  }
-
-  ngAfterViewChecked(): void {
-
+  ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///
@@ -138,6 +119,7 @@ export class InputComponent implements OnInit, OnChanges, AfterViewInit, AfterVi
 
   onChange = _.debounce(e => {
     e.stopPropagation();
+
     let value = e.target.value;
     const min = parseInt(this.range[0], 10);
     const max = parseInt(this.range[1], 10);

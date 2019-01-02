@@ -18,5 +18,5 @@ import { MenuModule } from './components/menu/menu.module';
   ],
 
 })
-export class UIModule {
+export class FormUiModule {
 }

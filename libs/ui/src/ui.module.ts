@@ -17,7 +17,6 @@ import { PackagesModule } from './packages/packages.module';
     ComponentModule,
     ElementModule,
     PackagesModule,
-
     DirectiveModule
   ]
 })

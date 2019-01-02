@@ -53,6 +53,10 @@
     {
       "projectName": "utility",
       "type": "es6Import"
+    },
+    {
+      "projectName": "ui",
+      "type": "es6Import"
     }
   ],
   "core": [

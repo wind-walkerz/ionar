@@ -7,7 +7,6 @@ export const isEmptyTemplate = (element: ElementRef): Boolean => {
 
 
   return _.every(nodes, node => {
-    console.log(node.nodeType);
     return (node.nodeType === 8);
 
   });

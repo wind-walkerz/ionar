@@ -1,14 +1,38 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewContainerRef,
+  TemplateRef,
+  Optional,
+  Host,
+  SkipSelf
+} from '@angular/core';
+import { removeHost } from '../../utils';
+import { InputComponent } from '../../../../form/src/ui';
+import { IoAbstractUiComponent } from '../../interfaces';
+
 
 @Component({
   selector: 'default-content',
-  templateUrl: './default-content.component.html'
+  template: ``
 })
 export class DefaultContentComponent implements OnInit, OnDestroy {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  constructor( private _elRef: ElementRef) {
+  set template(view: {
+    template: TemplateRef<any>, context?: any
+  }) {
+    this._vcRef.createEmbeddedView(view.template, view.context);
+  }
+
+
+  constructor(
+    private _elRef: ElementRef,
+    private _vcRef: ViewContainerRef
+  ) {
   }
 
 
@@ -16,7 +40,16 @@ export class DefaultContentComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log(this._elRef)
+    console.log(this._vcRef);
+
+    if (this._vcRef['_view'].parent.parent) {
+      this.template = {
+        template: this._vcRef['_view'].context.defaultContent,
+        context: { $implicit: this._vcRef['_view'].context.$implicit }
+      };
+    }
+
+    removeHost(this._elRef);
   }
 
   ngOnDestroy(): void {

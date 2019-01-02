@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { IonarLoadingService } from '@ionar/ui';
 import { IonarToastService } from '../../../../libs/ui/src/components/toast/toast.service';
 
@@ -9,6 +9,8 @@ import { IonarToastService } from '../../../../libs/ui/src/components/toast/toas
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title: Boolean = true;
+
+  // @ViewChild('template') template: TemplateRef<any>
 
   constructor(private _loadingSvs: IonarLoadingService, private _toast: IonarToastService) {
 

@@ -1,4 +1,22 @@
-<io-input>
+<io-input
+        [template]="template"
+        type="input"
+        name=" email "
+>
+
+</io-input>
+
+<io-input type="input"
+          name=" email ">
     <h1>lsdjflkasdjfkl</h1>
     <default-content></default-content>
 </io-input>
+
+<!--<test [template]="template"></test>-->
+
+
+<ng-template #template>
+    <h1>lsdjflkasdjfkl</h1>
+
+    <default-content></default-content>
+</ng-template>

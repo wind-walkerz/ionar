@@ -6,10 +6,12 @@ import { NxModule } from '@nrwl/nx';
 import { IonarModule } from '@ionar/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonarLoadingService } from '@ionar/ui';
+import { TestComponent } from './test/test.component';
+import { ZeroComponent } from './zero/zero.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TestComponent, ZeroComponent],
   imports: [BrowserModule, NxModule.forRoot(), IonarModule, BrowserAnimationsModule],
   providers: [IonarLoadingService],
   bootstrap: [AppComponent]

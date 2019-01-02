@@ -39,19 +39,21 @@
         box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2);
     }
 
-    input {
-        border: none;
-        color: inherit;
-        display: flex;
-        flex: 1px;
-        font-size: inherit;
-        font-weight: inherit;
-        text-transform: inherit;
-        text-decoration: inherit;
-        outline: none;
-        height: 100%;
-        max-width: 100%;
-        z-index: 1;
+    ::ng-deep {
+        input {
+            border: none;
+            color: inherit;
+            display: flex;
+            flex: 1px;
+            font-size: inherit;
+            font-weight: inherit;
+            text-transform: inherit;
+            text-decoration: inherit;
+            outline: none;
+            height: 100%;
+            max-width: 100%;
+            z-index: 1;
+        }
     }
 
     .loading_icon {

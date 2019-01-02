@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 
 import { SquareDirective } from './square/square.directive';
 import { ScrollDownDirective } from './scroll/scroll-down';
+import { SpreadDirective } from './spread/spread.directive';
 
 
 
 @NgModule({
   declarations: [
-    SquareDirective, ScrollDownDirective
+    SquareDirective, ScrollDownDirective, SpreadDirective
   ],
   exports: [
-    SquareDirective, ScrollDownDirective
+    SquareDirective, ScrollDownDirective, SpreadDirective
   ]
 })
 export class DirectiveModule {

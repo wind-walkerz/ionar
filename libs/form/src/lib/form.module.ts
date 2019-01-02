@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UIModule } from '../ui/ui.module';
+import { FormUiModule } from '../ui/ui.module';
 import { CoreModule } from '../core/core.module';
 
 @NgModule({
@@ -8,11 +8,11 @@ import { CoreModule } from '../core/core.module';
   imports: [
     CommonModule,
     CoreModule,
-    UIModule
+    FormUiModule
   ],
   exports: [
     CoreModule,
-    UIModule
+    FormUiModule
   ]
 })
 export class IonarFormModule {

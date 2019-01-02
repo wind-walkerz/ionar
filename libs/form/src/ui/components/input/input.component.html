@@ -1,22 +1,12 @@
-<ng-container [ngTemplateOutlet]="template"></ng-container>
+<ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context"></ng-container>
 
-<ng-template #default_template>
+<ng-template #default_template let-context>
     <input
-            [type]="type"
-            [name]="name"
-            [placeholder]="placeholder"
-            [value]="value"
-            (input)="onChange($event)"
-            (blur)="onBlur()"
-            (focus)="onFocus()"
-            (keydown)="onKeyDown($event)"
-            (paste)="onPaste($event)"
-            (keypress)="onKeyPress($event)"
-
-            *ngIf="!(readonly || disabled)"
+            [spread]="context"
+            *ngIf="!(context?.readonly || context?.disabled)"
     >
 
-    <span *ngIf="readonly || disabled">
+    <span *ngIf="context?.readonly || context?.disabled">
           {{value}}
       </span>
 </ng-template>
