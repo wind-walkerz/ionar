@@ -1,1 +1,1 @@
-export * from './IoAbstractUiComponent';
+export * from './IoAbstractUI';

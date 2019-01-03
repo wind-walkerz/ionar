@@ -75,6 +75,10 @@
       "type": "es6Import"
     },
     {
+      "projectName": "form",
+      "type": "es6Import"
+    },
+    {
       "projectName": "animations",
       "type": "es6Import"
     }

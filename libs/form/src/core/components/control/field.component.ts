@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,11 +7,12 @@ import {
   OnChanges,
   OnDestroy,
   OnInit, Optional,
-  SimpleChanges, SkipSelf, TemplateRef
+  SimpleChanges, SkipSelf, TemplateRef, ViewChild
 } from '@angular/core';
 
 import { FormService } from '../../providers/form.service';
 import { FormControlComponent } from '../form-control.component';
+import { isEmptyTemplate } from '@ionar/ui';
 
 
 @Component({
@@ -26,8 +28,7 @@ import { FormControlComponent } from '../form-control.component';
                     blur: onTouched,
                     enter: onEntered
               }"
-
-
+              [template]="template"
       >
       </ng-container>
   `,
@@ -41,7 +42,7 @@ import { FormControlComponent } from '../form-control.component';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FieldComponent {
+export class FieldComponent implements OnInit, AfterViewInit {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   /**
@@ -52,8 +53,9 @@ export class FieldComponent {
    */
   _parent: FormControlComponent | null = null;
 
-  template: TemplateRef<any>;
-
+  get template(): TemplateRef<any> {
+    return this._parent.controlTemplateDir && this._parent.controlTemplateDir.templateRef;
+  };
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
@@ -64,6 +66,14 @@ export class FieldComponent {
   ) {
 
     this._parent = parent;
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit(): void {
+
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///

@@ -1,2 +1,2 @@
-export * from './isEmptyTemplate'
-export * from './removeHost'
+export * from './isEmptyTemplate';
+export * from './removeHost';

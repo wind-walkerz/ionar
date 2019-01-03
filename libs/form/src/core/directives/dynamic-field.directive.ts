@@ -67,7 +67,7 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges() {
     if (this._compRef) {
-      this.updateContext();
+      this._parseContext();
     }
   }
 
@@ -79,15 +79,16 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
     const component = this.components[(<FormControlState>this._control.state).component];
     const factory = this._resolver.resolveComponentFactory<any>(component);
     this._compRef = this._vcRef.createComponent(factory);
-    this.initContext();
+    this._parseContext('initial');
   };
 
-  private initContext = () => {
-    this.parseContext();
-  };
+  private _parseContext = (status = null) => {
 
-  private updateContext = () => {
-    this.parseContext('updated');
+    this._updateContext();
+
+    if (status === 'initial') this._initObservables();
+
+
     if (typeof this._compRef.instance.ngOnChanges === 'function') {
       this._compRef.instance.ngOnChanges();
     } else {
@@ -96,7 +97,28 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
 
   };
 
-  private parseContext = (status = 'initial') => {
+  private _initObservables = () => {
+    _.forOwn(this._events, (value, key) => {
+
+      if (!this._compRef.instance[key])
+        this._compRef.instance[key] = new EventEmitter();
+
+      this._compRef.instance[key].pipe(untilDestroyed(this)).subscribe(event => {
+        (value instanceof EventEmitter)
+          ? value.emit(event)
+          : value(event);
+      });
+
+    });
+
+    if (typeof this._compRef.instance.ngOnInit === 'function') {
+      this._compRef.instance.ngOnInit();
+    } else {
+      throw new Error(`${this._compRef.componentType.name} doesn't implement 'ngOnInit'`);
+    }
+  };
+
+  private _updateContext = () => {
     const state = <FormControlState>this._control.state,
       options = <AbstractControlOptions>this._control.options;
 
@@ -111,21 +133,5 @@ export class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
     _.forOwn(context, (value, key) => {
       if (value !== undefined) this._compRef.instance[key] = value;
     });
-
-    if (status === 'initial') {
-      _.forOwn(this._events, (value, key) => {
-
-        if (!this._compRef.instance[key])
-          this._compRef.instance[key] = new EventEmitter();
-
-        this._compRef.instance[key].pipe(untilDestroyed(this)).subscribe(event => {
-          (value instanceof EventEmitter)
-            ? value.emit(event)
-            : value(event);
-        });
-
-      });
-    }
-
   };
 }

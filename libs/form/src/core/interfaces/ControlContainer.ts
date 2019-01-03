@@ -7,18 +7,17 @@
  */
 
 
-import { NgControl } from './NgControl';
-import { FormGroup } from '@ionar/form';
+import { FormGroup } from '../models/FormGroup';
 
 /**
  * @description
- * A base class for directives that contain multiple registered instances of `NgControl`.
+ * A base class for directives that contain multiple registered instances of `IoControl`.
  * Only used by the forms module.
  *
  * @publicApi
  */
 
-export abstract class ControlContainer  {
+export abstract class ControlContainer {
   /**
    * @description
    * The parent form for the control.

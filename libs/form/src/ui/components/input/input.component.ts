@@ -1,22 +1,14 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ContentChild, ElementRef,
-  EventEmitter,
-  HostBinding,
+  Component, ElementRef,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
-  Output, SimpleChanges,
-  TemplateRef, ViewChild, ViewContainerRef
+  OnInit, SimpleChanges
 } from '@angular/core';
 import _ from 'lodash';
-
-import { DefaultContentComponent, isEmptyTemplate } from '@ionar/ui';
-import { ComponentContext, IoAbstractUiComponent } from '../../../../../ui/src/interfaces';
+import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
 
 
 @Component({
@@ -26,7 +18,7 @@ import { ComponentContext, IoAbstractUiComponent } from '../../../../../ui/src/i
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InputComponent extends IoAbstractUiComponent implements OnInit, OnChanges, OnDestroy {
+export class InputComponent extends IoFormFieldUI implements OnInit {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
@@ -37,35 +29,6 @@ export class InputComponent extends IoAbstractUiComponent implements OnInit, OnC
   @Input() value: any = '';
 
   @Input() range = [];
-
-  @Input() invalid: Boolean = false;
-  @Input() disabled: Boolean = false;
-  @Input() focused: Boolean = false;
-  @Input() readonly: Boolean = false;
-
-  @Output() change = new EventEmitter();
-  @Output() blur = new EventEmitter();
-  @Output() enter = new EventEmitter();
-
-  @HostBinding('class.focus')
-  private get _isFocused() {
-    return this.focused;
-  }
-
-  @HostBinding('class.invalid')
-  private get _isInvalid() {
-    return this.invalid;
-  }
-
-  @HostBinding('class.disabled')
-  private get _isDisabled() {
-    return this.disabled;
-  }
-
-  @HostBinding('class.readonly')
-  private get _isReadonly() {
-    return this.readonly;
-  }
 
 
   constructor(
@@ -79,6 +42,7 @@ export class InputComponent extends IoAbstractUiComponent implements OnInit, OnC
 
   ngOnInit(): void {
     super.ngOnInit();
+
     this.setContext(
       {
         type: this.type,
@@ -95,14 +59,6 @@ export class InputComponent extends IoAbstractUiComponent implements OnInit, OnC
         keypress: this.onKeyPress
       }
     );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    super.ngOnChanges(changes);
-  }
-
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///

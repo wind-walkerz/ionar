@@ -11,12 +11,10 @@ import { controlNameBinding, FormControlComponent } from './components/form-cont
 import { LabelComponent } from './components/control/label.component';
 import { FeedbackComponent } from './components/control/feedback.component';
 import { FormComponent } from './core.component';
-import { FormTemplateDirective } from './directives/form-template.directive';
+import { ControlTemplateDirective } from './directives/control-template.directive';
 import { FormArrayComponent } from './components/form-array.component';
 import { FormGroupComponent } from './components/form-group.component';
 import { ControlContainer } from './interfaces/ControlContainer';
-
-
 
 
 @NgModule({
@@ -26,7 +24,7 @@ import { ControlContainer } from './interfaces/ControlContainer';
     FormArrayComponent,
     FormGroupComponent,
 
-    FormTemplateDirective,
+    ControlTemplateDirective,
     DynamicFieldDirective, SubmitDirective
   ],
 
@@ -41,7 +39,7 @@ import { ControlContainer } from './interfaces/ControlContainer';
     LabelComponent, FeedbackComponent,
 
     SubmitDirective,
-    FormTemplateDirective
+    ControlTemplateDirective
   ]
 })
 export class CoreModule {

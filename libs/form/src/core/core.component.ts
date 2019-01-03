@@ -7,7 +7,7 @@ import {
   EventEmitter, forwardRef,
   Input, OnChanges,
   OnDestroy, OnInit,
-  Output, SimpleChanges,
+  Output, QueryList, SimpleChanges,
   ViewChild, ViewContainerRef
 } from '@angular/core';
 import { FormService } from './providers/form.service';
@@ -18,7 +18,9 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { ControlContainer } from './interfaces/ControlContainer';
 import { ReactiveErrors } from './utils/reactive_errors';
 
-import { isFormArray, isFormGroup, isFormControl } from './utils/helpers';
+import { isFormControl } from './utils/helpers';
+
+import { ControlTemplateDirective } from './directives/control-template.directive';
 import { isEmptyTemplate } from '@ionar/ui';
 
 
@@ -72,7 +74,7 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   @ViewChild('contentVc', { read: ViewContainerRef }) private _contentVcRef: ViewContainerRef;
 
-  // @ContentChildren(FormTemplateDirective) _fieldTemplateDirList;
+  @ContentChildren(ControlTemplateDirective) controlTemplateDirList: QueryList<ControlTemplateDirective>;
 
   controlNames: String[] = [];
 

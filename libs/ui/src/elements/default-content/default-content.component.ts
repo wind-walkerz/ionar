@@ -4,14 +4,9 @@ import {
   OnDestroy,
   ElementRef,
   ViewContainerRef,
-  TemplateRef,
-  Optional,
-  Host,
-  SkipSelf
+  TemplateRef
 } from '@angular/core';
 import { removeHost } from '../../utils';
-import { InputComponent } from '../../../../form/src/ui';
-import { IoAbstractUiComponent } from '../../interfaces';
 
 
 @Component({
@@ -40,8 +35,6 @@ export class DefaultContentComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log(this._vcRef);
-
     if (this._vcRef['_view'].parent.parent) {
       this.template = {
         template: this._vcRef['_view'].context.defaultContent,

@@ -7,6 +7,7 @@
  */
 import { ControlContainer } from './ControlContainer';
 import { FormGroup } from '../models/FormGroup';
+import { IoAbstractUI } from '../../../../ui/src/interfaces';
 
 
 function unimplemented(): any {
@@ -22,7 +23,7 @@ function unimplemented(): any {
  */
 
 
-export abstract class NgControl {
+export abstract class IoControl extends IoAbstractUI {
   /**
    * @description
    * The parent form for the control.

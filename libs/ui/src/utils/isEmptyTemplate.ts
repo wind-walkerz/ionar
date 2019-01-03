@@ -1,4 +1,4 @@
-import { ElementRef, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import _ from 'lodash';
 
 export const isEmptyTemplate = (element: ElementRef): Boolean => {

@@ -1,37 +1,24 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectionStrategy,
-
-  Component,
-  ContentChild,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ContentChild,
   ElementRef, forwardRef,
-  Host, HostBinding, Inject,
+  Host, HostBinding,
   Input,
   OnChanges,
-  OnDestroy,
-  OnInit, Optional, Query, QueryList,
-  Renderer2, SimpleChanges, SkipSelf,
-  TemplateRef
+  OnInit, Optional, SkipSelf
 } from '@angular/core';
-import { FormGroup } from '../models/FormGroup';
+
 import { FormControl } from '../models/FormControl';
-import { FormService } from '../providers/form.service';
 
 import _ from 'lodash';
-import { FormComponent, formProvider } from '../core.component';
-
-// import { FormTemplateDirective } from '../directives/field-template.directive';
-
-import { AbstractControl } from '../models/AbstractControl';
-import { NgControl } from '../interfaces/NgControl';
+import { FormComponent } from '../core.component';
+import { IoControl } from '../interfaces/IoControl';
 import { ControlContainer } from '../interfaces/ControlContainer';
-import { untilDestroyed } from '@ionar/utility';
-import { FormArrayComponent } from './form-array.component';
-import { FormGroupComponent } from './form-group.component';
+import { FormControlState } from '../interfaces/Form';
+import { ControlTemplateDirective } from '../directives/control-template.directive';
 
 export const controlNameBinding: any = {
-  provide: NgControl,
+  provide: IoControl,
   useExisting: forwardRef(() => FormControlComponent)
 };
 
@@ -39,11 +26,21 @@ export const controlNameBinding: any = {
 @Component({
   selector: 'form-control',
   template: `
-      <form-label *ngIf="show_label"></form-label>
+      <ng-container
+              [ngTemplateOutlet]="template"
+              [ngTemplateOutletContext]="context"
+      ></ng-container>
 
-      <form-field></form-field>
+      <ng-template #default_template let-context>
+          <form-label *ngIf="!context?.hideLabel"></form-label>
 
-      <form-feedback *ngIf="show_feedback"></form-feedback>
+          <form-field></form-field>
+
+          <form-feedback *ngIf="!context?.hideFeedback"></form-feedback>
+      </ng-template>
+      <ng-template #content_template>
+          <ng-content></ng-content>
+      </ng-template>
   `,
 
   styles: [`
@@ -93,7 +90,7 @@ export const controlNameBinding: any = {
 })
 
 
-export class FormControlComponent extends NgControl implements OnInit, AfterViewInit, AfterViewChecked, OnChanges, OnDestroy {
+export class FormControlComponent extends IoControl implements OnInit, OnChanges {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   /**
@@ -112,13 +109,19 @@ export class FormControlComponent extends NgControl implements OnInit, AfterView
 
   };
 
-  fieldTemplate: TemplateRef<any>;
+  get controlTemplateDir(): ControlTemplateDirective {
+    const parent = <FormComponent>this._parent,
+      state = <FormControlState>this.control.state;
 
-  show_feedback: Boolean = true;
+    if (this._controlTemplateDir) return this._controlTemplateDir;
 
-  show_label: Boolean = true;
+    if (parent.controlTemplateDirList)
+      return _.find(parent.controlTemplateDirList.toArray(), ['name', this.name])
+        || _.find(parent.controlTemplateDirList.toArray(), ['component', state.component]);
 
-  // @ContentChild(FormTemplateDirective) private _fieldTemplateDir;
+  };
+
+  @ContentChild(ControlTemplateDirective) private _controlTemplateDir;
 
   @HostBinding('attr.id')
   private get attribute(): string {
@@ -132,68 +135,38 @@ export class FormControlComponent extends NgControl implements OnInit, AfterView
 
 
   @HostBinding('class.hideLabel')
-  private get hideLabelStyle(): Boolean {
-    if (_.get(this.control.options, ['hideLabel'])) {
-      this.show_label = false;
-      return true;
-    }
-    return false;
+  private get _isHideLabel(): Boolean {
+    const hideLabel = _.get(this.control.options, ['hideLabel']);
 
+    this.setContext({
+      hideLabel: hideLabel
+    });
+
+    return hideLabel;
   }
 
   @HostBinding('class.hideFeedback')
-  private get hideFeedbackStyle(): Boolean {
+  private get _isHideFeedback(): Boolean {
+    const hideFeedback = _.get(this.control.options, ['hideFeedback']);
 
-    if (_.get(this.control.options, ['hideFeedback'])) {
-      this.show_feedback = false;
-      return true;
-    }
-    return false;
+    this.setContext({
+      hideFeedback: hideFeedback
+    });
+
+    return hideFeedback;
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
     @Optional() @Host() @SkipSelf() parent: ControlContainer,
-    @Optional() @Host() @SkipSelf() rootParent: FormComponent
+    @Optional() @Host() @SkipSelf() rootParent: FormComponent,
+    cd: ChangeDetectorRef,
+    el: ElementRef
   ) {
-    super();
+    super(cd, el);
 
     this._parent = parent || rootParent;
-    console.log('parent', this._parent);
-  }
-
-  ngOnInit() {
-
-  }
-
-  ngAfterViewInit(): void {
-
-
-  }
-
-  ngAfterViewChecked(): void {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
-
-  ngOnDestroy(): void {
   }
 
 
-  // private _checkTemplate = () => {
-  //
-  //   let templateData;
-  //
-  //   if (this._fieldTemplateDir) templateData = this._fieldTemplateDir;
-  //
-  //   if (this._parent._fieldTemplateDirList) templateData = _.find(this._parent._fieldTemplateDirList.toArray(), ['name', this.name]);
-  //
-  //   if (templateData) {
-  //
-  //     this.fieldTemplate = templateData._tplRef;
-  //   }
-  // };
 }

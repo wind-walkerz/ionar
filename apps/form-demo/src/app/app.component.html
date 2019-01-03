@@ -1,58 +1,11 @@
-<!--<io-form-->
-<!--[formGroup]="formGroup"-->
-<!--(submit)="onSubmit($event)"-->
-<!--&gt;-->
-<!--<ng-template-->
-<!--fieldTemplate-->
-<!--[name]=" 'email' "-->
-<!--let-props="props"-->
-<!--let-events="events"-->
-<!--&gt;-->
-
-<!--</ng-template>-->
-<!--</io-form>-->
-
 <io-form
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
-    <!--<form-control [name]="'email'"></form-control>-->
+    <form-control [name]="'email'">
 
-
+    </form-control>
 </io-form>
-
-
-<!--<ng-template #formArrayTpl let-data="data">-->
-<!--<form-array [name]="data.key">-->
-<!--<ng-container *ngFor="let item of data.value.controls; let i = index">-->
-<!--<ng-template *ngTemplateOutlet="recursive;context: {data:{key: i, value: item}}"></ng-template>-->
-<!--</ng-container>-->
-<!--</form-array>-->
-<!--</ng-template>-->
-
-
-<!--<io-form-->
-<!--[formGroup]="formGroup"-->
-<!--(submit)="onSubmit($event)"-->
-<!--&gt;-->
-<!--<h2>Third</h2>-->
-<!--<ng-container *ngFor="let config of _formConfigs">-->
-<!--<form-control [name]="config.name"></form-control>-->
-<!--</ng-container>-->
-
-
-<!--</io-form>-->
-
-<!--<io-form-->
-<!--[formGroup]="formGroup"-->
-<!--(submit)="onSubmit($event)"-->
-<!--&gt;-->
-<!--<h2>Fourth</h2>-->
-<!--<app-test>-->
-<!--<form-control [name]="'email'"></form-control>-->
-<!--</app-test>-->
-
-<!--</io-form>-->
 
 
 <io-btn
