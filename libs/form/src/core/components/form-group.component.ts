@@ -42,7 +42,7 @@ export class FormGroupComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * @description
-   * Tracks the name of the `FormArray` bound to the component. The name corresponds
+   * Tracks the name of the `FormArray` bound to the components. The name corresponds
    * to a key in the parent `FormGroup` or `FormArray`.
    */
   @Input() name: any = '';

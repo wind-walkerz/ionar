@@ -16,7 +16,7 @@ export interface Schema {
      */
     name: string;
     /**
-     * HTML selector for the root component.
+     * HTML selector for the root components.
      */
     rootSelector?: string;
     /**

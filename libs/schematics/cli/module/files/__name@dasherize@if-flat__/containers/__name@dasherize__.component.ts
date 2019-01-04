@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
     selector: '<%= dasherize(name) %>',
-    templateUrl: './<%= dasherize(name) %>.component.html',
-    styleUrls: ['./<%= dasherize(name) %>.component.scss']
+    templateUrl: './<%= dasherize(name) %>.components.html',
+    styleUrls: ['./<%= dasherize(name) %>.components.scss']
 })
 export class <%= classify(name) %>Component implements OnInit, OnDestroy {
 

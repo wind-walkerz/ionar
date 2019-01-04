@@ -1,55 +1,42 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component, ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
 
 @Component({
   selector: 'io-textarea',
-  template: `
-      <textarea
-              [name]="name"
-              [value]="value"
-              [class.invalid]="invalid"
-              cols="1" rows="1"
-              [placeholder]="placeholder"
-              
-              (change)="$event.stopPropagation(); change.emit($event.target.value);"
-              (blur)="blur.emit()"
-      ></textarea>
-  `,
-  styles: [`
-      :host {
-          display: flex;
-          flex: 1;
-      }
-
-      textarea {
-          border: none;
-          font-size: 1.5rem;
-          padding: 1rem;
-          width: 100%;
-          max-width: 100%;
-          overflow-y: scroll;
-      }
-  `]
+  templateUrl: `./textarea.component.html`,
+  styleUrls: ['./textarea.component.scss']
 })
-export class TextareaComponent implements OnInit, OnChanges {
+export class TextareaComponent extends IoFormFieldUI {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   @Input() name: string = '';
   @Input() value: any = '';
   @Input() placeholder: any = '';
-  @Output() change = new EventEmitter();
-  @Output() blur = new EventEmitter();
-  @Input() invalid: Boolean = false;
 
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-  constructor() {
+  constructor(
+    cd: ChangeDetectorRef,
+    el: ElementRef
+  ) {
+    super(cd, el);
   }
 
-  ngOnInit() {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.setContext({
+      name: this.name,
+      value: this.value,
+      placeholder: this.placeholder
+    });
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///

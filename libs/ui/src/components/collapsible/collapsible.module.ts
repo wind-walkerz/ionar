@@ -1,12 +1,13 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CollapsibleComponent } from './collapsible.component';
-import { HeaderComponent } from './components/header.component';
+import { CollapsibleDirective } from './directives/collapsible.directive';
 
-import { ContentComponent } from './components/content.component';
-import { PanelComponent } from './components/panel.component';
-import { CollapseToggleDirective } from './directives/collapse-toggle.directive';
+
+import { ContentDirective } from './directives/content.directive';
+
+import { ToggleDirective } from './directives/toggle.directive';
+
 
 
 @NgModule({
@@ -14,27 +15,14 @@ import { CollapseToggleDirective } from './directives/collapse-toggle.directive'
     CommonModule
   ],
   declarations: [
-    CollapsibleComponent,
-    HeaderComponent,
-    ContentComponent,
-    PanelComponent,
-    CollapseToggleDirective
+    CollapsibleDirective,
+    ContentDirective,
+    ToggleDirective
   ],
   exports: [
-    CollapsibleComponent,
-    HeaderComponent,
-    ContentComponent,
-    PanelComponent,
-
-    CollapseToggleDirective
-  ],
-
-  entryComponents: [
-    CollapsibleComponent,
-    HeaderComponent,
-    ContentComponent,
-    PanelComponent
-
+    CollapsibleDirective,
+    ContentDirective,
+    ToggleDirective
   ]
 })
 export class CollapsibleModule {

@@ -262,7 +262,7 @@ export interface CliConfig {
       spec?: boolean;
     };
     /**
-     * Options for generating a component.
+     * Options for generating a components.
      */
     component?: {
       /**

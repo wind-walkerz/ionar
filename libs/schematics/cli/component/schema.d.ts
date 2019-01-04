@@ -8,7 +8,7 @@
 
 export interface Schema {
     /**
-     * The path to create the component.
+     * The path to create the components.
      */
     path?: string;
     /**
@@ -16,7 +16,7 @@ export interface Schema {
      */
     project?: string;
     /**
-     * The name of the component.
+     * The name of the components.
      */
     name: string;
     /**
@@ -56,7 +56,7 @@ export interface Schema {
      */
     skipImport?: boolean;
     /**
-     * The selector to use for the component.
+     * The selector to use for the components.
      */
     selector?: string;
     /**
@@ -64,7 +64,7 @@ export interface Schema {
      */
     module?: string;
     /**
-     * Specifies if declaring module exports the component.
+     * Specifies if declaring module exports the components.
      */
     export?: boolean;
 }

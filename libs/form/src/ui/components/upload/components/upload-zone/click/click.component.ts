@@ -22,6 +22,7 @@ export class ClickComponent implements OnInit, OnChanges {
 
   @Input() template: TemplateRef<any>;
   @Input() multiple: Boolean = false;
+  @Input() title: any = ''
 
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///

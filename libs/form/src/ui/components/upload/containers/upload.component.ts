@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked,
+  AfterViewChecked, ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -11,13 +11,14 @@ import {
   TemplateRef, ViewChild
 } from '@angular/core';
 import _ from 'lodash';
+import { IoFormFieldUI } from '../../../interfaces/IoFormFieldUI';
 
 @Component({
   selector: 'io-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements OnInit, OnChanges {
+export class UploadComponent extends IoFormFieldUI {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
   file_list = [];
   @Output() change = new EventEmitter();
@@ -25,21 +26,15 @@ export class UploadComponent implements OnInit, OnChanges {
   @Input() type: string = 'input';
   @Input() template: TemplateRef<any>;
   @Input() multiple: Boolean = false;
+  @Input() title: any = '';
 
-  @ViewChild('default') private _defaultTempRef: TemplateRef<any>;
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-  constructor(private elRef: ElementRef) {
-  }
-
-  ngOnInit() {
-    if (!this.template) {
-      this.template = this._defaultTempRef;
-    }
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
+  constructor(
+    cd: ChangeDetectorRef,
+    el: ElementRef
+  ) {
+    super(cd, el);
   }
 
 

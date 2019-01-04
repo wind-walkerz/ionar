@@ -30,11 +30,10 @@ export class AppComponent implements OnInit {
 
     this.formGroup = this._fb.group({
       email: {
-        component: 'input',
+        component: 'textarea',
         props: {
-          // label: 'sdlkfjslk',
-          placeholder: 'Write your comment...',
-          value: '023984092'
+          label: 'sdlkfjslk',
+          title: 'upload'
         },
         validators: {
           required: true
@@ -44,17 +43,17 @@ export class AppComponent implements OnInit {
           // hideLabel: true
         }
 
-      },
+      }
       // username: this._fb.array([
       //   {
-      //     component: 'input',
+      //     components: 'input',
       //     props: {
       //       placeholder: 'Write your comment...',
       //       value: '1'
       //     }
       //   },
       //   {
-      //     component: 'input',
+      //     components: 'input',
       //     props: {
       //       placeholder: 'Write your comment...',
       //       value: '2'
@@ -63,10 +62,10 @@ export class AppComponent implements OnInit {
       // ]),
       // password: this._fb.group({
       //   pass_1: {
-      //     component: 'input'
+      //     components: 'input'
       //   },
       //   pass_2: {
-      //     component: 'input'
+      //     components: 'input'
       //   }
       // })
     });

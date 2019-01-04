@@ -51,7 +51,7 @@ export class FeedbackComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * @description
-   * The parent  for the component
+   * The parent  for the components
    *
    * @internal
    */

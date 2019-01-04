@@ -148,7 +148,7 @@ function extractSchematicsConfig(config) {
     }, {});
     const componentUpdate = {};
     componentUpdate.prefix = '';
-    const componentKey = collectionName + ':component';
+    const componentKey = collectionName + ':components';
     const directiveKey = collectionName + ':directive';
     if (!schematicConfigs[componentKey]) {
         schematicConfigs[componentKey] = {};

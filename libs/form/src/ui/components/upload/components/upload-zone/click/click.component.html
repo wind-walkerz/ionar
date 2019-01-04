@@ -1,5 +1,7 @@
 <ng-container *ngTemplateOutlet="template"></ng-container>
-
+<ng-container *ngIf="title">
+    <p>{{title}}</p>
+</ng-container>
 
 <input
         type="file"

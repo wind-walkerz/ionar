@@ -1,0 +1,10 @@
+<textarea
+        [name]="name"
+        [value]="value"
+        [class.invalid]="invalid"
+        cols="1" rows="1"
+        [placeholder]="placeholder"
+
+        (change)="$event.stopPropagation(); change.emit($event.target.value);"
+        (blur)="blur.emit()"
+></textarea>

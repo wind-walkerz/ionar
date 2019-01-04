@@ -1,0 +1,26 @@
+:host {
+    ::ng-deep {
+        .node-item {
+            display: flex;
+            align-items: center;
+
+            .icon {
+                font-size: 1.2rem;
+            }
+
+            .label {
+                margin-left: 2rem;
+                &.active {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .node-children {
+            margin-left: 2rem;
+        }
+
+
+
+    }
+}

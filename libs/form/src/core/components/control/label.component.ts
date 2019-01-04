@@ -34,7 +34,7 @@ import { FormControlComponent } from '../form-control.component';
 export class LabelComponent implements OnDestroy {
   /**
    * @description
-   * The parent  for the component
+   * The parent  for the components
    *
    * @internal
    */

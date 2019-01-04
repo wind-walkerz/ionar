@@ -1,0 +1,38 @@
+<ng-container [ioCollapsible]="data.children ? '' : null" *ngIf="viewInit">
+    <div
+            class="node-item"
+            collapseToggle
+            (click)="onChange()"
+    >
+        <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context"></ng-container>
+    </div>
+
+    <ng-container *ngIf="data?.children">
+        <div
+                class="node-children"
+                *collapseContent
+        >
+            <ng-container *ngFor="let node of data?.children">
+                <tree-node
+                        [data]="node"
+                        [selected]="selected"
+                        [template]="template"
+                        (change)="change.emit($event)"></tree-node>
+            </ng-container>
+        </div>
+    </ng-container>
+
+</ng-container>
+
+
+<ng-template let-context #default_template>
+
+    <div class="icon" *ngIf="context?.children">
+        <i class="fas fa-chevron-right"></i>
+    </div>
+    <p [class.active]="context?.selected" class="label">{{context?.label}}</p>
+</ng-template>
+
+<ng-template #content_template>
+    <ng-content></ng-content>
+</ng-template>

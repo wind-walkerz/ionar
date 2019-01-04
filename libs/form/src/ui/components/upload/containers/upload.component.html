@@ -11,6 +11,7 @@
             (change)="onFileChanged($event)"
             [template]="template"
             [multiple]="multiple"
+            [title]="title"
     >
     </click>
 
@@ -25,6 +26,6 @@
 </ng-template>
 
 
-<ng-template #default>
+<ng-template #default_template>
     <ng-content></ng-content>
 </ng-template>

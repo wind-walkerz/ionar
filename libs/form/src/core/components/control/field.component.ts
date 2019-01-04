@@ -47,7 +47,7 @@ export class FieldComponent implements OnInit, AfterViewInit {
 
   /**
    * @description
-   * The parent  for the component
+   * The parent  for the components
    *
    * @internal
    */

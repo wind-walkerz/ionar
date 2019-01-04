@@ -21,6 +21,7 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
 
   @Input() template: TemplateRef<any> = null;
 
+  viewInit: Boolean = false;
   private _contextData: Object;
 
   get context(): ComponentContext {
@@ -48,6 +49,7 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.parseTemplate();
+
     this.cd.markForCheck();
   }
 
@@ -61,28 +63,35 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
       ...properties,
       ...events
     };
+    // this.cd.markForCheck();
   };
 
 
   parseTemplate = () => {
+
     if (!this.template) {
       this.template = this._contentTemplate;
 
       if (this._defaultContentComp) {
+
         this._defaultContentComp.template = {
           template: this._defaultTemplate,
           context: this.context
         };
       }
 
+      if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
 
-      this.cd.detectChanges();
-
-      if (isEmptyTemplate(this._elRef)) {
         this.template = this._defaultTemplate;
         this.cd.detectChanges();
       }
+
+      this.viewInit = true;
+      this.cd.detectChanges();
     }
+
+    this.viewInit = true;
+    this.cd.detectChanges();
   };
 
 }

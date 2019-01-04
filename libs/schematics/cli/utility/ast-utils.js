@@ -302,7 +302,7 @@ function addSymbolToNgModuleMetadata(source, ngModulePath, metadataField, symbol
         node = arrLiteral.elements;
     }
     if (!node) {
-        console.log('No app module found. Please add your new class to your component.');
+        console.log('No app module found. Please add your new class to your components.');
         return [];
     }
     if (Array.isArray(node)) {
@@ -361,8 +361,8 @@ function addSymbolToNgModuleMetadata(source, ngModulePath, metadataField, symbol
 }
 exports.addSymbolToNgModuleMetadata = addSymbolToNgModuleMetadata;
 /**
- * Custom function to insert a declaration (component, pipe, directive)
- * into NgModule declarations. It also imports the component.
+ * Custom function to insert a declaration (components, pipe, directive)
+ * into NgModule declarations. It also imports the components.
  */
 function addDeclarationToModule(source, modulePath, classifiedName, importPath) {
     return addSymbolToNgModuleMetadata(source, modulePath, 'declarations', classifiedName, importPath);

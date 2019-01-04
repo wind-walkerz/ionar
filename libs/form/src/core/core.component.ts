@@ -60,7 +60,7 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   /**
    * @description
-   * Tracks the `FormGroup` bound to this component.
+   * Tracks the `FormGroup` bound to this components.
    */
   @Input('formGroup') form: FormGroup = null;
 
@@ -138,7 +138,7 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   /**
    * @description
-   * Returns an array representing the path to this group. Because this component
+   * Returns an array representing the path to this group. Because this components
    * always lives at the top level of a form, it always an empty array.
    */
   get path(): string[] {

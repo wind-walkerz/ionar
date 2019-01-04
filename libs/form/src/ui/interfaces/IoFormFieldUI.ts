@@ -11,7 +11,7 @@ import {
 import { IoAbstractUI } from '../../../../ui/src/interfaces';
 
 
-export abstract class IoFormFieldUI extends IoAbstractUI implements OnInit, OnChanges, OnDestroy {
+export abstract class IoFormFieldUI extends IoAbstractUI {
 
   @Input() invalid: Boolean = false;
   @Input() disabled: Boolean = false;

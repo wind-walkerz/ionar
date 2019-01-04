@@ -55,7 +55,7 @@ function findModule(host, generateDir) {
         }
         else if (matches.length > 1) {
             throw new Error('More than one module matches. Use skip-import option to skip importing '
-                + 'the component into the closest module.');
+                + 'the components into the closest module.');
         }
         dir = dir.parent;
     }

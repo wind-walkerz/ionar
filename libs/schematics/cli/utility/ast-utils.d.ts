@@ -47,8 +47,8 @@ export declare function getDecoratorMetadata(source: ts.SourceFile, identifier: 
 export declare function getFirstNgModuleName(source: ts.SourceFile): string | undefined;
 export declare function addSymbolToNgModuleMetadata(source: ts.SourceFile, ngModulePath: string, metadataField: string, symbolName: string, importPath?: string | null): Change[];
 /**
- * Custom function to insert a declaration (component, pipe, directive)
- * into NgModule declarations. It also imports the component.
+ * Custom function to insert a declaration (components, pipe, directive)
+ * into NgModule declarations. It also imports the components.
  */
 export declare function addDeclarationToModule(source: ts.SourceFile, modulePath: string, classifiedName: string, importPath: string): Change[];
 /**

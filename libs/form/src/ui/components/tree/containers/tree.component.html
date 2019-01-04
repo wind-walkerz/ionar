@@ -1,0 +1,12 @@
+<ng-container *ngFor="let node of options; let i = index">
+    <tree-node
+            [data]="node"
+            [selected]="selected"
+            [template]="template"
+            (change)="onChange($event)"
+    >
+        <ng-content></ng-content>
+    </tree-node>
+</ng-container>
+
+

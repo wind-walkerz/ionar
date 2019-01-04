@@ -1,22 +1,49 @@
-<io-input
+<io-tree
         [template]="template"
-        type="input"
-        name=" email "
+        [options]="[
+{
+label: 1,
+value: 1
+},
+{
+label: 2,
+children: [
+{
+label: 3,
+children: [
+{
+label: 4,
+value: 4
+},
+{
+label: 5,
+value: 5
+}
+]
+},
+{
+label: 6,
+value: 6
+}
+]
+}
+]"
 >
 
-</io-input>
-
-<io-input type="input"
-          name=" email ">
-    <h1>lsdjflkasdjfkl</h1>
-    <default-content></default-content>
-</io-input>
-
-<!--<test [template]="template"></test>-->
+</io-tree>
 
 
-<ng-template #template>
-    <h1>lsdjflkasdjfkl</h1>
+<ng-template let-context #template>
 
-    <default-content></default-content>
+    <default-content [context]="context"></default-content>
 </ng-template>
+
+
+<!--<io-input [type]="'input'" [value]="'11'" [template]="template">-->
+
+<!--</io-input>-->
+
+<!--<ng-template let-context #template>-->
+<!--<h1>lasdjfklsajdflk</h1>-->
+<!--<default-content [context]="context"></default-content>-->
+<!--</ng-template>-->

@@ -365,9 +365,12 @@
               "apps/ui-demo/src/assets"
             ],
             "styles": [
-              "apps/ui-demo/src/styles.scss"
+              "apps/ui-demo/src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
-            "scripts": []
+            "scripts": [
+
+            ]
           },
           "configurations": {
             "production": {
@@ -560,6 +563,100 @@
             "jestConfig": "apps/animation-demo/jest.config.js",
             "tsConfig": "apps/animation-demo/tsconfig.spec.json",
             "setupFile": "apps/animation-demo/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ionar": {
+      "root": "apps/ionar/",
+      "sourceRoot": "apps/ionar/src",
+      "projectType": "application",
+      "prefix": "ionar",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ionar",
+            "index": "apps/ionar/src/index.html",
+            "main": "apps/ionar/src/main.ts",
+            "polyfills": "apps/ionar/src/polyfills.ts",
+            "tsConfig": "apps/ionar/tsconfig.app.json",
+            "assets": [
+              "apps/ionar/src/favicon.ico",
+              "apps/ionar/src/assets"
+            ],
+            "styles": [
+              "apps/ionar/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ionar/src/environments/environment.ts",
+                  "with": "apps/ionar/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ionar:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ionar:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ionar:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ionar/tsconfig.app.json",
+              "apps/ionar/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/ionar/jest.config.js",
+            "tsConfig": "apps/ionar/tsconfig.spec.json",
+            "setupFile": "apps/ionar/src/test-setup.ts"
           }
         }
       }

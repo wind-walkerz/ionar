@@ -36,6 +36,12 @@
     },
     "animation-demo": {
       "tags": []
+    },
+    "ionar": {
+      "tags": []
+    },
+    "ionar-e2e": {
+      "tags": []
     }
   }
 }
