@@ -3,12 +3,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren, ElementRef,
-  EventEmitter, forwardRef,
-  Input, OnChanges,
-  OnDestroy, OnInit,
-  Output, QueryList, SimpleChanges,
-  ViewChild, ViewContainerRef
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChild,
+  ViewContainerRef
 } from '@angular/core';
 import { FormService } from './providers/form.service';
 import { FormGroup } from './models/FormGroup';
@@ -23,6 +30,7 @@ import { isFormControl } from './utils/helpers';
 import { ControlTemplateDirective } from './directives/control-template.directive';
 import { isEmptyTemplate } from '@ionar/ui';
 
+import _ from 'lodash';
 
 export const formProvider: any = {
   provide: ControlContainer,
@@ -76,6 +84,9 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   @ContentChildren(ControlTemplateDirective) controlTemplateDirList: QueryList<ControlTemplateDirective>;
 
+  @ContentChildren(ControlContainer) private _controlContainers: QueryList<ControlContainer>;
+
+
   controlNames: String[] = [];
 
   default_template: Boolean;
@@ -121,6 +132,13 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   ngAfterViewInit(): void {
     this.default_template = isEmptyTemplate(this._elRef);
+    console.log(this._controlContainers)
+    _.each(this._controlContainers.toArray(), (container: ControlContainer) => {
+          if(!(container instanceof FormComponent)) {
+            container._parent = this
+          }
+    });
+
     this.cd.detectChanges();
   }
 

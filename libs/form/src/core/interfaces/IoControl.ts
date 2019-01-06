@@ -8,6 +8,7 @@
 import { ControlContainer } from './ControlContainer';
 import { FormGroup } from '../models/FormGroup';
 import { IoAbstractUI } from '../../../../ui/src/interfaces';
+import { Input } from '@angular/core';
 
 
 function unimplemented(): any {
@@ -30,13 +31,23 @@ export abstract class IoControl extends IoAbstractUI {
    *
    * @internal
    */
-  _parent: ControlContainer | null = null;
+  protected _parent: ControlContainer | null = null;
+
+  get parent(): ControlContainer | null {
+    return this._parent;
+  }
+
+  @Input('parent') set parent(value: ControlContainer) {
+    console.log('input', value)
+    if(value instanceof ControlContainer) this._parent = value;
+
+  }
 
   /**
    * @description
    * The name for the control
    */
-  name: string | null = null;
+  @Input() name: string | null = null;
 
   /**
    * @description

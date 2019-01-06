@@ -2,9 +2,29 @@
         [formGroup]="formGroup"
         (submit)="onSubmit($event)"
 >
-    <form-control [name]="'email'">
+    <ng-container
+            *ngFor="let item of formGroup.controls | keyvalue"
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="{$implicit: item}"
+    ></ng-container>
 
-    </form-control>
+    <ng-template #template let-data let-parent="parent">
+        <ng-container *ngIf="isFormControl(data.value)">
+            <form-control [parent]="parent" [name]="data.key"></form-control>
+        </ng-container>
+        <ng-container *ngIf="isFormGroup(data.value)">
+            <form-group
+                    [name]="data.key"
+                    #ref="form-group"
+            >
+                <ng-container
+                        *ngFor="let item of data.value.controls  | keyvalue"
+                        [ngTemplateOutlet]="template"
+                        [ngTemplateOutletContext]="{$implicit: item, parent: ref}"
+                ></ng-container>
+            </form-group>
+        </ng-container>
+    </ng-template>
 </io-form>
 
 
@@ -30,3 +50,5 @@
 <io-btn (click)="onLog()">
     Log
 </io-btn>
+
+

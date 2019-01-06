@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, IonarFormBuilder } from '@ionar/form';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
 
 import { isFormArray, isFormControl, isFormGroup } from '../../../../libs/form/src/core/utils/helpers';
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
           // hideLabel: true
         }
 
-      }
+      },
       // username: this._fb.array([
       //   {
       //     components: 'input',
@@ -60,14 +60,14 @@ export class AppComponent implements OnInit {
       //     }
       //   }
       // ]),
-      // password: this._fb.group({
-      //   pass_1: {
-      //     components: 'input'
-      //   },
-      //   pass_2: {
-      //     components: 'input'
-      //   }
-      // })
+      password: this._fb.group({
+        pass_1: {
+          component: 'input'
+        },
+        pass_2: {
+          component: 'input'
+        }
+      })
     });
 
 

@@ -1,21 +1,21 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ElementRef, forwardRef,
-  Host, HostBinding, Input,
+  forwardRef,
+  Host,
+  HostBinding,
+  Input,
   OnChanges,
   OnDestroy,
-  OnInit, Optional,
-  Renderer2, SimpleChanges, SkipSelf, ViewContainerRef
+  OnInit,
+  Optional,
+  SimpleChanges,
+  SkipSelf,
+  ViewContainerRef
 } from '@angular/core';
-
-import { FormService } from '../providers/form.service';
-
-import _ from 'lodash';
 import { ControlContainer } from '../interfaces/ControlContainer';
-import { FormComponent, formProvider } from '../core.component';
-import { controlNameBinding } from './form-control.component';
 
 
 export const formGroupProvider: any = {
@@ -26,7 +26,8 @@ export const formGroupProvider: any = {
 
 @Component({
   selector: 'form-group',
-  template: `    
+  exportAs: 'form-group',
+  template: `
       <ng-content></ng-content>
   `,
 
@@ -37,7 +38,7 @@ export const formGroupProvider: any = {
   providers: [formGroupProvider],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormGroupComponent implements OnInit, OnChanges, OnDestroy {
+export class FormGroupComponent extends ControlContainer implements OnInit, OnChanges, AfterViewInit, AfterViewChecked, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
   /**
@@ -52,23 +53,34 @@ export class FormGroupComponent implements OnInit, OnChanges, OnDestroy {
     return this.name;
   }
 
+  // @ContentChildren(TemplateRef) private _template: QueryList<TemplateRef<any>>;
+
+
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   constructor(
-    // @Optional() @Host() @SkipSelf()  parent: ControlContainer
+    @Optional() @Host() @SkipSelf()  parent: ControlContainer,
     // @Optional() @Host() @SkipSelf() rootParent: FormComponent
     private _vcRef: ViewContainerRef
   ) {
-
+    super();
+    // console.log(parent);
   }
 
 
   ngOnInit() {
 
-    this._vcRef.clear();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
+  ngAfterViewInit(): void {
+
+  }
+
+  ngAfterViewChecked(): void {
 
   }
 
