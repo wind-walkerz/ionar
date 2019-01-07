@@ -6,14 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ControlContainer } from './ControlContainer';
-import { FormGroup } from '../models/FormGroup';
-import { IoAbstractUI } from '../../../../ui/src/interfaces';
-import { Input } from '@angular/core';
 
+import { FormControl } from '@ionar/form';
 
-function unimplemented(): any {
-  throw new Error('unimplemented');
-}
 
 /**
  * @description
@@ -24,38 +19,17 @@ function unimplemented(): any {
  */
 
 
-export abstract class IoControl extends IoAbstractUI {
-  /**
-   * @description
-   * The parent form for the control.
-   *
-   * @internal
-   */
-  protected _parent: ControlContainer | null = null;
-
-  get parent(): ControlContainer | null {
-    return this._parent;
-  }
-
-  @Input('parent') set parent(value: ControlContainer) {
-    console.log('input', value)
-    if(value instanceof ControlContainer) this._parent = value;
-
-  }
+export abstract class IoControl extends ControlContainer {
 
   /**
    * @description
-   * The name for the control
+   * Tracks the `FormControl` instance bound to the directive.
    */
-  @Input() name: string | null = null;
+  public get control(): FormControl {
 
-  /**
-   * @description
-   * The top-level FormGroup for this group if present, otherwise null.
-   */
-  get root(): FormGroup | null {
-    return this._parent ? this._parent.root : null;
-  }
+    return <FormControl>this.root.get(this.path);
+  };
+
 
   /**
    * @description
@@ -64,6 +38,6 @@ export abstract class IoControl extends IoAbstractUI {
    */
   get path(): string[] {
 
-    return this._parent ? [...this._parent.path, this.name.toString()] : [];
+    return this.parent ? [...this.parent.path, this.name] : [];
   }
 }

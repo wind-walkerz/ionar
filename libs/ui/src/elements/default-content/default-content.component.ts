@@ -29,7 +29,6 @@ export class DefaultContentComponent implements OnInit, OnChanges, OnDestroy {
   set template(view: {
     template: TemplateRef<any>, context?: any
   }) {
-    // console.log(view);
     this._vcRef.clear();
     this._vcRef.createEmbeddedView(view.template, view.context);
   }
@@ -63,7 +62,6 @@ export class DefaultContentComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.isHostRemoved = true;
       this.cd.detectChanges();
-      console.log(this.isHostRemoved)
     }
 
   }

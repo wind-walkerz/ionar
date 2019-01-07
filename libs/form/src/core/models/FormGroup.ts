@@ -366,7 +366,6 @@ export class FormGroup extends AbstractControl {
   get(path: string[] | string | null): AbstractControl | null {
     if (!path) return null;
     return _.get(this.controls, path) || null;
-
   }
 
   submit(instant: boolean = false): void {
@@ -421,7 +420,6 @@ export class FormGroup extends AbstractControl {
       this.controls[name] = c;
     });
   }
-
 
 
   /** @internal */

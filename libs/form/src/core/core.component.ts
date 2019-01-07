@@ -13,7 +13,7 @@ import {
   OnInit,
   Output,
   QueryList,
-  SimpleChanges,
+  SimpleChanges, TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -25,12 +25,10 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { ControlContainer } from './interfaces/ControlContainer';
 import { ReactiveErrors } from './utils/reactive_errors';
 
-import { isFormControl } from './utils/helpers';
+import { isFormArray, isFormControl, isFormGroup } from './utils/helpers';
 
-import { ControlTemplateDirective } from './directives/control-template.directive';
-import { isEmptyTemplate } from '@ionar/ui';
+import { IonarTemplateDirective, isEmptyTemplate } from '@ionar/ui';
 
-import _ from 'lodash';
 
 export const formProvider: any = {
   provide: ControlContainer,
@@ -48,12 +46,35 @@ export const formProvider: any = {
 
 
           <ng-container *ngIf="default_template">
-              <ng-container *ngFor="let item of form.controls | keyvalue">
-                  <ng-container *ngIf="isFormControl(item.value)">
-                      <form-control [name]="item.key"></form-control>
-                  </ng-container>
-              </ng-container>
+              <ng-container
+                      *ngFor="let item of form.controls | keyvalue"
+                      [ngTemplateOutlet]="controlTemplate"
+                      [ngTemplateOutletContext]="{$implicit: item, parent: this}"
+              ></ng-container>
           </ng-container>
+
+          <ng-template #controlTemplate let-data let-parent="parent">
+              <ng-container *ngIf="isFormControl(data.value)">
+                  <form-control [parent]="parent" [name]="data.key"></form-control>
+              </ng-container>
+
+              <ng-container *ngIf="isFormArray(data.value)">
+                  <form-array
+                          [name]="data.key"
+                          [parent]="parent"
+                  >
+
+                  </form-array>
+              </ng-container>
+
+              <ng-container *ngIf="isFormGroup(data.value)">
+                  <form-group
+                          [name]="data.key"
+                          [parent]="parent"
+                  >
+                  </form-group>
+              </ng-container>
+          </ng-template>
 
       </ng-container>
   `,
@@ -82,32 +103,36 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
   @ViewChild('contentVc', { read: ViewContainerRef }) private _contentVcRef: ViewContainerRef;
 
-  @ContentChildren(ControlTemplateDirective) controlTemplateDirList: QueryList<ControlTemplateDirective>;
+  @ViewChild('controlTemplate') controlTemplate: TemplateRef<any>;
 
-  @ContentChildren(ControlContainer) private _controlContainers: QueryList<ControlContainer>;
+  @ContentChildren(IonarTemplateDirective) ioTemplateDirList: QueryList<IonarTemplateDirective>;
 
-
-  controlNames: String[] = [];
+  // @ContentChildren(ControlContainer) private _controlContainerList: QueryList<ControlContainer>;
+  //
+  // @ContentChildren(IoControl) private _ioControlList: QueryList<IoControl>;
 
   default_template: Boolean;
 
   isFormControl = isFormControl;
+  isFormGroup = isFormGroup;
+  isFormArray = isFormArray;
 
   constructor(
     private _formSvs: FormService,
-    private cd: ChangeDetectorRef,
-    private _elRef: ElementRef
+    private _elRef: ElementRef,
+    cd: ChangeDetectorRef
   ) {
-    super();
+    super(cd);
   }
 
 
   ngOnInit(): void {
-
+    super.ngOnInit();
     this._checkFormPresent();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
     this._checkFormPresent();
 
     if (!changes.form.previousValue && changes.form.currentValue) {
@@ -123,21 +148,12 @@ export class FormComponent extends ControlContainer implements OnInit, OnChanges
 
         });
 
-
-      this.controlNames = this._formSvs.mergeControls(this.form.controls);
-
-
     }
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
     this.default_template = isEmptyTemplate(this._elRef);
-    console.log(this._controlContainers)
-    _.each(this._controlContainers.toArray(), (container: ControlContainer) => {
-          if(!(container instanceof FormComponent)) {
-            container._parent = this
-          }
-    });
 
     this.cd.detectChanges();
   }

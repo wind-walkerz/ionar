@@ -1,21 +1,22 @@
 import {
-  Attribute,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, forwardRef,
-  Host, HostBinding, Input,
-  OnChanges,
-  OnDestroy,
-  OnInit, Optional,
-  Renderer2, SimpleChanges, SkipSelf
+  ContentChildren,
+  ElementRef,
+  forwardRef,
+  Host,
+  HostBinding,
+  Optional,
+  QueryList,
+  SkipSelf,
+  TemplateRef
 } from '@angular/core';
 
-import { FormService } from '../providers/form.service';
-
-import _ from 'lodash';
 import { ControlContainer } from '../interfaces/ControlContainer';
 import { FormComponent } from '../core.component';
+import { isEmptyTemplate } from '@ionar/ui';
 
 
 export const formArrayProvider: any = {
@@ -25,8 +26,18 @@ export const formArrayProvider: any = {
 
 @Component({
   selector: 'form-array',
+  exportAs: 'form-array',
   template: `
-      <ng-content></ng-content>
+      <ng-container *ngIf="isDefaultTemplate">
+          <ng-container
+                  *ngFor="let item of root.get(path) | keyvalue"
+                  [ngTemplateOutlet]="controlTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item, parent: this}"
+          ></ng-container>
+      </ng-container>
+      <ng-container *ngIf="!isDefaultTemplate">
+          <ng-content></ng-content>
+      </ng-container>
   `,
 
   styles: [`
@@ -35,43 +46,42 @@ export const formArrayProvider: any = {
   providers: [formArrayProvider],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormArrayComponent extends ControlContainer implements OnInit, OnChanges, OnDestroy {
+export class FormArrayComponent extends ControlContainer implements AfterViewInit {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  /**
-   * @description
-   * Tracks the name of the `FormArray` bound to the components. The name corresponds
-   * to a key in the parent `FormGroup` or `FormArray`.
-   */
-  @Input() name: any = '';
+  isDefaultTemplate: Boolean;
+
+  get controlTemplate(): TemplateRef<any> {
+    return (<FormComponent>this.parent).controlTemplate;
+  }
 
   @HostBinding('attr.id')
   private get attribute(): string {
     return this.name;
   }
 
+  @ContentChildren(ControlContainer) private _controlContainers: QueryList<ControlContainer>;
+
+
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
-
     @Optional() @Host() @SkipSelf()  parent: ControlContainer,
-    @Optional() @Host() @SkipSelf() rootParent: FormComponent
+    private _elRef: ElementRef,
+    cd: ChangeDetectorRef
   ) {
-    super();
+    super(cd);
 
-    this._parent = parent || rootParent;
+    this.parent = parent;
   }
 
-  ngOnInit() {
 
+  ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    this.isDefaultTemplate = isEmptyTemplate(this._elRef);
+
+    this.cd.detectChanges();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-
-  }
-
-  ngOnDestroy(): void {
-  }
-
 
 }
+
+

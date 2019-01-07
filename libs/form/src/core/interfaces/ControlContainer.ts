@@ -8,6 +8,8 @@
 
 
 import { FormGroup } from '../models/FormGroup';
+import { AfterViewInit, ChangeDetectorRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { trim } from 'lodash';
 
 /**
  * @description
@@ -17,27 +19,48 @@ import { FormGroup } from '../models/FormGroup';
  * @publicApi
  */
 
-export abstract class ControlContainer {
+export abstract class ControlContainer implements OnInit, OnChanges, AfterViewInit {
   /**
    * @description
    * The parent form for the control.
    *
    * @internal
    */
-  _parent: ControlContainer | null = null;
+  private _parent: ControlContainer | null = null;
+
+  get parent(): ControlContainer | null {
+    return this._parent;
+  }
+
+  @Input('parent') set parent(value: ControlContainer) {
+    if (value instanceof ControlContainer) this._parent = value;
+
+  }
 
   /**
    * @description
-   * The name for the control
+   * Tracks the name of the Control bound to the components. The name corresponds
+   * to a key in the parent `FormGroup` or `FormArray`.
    */
-  name: string | null = null;
+
+  private _name: string | null = null;
+
+  get name(): string | null {
+    return this._name;
+  }
+
+
+  @Input() set name(name: string) {
+    this._name = trim(name);
+  };
+
 
   /**
    * @description
    * The top-level FormGroup for this group if present, otherwise null.
    */
   get root(): FormGroup | null {
-    return this._parent ? this._parent.root : null;
+    return this.parent ? this.parent.root : null;
   }
 
   /**
@@ -47,7 +70,20 @@ export abstract class ControlContainer {
    */
   get path(): string[] {
 
-    return [this.name, 'controls'];
+    return this.parent ? [...this.parent.path, this.name, 'controls'] : [this.name, 'controls'];
+  }
+
+
+  constructor(public cd: ChangeDetectorRef) {
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
+  ngAfterViewInit(): void {
   }
 
 }

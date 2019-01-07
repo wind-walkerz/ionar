@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
-  ElementRef,
   forwardRef,
   Host,
   HostBinding,
@@ -15,14 +14,14 @@ import {
   SkipSelf
 } from '@angular/core';
 
-import { FormControl } from '../models/FormControl';
 
 import _ from 'lodash';
 import { FormComponent } from '../core.component';
 import { IoControl } from '../interfaces/IoControl';
 import { ControlContainer } from '../interfaces/ControlContainer';
 import { FormControlState } from '../interfaces/Form';
-import { ControlTemplateDirective } from '../directives/control-template.directive';
+
+import { IonarTemplateDirective } from '@ionar/ui';
 
 export const controlNameBinding: any = {
   provide: IoControl,
@@ -33,21 +32,11 @@ export const controlNameBinding: any = {
 @Component({
   selector: 'form-control',
   template: `
-      <!--<ng-container-->
-      <!--[ngTemplateOutlet]="template"-->
-      <!--[ngTemplateOutletContext]="context"-->
-      <!--&gt;</ng-container>-->
+      <form-label *ngIf="!isHideLabel"></form-label>
 
-      <!--<ng-template #default_template let-context>-->
-      <!--<form-label *ngIf="!context?.hideLabel"></form-label>-->
+      <form-field></form-field>
 
-      <!--<form-field></form-field>-->
-
-      <!--<form-feedback *ngIf="!context?.hideFeedback"></form-feedback>-->
-      <!--</ng-template>-->
-      <!--<ng-template #content_template>-->
-      <!--<ng-content></ng-content>-->
-      <!--</ng-template>-->
+      <form-feedback *ngIf="!isHideFeedback"></form-feedback>
   `,
 
   styles: [`
@@ -100,28 +89,22 @@ export const controlNameBinding: any = {
 export class FormControlComponent extends IoControl implements OnInit, OnChanges, AfterViewChecked {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  /**
-   * @description
-   * Tracks the `FormControl` instance bound to the directive.
-   */
-  public get control(): FormControl {
 
-    return <FormControl>this.parent.root.get(this.path);
-  };
+  get controlTemplateDir(): IonarTemplateDirective {
 
-  get controlTemplateDir(): ControlTemplateDirective {
     const parent = <FormComponent>this.parent,
       state = <FormControlState>this.control.state;
 
-    if (this._controlTemplateDir) return this._controlTemplateDir;
+    if (this._ioTemplateDir) return this._ioTemplateDir;
 
-    if (parent.controlTemplateDirList)
-      return _.find(parent.controlTemplateDirList.toArray(), ['name', this.name])
-        || _.find(parent.controlTemplateDirList.toArray(), ['component', state.component]);
+    if (parent.ioTemplateDirList)
+      return _.find(parent.ioTemplateDirList.toArray(), ['name', this.name])
+        || _.find(parent.ioTemplateDirList.toArray(), ['component', state.component]);
 
   };
 
-  @ContentChild(ControlTemplateDirective) private _controlTemplateDir;
+  @ContentChild(IonarTemplateDirective) private _ioTemplateDir;
+
 
   @HostBinding('attr.id')
   private get attribute(): string {
@@ -130,57 +113,40 @@ export class FormControlComponent extends IoControl implements OnInit, OnChanges
 
   @HostBinding('class.hidden')
   private get hiddenStyle(): Boolean {
+
     return _.get(this.control.options, ['hidden']);
   }
 
 
   @HostBinding('class.hideLabel')
-  private get _isHideLabel(): Boolean {
-    const hideLabel = _.get(this.control.options, ['hideLabel']);
-
-    this.setContext({
-      hideLabel: hideLabel
-    });
-
-    return hideLabel;
+  get isHideLabel(): Boolean {
+    return _.get(this.control.options, ['hideLabel']);
   }
 
   @HostBinding('class.hideFeedback')
-  private get _isHideFeedback(): Boolean {
-    const hideFeedback = _.get(this.control.options, ['hideFeedback']);
-
-    this.setContext({
-      hideFeedback: hideFeedback
-    });
-
-    return hideFeedback;
+  get isHideFeedback(): Boolean {
+    return _.get(this.control.options, ['hideFeedback']);
   }
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
   constructor(
     @Optional() @Host() @SkipSelf()  parent: ControlContainer,
-    cd: ChangeDetectorRef,
-    el: ElementRef
+    cd: ChangeDetectorRef
   ) {
-    super(cd, el);
-    console.log('before construct' , this.parent)
-    this.parent = parent
-    console.log('after construct' , this.parent)
+    super(cd);
+    this.parent = parent;
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
-    console.log('init', this.parent);
-    console.log(this);
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
-
   }
 
   ngAfterViewChecked(): void {
-    // console.log(this._parent)
+
   }
 
 }

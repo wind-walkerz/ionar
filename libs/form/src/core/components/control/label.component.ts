@@ -5,7 +5,7 @@ import {
   Host,
   OnDestroy, Optional, SkipSelf
 } from '@angular/core';
-import { FormService } from '../../providers/form.service';
+
 import { FormControl } from '../../models/FormControl';
 
 import _ from 'lodash';
@@ -41,9 +41,11 @@ export class LabelComponent implements OnDestroy {
   _parent: FormControlComponent | null = null;
 
   get label(): string {
+
     const props = (<FormControlState>this._control.state).props;
 
     return (props && props.label) ? props.label : _.startCase(this._parent.name);
+
   }
 
   private get _control(): FormControl {

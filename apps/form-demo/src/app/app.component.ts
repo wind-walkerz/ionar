@@ -14,9 +14,6 @@ import { isFormArray, isFormControl, isFormGroup } from '../../../../libs/form/s
 export class AppComponent implements OnInit {
 
   formGroup: FormGroup;
-  isFormControl = isFormControl;
-  isFormGroup = isFormGroup;
-  isFormArray = isFormArray;
 
   constructor(
     private _fb: IonarFormBuilder,
@@ -30,13 +27,13 @@ export class AppComponent implements OnInit {
 
     this.formGroup = this._fb.group({
       email: {
-        component: 'textarea',
+        component: 'input',
         props: {
           label: 'sdlkfjslk',
           title: 'upload'
         },
         validators: {
-          required: true
+          // required: true
         },
         options: {
           // hidden: true,
@@ -44,29 +41,29 @@ export class AppComponent implements OnInit {
         }
 
       },
-      // username: this._fb.array([
-      //   {
-      //     components: 'input',
-      //     props: {
-      //       placeholder: 'Write your comment...',
-      //       value: '1'
-      //     }
-      //   },
-      //   {
-      //     components: 'input',
-      //     props: {
-      //       placeholder: 'Write your comment...',
-      //       value: '2'
-      //     }
-      //   }
-      // ]),
+      username: this._fb.array([
+        {
+          component: 'input'
+        },
+        {
+          component: 'input'
+        }
+      ]),
       password: this._fb.group({
         pass_1: {
           component: 'input'
         },
         pass_2: {
           component: 'input'
-        }
+        },
+        pass_3: this._fb.group({
+          grand_pass_1: {
+            component: 'input'
+          },
+          grand_pass_2: {
+            component: 'input'
+          }
+        })
       })
     });
 

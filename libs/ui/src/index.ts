@@ -7,3 +7,5 @@ export * from './utils';
 export * from './elements';
 
 export * from './interfaces';
+
+export * from './directives'

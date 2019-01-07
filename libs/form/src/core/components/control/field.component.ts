@@ -4,33 +4,31 @@ import {
   ChangeDetectorRef,
   Component,
   Host,
-  OnChanges,
-  OnDestroy,
-  OnInit, Optional,
-  SimpleChanges, SkipSelf, TemplateRef, ViewChild
+  OnInit, Optional, SkipSelf, TemplateRef
 } from '@angular/core';
 
-import { FormService } from '../../providers/form.service';
 import { FormControlComponent } from '../form-control.component';
-import { isEmptyTemplate } from '@ionar/ui';
 
 
 @Component({
   selector: 'form-field',
   template: `
-      <ng-container
-              dynamic_field
-              [name]="_parent.name"
-              [control]="_parent.control"
-              [root]="_parent.root"
-              [events]="{
+      <ng-container *ngIf="_parent.control">
+          <ng-container
+                  dynamic_field
+                  [name]="_parent.name"
+                  [control]="_parent.control"
+                  [root]="_parent.root"
+                  [events]="{
                     change: onChanged,
                     blur: onTouched,
                     enter: onEntered
               }"
-              [template]="template"
-      >
+                  [template]="template"
+          >
+          </ng-container>
       </ng-container>
+
   `,
 
   styles: [`
@@ -54,6 +52,7 @@ export class FieldComponent implements OnInit, AfterViewInit {
   _parent: FormControlComponent | null = null;
 
   get template(): TemplateRef<any> {
+    console.log(this._parent.controlTemplateDir)
     return this._parent.controlTemplateDir && this._parent.controlTemplateDir.templateRef;
   };
 

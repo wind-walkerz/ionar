@@ -1,26 +1,26 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ContentChildren, ElementRef,
   forwardRef,
   Host,
   HostBinding,
-  Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  Optional,
-  SimpleChanges,
-  SkipSelf,
+  Optional, QueryList,
+  SkipSelf, TemplateRef,
   ViewContainerRef
 } from '@angular/core';
 import { ControlContainer } from '../interfaces/ControlContainer';
+import { isEmptyTemplate } from '@ionar/ui';
+import { FormComponent } from '../core.component';
+
+import { IoControl } from '../interfaces/IoControl';
 
 
 export const formGroupProvider: any = {
   provide: ControlContainer,
-  useClass: forwardRef(() => FormGroupComponent)
+  useExisting: forwardRef(() => FormGroupComponent)
 };
 
 
@@ -28,7 +28,16 @@ export const formGroupProvider: any = {
   selector: 'form-group',
   exportAs: 'form-group',
   template: `
-      <ng-content></ng-content>
+      <ng-container *ngIf="isDefaultTemplate">
+          <ng-container
+                  *ngFor="let item of root.get(path) | keyvalue"
+                  [ngTemplateOutlet]="controlTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item, parent: this}"
+          ></ng-container>
+      </ng-container>
+      <ng-container *ngIf="!isDefaultTemplate">
+          <ng-content></ng-content>
+      </ng-container>
   `,
 
   styles: [`
@@ -38,50 +47,49 @@ export const formGroupProvider: any = {
   providers: [formGroupProvider],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormGroupComponent extends ControlContainer implements OnInit, OnChanges, AfterViewInit, AfterViewChecked, OnDestroy {
+export class FormGroupComponent extends ControlContainer implements OnInit, AfterViewInit, OnDestroy {
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
-  /**
-   * @description
-   * Tracks the name of the `FormArray` bound to the components. The name corresponds
-   * to a key in the parent `FormGroup` or `FormArray`.
-   */
-  @Input() name: any = '';
+  isDefaultTemplate: Boolean;
+
+  get controlTemplate(): TemplateRef<any> {
+    return (<FormComponent>this.parent).controlTemplate;
+  }
 
   @HostBinding('attr.id')
   private get attribute(): string {
     return this.name;
   }
 
-  // @ContentChildren(TemplateRef) private _template: QueryList<TemplateRef<any>>;
+
+  @ContentChildren(ControlContainer) private _controlContainerList: QueryList<ControlContainer>;
+
+  @ContentChildren(IoControl) private _ioControlList: QueryList<IoControl>;
 
 
   ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
 
   constructor(
     @Optional() @Host() @SkipSelf()  parent: ControlContainer,
-    // @Optional() @Host() @SkipSelf() rootParent: FormComponent
-    private _vcRef: ViewContainerRef
+    private _vcRef: ViewContainerRef,
+    private _elRef: ElementRef,
+    cd: ChangeDetectorRef
   ) {
-    super();
-    // console.log(parent);
+    super(cd);
+    this.parent = parent;
   }
 
 
   ngOnInit() {
-
+    super.ngOnInit();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    this.isDefaultTemplate = isEmptyTemplate(this._elRef);
 
-  }
-
-  ngAfterViewChecked(): void {
-
+    this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {

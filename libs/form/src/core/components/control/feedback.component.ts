@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,15 +7,10 @@ import {
   OnDestroy,
   OnInit, Optional, SimpleChanges, SkipSelf
 } from '@angular/core';
-import { FormService } from '../../providers/form.service';
 
 import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { FormControl } from '../../models/FormControl';
-import { FormGroup } from '../../models/FormGroup';
-
-import { Subscription } from 'rxjs';
-import { AbstractControl } from '../../models/AbstractControl';
 import { FormControlComponent } from '../form-control.component';
 
 
