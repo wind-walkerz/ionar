@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
-
+import Joi from 'joi-browser';
 import { isFormArray, isFormControl, isFormGroup } from '../../../../libs/form/src/core/utils/helpers';
-
+import _ from 'lodash';
 
 @Component({
   selector: 'ionar-root',
@@ -24,6 +24,36 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+    const object = {
+      string: true,
+      email: true
+    };
+
+    const testObject = {
+      email: 'm'
+    }
+    let lo = Joi;
+
+    // const base = new Function('', "lo['string']()['email']()")
+    // console.log(base());
+    // console.log(Joi.string().email() === base['email']());
+
+    const recursive = (fn: Function, name) => {
+      return fn[name]();
+    };
+
+
+    _.forOwn(object, (value, key) => {
+      lo = recursive(lo, key);
+    });
+
+    const schema = Joi.object().keys({
+      email: Joi.string().email()
+      // email: lo
+    })
+
+    console.log(Joi.validate(testObject, schema));
 
     this.formGroup = this._fb.group({
       email: {
