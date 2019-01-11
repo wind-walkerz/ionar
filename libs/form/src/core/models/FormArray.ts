@@ -6,6 +6,7 @@ import { FormControl } from './FormControl';
 
 import { AbstractControlOptions, FormArrayState, FormControlState, FormGroupState } from '../interfaces/Form';
 import { FormService } from '../providers/form.service';
+import { JoiSchema } from '@ionar/form';
 
 /**
  * Tracks the value and validity state of an array of `FormControl`,
@@ -92,7 +93,7 @@ export class FormArray extends AbstractControl {
       null,
       <AbstractControlOptions | null>options
     );
-
+    this._coerceToJoiSchema();
     this._setUpControls(state);
     this._initObservables();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });

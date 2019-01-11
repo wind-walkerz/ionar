@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
+import { AbstractControl } from './AbstractControl';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 
-import { AbstractControlOptions, FormControlState, FormGroupState } from '../interfaces/Form';
-import { FormService } from '../providers/form.service';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
-import { FormArray } from './FormArray';
+import { AbstractControlOptions, FormGroupState } from '../interfaces/Form';
+import { JoiError, JoiSchema } from '@ionar/form';
+import Joi from '@ionar/joi';
+import { Form } from '@angular/forms';
+
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -107,6 +108,7 @@ export class FormGroup extends AbstractControl {
     );
     this._applyFormState();
     this._setUpControls(state);
+    this._coerceToJoiSchema();
     this._initObservables();
 
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -378,6 +380,11 @@ export class FormGroup extends AbstractControl {
     }
   }
 
+  _coerceToJoiSchema() {
+    // (<{ schema: JoiSchema }>this).schema = this._mergeSchema() || Joi.object().keys(this._reduceSchema());
+    (<{ schema: JoiSchema }>this).schema = (<AbstractControlOptions>this).schema || Joi.object().keys(this._reduceSchema());
+  };
+
 
   /** @internal */
   _initObservables() {
@@ -385,6 +392,16 @@ export class FormGroup extends AbstractControl {
     (this as { statusChanges: Observable<any> }).statusChanges = new EventEmitter();
     (this as { ngSubmit: Observable<any> }).ngSubmit = new EventEmitter();
   }
+
+  /** @internal */
+  _updateChildError = (errors: JoiError[]) => {
+    _.each(errors, (err: JoiError) => {
+      const control: AbstractControl = _.get(this.controls, err.path);
+      if (control instanceof FormControl) {
+        control.setErrors([err]);
+      }
+    });
+  };
 
 
   /** @internal */
@@ -404,6 +421,34 @@ export class FormGroup extends AbstractControl {
     return form_value;
   }
 
+  /** @internal */
+  _reduceSchema() {
+    return _.reduce(this.controls, (result: { [name: string]: JoiSchema }, c: AbstractControl, name: string) => {
+      if (c.schema) {
+        result[name] = c.schema;
+      }
+      return result;
+    }, {});
+  }
+
+
+  /** @internal */
+  _mergeSchema() {
+    // const parentSchema = (<FormGroup>this.parent).schema
+
+    // if (parentSchema && this.schema) {
+    //   const currentTest = this.schema['_tests']
+    //   const parentTest = this.sh
+    //   _.each(currentTest, test => {
+    //     const index = _.findIndex(testObject1['_tests'], ['name', test.name]);
+    //     testObject1['_tests'].splice(index, 1, test);
+    //
+    //   });
+
+    // }
+    // (<AbstractControlOptions>this.options).schema
+  }
+
   private _applyFormState = () => {
     if (!this.parent && !this.root) {
       this.setRoot(this);
@@ -412,7 +457,7 @@ export class FormGroup extends AbstractControl {
 
 
   /** @internal */
-  _setUpControls(controlConfig: FormGroupState): void {
+  private _setUpControls(controlConfig: FormGroupState): void {
     (<FormGroupState>this.controls) = {};
     _.forOwn(controlConfig, (c: AbstractControl, name: string) => {
       c.setParent(this);

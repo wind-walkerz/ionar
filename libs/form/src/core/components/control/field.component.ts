@@ -52,7 +52,6 @@ export class FieldComponent implements OnInit, AfterViewInit {
   _parent: FormControlComponent | null = null;
 
   get template(): TemplateRef<any> {
-    console.log(this._parent.controlTemplateDir)
     return this._parent.controlTemplateDir && this._parent.controlTemplateDir.templateRef;
   };
 

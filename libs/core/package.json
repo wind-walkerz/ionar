@@ -1,12 +1,13 @@
 {
   "name": "@ionar/core",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "dependencies": {
     "@ionar/ui": "latest",
     "@ionar/form": "latest",
     "@ionar/utility": "latest",
     "@ionar/animations": "latest",
     "@ionar/cli-schematics": "latest",
+    "@ionar/joi": "latest",
     "uuid": "latest",
     "lodash": "latest",
     "moment": "latest"

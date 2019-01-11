@@ -28,6 +28,7 @@ import { ReactiveErrors } from './utils/reactive_errors';
 import { isFormArray, isFormControl, isFormGroup } from './utils/helpers';
 
 import { IonarTemplateDirective, isEmptyTemplate } from '@ionar/ui';
+import { JoiSchema } from './interfaces/Validator';
 
 
 export const formProvider: any = {

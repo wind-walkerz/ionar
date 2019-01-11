@@ -1,5 +1,4 @@
 import {
-  ComponentRef,
   Directive, ElementRef,
   Input,
   OnChanges,
@@ -9,7 +8,6 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import _ from 'lodash';
-import { ValidatorFn } from '@ionar/form';
 
 
 @Directive({

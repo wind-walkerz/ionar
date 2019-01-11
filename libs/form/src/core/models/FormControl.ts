@@ -1,14 +1,11 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import {
-  AsyncValidatorFn,
-  ValidationConfigs,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
+  AsyncValidatorFn, JoiSchema,
+  JoiError
 } from '../interfaces/Validator';
 import _ from 'lodash';
-
-import { AbstractControlOptions, FormControlState, FormGroupState } from '../interfaces/Form';
+import Joi from '@ionar/joi';
+import { AbstractControlOptions, AbstractControlState, FormControlState } from '../interfaces/Form';
 
 
 /**
@@ -122,8 +119,7 @@ export class FormControl extends AbstractControl {
       <FormControlState>state,
       <AbstractControlOptions | null>state.options
     );
-
-    this._setValidators(state.validators);
+    this._coerceToJoiSchema();
     this._setAsyncValidators(state.asyncValidator);
     this._initObservables();
     this._initValidators();
@@ -252,20 +248,13 @@ export class FormControl extends AbstractControl {
    * expect(login.valid).toEqual(true);
    * ```
    */
-  setErrors(errors: ValidationErrors | null, opts: { emitEvent?: boolean } = {}): void {
-    (this as { errors: ValidationErrors | null }).errors = errors;
+  setErrors(errors: any, opts: { emitEvent?: boolean } = {}): void {
+    (this as { errors: JoiError[] | null }).errors = errors;
     this._updateControlsErrors(opts.emitEvent !== false);
   }
 
-
-  /**
-   * Sets the synchronous validators that are active on this control.  Calling
-   * this overwrites any existing sync validators.
-   */
-  private _setValidators = (validators: ValidationConfigs | null) => {
-
-    (this as { validator: ValidatorFn | null }).validator = coerceToValidator(validators);
-
+  _coerceToJoiSchema = () => {
+    (<{ schema: JoiSchema }>this).schema = (<FormControlState>this.state).schema;
   };
 
   /**
@@ -275,7 +264,7 @@ export class FormControl extends AbstractControl {
   private _setAsyncValidators = (asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): void => {
 
 
-    (this as { asyncValidator: ValidatorFn | null }).asyncValidator = coerceToAsyncValidator(asyncValidators);
+    // (this as { asyncValidator: ValidatorFn | null }).asyncValidator = coerceToAsyncValidator(asyncValidators);
   };
 
 
@@ -313,20 +302,20 @@ export class FormControl extends AbstractControl {
 }
 
 
-function coerceToValidator(validators: ValidationConfigs): ValidatorFn | null {
-
-  return Validators.compose(convertToValidatorFn(validators));
-};
-
-function convertToValidatorFn(validators: ValidationConfigs): ValidatorFn[] {
-  return _.map(validators, (value, key) => {
-    if (!_.has(Validators, key)) return null;
-
-    return Validators[key];
-  });
-}
-
-function coerceToAsyncValidator(asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): AsyncValidatorFn | null {
-
-  return _.isArray(asyncValidators) ? Validators.composeAsync(_.map(asyncValidators, (value: AsyncValidatorFn, key): AsyncValidatorFn | null => value)) : asyncValidators || null;
-};
+// function coerceToValidator(validators: ValidationConfigs): ValidatorFn | null {
+//
+//   return Validators.compose(convertToValidatorFn(validators));
+// };
+//
+// function convertToValidatorFn(validators: ValidationConfigs): ValidatorFn[] {
+//   return _.map(validators, (value, key) => {
+//     if (!_.has(Validators, key)) return null;
+//
+//     return Validators[key];
+//   });
+// }
+//
+// function coerceToAsyncValidator(asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null): AsyncValidatorFn | null {
+//
+//   return _.isArray(asyncValidators) ? Validators.composeAsync(_.map(asyncValidators, (value: AsyncValidatorFn, key): AsyncValidatorFn | null => value)) : asyncValidators || null;
+// };

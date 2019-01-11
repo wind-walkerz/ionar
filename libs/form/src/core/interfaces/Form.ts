@@ -1,7 +1,7 @@
 import { TemplateRef } from '@angular/core';
 import { AbstractControl } from '../models/AbstractControl';
 
-import { AsyncValidatorFn, ValidationConfigs } from './Validator';
+import { AsyncValidatorFn, JoiSchema } from './Validator';
 
 export interface FormGroupState {
   [name: string]: AbstractControl | FormControlState
@@ -19,7 +19,7 @@ export type FormArrayState = AbstractControl[]
 export interface FormControlState {
   component: ComponentType,
   props?: ControlProperties,
-  validators?: ValidationConfigs,
+  schema?: JoiSchema,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   icons?: {
     valid?: any,
@@ -56,4 +56,5 @@ export interface AbstractControlOptions {
   hideFeedback?: Boolean,
   hideLabel?: Boolean,
   template?: TemplateRef<any>,
+  schema?: JoiSchema
 }

@@ -1,0 +1,19 @@
+{
+"plugins": [
+        "@babel/proposal-class-properties",
+        "@babel/proposal-object-rest-spread",
+      "transform-es2015-modules-commonjs",
+      "transform-object-assign",
+      "transform-proto-to-assign",
+      [
+        "transform-es2015-classes",
+        {
+          "loose": true
+        }
+      ]
+    ],
+    "presets": [
+        "@babel/env",
+       "@babel/preset-typescript"
+    ]
+}

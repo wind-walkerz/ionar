@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
 import { HttpClient } from '@angular/common/http';
-import Joi from 'joi-browser';
+import Joi from '@ionar/joi';
 import { isFormArray, isFormControl, isFormGroup } from '../../../../libs/form/src/core/utils/helpers';
 import _ from 'lodash';
+
+// import * as Joi from './main.js'
 
 @Component({
   selector: 'ionar-root',
@@ -31,29 +33,74 @@ export class AppComponent implements OnInit {
     };
 
     const testObject = {
-      email: 'm'
-    }
-    let lo = Joi;
-
+      email: 'm',
+      username: 'm',
+      password: []
+    };
+    // let lo = Joi;
+    //
     // const base = new Function('', "lo['string']()['email']()")
     // console.log(base());
     // console.log(Joi.string().email() === base['email']());
-
-    const recursive = (fn: Function, name) => {
-      return fn[name]();
-    };
-
-
-    _.forOwn(object, (value, key) => {
-      lo = recursive(lo, key);
-    });
+    //
+    // const recursive = (fn: Function, name) => {
+    //   return fn[name]();
+    // };
+    //
+    //
+    // _.forOwn(object, (value, key) => {
+    //   lo = recursive(lo, key);
+    // });
 
     const schema = Joi.object().keys({
-      email: Joi.string().email()
-      // email: lo
-    })
+      email: Joi.string().email().required(),
+      username: Joi.string().email(),
+      password: Joi.object().keys({
+        pass_1: Joi.string().email().required(),
+        pass_2: Joi.string().email().required(),
+        pass_3: Joi.object().keys({
+          grand_pass_1: Joi.string().email().required(),
+          grand_pass_2: Joi.string().email().required()
+        })
+      })
+    });
 
-    console.log(Joi.validate(testObject, schema));
+    // console.log(schema);
+
+    // _.each(schema['_inner'].children, child => {
+    //   // const index = _.findIndex(schema['_inner'], ['key', 'email']);
+    //   // if (index > 0) {
+    //   if (child.key === 'email') {
+    //     // child.schema = Joi.string();
+    //   }
+    //   // schema['_inner'].children.splice(index, 1, Joi.string());
+    //   // testObject1['_tests'].splice(index, 1, test);
+    //   // }
+    //
+    // });
+
+    // console.log(schema);
+    //
+    //
+    // console.log(Joi.string().email().min(10));
+    //
+    // // console.log(Joi.validate('2342', Joi.string().email(), { abortEarly: false }));
+    //
+    // console.log(Joi.string().min(20));
+    //
+    // // console.log(Joi.validate('2342', Joi.string().min(20), { abortEarly: false }));
+    //
+    //
+    // const testObject1 = Joi.string().email().min(10);
+    //
+    // const testObject2 = Joi.string().min(30);
+    //
+    //
+    // console.log(testObject1);
+    //
+    // // test['_tests'] = _.concat(test['_tests'], (Joi.string().min(20))['_tests']);
+    //
+    // console.log(Joi.validate('sdfs', testObject1, { abortEarly: false }));
 
     this.formGroup = this._fb.group({
       email: {
@@ -62,23 +109,21 @@ export class AppComponent implements OnInit {
           label: 'sdlkfjslk',
           title: 'upload'
         },
-        validators: {
-          // required: true
-        },
+        // schema: Joi.string().email().required(),
         options: {
           // hidden: true,
           // hideLabel: true
         }
 
       },
-      username: this._fb.array([
-        {
-          component: 'input'
-        },
-        {
-          component: 'input'
-        }
-      ]),
+      // username: this._fb.array([
+      //   {
+      //     component: 'input'
+      //   },
+      //   {
+      //     component: 'input'
+      //   }
+      // ]),
       password: this._fb.group({
         pass_1: {
           component: 'input'
@@ -95,6 +140,8 @@ export class AppComponent implements OnInit {
           }
         })
       })
+    }, {
+      schema: schema
     });
 
 
