@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
-import { ComponentType } from '@ionar/form';
+
 
 @Directive({
   selector: '[ioTemplate]'
@@ -7,7 +7,7 @@ import { ComponentType } from '@ionar/form';
 export class IonarTemplateDirective {
 
   @Input() name: any = '';
-  @Input() component: ComponentType;
+  @Input() component: 'input' | 'select' | 'textarea' | 'radio' | 'upload' | 'menu';
 
   constructor(
     public templateRef: TemplateRef<any>

@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../providers/auth.service';
 import { ApiService, Logger } from '../../../../core/services';
-import { AbstractControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, finalize, map, switchMap, takeWhile, tap } from 'rxjs/operators';
-import _ from 'lodash';
-import { FormControl, FormGroup, IonarFormBuilder, ValidationErrors } from '@ionar/form';
+import { finalize, map } from 'rxjs/operators';
+
+import { FormControl, FormGroup, IonarFormBuilder, JoiError } from '@ionar/form';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { untilDestroyed } from '@ionar/utility';
 import { IonarLoadingService } from '@ionar/ui';
-
+import Joi from '@ionar/joi';
 
 const log = new Logger('RegisterComponent');
 
@@ -38,13 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         props: {
           label: 'Username'
         },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 10,
-            max: 15
-          }
-        }
+        schema: Joi.string().min(10).max(15).required()
       },
       email: {
         component: 'input',
@@ -52,10 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           label: 'Email',
           value: ''
         },
-        validators: {
-          required: true,
-          email: true
-        },
+        schema: Joi.string().email().required(),
         asyncValidator: [this.validateUserExist]
       },
       password: {
@@ -67,12 +57,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           value: '',
           type: 'password'
         },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 6
-          }
-        }
+        schema: Joi.string().min(6).required()
       },
       confirm_password: {
 
@@ -84,11 +69,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           type: 'password'
         },
-
-        validators: {
-          required: true,
-          equalTo: 'password'
-        },
+        schema: Joi.string().required(),
         options: {
           excluded: true
         }
@@ -118,7 +99,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   };
 
 
-  validateUserExist = (c: FormControl): Observable<ValidationErrors | null> => {
+  validateUserExist = (c: FormControl): Observable<JoiError | null> => {
     const params = new HttpParams().set('email', c.value);
     this._loading.disabled();
     return this._apiSvs.get('/auth/check-email-exists', params).pipe(

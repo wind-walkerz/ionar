@@ -1,18 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   Output,
-  EventEmitter,
-  HostBinding,
-  Optional,
-  Host,
-  SkipSelf, OnChanges, SimpleChanges, ChangeDetectorRef, TemplateRef, ElementRef
+  EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef, TemplateRef, ElementRef
 } from '@angular/core';
 import { TreeNode } from '../../interfaces/TreeNode';
-import { TreeComponent } from '../../containers/tree.component';
-import _ from 'lodash';
 import { IoFormFieldUI } from '../../../../interfaces/IoFormFieldUI';
 
 @Component({
@@ -48,11 +41,6 @@ export class NodeComponent extends IoFormFieldUI implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
-    // this.setContext({
-    //   children: this.data.children,
-    //   label: this.data.label,
-    //   selected: this.data === this.selected
-    // });
   }
 
   onChange = () => {

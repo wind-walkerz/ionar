@@ -3,6 +3,7 @@ export declare class ClickComponent implements OnInit, OnChanges {
     change: EventEmitter<{}>;
     template: TemplateRef<any>;
     multiple: Boolean;
+    title: any;
     constructor();
     ngOnInit(): void;
     ngOnChanges(changes: any): void;

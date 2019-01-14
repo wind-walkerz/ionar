@@ -1,2 +1,2 @@
-export declare class UIModule {
+export declare class FormUiModule {
 }

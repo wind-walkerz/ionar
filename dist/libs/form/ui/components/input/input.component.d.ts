@@ -1,26 +1,14 @@
-import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import _ from 'lodash';
-export declare class InputComponent implements OnInit, OnChanges, OnDestroy {
-    private cd;
+import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
+export declare class InputComponent extends IoFormFieldUI implements OnInit {
     type: string;
     name: string;
     placeholder: string;
     value: any;
-    invalid: Boolean;
-    disabled: Boolean;
     range: any[];
-    readonly: Boolean;
-    change: EventEmitter<{}>;
-    blur: EventEmitter<{}>;
-    enter: EventEmitter<{}>;
-    template: TemplateRef<any>;
-    host_focus: Boolean;
-    host_invalid: Boolean;
-    templateContext: any;
-    constructor(cd: ChangeDetectorRef);
+    constructor(cd: ChangeDetectorRef, _elRef: ElementRef);
     ngOnInit(): void;
-    ngOnChanges(): void;
-    ngOnDestroy(): void;
     onFocus: () => void;
     onBlur: () => void;
     onChange: ((e: any) => void) & _.Cancelable;

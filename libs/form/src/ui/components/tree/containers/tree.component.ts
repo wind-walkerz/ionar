@@ -7,7 +7,6 @@ import {
   OnDestroy,
   OnInit, Output, SimpleChanges, TemplateRef
 } from '@angular/core';
-import { IoFormFieldUI } from '../../../interfaces/IoFormFieldUI';
 import { TreeNode } from '../interfaces/TreeNode';
 
 

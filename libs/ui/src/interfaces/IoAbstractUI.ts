@@ -9,7 +9,7 @@ import {
   ViewChild, ViewContainerRef
 } from '@angular/core';
 import { isEmptyTemplate } from '../utils';
-import { DefaultContentComponent } from '../elements';
+import { DefaultContentComponent } from '../elements/default-content/default-content.component';
 
 export interface ComponentContext {
   defaultContent: TemplateRef<any>,

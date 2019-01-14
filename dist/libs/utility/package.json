@@ -1,10 +1,6 @@
 {
   "name": "@ionar/utility",
-  "version": "1.0.0",
-  "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  },
+  "version": "1.1.0",
   "main": "bundles/ionar-utility.umd.js",
   "module": "fesm5/ionar-utility.js",
   "es2015": "fesm2015/ionar-utility.js",

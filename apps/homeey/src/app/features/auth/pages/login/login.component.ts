@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '../../../../core/services';
 import { AuthService } from '../../providers/auth.service';
-import _ from 'lodash';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
 
-import { slideInLeft, slideInUp } from '@ionar/animations';
+import { slideInUp } from '@ionar/animations';
+import Joi from '@ionar/joi';
 
 
 const log = new Logger('LoginComponent');
@@ -31,10 +31,7 @@ export class LoginComponent implements OnInit {
       email: {
         component: 'input',
         props: { label: 'Email' },
-        validators: {
-          required: true,
-          email: true
-        }
+        schema: Joi.string().email().required()
 
       },
       password: {
@@ -43,12 +40,7 @@ export class LoginComponent implements OnInit {
           type: 'password',
           label: 'Password'
         },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 6
-          }
-        }
+        schema: Joi.string().required().min(6)
       },
       slug: {
         component: 'input',

@@ -1,7 +1,6 @@
 import { AbstractControl } from './AbstractControl';
 import { EventEmitter } from '@angular/core';
-import { FormControl } from './FormControl';
-import { ControlConfig, FormConfigs } from './ControlConfig';
+import { AbstractControlOptions, FormGroupState } from '../interfaces/Form';
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
@@ -75,33 +74,52 @@ import { ControlConfig, FormConfigs } from './ControlConfig';
  * @publicApi
  */
 export declare class FormGroup extends AbstractControl {
-    formState: ControlConfig[];
-    formConfigs: FormConfigs;
-    private _readonly;
     readonly ngSubmit: EventEmitter<any>;
-    readonly: Boolean;
     /**
      * @description
      * Reports whether the form submission has been triggered.
      */
     readonly submitted: boolean;
     /**
-     *
-     * @param controls A collection of child controls. The key for each child is the name
-     * under which it is registered.
-     *
-     */
-    readonly controls: {
-        [key: string]: FormControl;
-    };
-    /**
      * Creates a new `FormGroup` instance.
      *
-     * @param formState A collection of child controls. The key for each child is the name
+     * @param state A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
      */
-    constructor(formState: ControlConfig[], formConfigs: FormConfigs);
+    constructor(state: FormGroupState, options?: AbstractControlOptions);
+    /**
+     * Registers a control with the group's list of controls.
+     *
+     * This method does not update the value or validity of the control.
+     * Use {@link FormGroup#addControl addControl} instead.
+     *
+     * @param name The control name to register in the collection
+     * @param control Provides the control for the given name
+     */
+    registerControl(name: string, control: AbstractControl): AbstractControl;
+    /**
+     * Add a control to this group.
+     *
+     * This method also updates the value and validity of the control.
+     *
+     * @param name The control name to add to the collection
+     * @param control Provides the control for the given name
+     */
+    addControl(name: string, control: AbstractControl): void;
+    /**
+     * Remove a control from this group.
+     *
+     * @param name The control name to remove from the collection
+     */
+    removeControl(name: string): void;
+    /**
+     * Replace an existing control.
+     *
+     * @param name The control name to replace in the collection
+     * @param control Provides the control for the given name
+     */
+    setControl(name: string, control: AbstractControl): void;
     /**
      * Sets the value of the `FormGroup`. It accepts an object that matches
      * the structure of the group, with control names as keys.
@@ -125,9 +143,9 @@ export declare class FormGroup extends AbstractControl {
      * that doesn't exist or if you excluding the value of a control.
      *
      * @param value The new value for the control that matches the structure of the group.
-     * @param options Configuration options that determine how the control propagates changes
+     * @param options options options that determine how the control propagates changes
      * and emits events after the value changes.
-     * The configuration options are passed to the {@link IonarAbstractControl#updateValueAndValidity
+     * The options options are passed to the {@link IonarAbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      *
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -137,7 +155,7 @@ export declare class FormGroup extends AbstractControl {
      * observables emit events with the latest status and value when the control value is updated.
      * When false, no events are emitted.
      */
-    setValue(value: {
+    setValue(formValue: {
         [key: string]: any;
     }, options?: {
         onlySelf?: boolean;
@@ -155,7 +173,7 @@ export declare class FormGroup extends AbstractControl {
      * @param formState Resets the control with an initial value,
      * or an object that defines the initial value and disabled state.
      *
-     * @param options Configuration options that determine how the control propagates changes
+     * @param options options options that determine how the control propagates changes
      * and emits events when the group is reset.
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
      * false.
@@ -163,7 +181,7 @@ export declare class FormGroup extends AbstractControl {
      * `valueChanges`
      * observables emit events with the latest status and value when the control is reset.
      * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+     * The options options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      *
      * @usageNotes
@@ -216,7 +234,7 @@ export declare class FormGroup extends AbstractControl {
      * @param formState Resets the control with an initial value,
      * or an object that defines the initial value and disabled state.
      *
-     * @param options Configuration options that determine how the control propagates changes
+     * @param options options options that determine how the control propagates changes
      * and emits events when the group is reset.
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
      * false.
@@ -224,7 +242,7 @@ export declare class FormGroup extends AbstractControl {
      * `valueChanges`
      * observables emit events with the latest status and value when the control is reset.
      * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+     * The options options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      *
      * @usageNotes
@@ -268,7 +286,7 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Retrieves a child control given the control's name or path.
      *
-     * @param name A dot-delimited string or array of string/number values that define the path to the
+     * @param path A dot-delimited string or array of string/number values that define the path to the
      * control.
      *
      * @usageNotes
@@ -282,31 +300,29 @@ export declare class FormGroup extends AbstractControl {
      *
      * * `this.form.get(['person', 'name']);`
      */
-    get(name?: string): FormControl | null;
+    get(path: string[] | string | null): {
+        [name: string]: AbstractControl;
+    } | AbstractControl[] | AbstractControl | null;
     submit(instant?: boolean): void;
-    /** @internal */
-    _calculateStatus(): string;
-    /** @internal */
-    _setUpControls(): void;
+    _coerceToJoiSchema(): void;
+    updateChildValidity(): void;
     /** @internal */
     _initObservables(): void;
     /** @internal */
     _updateValue(): void;
     /** @internal */
-    _updateValidity(opts?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-    }): void;
-    /** @internal */
     _reduceValue(): {
         [k: string]: AbstractControl;
     };
+    /** @internal */
+    _getControlSchema: () => import("../..").JoiSchema;
     private _applyFormState;
+    /** @internal */
+    private _setUpControls;
+    /** @internal */
+    _throwIfControlMissing(name: string): void;
     /** @internal */
     _allControlsDisabled(): boolean;
     /** @internal */
     _anyControlsHaveStatus(status: string): boolean;
-    _isNotExcluded: (c: FormControl) => Boolean;
-    /** @internal */
-    _throwIfControlMissing(name: string): void;
 }

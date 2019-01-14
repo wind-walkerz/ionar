@@ -17,6 +17,7 @@ import {
 import { ControlContainer } from '../interfaces/ControlContainer';
 import { FormComponent } from '../core.component';
 import { isEmptyTemplate } from '@ionar/ui';
+import { AbstractControl } from '../models/AbstractControl';
 
 
 export const formArrayProvider: any = {
@@ -30,7 +31,7 @@ export const formArrayProvider: any = {
   template: `
       <ng-container *ngIf="isDefaultTemplate">
           <ng-container
-                  *ngFor="let item of root.get(path) | keyvalue"
+                  *ngFor="let item of control | keyvalue"
                   [ngTemplateOutlet]="controlTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, parent: this}"
           ></ng-container>
@@ -56,8 +57,12 @@ export class FormArrayComponent extends ControlContainer implements AfterViewIni
   }
 
   @HostBinding('attr.id')
-  private get attribute(): string {
+  get attribute(): string {
     return this.name;
+  }
+
+  get control() {
+    return <AbstractControl[]>this.root.get(this.path);
   }
 
   @ContentChildren(ControlContainer) private _controlContainers: QueryList<ControlContainer>;

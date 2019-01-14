@@ -109,7 +109,8 @@ export class AppComponent implements OnInit {
           label: 'sdlkfjslk',
           title: 'upload'
         },
-        // schema: Joi.string().email().required(),
+        schema: Joi.string().email().required(),
+
         options: {
           // hidden: true,
           // hideLabel: true
@@ -126,7 +127,8 @@ export class AppComponent implements OnInit {
       // ]),
       password: this._fb.group({
         pass_1: {
-          component: 'input'
+          component: 'input',
+          schema: Joi.string().email().required()
         },
         pass_2: {
           component: 'input'
@@ -141,7 +143,7 @@ export class AppComponent implements OnInit {
         })
       })
     }, {
-      schema: schema
+      // schema: schema
     });
 
 

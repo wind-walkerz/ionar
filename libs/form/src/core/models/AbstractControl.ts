@@ -3,7 +3,6 @@ import { EventEmitter } from '@angular/core';
 
 import { AsyncValidatorFn, JoiSchema, JoiError } from '../interfaces/Validator';
 import { FormGroup } from '../models/FormGroup';
-import { FormControl } from './FormControl';
 import Joi from '@ionar/joi';
 
 import _ from 'lodash';
@@ -53,7 +52,7 @@ export abstract class AbstractControl {
   /**
    * A Joi object schema
    */
-  public readonly schema: JoiSchema | null;
+  // public readonly schema: JoiSchema | null;
 
   /**
    * True if the control is marked as `touched`.
@@ -95,6 +94,10 @@ export abstract class AbstractControl {
 
   private _root: FormGroup;
 
+  private _name: string;
+
+  private _path: string[];
+
   private _initialOptions: AbstractControlOptions | null;
 
   /**
@@ -135,6 +138,50 @@ export abstract class AbstractControl {
     this._storeInitialOptions(_options);
     this.runAsyncValidator = () => {
     };
+  }
+
+  get schema(): JoiSchema | null {
+    if (this.parent && this.parent.schema) {
+      const extractChild = _.find(this.parent.schema['_inner'].children, ['key', this.name]);
+
+      return extractChild ? extractChild.schema : null;
+    }
+
+    return this._getControlSchema();
+  }
+
+  /** @internal */
+  _getControlSchema = () => {
+    return null;
+  };
+
+  /** @internal */
+  _mergeSchema() {
+    // const parentSchema = (<FormGroup>this.parent).schema
+
+    // if (parentSchema && this.schema) {
+    //   const currentTest = this.schema['_tests']
+    //   const parentTest = this.sh
+    //   _.each(currentTest, test => {
+    //     const index = _.findIndex(testObject1['_tests'], ['name', test.name]);
+    //     testObject1['_tests'].splice(index, 1, test);
+    //
+    //   });
+
+    // }
+    // (<AbstractControlOptions>this.options).schema
+  }
+
+  get path(): string[] {
+    return this.parent ? [...this.parent.path, this.name] : [];
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(name: string) {
+    this._name = name;
   }
 
   /**
@@ -438,16 +485,18 @@ export abstract class AbstractControl {
 
 
   private _runJoiValidation() {
-    if ((<{ schema: JoiSchema | null }>this).schema) {
+    if (this.schema) {
 
-      const result = Joi.validate((<{ value: any }>this).value, (<{ schema: JoiSchema | null }>this).schema, {
+      const validateObject = (this.schema['_type'] !== 'object') ? { [this.name]: this.value } : this.value;
+      const validateSchema = (this.schema['_type'] !== 'object') ? { [this.name]: this.schema } : this.schema;
+
+      const result = Joi.validate(validateObject, validateSchema, {
         abortEarly: false,
         stripUnknown: true
       });
 
-      if (!result.error) return null;
 
-      this._updateChildError(<JoiError[]>result.error.details);
+      if (!result.error) return null;
 
       return <JoiError[]>result.error.details;
     }

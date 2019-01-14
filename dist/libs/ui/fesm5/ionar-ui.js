@@ -1,12 +1,12 @@
-import { __extends, __read } from 'tslib';
 import { Subject } from 'rxjs';
-import _ from 'lodash';
 import uuid from 'uuid/v1';
 import { untilDestroyed } from '@ionar/utility';
+import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { AnimationBuilder, useAnimation } from '@angular/animations';
-import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 import { slideInLeftAnimation, slideInRightAnimation, slideOutLeftAnimation, slideOutRightAnimation } from '@ionar/animations';
+import { __extends, __read, __assign } from 'tslib';
+import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, ViewContainerRef, ChangeDetectorRef, EventEmitter, Output, ViewChild, Directive, Host, Optional, SkipSelf, TemplateRef, ContentChild, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -118,6 +118,141 @@ var ButtonModule = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+var isEmptyTemplate = function (element) {
+    /** @type {?} */
+    var nodes = element.nativeElement.childNodes;
+    return _.every(nodes, function (node) {
+        return (node.nodeType === 8);
+    });
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var removeHost = function (element) {
+    /** @type {?} */
+    var nativeElement = element.nativeElement;
+    /** @type {?} */
+    var parentElement = nativeElement.parentElement;
+    if (parentElement) {
+        parentElement.removeChild(nativeElement);
+    }
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var DefaultContentComponent = /** @class */ (function () {
+    function DefaultContentComponent(_elRef, _vcRef, cd) {
+        this._elRef = _elRef;
+        this._vcRef = _vcRef;
+        this.cd = cd;
+        this.isHostRemoved = false;
+    }
+    Object.defineProperty(DefaultContentComponent.prototype, "template", {
+        set: /**
+         * @param {?} view
+         * @return {?}
+         */
+        function (view) {
+            this._vcRef.clear();
+            this._vcRef.createEmbeddedView(view.template, view.context);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    DefaultContentComponent.prototype.ngOnInit = 
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    function () {
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    DefaultContentComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        if (this.context) {
+            this.template = {
+                template: this._vcRef['_view'].context.defaultContent,
+                context: { $implicit: this.context }
+            };
+            if (!this.isHostRemoved) {
+                removeHost(this._elRef);
+            }
+            this.isHostRemoved = true;
+            this.cd.detectChanges();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    DefaultContentComponent.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    DefaultContentComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'default-content',
+                    template: ""
+                }] }
+    ];
+    /** @nocollapse */
+    DefaultContentComponent.ctorParameters = function () { return [
+        { type: ElementRef },
+        { type: ViewContainerRef },
+        { type: ChangeDetectorRef }
+    ]; };
+    DefaultContentComponent.propDecorators = {
+        context: [{ type: Input }]
+    };
+    return DefaultContentComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var DefaultContentModule = /** @class */ (function () {
+    function DefaultContentModule() {
+    }
+    DefaultContentModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: [
+                        DefaultContentComponent
+                    ],
+                    exports: [
+                        DefaultContentComponent
+                    ]
+                },] }
+    ];
+    return DefaultContentModule;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var ElementModule = /** @class */ (function () {
     function ElementModule() {
     }
@@ -127,10 +262,11 @@ var ElementModule = /** @class */ (function () {
                         FlexElement
                     ],
                     imports: [
-                        ButtonModule
+                        ButtonModule, DefaultContentModule
                     ],
                     exports: [
                         FlexElement,
+                        DefaultContentModule,
                         ButtonModule
                     ]
                 },] }
@@ -231,271 +367,156 @@ var ModalModule = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var CollapseToggleDirective = /** @class */ (function () {
-    function CollapseToggleDirective() {
-        this.toggle = new EventEmitter();
-    }
-    /**
-     * @param {?} $event
-     * @return {?}
-     */
-    CollapseToggleDirective.prototype.onClick = /**
-     * @param {?} $event
-     * @return {?}
-     */
-    function ($event) {
-        this.toggle.emit();
-    };
-    CollapseToggleDirective.decorators = [
-        { type: Directive, args: [{
-                    selector: '[collapse-toggle]'
-                },] }
-    ];
-    /** @nocollapse */
-    CollapseToggleDirective.ctorParameters = function () { return []; };
-    CollapseToggleDirective.propDecorators = {
-        toggle: [{ type: Output }],
-        onClick: [{ type: HostListener, args: ['click',] }]
-    };
-    return CollapseToggleDirective;
-}());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.toggle = new EventEmitter();
+var CollapsibleDirective = /** @class */ (function () {
+    function CollapsibleDirective() {
+        this.change$ = new Subject();
         this.collapsed = false;
+        this.customToggler = false;
     }
     /**
-     * @param {?} $event
      * @return {?}
      */
-    HeaderComponent.prototype.onClick = /**
-     * @param {?} $event
-     * @return {?}
-     */
-    function ($event) {
-        if (!this._toggleDir) {
-            this.toggle.emit();
-            this.collapsed = !this.collapsed;
-        }
-    };
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    HeaderComponent.prototype.ngOnInit = 
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
+    CollapsibleDirective.prototype.ngOnInit = /**
      * @return {?}
      */
     function () {
         var _this = this;
-        if (this._toggleDir) {
-            this._toggleDir.toggle.pipe(untilDestroyed(this)).subscribe(function () {
-                _this.toggle.emit();
-                _this.collapsed = !_this.collapsed;
-            });
-        }
-    };
-    /**
-     * @return {?}
-     */
-    HeaderComponent.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-    };
-    HeaderComponent.decorators = [
-        { type: Component, args: [{
-                    selector: 'collapse-header',
-                    exportAs: 'collapse-header',
-                    template: "    \n          <ng-content></ng-content>\n  "
-                }] }
-    ];
-    /** @nocollapse */
-    HeaderComponent.ctorParameters = function () { return []; };
-    HeaderComponent.propDecorators = {
-        toggle: [{ type: Output }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }],
-        collapsed: [{ type: HostBinding, args: ['class.collapsed',] }],
-        _toggleDir: [{ type: ContentChild, args: [CollapseToggleDirective,] }]
-    };
-    return HeaderComponent;
-}());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-var ContentComponent = /** @class */ (function () {
-    function ContentComponent() {
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.collapsed = false;
-        ///-----------------------------------------------  Main Functions  -----------------------------------------------///
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    ContentComponent.prototype.ngOnInit = 
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    function () {
-        this.display = this.collapsed ? 'none' : 'flex';
-    };
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ContentComponent.prototype.ngOnChanges = /**
-     * @param {?} changes
-     * @return {?}
-     */
-    function (changes) {
-        this.display = this.collapsed ? 'none' : 'flex';
-    };
-    /**
-     * @return {?}
-     */
-    ContentComponent.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-    };
-    ContentComponent.decorators = [
-        { type: Component, args: [{
-                    selector: 'collapse-content',
-                    template: "\n      <ng-content></ng-content>"
-                }] }
-    ];
-    ContentComponent.propDecorators = {
-        display: [{ type: HostBinding, args: ['style.display',] }]
-    };
-    return ContentComponent;
-}());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-var PanelComponent = /** @class */ (function () {
-    function PanelComponent() {
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    PanelComponent.prototype.ngOnInit = 
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    function () {
-        var _this = this;
-        if (!this._headerComp || !this._contentComp) {
-            throw new Error("'collapse-header' or 'collapse-content'  cannot be found!");
-        }
-        this._headerComp.toggle.pipe(untilDestroyed(this)).subscribe(function () {
-            _this._contentComp.collapsed = !_this._contentComp.collapsed;
-            _this._contentComp.ngOnChanges();
+        this.change$.pipe(untilDestroyed(this)).subscribe(function (collapsed) {
+            _this.collapsed = collapsed;
         });
     };
     /**
      * @return {?}
      */
-    PanelComponent.prototype.ngOnDestroy = /**
+    CollapsibleDirective.prototype.ngOnDestroy = /**
      * @return {?}
      */
     function () {
     };
-    /**
-     * @return {?}
-     */
-    PanelComponent.prototype.ngAfterViewInit = /**
-     * @return {?}
-     */
-    function () {
-    };
-    PanelComponent.decorators = [
-        { type: Component, args: [{
-                    selector: 'collapse-panel',
-                    template: "\n      <ng-content select=\"collapse-header\"></ng-content>\n\n      <ng-content select=\"collapse-content\"></ng-content>\n\n  "
-                }] }
+    CollapsibleDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[ioCollapsible]'
+                },] }
     ];
-    /** @nocollapse */
-    PanelComponent.ctorParameters = function () { return []; };
-    PanelComponent.propDecorators = {
-        _headerComp: [{ type: ContentChild, args: [HeaderComponent,] }],
-        _contentComp: [{ type: ContentChild, args: [ContentComponent,] }]
+    CollapsibleDirective.propDecorators = {
+        ioCollapsible: [{ type: Input }]
     };
-    return PanelComponent;
+    return CollapsibleDirective;
 }());
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var CollapsibleComponent = /** @class */ (function () {
-    function CollapsibleComponent() {
-        this.single = false;
+var ContentDirective = /** @class */ (function () {
+    function ContentDirective(parent, cd, _vcRef, _templateRef) {
+        this.cd = cd;
+        this._vcRef = _vcRef;
+        this._templateRef = _templateRef;
+        this._parent = parent;
     }
+    Object.defineProperty(ContentDirective.prototype, "collapsed", {
+        ///-----------------------------------------------  Variables   -----------------------------------------------///
+        set: 
+        ///-----------------------------------------------  Variables   -----------------------------------------------///
+        /**
+         * @param {?} collapsed
+         * @return {?}
+         */
+        function (collapsed) {
+            if (collapsed) {
+                this._vcRef.clear();
+            }
+            else {
+                this._vcRef.createEmbeddedView(this._templateRef);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     /**
      * @return {?}
      */
-    CollapsibleComponent.prototype.ngOnInit = 
+    ContentDirective.prototype.ngOnInit = 
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     /**
      * @return {?}
      */
     function () {
         var _this = this;
-        if (!this._panelComp && (!this._headerComp || !this._contentComp)) {
-            throw new Error("'collapse-header' or 'collapse-content'  cannot be found!");
-        }
-        if (!this._panelComp) {
-            this.single = true;
-            this._headerComp.toggle.pipe(untilDestroyed(this)).subscribe(function () {
-                _this._contentComp.collapsed = !_this._contentComp.collapsed;
-                _this._contentComp.ngOnChanges();
-            });
-        }
+        this._vcRef.clear();
+        this._parent.change$.pipe(untilDestroyed(this)).subscribe(function (collapsed) {
+            _this.collapsed = collapsed;
+        });
     };
     /**
      * @return {?}
      */
-    CollapsibleComponent.prototype.ngOnDestroy = /**
+    ContentDirective.prototype.ngOnDestroy = /**
      * @return {?}
      */
     function () {
     };
-    CollapsibleComponent.decorators = [
-        { type: Component, args: [{
-                    selector: 'io-collapsible',
-                    template: "\n      <ng-container *ngIf=\"!single\">\n          <ng-content select=\"collapse-panel\"></ng-content>\n      </ng-container>\n\n      <ng-container *ngIf=\"single\">\n          <ng-content select=\"collapse-header\"></ng-content>\n\n          <ng-content select=\"collapse-content\"></ng-content>\n      </ng-container>\n  ",
-                    styles: [":host{display:flex;flex-direction:column}:host ::ng-deep collapse-panel{background-color:#fff;border:1px solid rgba(0,0,0,.16);border-radius:.4rem;box-shadow:0 .3rem .6rem rgba(0,0,0,.16)}:host ::ng-deep collapse-header{border-bottom:1px solid rgba(0,0,0,.16);cursor:pointer;display:flex;align-items:center;font-size:2rem;font-weight:600;margin:.1rem 0;padding:.6rem 1rem}:host ::ng-deep collapse-header.collapsed{border-bottom:0}:host ::ng-deep collapse-content{padding:2rem}"]
-                }] }
+    ContentDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[collapseContent]'
+                },] }
     ];
     /** @nocollapse */
-    CollapsibleComponent.ctorParameters = function () { return []; };
-    CollapsibleComponent.propDecorators = {
-        _panelComp: [{ type: ContentChild, args: [PanelComponent,] }],
-        _headerComp: [{ type: ContentChild, args: [HeaderComponent,] }],
-        _contentComp: [{ type: ContentChild, args: [ContentComponent,] }]
+    ContentDirective.ctorParameters = function () { return [
+        { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+        { type: ChangeDetectorRef },
+        { type: ViewContainerRef },
+        { type: TemplateRef }
+    ]; };
+    return ContentDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var ToggleDirective = /** @class */ (function () {
+    function ToggleDirective(parent, cd) {
+        this.cd = cd;
+        this._parent = parent;
+    }
+    /**
+     * @param {?} $event
+     * @return {?}
+     */
+    ToggleDirective.prototype.onClick = /**
+     * @param {?} $event
+     * @return {?}
+     */
+    function ($event) {
+        this._parent.change$.next(!this._parent.collapsed);
     };
-    return CollapsibleComponent;
+    /**
+     * @return {?}
+     */
+    ToggleDirective.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        this._parent.customToggler = true;
+    };
+    ToggleDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[collapseToggle]'
+                },] }
+    ];
+    /** @nocollapse */
+    ToggleDirective.ctorParameters = function () { return [
+        { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+        { type: ChangeDetectorRef }
+    ]; };
+    ToggleDirective.propDecorators = {
+        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+    };
+    return ToggleDirective;
 }());
 
 /**
@@ -511,24 +532,14 @@ var CollapsibleModule = /** @class */ (function () {
                         CommonModule
                     ],
                     declarations: [
-                        CollapsibleComponent,
-                        HeaderComponent,
-                        ContentComponent,
-                        PanelComponent,
-                        CollapseToggleDirective
+                        CollapsibleDirective,
+                        ContentDirective,
+                        ToggleDirective
                     ],
                     exports: [
-                        CollapsibleComponent,
-                        HeaderComponent,
-                        ContentComponent,
-                        PanelComponent,
-                        CollapseToggleDirective
-                    ],
-                    entryComponents: [
-                        CollapsibleComponent,
-                        HeaderComponent,
-                        ContentComponent,
-                        PanelComponent
+                        CollapsibleDirective,
+                        ContentDirective,
+                        ToggleDirective
                     ]
                 },] }
     ];
@@ -1807,7 +1818,7 @@ var ToastComponent = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'io-toast',
                     template: "<ng-container *ngFor=\"let message of message_list\">\r\n    <div class=\"toast-message\" [ngClass]=\"message.type\">\r\n        {{message.text}}\r\n\r\n        <div class=\"delete\" (click)=\"deleteMessage(message.id)\">x</div>\r\n    </div>\r\n\r\n</ng-container>",
-                    styles: [":host{display:none;position:fixed;top:0;right:0;bottom:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
+                    styles: [":host{display:none;position:fixed;top:0;right:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
                 }] }
     ];
     /** @nocollapse */
@@ -1959,16 +1970,135 @@ var ScrollDownDirective = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+var SpreadDirective = /** @class */ (function () {
+    function SpreadDirective(_vcRef, _renderer, _elRef) {
+        this._vcRef = _vcRef;
+        this._renderer = _renderer;
+        this._elRef = _elRef;
+    }
+    /**
+     * @return {?}
+     */
+    SpreadDirective.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    SpreadDirective.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        var _this = this;
+        if (!this._vcRef['_data'].componentView) {
+            _.forOwn(this._context, function (value, key) {
+                if (!_this._elRef.nativeElement[key])
+                    (value instanceof Function)
+                        ? _this._renderer.listen(_this._elRef.nativeElement, key, value)
+                        : _this._renderer.setAttribute(_this._elRef.nativeElement, key, value);
+            });
+        }
+    };
+    SpreadDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[spread]'
+                },] }
+    ];
+    /** @nocollapse */
+    SpreadDirective.ctorParameters = function () { return [
+        { type: ViewContainerRef },
+        { type: Renderer2 },
+        { type: ElementRef }
+    ]; };
+    SpreadDirective.propDecorators = {
+        _context: [{ type: Input, args: ['spread',] }]
+    };
+    return SpreadDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var RemoveHostElementDirective = /** @class */ (function () {
+    function RemoveHostElementDirective(_vcRef) {
+        this._vcRef = _vcRef;
+    }
+    /**
+     * @return {?}
+     */
+    RemoveHostElementDirective.prototype.ngAfterViewInit = /**
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
+        var nativeElement = this._vcRef.element.nativeElement;
+        /** @type {?} */
+        var parentElement = nativeElement.parentElement;
+        if (parentElement) {
+            // move all children out of the element
+            while (nativeElement.firstChild) {
+                parentElement.insertBefore(nativeElement.firstChild, nativeElement);
+            }
+            // remove the empty element(the host)
+            parentElement.removeChild(nativeElement);
+        }
+    };
+    RemoveHostElementDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[removeHostElement]'
+                },] }
+    ];
+    /** @nocollapse */
+    RemoveHostElementDirective.ctorParameters = function () { return [
+        { type: ViewContainerRef }
+    ]; };
+    return RemoveHostElementDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var IonarTemplateDirective = /** @class */ (function () {
+    function IonarTemplateDirective(templateRef) {
+        this.templateRef = templateRef;
+        this.name = '';
+    }
+    IonarTemplateDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[ioTemplate]'
+                },] }
+    ];
+    /** @nocollapse */
+    IonarTemplateDirective.ctorParameters = function () { return [
+        { type: TemplateRef }
+    ]; };
+    IonarTemplateDirective.propDecorators = {
+        name: [{ type: Input }],
+        component: [{ type: Input }]
+    };
+    return IonarTemplateDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var DirectiveModule = /** @class */ (function () {
     function DirectiveModule() {
     }
     DirectiveModule.decorators = [
         { type: NgModule, args: [{
                     declarations: [
-                        SquareDirective, ScrollDownDirective
+                        SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
                     ],
                     exports: [
-                        SquareDirective, ScrollDownDirective
+                        SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
                     ]
                 },] }
     ];
@@ -2255,7 +2385,111 @@ var IonarUI = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @abstract
+ */
+var IoAbstractUI = /** @class */ (function () {
+    function IoAbstractUI(cd, _elRef) {
+        var _this = this;
+        this.cd = cd;
+        this._elRef = _elRef;
+        this.template = null;
+        this.viewInit = false;
+        this.setContext = function (properties, events) {
+            _this._contextData = __assign({}, _this._contextData, properties, events);
+            // this.cd.markForCheck();
+        };
+        this.parseTemplate = function () {
+            if (!_this.template) {
+                _this.template = _this._contentTemplate;
+                if (_this._defaultContentComp) {
+                    _this._defaultContentComp.template = {
+                        template: _this._defaultTemplate,
+                        context: _this.context
+                    };
+                }
+                if (isEmptyTemplate(_this._elRef) || !_this._contentTemplate) {
+                    _this.template = _this._defaultTemplate;
+                    _this.cd.detectChanges();
+                }
+                _this.viewInit = true;
+                _this.cd.detectChanges();
+            }
+            _this.viewInit = true;
+            _this.cd.detectChanges();
+        };
+    }
+    Object.defineProperty(IoAbstractUI.prototype, "context", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return {
+                defaultContent: this._defaultTemplate,
+                $implicit: this._contextData
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        this.parseTemplate();
+        this.cd.markForCheck();
+    };
+    /**
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    IoAbstractUI.propDecorators = {
+        template: [{ type: Input }],
+        _container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
+        _defaultTemplate: [{ type: ViewChild, args: ['default_template', { read: TemplateRef },] }],
+        _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }],
+        _defaultContentComp: [{ type: ContentChild, args: [DefaultContentComponent,] }]
+    };
+    return IoAbstractUI;
+}());
 
-export { IonarUI, IonarLoadingService, IonarToastService, CollapsibleComponent as ɵe, CollapsibleModule as ɵd, ContentComponent as ɵi, HeaderComponent as ɵg, PanelComponent as ɵf, CollapseToggleDirective as ɵh, ComponentModule as ɵa, MenuComponent as ɵq, ToggleComponent as ɵr, DropdownComponent as ɵp, DropdownModule as ɵo, LoadingComponent as ɵt, LoadingModule as ɵs, IonarLoadingService as ɵu, CircleComponent as ɵx, SpinnerComponent as ɵv, SpinnerTemplate as ɵw, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵba, PageNumberComponent as ɵbb, PaginationComponent as ɵz, PaginationModule as ɵy, TabContentComponent as ɵn, TabLabelComponent as ɵm, TabComponent as ɵl, TabsComponent as ɵk, TabsModule as ɵj, ToastComponent as ɵbd, ToastModule as ɵbc, IonarToastService as ɵbe, DirectiveModule as ɵbo, ScrollDownDirective as ɵbq, SquareDirective as ɵbp, ButtonComponent as ɵbi, ButtonModule as ɵbh, ElementModule as ɵbf, FlexElement as ɵbg, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { IonarUI, IonarLoadingService, IonarToastService, isEmptyTemplate, removeHost, DefaultContentComponent, IoAbstractUI, IonarTemplateDirective, CollapsibleModule as ɵd, CollapsibleDirective as ɵe, ContentDirective as ɵf, ToggleDirective as ɵg, ComponentModule as ɵa, MenuComponent as ɵo, ToggleComponent as ɵp, DropdownComponent as ɵn, DropdownModule as ɵm, LoadingComponent as ɵr, LoadingModule as ɵq, IonarLoadingService as ɵs, CircleComponent as ɵv, SpinnerComponent as ɵt, SpinnerTemplate as ɵu, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵy, PageNumberComponent as ɵz, PaginationComponent as ɵx, PaginationModule as ɵw, TabContentComponent as ɵl, TabLabelComponent as ɵk, TabComponent as ɵj, TabsComponent as ɵi, TabsModule as ɵh, ToastComponent as ɵbb, ToastModule as ɵba, IonarToastService as ɵbc, DirectiveModule as ɵbo, RemoveHostElementDirective as ɵbs, ScrollDownDirective as ɵbq, SpreadDirective as ɵbr, SquareDirective as ɵbp, IonarTemplateDirective as ɵbt, ButtonComponent as ɵbg, ButtonModule as ɵbf, DefaultContentComponent as ɵbi, DefaultContentModule as ɵbh, ElementModule as ɵbd, FlexElement as ɵbe, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
 
 //# sourceMappingURL=ionar-ui.js.map

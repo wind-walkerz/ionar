@@ -1,7 +1,5 @@
 import { AbstractControl } from './AbstractControl';
-import { ControlConfig } from './ControlConfig';
-import { ValidationErrors } from './Validator';
-import _ from 'lodash';
+import { FormControlState } from '../interfaces/Form';
 /**
  * Tracks the value and validation status of an individual form control.
  *
@@ -103,17 +101,17 @@ export declare class FormControl extends AbstractControl {
     /**
      * Creates a new `FormControl` instance.
      *
-     * @param configs Initializes the control with an object that defines the initial state.
+     * @param config Initializes the control with an object that defines the initial state.
      *
      */
-    constructor(configs: ControlConfig);
+    constructor(state: FormControlState);
     /**
      * Sets a new value for the form control.
      *
      * @param value The new value for the control.
-     * @param options Configuration options that determine how the control proopagates changes
+     * @param options options options that determine how the control proopagates changes
      * and emits events when the value changes.
-     * The configuration options are passed to the {@link IonarAbstractControl#updateValueAndValidity
+     * The options options are passed to the {@link IonarAbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      *
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -141,7 +139,7 @@ export declare class FormControl extends AbstractControl {
      * @param formState Resets the control with an initial value,
      * or an object that defines the initial value and disabled state.
      *
-     * @param options Configuration options that determine how the control propagates changes
+     * @param options options options that determine how the control propagates changes
      * and emits events after the value changes.
      *
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -163,7 +161,7 @@ export declare class FormControl extends AbstractControl {
      * @param formState Resets the control with an initial value,
      * or an object that defines the initial value and disabled state.
      *
-     * @param options Configuration options that determine how the control propagates changes
+     * @param options options options that determine how the control propagates changes
      * and emits events after the value changes.
      *
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -200,34 +198,23 @@ export declare class FormControl extends AbstractControl {
      * expect(login.valid).toEqual(true);
      * ```
      */
-    setErrors(errors: ValidationErrors | null, opts?: {
+    setErrors(errors: any, opts?: {
         emitEvent?: boolean;
     }): void;
-    _runValidator(): ValidationErrors | null;
-    _runAsyncValidator: ((emitEvent?: boolean) => void) & _.Cancelable;
-    _cancelExistingSubscription(): void;
-    /**
-     * Sets the synchronous validators that are active on this control.  Calling
-     * this overwrites any existing sync validators.
-     */
-    private _setValidators;
+    /** @internal */
+    _getControlSchema: () => import("../interfaces/Validator").JoiSchema;
     /**
      * Sets the async validators that are active on this control. Calling this
      * overwrites any existing async validators.
      */
     private _setAsyncValidators;
     /** @internal */
-    _calculateStatus(): string;
-    /** @internal */
     _updateValue(): void;
-    /** @internal */
-    _updateValidity(opts?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-    }): void;
     private _applyControlState;
     /**
      * @internal
      */
     _allControlsDisabled(): boolean;
+    /** @internal */
+    _anyControlsHaveStatus(status: string): boolean;
 }

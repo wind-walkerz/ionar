@@ -16,6 +16,7 @@ import { isEmptyTemplate } from '@ionar/ui';
 import { FormComponent } from '../core.component';
 
 import { IoControl } from '../interfaces/IoControl';
+import { AbstractControl } from '../models/AbstractControl';
 
 
 export const formGroupProvider: any = {
@@ -30,7 +31,7 @@ export const formGroupProvider: any = {
   template: `
       <ng-container *ngIf="isDefaultTemplate">
           <ng-container
-                  *ngFor="let item of root.get(path) | keyvalue"
+                  *ngFor="let item of control | keyvalue"
                   [ngTemplateOutlet]="controlTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, parent: this}"
           ></ng-container>
@@ -57,8 +58,12 @@ export class FormGroupComponent extends ControlContainer implements OnInit, Afte
   }
 
   @HostBinding('attr.id')
-  private get attribute(): string {
+  get attribute(): string {
     return this.name;
+  }
+
+  get control() {
+    return <{ [name: string]: AbstractControl }>this.root.get(this.path);
   }
 
 

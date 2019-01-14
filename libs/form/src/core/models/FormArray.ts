@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
-import { Observable } from 'rxjs';
-import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 
-import { AbstractControlOptions, FormArrayState, FormControlState, FormGroupState } from '../interfaces/Form';
-import { FormService } from '../providers/form.service';
-import { JoiSchema } from '@ionar/form';
+import { AbstractControlOptions, FormArrayState} from '../interfaces/Form';
 
 /**
  * Tracks the value and validity state of an array of `FormControl`,

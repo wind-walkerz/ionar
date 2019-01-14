@@ -107,12 +107,12 @@ export class FormControlComponent extends IoControl implements OnInit, OnChanges
 
 
   @HostBinding('attr.id')
-  private get attribute(): string {
+  get attribute(): string {
     return this.name;
   }
 
   @HostBinding('class.hidden')
-  private get hiddenStyle(): Boolean {
+  get hiddenStyle(): Boolean {
 
     return _.get(this.control.options, ['hidden']);
   }

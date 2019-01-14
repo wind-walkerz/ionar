@@ -2,17 +2,19 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-var TextareaComponent = /** @class */ (function () {
+import * as tslib_1 from "tslib";
+import { ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
+import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
+var TextareaComponent = /** @class */ (function (_super) {
+    tslib_1.__extends(TextareaComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    function TextareaComponent() {
+    function TextareaComponent(cd, el) {
+        var _this = _super.call(this, cd, el) || this;
         ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.name = '';
-        this.value = '';
-        this.placeholder = '';
-        this.change = new EventEmitter();
-        this.blur = new EventEmitter();
-        this.invalid = false;
+        _this.name = '';
+        _this.value = '';
+        _this.placeholder = '';
+        return _this;
     }
     /**
      * @return {?}
@@ -21,36 +23,32 @@ var TextareaComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
-    };
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    TextareaComponent.prototype.ngOnChanges = /**
-     * @param {?} changes
-     * @return {?}
-     */
-    function (changes) {
+        _super.prototype.ngOnInit.call(this);
+        this.setContext({
+            name: this.name,
+            value: this.value,
+            placeholder: this.placeholder
+        });
     };
     TextareaComponent.decorators = [
         { type: Component, args: [{
                     selector: 'io-textarea',
-                    template: "\n      <textarea\n              [name]=\"name\"\n              [value]=\"value\"\n              [class.invalid]=\"invalid\"\n              cols=\"1\" rows=\"1\"\n              [placeholder]=\"placeholder\"\n              \n              (change)=\"$event.stopPropagation(); change.emit($event.target.value);\"\n              (blur)=\"blur.emit()\"\n      ></textarea>\n  ",
-                    styles: ["\n      :host {\n          display: flex;\n          flex: 1;\n      }\n\n      textarea {\n          border: none;\n          font-size: 1.5rem;\n          padding: 1rem;\n          width: 100%;\n          max-width: 100%;\n          overflow-y: scroll;\n      }\n  "]
+                    template: "<textarea\r\n        [name]=\"name\"\r\n        [value]=\"value\"\r\n        [class.invalid]=\"invalid\"\r\n        cols=\"1\" rows=\"1\"\r\n        [placeholder]=\"placeholder\"\r\n\r\n        (change)=\"$event.stopPropagation(); change.emit($event.target.value);\"\r\n        (blur)=\"blur.emit()\"\r\n></textarea>\r\n",
+                    styles: [":host{display:flex;flex:1}textarea{border:none;font-size:1.5rem;padding:1rem;width:100%;max-width:100%;overflow-y:scroll}"]
                 }] }
     ];
     /** @nocollapse */
-    TextareaComponent.ctorParameters = function () { return []; };
+    TextareaComponent.ctorParameters = function () { return [
+        { type: ChangeDetectorRef },
+        { type: ElementRef }
+    ]; };
     TextareaComponent.propDecorators = {
         name: [{ type: Input }],
         value: [{ type: Input }],
-        placeholder: [{ type: Input }],
-        change: [{ type: Output }],
-        blur: [{ type: Output }],
-        invalid: [{ type: Input }]
+        placeholder: [{ type: Input }]
     };
     return TextareaComponent;
-}());
+}(IoFormFieldUI));
 export { TextareaComponent };
 if (false) {
     /** @type {?} */
@@ -59,11 +57,5 @@ if (false) {
     TextareaComponent.prototype.value;
     /** @type {?} */
     TextareaComponent.prototype.placeholder;
-    /** @type {?} */
-    TextareaComponent.prototype.change;
-    /** @type {?} */
-    TextareaComponent.prototype.blur;
-    /** @type {?} */
-    TextareaComponent.prototype.invalid;
 }
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGV4dGFyZWEuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6Im5nOi8vQGlvbmFyL2Zvcm0vIiwic291cmNlcyI6WyJ1aS9jb21wb25lbnRzL3RleHRhcmVhL3RleHRhcmVhLmNvbXBvbmVudC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQUEsT0FBTyxFQUFFLFNBQVMsRUFBRSxZQUFZLEVBQUUsS0FBSyxFQUFxQixNQUFNLEVBQWlCLE1BQU0sZUFBZSxDQUFDO0FBRXpHO0lBd0NFLHdIQUF3SDtJQUN4SDs7UUFUUyxTQUFJLEdBQVcsRUFBRSxDQUFDO1FBQ2xCLFVBQUssR0FBUSxFQUFFLENBQUM7UUFDaEIsZ0JBQVcsR0FBUSxFQUFFLENBQUM7UUFDckIsV0FBTSxHQUFHLElBQUksWUFBWSxFQUFFLENBQUM7UUFDNUIsU0FBSSxHQUFHLElBQUksWUFBWSxFQUFFLENBQUM7UUFDM0IsWUFBTyxHQUFZLEtBQUssQ0FBQztJQUtsQyxDQUFDOzs7O0lBRUQsb0NBQVE7OztJQUFSO0lBRUEsQ0FBQzs7Ozs7SUFFRCx1Q0FBVzs7OztJQUFYLFVBQVksT0FBc0I7SUFFbEMsQ0FBQzs7Z0JBbERGLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsYUFBYTtvQkFDdkIsUUFBUSxFQUFFLHNYQVdUOzZCQUNRLDZRQWNSO2lCQUNGOzs7Ozt1QkFHRSxLQUFLO3dCQUNMLEtBQUs7OEJBQ0wsS0FBSzt5QkFDTCxNQUFNO3VCQUNOLE1BQU07MEJBQ04sS0FBSzs7SUFpQlIsd0JBQUM7Q0FBQSxBQXRERCxJQXNEQztTQXhCWSxpQkFBaUI7OztJQUU1QixpQ0FBMkI7O0lBQzNCLGtDQUF5Qjs7SUFDekIsd0NBQStCOztJQUMvQixtQ0FBc0M7O0lBQ3RDLGlDQUFvQzs7SUFDcEMsb0NBQWtDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBFdmVudEVtaXR0ZXIsIElucHV0LCBPbkNoYW5nZXMsIE9uSW5pdCwgT3V0cHV0LCBTaW1wbGVDaGFuZ2VzIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2lvLXRleHRhcmVhJyxcbiAgdGVtcGxhdGU6IGBcbiAgICAgIDx0ZXh0YXJlYVxuICAgICAgICAgICAgICBbbmFtZV09XCJuYW1lXCJcbiAgICAgICAgICAgICAgW3ZhbHVlXT1cInZhbHVlXCJcbiAgICAgICAgICAgICAgW2NsYXNzLmludmFsaWRdPVwiaW52YWxpZFwiXG4gICAgICAgICAgICAgIGNvbHM9XCIxXCIgcm93cz1cIjFcIlxuICAgICAgICAgICAgICBbcGxhY2Vob2xkZXJdPVwicGxhY2Vob2xkZXJcIlxuICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgKGNoYW5nZSk9XCIkZXZlbnQuc3RvcFByb3BhZ2F0aW9uKCk7IGNoYW5nZS5lbWl0KCRldmVudC50YXJnZXQudmFsdWUpO1wiXG4gICAgICAgICAgICAgIChibHVyKT1cImJsdXIuZW1pdCgpXCJcbiAgICAgID48L3RleHRhcmVhPlxuICBgLFxuICBzdHlsZXM6IFtgXG4gICAgICA6aG9zdCB7XG4gICAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgICBmbGV4OiAxO1xuICAgICAgfVxuXG4gICAgICB0ZXh0YXJlYSB7XG4gICAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgICAgIGZvbnQtc2l6ZTogMS41cmVtO1xuICAgICAgICAgIHBhZGRpbmc6IDFyZW07XG4gICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgICAgICAgIG92ZXJmbG93LXk6IHNjcm9sbDtcbiAgICAgIH1cbiAgYF1cbn0pXG5leHBvcnQgY2xhc3MgVGV4dGFyZWFDb21wb25lbnQgaW1wbGVtZW50cyBPbkluaXQsIE9uQ2hhbmdlcyB7XG4gIC8vLy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICBWYXJpYWJsZXMgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS8vL1xuICBASW5wdXQoKSBuYW1lOiBzdHJpbmcgPSAnJztcbiAgQElucHV0KCkgdmFsdWU6IGFueSA9ICcnO1xuICBASW5wdXQoKSBwbGFjZWhvbGRlcjogYW55ID0gJyc7XG4gIEBPdXRwdXQoKSBjaGFuZ2UgPSBuZXcgRXZlbnRFbWl0dGVyKCk7XG4gIEBPdXRwdXQoKSBibHVyID0gbmV3IEV2ZW50RW1pdHRlcigpO1xuICBASW5wdXQoKSBpbnZhbGlkOiBCb29sZWFuID0gZmFsc2U7XG5cblxuICAvLy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgTGlmZSBDeWNsZSBIb29rICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0vLy9cbiAgY29uc3RydWN0b3IoKSB7XG4gIH1cblxuICBuZ09uSW5pdCgpIHtcblxuICB9XG5cbiAgbmdPbkNoYW5nZXMoY2hhbmdlczogU2ltcGxlQ2hhbmdlcyk6IHZvaWQge1xuXG4gIH1cblxuICAvLy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgTWFpbiBGdW5jdGlvbnMgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS8vL1xuXG59XG4iXX0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGV4dGFyZWEuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6Im5nOi8vQGlvbmFyL2Zvcm0vIiwic291cmNlcyI6WyJ1aS9jb21wb25lbnRzL3RleHRhcmVhL3RleHRhcmVhLmNvbXBvbmVudC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztBQUFBLE9BQU8sRUFDTCxpQkFBaUIsRUFDakIsU0FBUyxFQUFFLFVBQVUsRUFFckIsS0FBSyxFQUtOLE1BQU0sZUFBZSxDQUFDO0FBQ3ZCLE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSxnQ0FBZ0MsQ0FBQztBQUUvRDtJQUt1Qyw2Q0FBYTtJQU9sRCx3SEFBd0g7SUFDeEgsMkJBQ0UsRUFBcUIsRUFDckIsRUFBYztRQUZoQixZQUlFLGtCQUFNLEVBQUUsRUFBRSxFQUFFLENBQUMsU0FDZDs7UUFYUSxVQUFJLEdBQVcsRUFBRSxDQUFDO1FBQ2xCLFdBQUssR0FBUSxFQUFFLENBQUM7UUFDaEIsaUJBQVcsR0FBUSxFQUFFLENBQUM7O0lBUy9CLENBQUM7Ozs7SUFFRCxvQ0FBUTs7O0lBQVI7UUFDRSxpQkFBTSxRQUFRLFdBQUUsQ0FBQztRQUNqQixJQUFJLENBQUMsVUFBVSxDQUFDO1lBQ2QsSUFBSSxFQUFFLElBQUksQ0FBQyxJQUFJO1lBQ2YsS0FBSyxFQUFFLElBQUksQ0FBQyxLQUFLO1lBQ2pCLFdBQVcsRUFBRSxJQUFJLENBQUMsV0FBVztTQUM5QixDQUFDLENBQUM7SUFDTCxDQUFDOztnQkEzQkYsU0FBUyxTQUFDO29CQUNULFFBQVEsRUFBRSxhQUFhO29CQUN2Qiw0VUFBd0M7O2lCQUV6Qzs7OztnQkFmQyxpQkFBaUI7Z0JBQ04sVUFBVTs7O3VCQWlCcEIsS0FBSzt3QkFDTCxLQUFLOzhCQUNMLEtBQUs7O0lBc0JSLHdCQUFDO0NBQUEsQUEvQkQsQ0FLdUMsYUFBYSxHQTBCbkQ7U0ExQlksaUJBQWlCOzs7SUFFNUIsaUNBQTJCOztJQUMzQixrQ0FBeUI7O0lBQ3pCLHdDQUErQiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIENoYW5nZURldGVjdG9yUmVmLFxuICBDb21wb25lbnQsIEVsZW1lbnRSZWYsXG4gIEV2ZW50RW1pdHRlcixcbiAgSW5wdXQsXG4gIE9uQ2hhbmdlcyxcbiAgT25Jbml0LFxuICBPdXRwdXQsXG4gIFNpbXBsZUNoYW5nZXNcbn0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBJb0Zvcm1GaWVsZFVJIH0gZnJvbSAnLi4vLi4vaW50ZXJmYWNlcy9Jb0Zvcm1GaWVsZFVJJztcblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnaW8tdGV4dGFyZWEnLFxuICB0ZW1wbGF0ZVVybDogYC4vdGV4dGFyZWEuY29tcG9uZW50Lmh0bWxgLFxuICBzdHlsZVVybHM6IFsnLi90ZXh0YXJlYS5jb21wb25lbnQuc2NzcyddXG59KVxuZXhwb3J0IGNsYXNzIFRleHRhcmVhQ29tcG9uZW50IGV4dGVuZHMgSW9Gb3JtRmllbGRVSSB7XG4gIC8vLy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICBWYXJpYWJsZXMgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS8vL1xuICBASW5wdXQoKSBuYW1lOiBzdHJpbmcgPSAnJztcbiAgQElucHV0KCkgdmFsdWU6IGFueSA9ICcnO1xuICBASW5wdXQoKSBwbGFjZWhvbGRlcjogYW55ID0gJyc7XG5cblxuICAvLy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgTGlmZSBDeWNsZSBIb29rICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0vLy9cbiAgY29uc3RydWN0b3IoXG4gICAgY2Q6IENoYW5nZURldGVjdG9yUmVmLFxuICAgIGVsOiBFbGVtZW50UmVmXG4gICkge1xuICAgIHN1cGVyKGNkLCBlbCk7XG4gIH1cblxuICBuZ09uSW5pdCgpOiB2b2lkIHtcbiAgICBzdXBlci5uZ09uSW5pdCgpO1xuICAgIHRoaXMuc2V0Q29udGV4dCh7XG4gICAgICBuYW1lOiB0aGlzLm5hbWUsXG4gICAgICB2YWx1ZTogdGhpcy52YWx1ZSxcbiAgICAgIHBsYWNlaG9sZGVyOiB0aGlzLnBsYWNlaG9sZGVyXG4gICAgfSk7XG4gIH1cblxuICAvLy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgTWFpbiBGdW5jdGlvbnMgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS8vL1xuXG59XG4iXX0=

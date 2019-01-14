@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormUiModule } from '../ui/ui.module';
 import { CoreModule } from '../core/core.module';
+import { FormUiModule } from '../ui/ui.module';
 
 @NgModule({
   declarations: [],

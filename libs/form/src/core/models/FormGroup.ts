@@ -5,9 +5,6 @@ import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 
 import { AbstractControlOptions, FormGroupState } from '../interfaces/Form';
-import { JoiError, JoiSchema } from '@ionar/form';
-import Joi from '@ionar/joi';
-import { Form } from '@angular/forms';
 
 
 /**
@@ -149,7 +146,8 @@ export class FormGroup extends AbstractControl {
    * @param name The control name to remove from the collection
    */
   removeControl(name: string): void {
-    delete (this.controls[name]);
+    (<{ controls: FormGroupState }>this).controls = <FormGroupState>_.omit(this.controls, [name]);
+
     this.updateValueAndValidity();
   }
 
@@ -160,7 +158,7 @@ export class FormGroup extends AbstractControl {
    * @param control Provides the control for the given name
    */
   setControl(name: string, control: AbstractControl): void {
-    delete (this.controls[name]);
+    (<{ controls: FormGroupState }>this).controls = <FormGroupState>_.omit(this.controls, [name]);
     if (control) this.registerControl(name, control);
     this.updateValueAndValidity();
 
@@ -364,16 +362,17 @@ export class FormGroup extends AbstractControl {
    *
    * * `this.form.get(['person', 'name']);`
    */
-
-  get(path: string[] | string | null): AbstractControl | null {
+  get(path: string[] | string | null): { [name: string]: AbstractControl } | AbstractControl[] | AbstractControl | null {
     if (!path) return null;
     return _.get(this.controls, path) || null;
   }
 
   submit(instant: boolean = false): void {
+
     if (this.root === this) {
       (this as { submitted: Boolean }).submitted = true;
       this.updateValueAndValidity();
+      this.updateChildValidity();
       (this as { ngSubmit: EventEmitter<any> }).ngSubmit.emit({
         value: this.value, instant
       });
@@ -382,9 +381,16 @@ export class FormGroup extends AbstractControl {
 
   _coerceToJoiSchema() {
     // (<{ schema: JoiSchema }>this).schema = this._mergeSchema() || Joi.object().keys(this._reduceSchema());
-    (<{ schema: JoiSchema }>this).schema = (<AbstractControlOptions>this).schema || Joi.object().keys(this._reduceSchema());
+    // (<{ schema: JoiSchema }>this).schema = this.options.schema || Joi.object().keys(this._reduceSchema());
   };
 
+
+  updateChildValidity() {
+    _.forOwn(this.controls, (c: AbstractControl, name: string) => {
+      if (c instanceof FormControl) c.updateValueAndValidity();
+      if (c instanceof FormGroup) c.updateChildValidity();
+    });
+  }
 
   /** @internal */
   _initObservables() {
@@ -393,22 +399,23 @@ export class FormGroup extends AbstractControl {
     (this as { ngSubmit: Observable<any> }).ngSubmit = new EventEmitter();
   }
 
-  /** @internal */
-  _updateChildError = (errors: JoiError[]) => {
-    _.each(errors, (err: JoiError) => {
-      const control: AbstractControl = _.get(this.controls, err.path);
-      if (control instanceof FormControl) {
-        control.setErrors([err]);
-      }
-    });
-  };
-
+  // /** @internal */
+  // _updateChildError = (errors: JoiError[]) => {
+  //   _.each(errors, (err: JoiError) => {
+  //     const control: AbstractControl = _.get(this.controls, err.path);
+  //     if (control instanceof FormControl) {
+  //       control.setErrors([err]);
+  //     }
+  //     if(control instanceof FormGroup) {
+  //       control._r()
+  //     }
+  //   });
+  // };
 
   /** @internal */
   _updateValue(): void {
     (this as { value: any }).value = this._reduceValue();
   }
-
 
   /** @internal */
   _reduceValue() {
@@ -422,32 +429,10 @@ export class FormGroup extends AbstractControl {
   }
 
   /** @internal */
-  _reduceSchema() {
-    return _.reduce(this.controls, (result: { [name: string]: JoiSchema }, c: AbstractControl, name: string) => {
-      if (c.schema) {
-        result[name] = c.schema;
-      }
-      return result;
-    }, {});
-  }
+  _getControlSchema = () => {
+    if (this.options.schema) return this.options.schema;
+  };
 
-
-  /** @internal */
-  _mergeSchema() {
-    // const parentSchema = (<FormGroup>this.parent).schema
-
-    // if (parentSchema && this.schema) {
-    //   const currentTest = this.schema['_tests']
-    //   const parentTest = this.sh
-    //   _.each(currentTest, test => {
-    //     const index = _.findIndex(testObject1['_tests'], ['name', test.name]);
-    //     testObject1['_tests'].splice(index, 1, test);
-    //
-    //   });
-
-    // }
-    // (<AbstractControlOptions>this.options).schema
-  }
 
   private _applyFormState = () => {
     if (!this.parent && !this.root) {
@@ -462,6 +447,7 @@ export class FormGroup extends AbstractControl {
     _.forOwn(controlConfig, (c: AbstractControl, name: string) => {
       c.setParent(this);
       c.setRoot(this.root);
+      c.name = name;
       this.controls[name] = c;
     });
   }

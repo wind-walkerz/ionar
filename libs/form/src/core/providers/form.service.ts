@@ -2,10 +2,9 @@ import { AfterViewInit, Injectable, OnChanges, OnDestroy, OnInit, SimpleChanges 
 import { FormGroup } from '../models/FormGroup';
 import { AbstractControl } from '../models/AbstractControl';
 import { FormControl } from '../models/FormControl';
-import { Observable, Subject } from 'rxjs';
 import _ from 'lodash';
 import { FormArray } from '../models/FormArray';
-import { FormArrayState, FormGroupState } from '@ionar/form';
+import { FormArrayState, FormGroupState } from '../interfaces/Form';
 
 
 @Injectable()

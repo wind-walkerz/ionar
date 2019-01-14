@@ -4,7 +4,7 @@ import { Logger } from '../../../../core/services';
 import _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
-
+import Joi from '@ionar/joi';
 
 const log = new Logger('ForgotPasswordComponent');
 
@@ -39,13 +39,10 @@ export class ForgotPasswordComponent implements OnInit {
     this.forgotPassFormGroup = this._fb.group({
       email: {
         component: 'input',
-       props: {
-         label: 'Email',
-       },
-        validators: {
-          required: true,
-          email: true
-        }
+        props: {
+          label: 'Email'
+        },
+        schema: Joi.string().email().required()
       }
     });
 
@@ -56,22 +53,13 @@ export class ForgotPasswordComponent implements OnInit {
           label: 'New Password',
           type: 'password'
         },
-        validators: {
-          required: true,
-          stringLength: {
-            min: 6
-          }
-        }
+        schema: Joi.string().min(6).required()
       },
       confirm_password: {
         component: 'input',
         props: {
           label: 'Confirm Password',
           type: 'password'
-        },
-        validators: {
-          required: true,
-          equalTo: 'password'
         }
       }
     });

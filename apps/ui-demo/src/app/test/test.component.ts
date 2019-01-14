@@ -37,7 +37,7 @@ export class TestComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
 
-    console.log(this._elRef);
+
     // this._vcRef.createEmbeddedView(this.template);
 
     // this._vcRef.clear()

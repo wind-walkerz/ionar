@@ -11,7 +11,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { removeHost } from '../../utils';
-import { ComponentContext } from '@ionar/ui';
+import { ComponentContext } from '../../interfaces/IoAbstractUI';
 
 
 @Component({

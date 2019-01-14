@@ -7,7 +7,7 @@
  */
 import { ControlContainer } from './ControlContainer';
 
-import { FormControl } from '@ionar/form';
+import { FormControl} from '../models/FormControl'
 
 
 /**

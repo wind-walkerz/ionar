@@ -3,13 +3,11 @@ import { InputComponent, MenuComponent, TextareaComponent, UploadComponent } fro
 export declare class DynamicFieldDirective implements OnInit, OnDestroy, OnChanges {
     private _resolver;
     private _vcRef;
-    private _readonly;
-    private _controlConfig;
-    private _events;
-    private _invalid;
-    private _value;
-    private _options;
+    private _name;
+    private _root;
+    private _control;
     private _template;
+    private _events;
     private _compRef;
     components: {
         input: typeof InputComponent;
@@ -22,7 +20,7 @@ export declare class DynamicFieldDirective implements OnInit, OnDestroy, OnChang
     ngOnChanges(): void;
     ngOnDestroy(): void;
     createComponent: () => void;
-    private initContext;
-    private updateContext;
-    private parseContext;
+    private _parseContext;
+    private _initObservables;
+    private _updateContext;
 }

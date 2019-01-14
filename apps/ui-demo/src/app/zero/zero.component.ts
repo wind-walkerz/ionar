@@ -18,7 +18,7 @@ export class ZeroComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        console.log('sdlkfjsdl')
+
 
     }
 

@@ -2,21 +2,18 @@ import { NgModule } from '@angular/core';
 
 import { FlexElement } from './flex/flex.element';
 import { ButtonModule } from './button/button.module';
-import { DefaultContentComponent } from './default-content/default-content.component';
-
+import { DefaultContentModule } from './default-content/default-content.module';
 
 
 @NgModule({
   declarations: [
-    FlexElement,
-    DefaultContentComponent
+    FlexElement
   ],
   imports: [
-    ButtonModule
+    ButtonModule,
   ],
   exports: [
     FlexElement,
-    DefaultContentComponent,
     ButtonModule
   ]
 })

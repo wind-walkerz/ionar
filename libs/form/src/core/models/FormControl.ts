@@ -1,11 +1,10 @@
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import {
-  AsyncValidatorFn, JoiSchema,
+  AsyncValidatorFn,
   JoiError
 } from '../interfaces/Validator';
 import _ from 'lodash';
-import Joi from '@ionar/joi';
-import { AbstractControlOptions, AbstractControlState, FormControlState } from '../interfaces/Form';
+import { AbstractControlOptions, FormControlState } from '../interfaces/Form';
 
 
 /**
@@ -119,7 +118,7 @@ export class FormControl extends AbstractControl {
       <FormControlState>state,
       <AbstractControlOptions | null>state.options
     );
-    this._coerceToJoiSchema();
+    // this._coerceToJoiSchema();
     this._setAsyncValidators(state.asyncValidator);
     this._initObservables();
     this._initValidators();
@@ -253,9 +252,13 @@ export class FormControl extends AbstractControl {
     this._updateControlsErrors(opts.emitEvent !== false);
   }
 
-  _coerceToJoiSchema = () => {
-    (<{ schema: JoiSchema }>this).schema = (<FormControlState>this.state).schema;
+  /** @internal */
+  _getControlSchema = () => {
+    if ((<FormControlState>this.state).schema) return (<FormControlState>this.state).schema;
+
+
   };
+
 
   /**
    * Sets the async validators that are active on this control. Calling this

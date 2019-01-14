@@ -1,14 +1,8 @@
 import {
-  ChangeDetectorRef, ElementRef, EventEmitter, HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit, Output,
-  SimpleChanges
+  EventEmitter, HostBinding,
+  Input, Output
 } from '@angular/core';
-
-
-import { IoAbstractUI } from '../../../../ui/src/interfaces';
+import { IoAbstractUI } from '@ionar/ui';
 
 
 export abstract class IoFormFieldUI extends IoAbstractUI {
@@ -23,22 +17,22 @@ export abstract class IoFormFieldUI extends IoAbstractUI {
   @Output() enter = new EventEmitter();
 
   @HostBinding('class.focus')
-  protected get _isFocused() {
+  get _isFocused() {
     return this.focused;
   }
 
   @HostBinding('class.invalid')
-  protected get _isInvalid() {
+  get _isInvalid() {
     return this.invalid;
   }
 
   @HostBinding('class.disabled')
-  protected get _isDisabled() {
+  get _isDisabled() {
     return this.disabled;
   }
 
   @HostBinding('class.readonly')
-  protected get _isReadonly() {
+  get _isReadonly() {
     return this.readonly;
   }
 

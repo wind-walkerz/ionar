@@ -7,8 +7,6 @@ import {
   OnDestroy,
   OnInit, Optional, SimpleChanges, SkipSelf
 } from '@angular/core';
-
-import _ from 'lodash';
 import { untilDestroyed } from '@ionar/utility';
 import { FormControl } from '../../models/FormControl';
 import { FormControlComponent } from '../form-control.component';

@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs';
-import _ from 'lodash';
 import uuid from 'uuid/v1';
 import { untilDestroyed } from '@ionar/utility';
+import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { AnimationBuilder, useAnimation } from '@angular/animations';
-import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 import { slideInLeftAnimation, slideInRightAnimation, slideOutLeftAnimation, slideOutRightAnimation } from '@ionar/animations';
+import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, ViewContainerRef, ChangeDetectorRef, EventEmitter, Output, ViewChild, Directive, Host, Optional, SkipSelf, TemplateRef, ContentChild, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -110,6 +110,125 @@ ButtonModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+const isEmptyTemplate = (element) => {
+    /** @type {?} */
+    const nodes = element.nativeElement.childNodes;
+    return _.every(nodes, node => {
+        return (node.nodeType === 8);
+    });
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const removeHost = (element) => {
+    /** @type {?} */
+    const nativeElement = element.nativeElement;
+    /** @type {?} */
+    const parentElement = nativeElement.parentElement;
+    if (parentElement) {
+        parentElement.removeChild(nativeElement);
+    }
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class DefaultContentComponent {
+    /**
+     * @param {?} _elRef
+     * @param {?} _vcRef
+     * @param {?} cd
+     */
+    constructor(_elRef, _vcRef, cd) {
+        this._elRef = _elRef;
+        this._vcRef = _vcRef;
+        this.cd = cd;
+        this.isHostRemoved = false;
+    }
+    /**
+     * @param {?} view
+     * @return {?}
+     */
+    set template(view) {
+        this._vcRef.clear();
+        this._vcRef.createEmbeddedView(view.template, view.context);
+    }
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if (this.context) {
+            this.template = {
+                template: this._vcRef['_view'].context.defaultContent,
+                context: { $implicit: this.context }
+            };
+            if (!this.isHostRemoved) {
+                removeHost(this._elRef);
+            }
+            this.isHostRemoved = true;
+            this.cd.detectChanges();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+    }
+}
+DefaultContentComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'default-content',
+                template: ``
+            }] }
+];
+/** @nocollapse */
+DefaultContentComponent.ctorParameters = () => [
+    { type: ElementRef },
+    { type: ViewContainerRef },
+    { type: ChangeDetectorRef }
+];
+DefaultContentComponent.propDecorators = {
+    context: [{ type: Input }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class DefaultContentModule {
+}
+DefaultContentModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [
+                    DefaultContentComponent
+                ],
+                exports: [
+                    DefaultContentComponent
+                ]
+            },] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 class ElementModule {
 }
 ElementModule.decorators = [
@@ -118,10 +237,11 @@ ElementModule.decorators = [
                     FlexElement
                 ],
                 imports: [
-                    ButtonModule
+                    ButtonModule, DefaultContentModule
                 ],
                 exports: [
                     FlexElement,
+                    DefaultContentModule,
                     ButtonModule
                 ]
             },] }
@@ -207,146 +327,18 @@ ModalModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class CollapseToggleDirective {
+class CollapsibleDirective {
     constructor() {
-        this.toggle = new EventEmitter();
-    }
-    /**
-     * @param {?} $event
-     * @return {?}
-     */
-    onClick($event) {
-        this.toggle.emit();
-    }
-}
-CollapseToggleDirective.decorators = [
-    { type: Directive, args: [{
-                selector: '[collapse-toggle]'
-            },] }
-];
-/** @nocollapse */
-CollapseToggleDirective.ctorParameters = () => [];
-CollapseToggleDirective.propDecorators = {
-    toggle: [{ type: Output }],
-    onClick: [{ type: HostListener, args: ['click',] }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class HeaderComponent {
-    constructor() {
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.toggle = new EventEmitter();
+        this.change$ = new Subject();
         this.collapsed = false;
+        this.customToggler = false;
     }
-    /**
-     * @param {?} $event
-     * @return {?}
-     */
-    onClick($event) {
-        if (!this._toggleDir) {
-            this.toggle.emit();
-            this.collapsed = !this.collapsed;
-        }
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     /**
      * @return {?}
      */
     ngOnInit() {
-        if (this._toggleDir) {
-            this._toggleDir.toggle.pipe(untilDestroyed(this)).subscribe(() => {
-                this.toggle.emit();
-                this.collapsed = !this.collapsed;
-            });
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-    }
-}
-HeaderComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'collapse-header',
-                exportAs: 'collapse-header',
-                template: `    
-          <ng-content></ng-content>
-  `
-            }] }
-];
-/** @nocollapse */
-HeaderComponent.ctorParameters = () => [];
-HeaderComponent.propDecorators = {
-    toggle: [{ type: Output }],
-    onClick: [{ type: HostListener, args: ['click', ['$event'],] }],
-    collapsed: [{ type: HostBinding, args: ['class.collapsed',] }],
-    _toggleDir: [{ type: ContentChild, args: [CollapseToggleDirective,] }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class ContentComponent {
-    constructor() {
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.collapsed = false;
-        ///-----------------------------------------------  Main Functions  -----------------------------------------------///
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        this.display = this.collapsed ? 'none' : 'flex';
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        this.display = this.collapsed ? 'none' : 'flex';
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-    }
-}
-ContentComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'collapse-content',
-                template: `
-      <ng-content></ng-content>`
-            }] }
-];
-ContentComponent.propDecorators = {
-    display: [{ type: HostBinding, args: ['style.display',] }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class PanelComponent {
-    constructor() {
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        if (!this._headerComp || !this._contentComp) {
-            throw new Error(`'collapse-header' or 'collapse-content'  cannot be found!`);
-        }
-        this._headerComp.toggle.pipe(untilDestroyed(this)).subscribe(() => {
-            this._contentComp.collapsed = !this._contentComp.collapsed;
-            this._contentComp.ngOnChanges();
+        this.change$.pipe(untilDestroyed(this)).subscribe((collapsed) => {
+            this.collapsed = collapsed;
         });
     }
     /**
@@ -354,53 +346,55 @@ class PanelComponent {
      */
     ngOnDestroy() {
     }
-    /**
-     * @return {?}
-     */
-    ngAfterViewInit() {
-    }
 }
-PanelComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'collapse-panel',
-                template: `
-      <ng-content select="collapse-header"></ng-content>
-
-      <ng-content select="collapse-content"></ng-content>
-
-  `
-            }] }
+CollapsibleDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[ioCollapsible]'
+            },] }
 ];
-/** @nocollapse */
-PanelComponent.ctorParameters = () => [];
-PanelComponent.propDecorators = {
-    _headerComp: [{ type: ContentChild, args: [HeaderComponent,] }],
-    _contentComp: [{ type: ContentChild, args: [ContentComponent,] }]
+CollapsibleDirective.propDecorators = {
+    ioCollapsible: [{ type: Input }]
 };
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class CollapsibleComponent {
-    constructor() {
-        this.single = false;
+class ContentDirective {
+    /**
+     * @param {?} parent
+     * @param {?} cd
+     * @param {?} _vcRef
+     * @param {?} _templateRef
+     */
+    constructor(parent, cd, _vcRef, _templateRef) {
+        this.cd = cd;
+        this._vcRef = _vcRef;
+        this._templateRef = _templateRef;
+        this._parent = parent;
+    }
+    ///-----------------------------------------------  Variables   -----------------------------------------------///
+    /**
+     * @param {?} collapsed
+     * @return {?}
+     */
+    set collapsed(collapsed) {
+        if (collapsed) {
+            this._vcRef.clear();
+        }
+        else {
+            this._vcRef.createEmbeddedView(this._templateRef);
+        }
     }
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     /**
      * @return {?}
      */
     ngOnInit() {
-        if (!this._panelComp && (!this._headerComp || !this._contentComp)) {
-            throw new Error(`'collapse-header' or 'collapse-content'  cannot be found!`);
-        }
-        if (!this._panelComp) {
-            this.single = true;
-            this._headerComp.toggle.pipe(untilDestroyed(this)).subscribe(() => {
-                this._contentComp.collapsed = !this._contentComp.collapsed;
-                this._contentComp.ngOnChanges();
-            });
-        }
+        this._vcRef.clear();
+        this._parent.change$.pipe(untilDestroyed(this)).subscribe((collapsed) => {
+            this.collapsed = collapsed;
+        });
     }
     /**
      * @return {?}
@@ -408,29 +402,58 @@ class CollapsibleComponent {
     ngOnDestroy() {
     }
 }
-CollapsibleComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'io-collapsible',
-                template: `
-      <ng-container *ngIf="!single">
-          <ng-content select="collapse-panel"></ng-content>
-      </ng-container>
-
-      <ng-container *ngIf="single">
-          <ng-content select="collapse-header"></ng-content>
-
-          <ng-content select="collapse-content"></ng-content>
-      </ng-container>
-  `,
-                styles: [":host{display:flex;flex-direction:column}:host ::ng-deep collapse-panel{background-color:#fff;border:1px solid rgba(0,0,0,.16);border-radius:.4rem;box-shadow:0 .3rem .6rem rgba(0,0,0,.16)}:host ::ng-deep collapse-header{border-bottom:1px solid rgba(0,0,0,.16);cursor:pointer;display:flex;align-items:center;font-size:2rem;font-weight:600;margin:.1rem 0;padding:.6rem 1rem}:host ::ng-deep collapse-header.collapsed{border-bottom:0}:host ::ng-deep collapse-content{padding:2rem}"]
-            }] }
+ContentDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[collapseContent]'
+            },] }
 ];
 /** @nocollapse */
-CollapsibleComponent.ctorParameters = () => [];
-CollapsibleComponent.propDecorators = {
-    _panelComp: [{ type: ContentChild, args: [PanelComponent,] }],
-    _headerComp: [{ type: ContentChild, args: [HeaderComponent,] }],
-    _contentComp: [{ type: ContentChild, args: [ContentComponent,] }]
+ContentDirective.ctorParameters = () => [
+    { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+    { type: ChangeDetectorRef },
+    { type: ViewContainerRef },
+    { type: TemplateRef }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class ToggleDirective {
+    /**
+     * @param {?} parent
+     * @param {?} cd
+     */
+    constructor(parent, cd) {
+        this.cd = cd;
+        this._parent = parent;
+    }
+    /**
+     * @param {?} $event
+     * @return {?}
+     */
+    onClick($event) {
+        this._parent.change$.next(!this._parent.collapsed);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this._parent.customToggler = true;
+    }
+}
+ToggleDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[collapseToggle]'
+            },] }
+];
+/** @nocollapse */
+ToggleDirective.ctorParameters = () => [
+    { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+    { type: ChangeDetectorRef }
+];
+ToggleDirective.propDecorators = {
+    onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
 
 /**
@@ -445,24 +468,14 @@ CollapsibleModule.decorators = [
                     CommonModule
                 ],
                 declarations: [
-                    CollapsibleComponent,
-                    HeaderComponent,
-                    ContentComponent,
-                    PanelComponent,
-                    CollapseToggleDirective
+                    CollapsibleDirective,
+                    ContentDirective,
+                    ToggleDirective
                 ],
                 exports: [
-                    CollapsibleComponent,
-                    HeaderComponent,
-                    ContentComponent,
-                    PanelComponent,
-                    CollapseToggleDirective
-                ],
-                entryComponents: [
-                    CollapsibleComponent,
-                    HeaderComponent,
-                    ContentComponent,
-                    PanelComponent
+                    CollapsibleDirective,
+                    ContentDirective,
+                    ToggleDirective
                 ]
             },] }
 ];
@@ -1744,7 +1757,7 @@ ToastComponent.decorators = [
     { type: Component, args: [{
                 selector: 'io-toast',
                 template: "<ng-container *ngFor=\"let message of message_list\">\r\n    <div class=\"toast-message\" [ngClass]=\"message.type\">\r\n        {{message.text}}\r\n\r\n        <div class=\"delete\" (click)=\"deleteMessage(message.id)\">x</div>\r\n    </div>\r\n\r\n</ng-container>",
-                styles: [":host{display:none;position:fixed;top:0;right:0;bottom:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
+                styles: [":host{display:none;position:fixed;top:0;right:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
             }] }
 ];
 /** @nocollapse */
@@ -1881,15 +1894,131 @@ ScrollDownDirective.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+class SpreadDirective {
+    /**
+     * @param {?} _vcRef
+     * @param {?} _renderer
+     * @param {?} _elRef
+     */
+    constructor(_vcRef, _renderer, _elRef) {
+        this._vcRef = _vcRef;
+        this._renderer = _renderer;
+        this._elRef = _elRef;
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if (!this._vcRef['_data'].componentView) {
+            _.forOwn(this._context, (value, key) => {
+                if (!this._elRef.nativeElement[key])
+                    (value instanceof Function)
+                        ? this._renderer.listen(this._elRef.nativeElement, key, value)
+                        : this._renderer.setAttribute(this._elRef.nativeElement, key, value);
+            });
+        }
+    }
+}
+SpreadDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[spread]'
+            },] }
+];
+/** @nocollapse */
+SpreadDirective.ctorParameters = () => [
+    { type: ViewContainerRef },
+    { type: Renderer2 },
+    { type: ElementRef }
+];
+SpreadDirective.propDecorators = {
+    _context: [{ type: Input, args: ['spread',] }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class RemoveHostElementDirective {
+    /**
+     * @param {?} _vcRef
+     */
+    constructor(_vcRef) {
+        this._vcRef = _vcRef;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        /** @type {?} */
+        const nativeElement = this._vcRef.element.nativeElement;
+        /** @type {?} */
+        const parentElement = nativeElement.parentElement;
+        if (parentElement) {
+            // move all children out of the element
+            while (nativeElement.firstChild) {
+                parentElement.insertBefore(nativeElement.firstChild, nativeElement);
+            }
+            // remove the empty element(the host)
+            parentElement.removeChild(nativeElement);
+        }
+    }
+}
+RemoveHostElementDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[removeHostElement]'
+            },] }
+];
+/** @nocollapse */
+RemoveHostElementDirective.ctorParameters = () => [
+    { type: ViewContainerRef }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class IonarTemplateDirective {
+    /**
+     * @param {?} templateRef
+     */
+    constructor(templateRef) {
+        this.templateRef = templateRef;
+        this.name = '';
+    }
+}
+IonarTemplateDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[ioTemplate]'
+            },] }
+];
+/** @nocollapse */
+IonarTemplateDirective.ctorParameters = () => [
+    { type: TemplateRef }
+];
+IonarTemplateDirective.propDecorators = {
+    name: [{ type: Input }],
+    component: [{ type: Input }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 class DirectiveModule {
 }
 DirectiveModule.decorators = [
     { type: NgModule, args: [{
                 declarations: [
-                    SquareDirective, ScrollDownDirective
+                    SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
                 ],
                 exports: [
-                    SquareDirective, ScrollDownDirective
+                    SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
                 ]
             },] }
 ];
@@ -2158,7 +2287,99 @@ IonarUI.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @abstract
+ */
+class IoAbstractUI {
+    /**
+     * @param {?} cd
+     * @param {?} _elRef
+     */
+    constructor(cd, _elRef) {
+        this.cd = cd;
+        this._elRef = _elRef;
+        this.template = null;
+        this.viewInit = false;
+        this.setContext = (properties, events) => {
+            this._contextData = Object.assign({}, this._contextData, properties, events);
+            // this.cd.markForCheck();
+        };
+        this.parseTemplate = () => {
+            if (!this.template) {
+                this.template = this._contentTemplate;
+                if (this._defaultContentComp) {
+                    this._defaultContentComp.template = {
+                        template: this._defaultTemplate,
+                        context: this.context
+                    };
+                }
+                if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+                    this.template = this._defaultTemplate;
+                    this.cd.detectChanges();
+                }
+                this.viewInit = true;
+                this.cd.detectChanges();
+            }
+            this.viewInit = true;
+            this.cd.detectChanges();
+        };
+    }
+    /**
+     * @return {?}
+     */
+    get context() {
+        return {
+            defaultContent: this._defaultTemplate,
+            $implicit: this._contextData
+        };
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        this.parseTemplate();
+        this.cd.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+    }
+}
+IoAbstractUI.propDecorators = {
+    template: [{ type: Input }],
+    _container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
+    _defaultTemplate: [{ type: ViewChild, args: ['default_template', { read: TemplateRef },] }],
+    _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }],
+    _defaultContentComp: [{ type: ContentChild, args: [DefaultContentComponent,] }]
+};
 
-export { IonarUI, IonarLoadingService, IonarToastService, CollapsibleComponent as ɵe, CollapsibleModule as ɵd, ContentComponent as ɵi, HeaderComponent as ɵg, PanelComponent as ɵf, CollapseToggleDirective as ɵh, ComponentModule as ɵa, MenuComponent as ɵq, ToggleComponent as ɵr, DropdownComponent as ɵp, DropdownModule as ɵo, LoadingComponent as ɵt, LoadingModule as ɵs, IonarLoadingService as ɵu, CircleComponent as ɵx, SpinnerComponent as ɵv, SpinnerTemplate as ɵw, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵba, PageNumberComponent as ɵbb, PaginationComponent as ɵz, PaginationModule as ɵy, TabContentComponent as ɵn, TabLabelComponent as ɵm, TabComponent as ɵl, TabsComponent as ɵk, TabsModule as ɵj, ToastComponent as ɵbd, ToastModule as ɵbc, IonarToastService as ɵbe, DirectiveModule as ɵbo, ScrollDownDirective as ɵbq, SquareDirective as ɵbp, ButtonComponent as ɵbi, ButtonModule as ɵbh, ElementModule as ɵbf, FlexElement as ɵbg, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { IonarUI, IonarLoadingService, IonarToastService, isEmptyTemplate, removeHost, DefaultContentComponent, IoAbstractUI, IonarTemplateDirective, CollapsibleModule as ɵd, CollapsibleDirective as ɵe, ContentDirective as ɵf, ToggleDirective as ɵg, ComponentModule as ɵa, MenuComponent as ɵo, ToggleComponent as ɵp, DropdownComponent as ɵn, DropdownModule as ɵm, LoadingComponent as ɵr, LoadingModule as ɵq, IonarLoadingService as ɵs, CircleComponent as ɵv, SpinnerComponent as ɵt, SpinnerTemplate as ɵu, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵy, PageNumberComponent as ɵz, PaginationComponent as ɵx, PaginationModule as ɵw, TabContentComponent as ɵl, TabLabelComponent as ɵk, TabComponent as ɵj, TabsComponent as ɵi, TabsModule as ɵh, ToastComponent as ɵbb, ToastModule as ɵba, IonarToastService as ɵbc, DirectiveModule as ɵbo, RemoveHostElementDirective as ɵbs, ScrollDownDirective as ɵbq, SpreadDirective as ɵbr, SquareDirective as ɵbp, IonarTemplateDirective as ɵbt, ButtonComponent as ɵbg, ButtonModule as ɵbf, DefaultContentComponent as ɵbi, DefaultContentModule as ɵbh, ElementModule as ɵbd, FlexElement as ɵbe, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
 
 //# sourceMappingURL=ionar-ui.js.map
