@@ -1,6 +1,6 @@
 {
   "name": "@ionar/ui",
-  "version": "1.5.0",
+  "version": "1.6.2",
   "main": "bundles/ionar-ui.umd.js",
   "module": "fesm5/ionar-ui.js",
   "es2015": "fesm2015/ionar-ui.js",

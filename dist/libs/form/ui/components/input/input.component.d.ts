@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import _ from 'lodash';
 import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
-export declare class InputComponent extends IoFormFieldUI implements OnInit {
+export declare class InputComponent extends IoFormFieldUI implements OnInit, OnChanges {
     type: string;
     name: string;
     placeholder: string;
@@ -9,6 +9,7 @@ export declare class InputComponent extends IoFormFieldUI implements OnInit {
     range: any[];
     constructor(cd: ChangeDetectorRef, _elRef: ElementRef);
     ngOnInit(): void;
+    ngOnChanges(changes: SimpleChanges): void;
     onFocus: () => void;
     onBlur: () => void;
     onChange: ((e: any) => void) & _.Cancelable;

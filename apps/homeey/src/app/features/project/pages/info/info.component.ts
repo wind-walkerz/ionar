@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProjectService } from '../../providers/project.service';
 import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
+import Joi from '@ionar/joi'
+
 
 @Component({
   selector: 'info',
@@ -62,10 +64,7 @@ export class InfoComponent implements OnInit, OnDestroy {
             label: 'E-mail',
             value: res.email
           },
-          validators: {
-            required: true,
-            email: true
-          }
+        schema: Joi.string().email().required()
         },
         phone: {
           component: 'input',

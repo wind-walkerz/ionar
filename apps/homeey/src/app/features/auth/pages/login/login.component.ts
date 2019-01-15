@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
         component: 'input',
         props: {
           type: 'password',
-          label: 'Password'
+          label: 'Password',
+          value: 'sdklfjskl'
         },
         schema: Joi.string().required().min(6)
       },

@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           type: 'password'
         },
         schema: Joi.string().required(),
-        options: {
+        options:  {
           excluded: true
         }
       },

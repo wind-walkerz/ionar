@@ -12,6 +12,9 @@ import {
 import _ from 'lodash';
 import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import {ProjectService} from '../../../../providers/project.service';
+import Joi from '@ionar/joi'
+
+
 
 @Component({
     selector: 'marker',
@@ -56,9 +59,7 @@ export class MarkerComponent implements OnInit, OnChanges, OnDestroy {
                     placeholder: 'Write your comment...',
 
                 },
-                validators: {
-                    required: true
-                },
+               schema: Joi.string().required(),
                 options: {
                     hideFeedback: true,
                     hideLabel: true

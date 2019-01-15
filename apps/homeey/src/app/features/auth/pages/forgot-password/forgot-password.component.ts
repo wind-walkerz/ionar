@@ -46,24 +46,6 @@ export class ForgotPasswordComponent implements OnInit {
       }
     });
 
-    this.changePassFormGroup = this._fb.group({
-      password: {
-        component: 'input',
-        props: {
-          label: 'New Password',
-          type: 'password'
-        },
-        schema: Joi.string().min(6).required()
-      },
-      confirm_password: {
-        component: 'input',
-        props: {
-          label: 'Confirm Password',
-          type: 'password'
-        }
-      }
-    });
-
     this._token = this.router.snapshot.queryParamMap.get('token');
   }
 

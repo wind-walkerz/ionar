@@ -12,9 +12,9 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'auth', loadChildren: './features/auth/auth.module#AuthModule', data: { animation: 'auth' } },
-  { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule', data: { animation: 'profile' } },
-  { path: 'project/:id', loadChildren: './features/project/project.module#ProjectModule', data: { animation: 'project' } },
-  { path: 'product', loadChildren: './features/products/products.module#ProductsModule' }
+  // { path: 'profile', loadChildren: './features/profile/profile.module#ProfileModule', data: { animation: 'profile' } },
+  // { path: 'project/:id', loadChildren: './features/project/project.module#ProjectModule', data: { animation: 'project' } },
+  // { path: 'product', loadChildren: './features/products/products.module#ProductsModule' }
 ];
 
 @NgModule({

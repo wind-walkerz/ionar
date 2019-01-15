@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Templat
 import moment from 'moment';
 import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import { ProjectService } from '../../providers/project.service';
-
+import Joi from '@ionar/joi'
 
 @Component({
   selector: 'feed',
@@ -46,9 +46,7 @@ export class FeedComponent implements OnInit, OnDestroy {
         props: {
           placeholder: 'Write your comment...'
         },
-        validators: {
-          required: true
-        },
+        schema: Joi.string().required(),
         options: {
           hideFeedback: true,
           hideLabel: true

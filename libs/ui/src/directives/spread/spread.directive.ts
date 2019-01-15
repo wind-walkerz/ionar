@@ -31,13 +31,14 @@ export class SpreadDirective implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!this._vcRef['_data'].componentView) {
       _.forOwn(this._context, (value: any, key: string) => {
-        if (!this._elRef.nativeElement[key])
+
+        if (!this._elRef.nativeElement[key] || key=== 'type')
 
           (value instanceof Function)
             ? this._renderer.listen(this._elRef.nativeElement, key, value)
             : this._renderer.setAttribute(this._elRef.nativeElement, key, value);
-
       });
+
     }
 
   }

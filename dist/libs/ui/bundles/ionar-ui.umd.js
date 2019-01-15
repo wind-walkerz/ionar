@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('uuid/v1'), require('@ionar/utility'), require('lodash'), require('@angular/common'), require('@angular/animations'), require('@ionar/animations'), require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', 'uuid/v1', '@ionar/utility', 'lodash', '@angular/common', '@angular/animations', '@ionar/animations', '@angular/core'], factory) :
-    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global.uuid,global.utility,global._,global.ng.common,global.ng.animations,global.animations$1,global.ng.core));
-}(this, (function (exports,rxjs,uuid,utility,_,common,animations,animations$1,i0) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('uuid/v1'), require('@ionar/utility'), require('@angular/common'), require('@angular/animations'), require('@ionar/animations'), require('lodash'), require('@angular/core')) :
+    typeof define === 'function' && define.amd ? define('@ionar/ui', ['exports', 'rxjs', 'uuid/v1', '@ionar/utility', '@angular/common', '@angular/animations', '@ionar/animations', 'lodash', '@angular/core'], factory) :
+    (factory((global.ionar = global.ionar || {}, global.ionar.ui = {}),global.rxjs,global.uuid,global.utility,global.ng.common,global.ng.animations,global.animations$1,global._,global.ng.core));
+}(this, (function (exports,rxjs,uuid,utility,common,animations,animations$1,_,i0) { 'use strict';
 
     uuid = uuid && uuid.hasOwnProperty('default') ? uuid['default'] : uuid;
     _ = _ && _.hasOwnProperty('default') ? _['default'] : _;
@@ -117,142 +117,6 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    /** @type {?} */
-    var isEmptyTemplate = function (element) {
-        /** @type {?} */
-        var nodes = element.nativeElement.childNodes;
-        return _.every(nodes, function (node) {
-            return (node.nodeType === 8);
-        });
-    };
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /** @type {?} */
-    var removeHost = function (element) {
-        /** @type {?} */
-        var nativeElement = element.nativeElement;
-        /** @type {?} */
-        var parentElement = nativeElement.parentElement;
-        if (parentElement) {
-            parentElement.removeChild(nativeElement);
-        }
-    };
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    var DefaultContentComponent = /** @class */ (function () {
-        function DefaultContentComponent(_elRef, _vcRef, cd) {
-            this._elRef = _elRef;
-            this._vcRef = _vcRef;
-            this.cd = cd;
-            this.isHostRemoved = false;
-        }
-        Object.defineProperty(DefaultContentComponent.prototype, "template", {
-            set: /**
-             * @param {?} view
-             * @return {?}
-             */ function (view) {
-                this._vcRef.clear();
-                this._vcRef.createEmbeddedView(view.template, view.context);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-        /**
-         * @return {?}
-         */
-        DefaultContentComponent.prototype.ngOnInit =
-            ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-            /**
-             * @return {?}
-             */
-            function () {
-            };
-        /**
-         * @param {?} changes
-         * @return {?}
-         */
-        DefaultContentComponent.prototype.ngOnChanges = /**
-         * @param {?} changes
-         * @return {?}
-         */
-            function (changes) {
-                if (this.context) {
-                    this.template = {
-                        template: this._vcRef['_view'].context.defaultContent,
-                        context: { $implicit: this.context }
-                    };
-                    if (!this.isHostRemoved) {
-                        removeHost(this._elRef);
-                    }
-                    this.isHostRemoved = true;
-                    this.cd.detectChanges();
-                }
-            };
-        /**
-         * @return {?}
-         */
-        DefaultContentComponent.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-            function () {
-            };
-        DefaultContentComponent.decorators = [
-            { type: i0.Component, args: [{
-                        selector: 'default-content',
-                        template: ""
-                    }] }
-        ];
-        /** @nocollapse */
-        DefaultContentComponent.ctorParameters = function () {
-            return [
-                { type: i0.ElementRef },
-                { type: i0.ViewContainerRef },
-                { type: i0.ChangeDetectorRef }
-            ];
-        };
-        DefaultContentComponent.propDecorators = {
-            context: [{ type: i0.Input }]
-        };
-        return DefaultContentComponent;
-    }());
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    var DefaultContentModule = /** @class */ (function () {
-        function DefaultContentModule() {
-        }
-        DefaultContentModule.decorators = [
-            { type: i0.NgModule, args: [{
-                        declarations: [
-                            DefaultContentComponent
-                        ],
-                        exports: [
-                            DefaultContentComponent
-                        ]
-                    },] }
-        ];
-        return DefaultContentModule;
-    }());
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
     var ElementModule = /** @class */ (function () {
         function ElementModule() {
         }
@@ -262,11 +126,10 @@
                             FlexElement
                         ],
                         imports: [
-                            ButtonModule, DefaultContentModule
+                            ButtonModule,
                         ],
                         exports: [
                             FlexElement,
-                            DefaultContentModule,
                             ButtonModule
                         ]
                     },] }
@@ -2086,7 +1949,7 @@
                 var _this = this;
                 if (!this._vcRef['_data'].componentView) {
                     _.forOwn(this._context, function (value, key) {
-                        if (!_this._elRef.nativeElement[key])
+                        if (!_this._elRef.nativeElement[key] || key === 'type')
                             (value instanceof Function)
                                 ? _this._renderer.listen(_this._elRef.nativeElement, key, value)
                                 : _this._renderer.setAttribute(_this._elRef.nativeElement, key, value);
@@ -2459,6 +2322,142 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    /** @type {?} */
+    var isEmptyTemplate = function (element) {
+        /** @type {?} */
+        var nodes = element.nativeElement.childNodes;
+        return _.every(nodes, function (node) {
+            return (node.nodeType === 8);
+        });
+    };
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    /** @type {?} */
+    var removeHost = function (element) {
+        /** @type {?} */
+        var nativeElement = element.nativeElement;
+        /** @type {?} */
+        var parentElement = nativeElement.parentElement;
+        if (parentElement) {
+            parentElement.removeChild(nativeElement);
+        }
+    };
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var DefaultContentComponent = /** @class */ (function () {
+        function DefaultContentComponent(_elRef, _vcRef, cd) {
+            this._elRef = _elRef;
+            this._vcRef = _vcRef;
+            this.cd = cd;
+            this.isHostRemoved = false;
+        }
+        Object.defineProperty(DefaultContentComponent.prototype, "template", {
+            set: /**
+             * @param {?} view
+             * @return {?}
+             */ function (view) {
+                this._vcRef.clear();
+                this._vcRef.createEmbeddedView(view.template, view.context);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+        ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+        /**
+         * @return {?}
+         */
+        DefaultContentComponent.prototype.ngOnInit =
+            ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+            /**
+             * @return {?}
+             */
+            function () {
+            };
+        /**
+         * @param {?} changes
+         * @return {?}
+         */
+        DefaultContentComponent.prototype.ngOnChanges = /**
+         * @param {?} changes
+         * @return {?}
+         */
+            function (changes) {
+                if (this.context) {
+                    this.template = {
+                        template: this._vcRef['_view'].context.defaultContent,
+                        context: { $implicit: this.context }
+                    };
+                    if (!this.isHostRemoved) {
+                        removeHost(this._elRef);
+                    }
+                    this.isHostRemoved = true;
+                    this.cd.detectChanges();
+                }
+            };
+        /**
+         * @return {?}
+         */
+        DefaultContentComponent.prototype.ngOnDestroy = /**
+         * @return {?}
+         */
+            function () {
+            };
+        DefaultContentComponent.decorators = [
+            { type: i0.Component, args: [{
+                        selector: 'default-content',
+                        template: ""
+                    }] }
+        ];
+        /** @nocollapse */
+        DefaultContentComponent.ctorParameters = function () {
+            return [
+                { type: i0.ElementRef },
+                { type: i0.ViewContainerRef },
+                { type: i0.ChangeDetectorRef }
+            ];
+        };
+        DefaultContentComponent.propDecorators = {
+            context: [{ type: i0.Input }]
+        };
+        return DefaultContentComponent;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var DefaultContentModule = /** @class */ (function () {
+        function DefaultContentModule() {
+        }
+        DefaultContentModule.decorators = [
+            { type: i0.NgModule, args: [{
+                        declarations: [
+                            DefaultContentComponent
+                        ],
+                        exports: [
+                            DefaultContentComponent
+                        ]
+                    },] }
+        ];
+        return DefaultContentModule;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     var IonarUI = /** @class */ (function () {
         function IonarUI() {
         }
@@ -2468,13 +2467,15 @@
                             ComponentModule,
                             ElementModule,
                             PackagesModule,
-                            DirectiveModule
+                            DirectiveModule,
+                            DefaultContentModule
                         ],
                         exports: [
                             ComponentModule,
                             ElementModule,
                             PackagesModule,
-                            DirectiveModule
+                            DirectiveModule,
+                            DefaultContentModule
                         ]
                     },] }
         ];
@@ -2636,23 +2637,23 @@
     exports.ɵbb = ToastComponent;
     exports.ɵba = ToastModule;
     exports.ɵbc = IonarToastService;
-    exports.ɵbo = DirectiveModule;
-    exports.ɵbs = RemoveHostElementDirective;
-    exports.ɵbq = ScrollDownDirective;
-    exports.ɵbr = SpreadDirective;
-    exports.ɵbp = SquareDirective;
-    exports.ɵbt = IonarTemplateDirective;
+    exports.ɵbm = DirectiveModule;
+    exports.ɵbq = RemoveHostElementDirective;
+    exports.ɵbo = ScrollDownDirective;
+    exports.ɵbp = SpreadDirective;
+    exports.ɵbn = SquareDirective;
+    exports.ɵbr = IonarTemplateDirective;
     exports.ɵbg = ButtonComponent;
     exports.ɵbf = ButtonModule;
-    exports.ɵbi = DefaultContentComponent;
-    exports.ɵbh = DefaultContentModule;
+    exports.ɵbt = DefaultContentComponent;
+    exports.ɵbs = DefaultContentModule;
     exports.ɵbd = ElementModule;
     exports.ɵbe = FlexElement;
-    exports.ɵbl = CarouselComponent;
-    exports.ɵbk = CarouselModule;
-    exports.ɵbn = SlideComponent;
-    exports.ɵbm = SlideDirective;
-    exports.ɵbj = PackagesModule;
+    exports.ɵbj = CarouselComponent;
+    exports.ɵbi = CarouselModule;
+    exports.ɵbl = SlideComponent;
+    exports.ɵbk = SlideDirective;
+    exports.ɵbh = PackagesModule;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

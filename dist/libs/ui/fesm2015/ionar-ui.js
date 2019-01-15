@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs';
 import uuid from 'uuid/v1';
 import { untilDestroyed } from '@ionar/utility';
-import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { AnimationBuilder, useAnimation } from '@angular/animations';
 import { slideInLeftAnimation, slideInRightAnimation, slideOutLeftAnimation, slideOutRightAnimation } from '@ionar/animations';
-import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, ViewContainerRef, ChangeDetectorRef, EventEmitter, Output, ViewChild, Directive, Host, Optional, SkipSelf, TemplateRef, ContentChild, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
+import _ from 'lodash';
+import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ChangeDetectorRef, Host, Optional, SkipSelf, TemplateRef, ViewContainerRef, ContentChild, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -110,125 +110,6 @@ ButtonModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-const isEmptyTemplate = (element) => {
-    /** @type {?} */
-    const nodes = element.nativeElement.childNodes;
-    return _.every(nodes, node => {
-        return (node.nodeType === 8);
-    });
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/** @type {?} */
-const removeHost = (element) => {
-    /** @type {?} */
-    const nativeElement = element.nativeElement;
-    /** @type {?} */
-    const parentElement = nativeElement.parentElement;
-    if (parentElement) {
-        parentElement.removeChild(nativeElement);
-    }
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class DefaultContentComponent {
-    /**
-     * @param {?} _elRef
-     * @param {?} _vcRef
-     * @param {?} cd
-     */
-    constructor(_elRef, _vcRef, cd) {
-        this._elRef = _elRef;
-        this._vcRef = _vcRef;
-        this.cd = cd;
-        this.isHostRemoved = false;
-    }
-    /**
-     * @param {?} view
-     * @return {?}
-     */
-    set template(view) {
-        this._vcRef.clear();
-        this._vcRef.createEmbeddedView(view.template, view.context);
-    }
-    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if (this.context) {
-            this.template = {
-                template: this._vcRef['_view'].context.defaultContent,
-                context: { $implicit: this.context }
-            };
-            if (!this.isHostRemoved) {
-                removeHost(this._elRef);
-            }
-            this.isHostRemoved = true;
-            this.cd.detectChanges();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-    }
-}
-DefaultContentComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'default-content',
-                template: ``
-            }] }
-];
-/** @nocollapse */
-DefaultContentComponent.ctorParameters = () => [
-    { type: ElementRef },
-    { type: ViewContainerRef },
-    { type: ChangeDetectorRef }
-];
-DefaultContentComponent.propDecorators = {
-    context: [{ type: Input }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class DefaultContentModule {
-}
-DefaultContentModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [
-                    DefaultContentComponent
-                ],
-                exports: [
-                    DefaultContentComponent
-                ]
-            },] }
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 class ElementModule {
 }
 ElementModule.decorators = [
@@ -237,11 +118,10 @@ ElementModule.decorators = [
                     FlexElement
                 ],
                 imports: [
-                    ButtonModule, DefaultContentModule
+                    ButtonModule,
                 ],
                 exports: [
                     FlexElement,
-                    DefaultContentModule,
                     ButtonModule
                 ]
             },] }
@@ -1917,7 +1797,7 @@ class SpreadDirective {
     ngOnChanges(changes) {
         if (!this._vcRef['_data'].componentView) {
             _.forOwn(this._context, (value, key) => {
-                if (!this._elRef.nativeElement[key])
+                if (!this._elRef.nativeElement[key] || key === 'type')
                     (value instanceof Function)
                         ? this._renderer.listen(this._elRef.nativeElement, key, value)
                         : this._renderer.setAttribute(this._elRef.nativeElement, key, value);
@@ -2254,6 +2134,125 @@ PackagesModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+const isEmptyTemplate = (element) => {
+    /** @type {?} */
+    const nodes = element.nativeElement.childNodes;
+    return _.every(nodes, node => {
+        return (node.nodeType === 8);
+    });
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+const removeHost = (element) => {
+    /** @type {?} */
+    const nativeElement = element.nativeElement;
+    /** @type {?} */
+    const parentElement = nativeElement.parentElement;
+    if (parentElement) {
+        parentElement.removeChild(nativeElement);
+    }
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class DefaultContentComponent {
+    /**
+     * @param {?} _elRef
+     * @param {?} _vcRef
+     * @param {?} cd
+     */
+    constructor(_elRef, _vcRef, cd) {
+        this._elRef = _elRef;
+        this._vcRef = _vcRef;
+        this.cd = cd;
+        this.isHostRemoved = false;
+    }
+    /**
+     * @param {?} view
+     * @return {?}
+     */
+    set template(view) {
+        this._vcRef.clear();
+        this._vcRef.createEmbeddedView(view.template, view.context);
+    }
+    ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if (this.context) {
+            this.template = {
+                template: this._vcRef['_view'].context.defaultContent,
+                context: { $implicit: this.context }
+            };
+            if (!this.isHostRemoved) {
+                removeHost(this._elRef);
+            }
+            this.isHostRemoved = true;
+            this.cd.detectChanges();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+    }
+}
+DefaultContentComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'default-content',
+                template: ``
+            }] }
+];
+/** @nocollapse */
+DefaultContentComponent.ctorParameters = () => [
+    { type: ElementRef },
+    { type: ViewContainerRef },
+    { type: ChangeDetectorRef }
+];
+DefaultContentComponent.propDecorators = {
+    context: [{ type: Input }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class DefaultContentModule {
+}
+DefaultContentModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [
+                    DefaultContentComponent
+                ],
+                exports: [
+                    DefaultContentComponent
+                ]
+            },] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 class IonarUI {
 }
 IonarUI.decorators = [
@@ -2262,13 +2261,15 @@ IonarUI.decorators = [
                     ComponentModule,
                     ElementModule,
                     PackagesModule,
-                    DirectiveModule
+                    DirectiveModule,
+                    DefaultContentModule
                 ],
                 exports: [
                     ComponentModule,
                     ElementModule,
                     PackagesModule,
-                    DirectiveModule
+                    DirectiveModule,
+                    DefaultContentModule
                 ]
             },] }
 ];
@@ -2380,6 +2381,6 @@ IoAbstractUI.propDecorators = {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { IonarUI, IonarLoadingService, IonarToastService, isEmptyTemplate, removeHost, DefaultContentComponent, IoAbstractUI, IonarTemplateDirective, CollapsibleModule as ɵd, CollapsibleDirective as ɵe, ContentDirective as ɵf, ToggleDirective as ɵg, ComponentModule as ɵa, MenuComponent as ɵo, ToggleComponent as ɵp, DropdownComponent as ɵn, DropdownModule as ɵm, LoadingComponent as ɵr, LoadingModule as ɵq, IonarLoadingService as ɵs, CircleComponent as ɵv, SpinnerComponent as ɵt, SpinnerTemplate as ɵu, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵy, PageNumberComponent as ɵz, PaginationComponent as ɵx, PaginationModule as ɵw, TabContentComponent as ɵl, TabLabelComponent as ɵk, TabComponent as ɵj, TabsComponent as ɵi, TabsModule as ɵh, ToastComponent as ɵbb, ToastModule as ɵba, IonarToastService as ɵbc, DirectiveModule as ɵbo, RemoveHostElementDirective as ɵbs, ScrollDownDirective as ɵbq, SpreadDirective as ɵbr, SquareDirective as ɵbp, IonarTemplateDirective as ɵbt, ButtonComponent as ɵbg, ButtonModule as ɵbf, DefaultContentComponent as ɵbi, DefaultContentModule as ɵbh, ElementModule as ɵbd, FlexElement as ɵbe, CarouselComponent as ɵbl, CarouselModule as ɵbk, SlideComponent as ɵbn, SlideDirective as ɵbm, PackagesModule as ɵbj };
+export { IonarUI, IonarLoadingService, IonarToastService, isEmptyTemplate, removeHost, DefaultContentComponent, IoAbstractUI, IonarTemplateDirective, CollapsibleModule as ɵd, CollapsibleDirective as ɵe, ContentDirective as ɵf, ToggleDirective as ɵg, ComponentModule as ɵa, MenuComponent as ɵo, ToggleComponent as ɵp, DropdownComponent as ɵn, DropdownModule as ɵm, LoadingComponent as ɵr, LoadingModule as ɵq, IonarLoadingService as ɵs, CircleComponent as ɵv, SpinnerComponent as ɵt, SpinnerTemplate as ɵu, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵy, PageNumberComponent as ɵz, PaginationComponent as ɵx, PaginationModule as ɵw, TabContentComponent as ɵl, TabLabelComponent as ɵk, TabComponent as ɵj, TabsComponent as ɵi, TabsModule as ɵh, ToastComponent as ɵbb, ToastModule as ɵba, IonarToastService as ɵbc, DirectiveModule as ɵbm, RemoveHostElementDirective as ɵbq, ScrollDownDirective as ɵbo, SpreadDirective as ɵbp, SquareDirective as ɵbn, IonarTemplateDirective as ɵbr, ButtonComponent as ɵbg, ButtonModule as ɵbf, DefaultContentComponent as ɵbt, DefaultContentModule as ɵbs, ElementModule as ɵbd, FlexElement as ɵbe, CarouselComponent as ɵbj, CarouselModule as ɵbi, SlideComponent as ɵbl, SlideDirective as ɵbk, PackagesModule as ɵbh };
 
 //# sourceMappingURL=ionar-ui.js.map

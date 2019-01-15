@@ -223,6 +223,17 @@ var InputComponent = /** @class */ (function (_super) {
             keypress: this.onKeyPress
         });
     };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    InputComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        _super.prototype.ngOnChanges.call(this, changes);
+    };
     InputComponent.decorators = [
         { type: Component, args: [{
                     selector: 'io-input',

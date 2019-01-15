@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { ProjectService } from '../../../providers/project.service';
 import _ from 'lodash';
 import { FormGroup, IonarFormBuilder } from '@ionar/form';
-
+import Joi from '@ionar/joi'
 
 @Component({
   selector: 'album',
@@ -39,9 +39,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
         options: {
           hideLabel: true
         },
-        validators: {
-          required: 'Please insert album name!'
-        }
+      schema: Joi.string().required().error(() => 'Please insert album name!')
       },
       project_id: {
         component: 'input',

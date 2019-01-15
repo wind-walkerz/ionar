@@ -6,6 +6,8 @@ import { ProjectService } from '../../../providers/project.service';
 import { $e } from 'codelyzer/angular/styles/chars';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
+import Joi from '@ionar/joi'
+
 
 @Component({
   selector: 'concept',
@@ -78,9 +80,7 @@ export class ConceptComponent implements OnInit, AfterViewInit, OnDestroy {
           placeholder: 'Write your comment...',
 
         },
-        validators: {
-          required: true
-        },
+       schema: Joi.string().required(),
         options: {
           hideFeedback: true,
           hideLabel: true

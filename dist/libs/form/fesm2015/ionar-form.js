@@ -199,6 +199,13 @@ class InputComponent extends IoFormFieldUI {
             keypress: this.onKeyPress
         });
     }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        super.ngOnChanges(changes);
+    }
 }
 InputComponent.decorators = [
     { type: Component, args: [{

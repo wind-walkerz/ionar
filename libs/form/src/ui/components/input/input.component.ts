@@ -18,7 +18,7 @@ import { IoFormFieldUI } from '../../interfaces/IoFormFieldUI';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InputComponent extends IoFormFieldUI implements OnInit {
+export class InputComponent extends IoFormFieldUI implements OnInit, OnChanges {
 
   ///-----------------------------------------------  Variables   -----------------------------------------------///
 
@@ -59,6 +59,10 @@ export class InputComponent extends IoFormFieldUI implements OnInit {
         keypress: this.onKeyPress
       }
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///

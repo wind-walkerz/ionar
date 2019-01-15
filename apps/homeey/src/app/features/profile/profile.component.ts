@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormGroupState, IonarFormBuilder } from '@ionar/form';
 import { AuthService } from '../auth/providers/auth.service';
 import { ProfileService } from './profile.service';
-
+import Joi from '@ionar/joi';
 
 @Component({
   selector: 'profile',
@@ -27,9 +27,7 @@ export class ProfileComponent implements OnInit {
         type: 'password',
         label: 'Current Password'
       },
-      validators: {
-        required: true
-      }
+      schema: Joi.string().required()
     },
     password: {
       component: 'input',
@@ -37,12 +35,7 @@ export class ProfileComponent implements OnInit {
         type: 'password',
         label: 'New Password'
       },
-      validators: {
-        required: true,
-        stringLength: {
-          min: 6
-        }
-      }
+      schema: Joi.string().min(6).required()
     },
     confirm_password: {
       component: 'input',
@@ -50,10 +43,7 @@ export class ProfileComponent implements OnInit {
         type: 'password',
         label: 'Confirm Password'
       },
-      validators: {
-        required: true,
-        equalTo: 'password'
-      }
+      schema: Joi.string().required()
     }
   };
 
@@ -155,10 +145,7 @@ export class ProfileComponent implements OnInit {
             label: 'Email',
             value: res.data.email
           },
-          validators: {
-            required: true,
-            email: true
-          },
+          schema: Joi.string().email(),
           options: {
             disabled: true,
             excluded: true
