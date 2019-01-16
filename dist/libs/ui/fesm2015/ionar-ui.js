@@ -2303,7 +2303,7 @@ class IoAbstractUI {
         this.viewInit = false;
         this.setContext = (properties, events) => {
             this._contextData = Object.assign({}, this._contextData, properties, events);
-            // this.cd.markForCheck();
+            this.cd.markForCheck();
         };
         this.parseTemplate = () => {
             if (!this.template) {
@@ -2345,6 +2345,7 @@ class IoAbstractUI {
      */
     ngOnChanges(changes) {
         this.parseTemplate();
+        console.log(this._defaultContentComp);
         this.cd.markForCheck();
     }
     /**

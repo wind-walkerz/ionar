@@ -1,6 +1,6 @@
 {
   "name": "@ionar/animations",
-  "version": "1.2.3",
+  "version": "1.7.2",
   "main": "bundles/ionar-animations.umd.js",
   "module": "fesm5/ionar-animations.js",
   "es2015": "fesm2015/ionar-animations.js",

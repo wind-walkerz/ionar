@@ -2,9 +2,86 @@ import Joi from '@ionar/joi';
 import { untilDestroyed } from '@ionar/utility';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { IoAbstractUI, IonarTemplateDirective, isEmptyTemplate, IonarUI } from '@ionar/ui';
-import { EventEmitter, HostBinding, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ComponentFactoryResolver, Directive, ViewContainerRef, ContentChild, forwardRef, Host, Optional, SkipSelf, HostListener, Injectable, ContentChildren, ViewChild, NgModule, defineInjectable } from '@angular/core';
+import { IonarTemplateDirective, isEmptyTemplate, IonarUI } from '@ionar/ui';
+import { Input, TemplateRef, ViewChild, ViewContainerRef, EventEmitter, HostBinding, Output, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ComponentFactoryResolver, Directive, ContentChild, forwardRef, Host, Optional, SkipSelf, HostListener, Injectable, ContentChildren, NgModule, defineInjectable } from '@angular/core';
 import _, { trim } from 'lodash';
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @abstract
+ */
+class IoAbstractUI {
+    /**
+     * @param {?} cd
+     * @param {?} _elRef
+     */
+    constructor(cd, _elRef) {
+        this.cd = cd;
+        this._elRef = _elRef;
+        this.template = null;
+        this.viewInit = false;
+        this.setContext = (properties, events) => {
+            this._contextData = Object.assign({}, this._contextData, properties, events);
+            this.cd.markForCheck();
+        };
+        this.parseTemplate = () => {
+            if (!this.template) {
+                this.template = this._contentTemplate;
+                // if (this._defaultContentComp) {
+                //
+                //   this._defaultContentComp.template = {
+                //     template: this._defaultTemplate,
+                //     context: this.context
+                //   };
+                // }
+                // if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+                this.template = this._defaultTemplate;
+                // this.cd.detectChanges();
+                // }
+                this.viewInit = true;
+                this.cd.detectChanges();
+            }
+            this.viewInit = true;
+            this.cd.detectChanges();
+        };
+    }
+    /**
+     * @return {?}
+     */
+    get context() {
+        return {
+            defaultContent: this._defaultTemplate,
+            $implicit: this._contextData
+        };
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        this.parseTemplate();
+        this.cd.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+    }
+}
+IoAbstractUI.propDecorators = {
+    template: [{ type: Input }],
+    _container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
+    _defaultTemplate: [{ type: ViewChild, args: ['default_template', { read: TemplateRef },] }],
+    _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }]
+};
 
 /**
  * @fileoverview added by tsickle
@@ -205,6 +282,7 @@ class InputComponent extends IoFormFieldUI {
      */
     ngOnChanges(changes) {
         super.ngOnChanges(changes);
+        console.log(IoFormFieldUI);
     }
 }
 InputComponent.decorators = [
@@ -468,23 +546,6 @@ class AbstractControl {
             return extractChild ? extractChild.schema : null;
         }
         return this._getControlSchema();
-    }
-    /**
-     * \@internal
-     * @return {?}
-     */
-    _mergeSchema() {
-        // const parentSchema = (<FormGroup>this.parent).schema
-        // if (parentSchema && this.schema) {
-        //   const currentTest = this.schema['_tests']
-        //   const parentTest = this.sh
-        //   _.each(currentTest, test => {
-        //     const index = _.findIndex(testObject1['_tests'], ['name', test.name]);
-        //     testObject1['_tests'].splice(index, 1, test);
-        //
-        //   });
-        // }
-        // (<AbstractControlOptions>this.options).schema
     }
     /**
      * @return {?}
@@ -791,24 +852,10 @@ class AbstractControl {
         return VALID;
     }
     /**
-     * @private
+     * \@internal
      * @return {?}
      */
     _runJoiValidation() {
-        if (this.schema) {
-            /** @type {?} */
-            const validateObject = (this.schema['_type'] !== 'object') ? { [this.name]: this.value } : this.value;
-            /** @type {?} */
-            const validateSchema = (this.schema['_type'] !== 'object') ? { [this.name]: this.schema } : this.schema;
-            /** @type {?} */
-            const result = Joi.validate(validateObject, validateSchema, {
-                abortEarly: false,
-                stripUnknown: true
-            });
-            if (!result.error)
-                return null;
-            return (/** @type {?} */ (result.error.details));
-        }
         return null;
     }
     /**
@@ -827,14 +874,6 @@ class AbstractControl {
     _setInitialStatus() {
         ((/** @type {?} */ (this))).status = this._allControlsDisabled() ? DISABLED : VALID;
     }
-    /**
-     * \@internal
-     * @return {?}
-     */
-    _coerceToJoiSchema() {
-        ((/** @type {?} */ (this))).schema = ((/** @type {?} */ (this.options))).schema;
-    }
-    ;
     /**
      * \@internal
      * @return {?}
@@ -1298,9 +1337,20 @@ class FormGroup extends AbstractControl {
         /**
          * \@internal
          */
+        this._updateChildError = (errors) => {
+            _.each(errors, (err) => {
+                /** @type {?} */
+                const control = _.get(this.controls, err.path);
+                if (control instanceof FormControl) {
+                    control.setErrors([err]);
+                }
+            });
+        };
+        /**
+         * \@internal
+         */
         this._getControlSchema = () => {
-            if (this.options.schema)
-                return this.options.schema;
+            return this.options.schema || Joi.object().keys(this._reduceSchema());
         };
         this._applyFormState = () => {
             if (!this.parent && !this.root) {
@@ -1309,7 +1359,6 @@ class FormGroup extends AbstractControl {
         };
         this._applyFormState();
         this._setUpControls(state);
-        this._coerceToJoiSchema();
         this._initObservables();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
@@ -1578,14 +1627,6 @@ class FormGroup extends AbstractControl {
     /**
      * @return {?}
      */
-    _coerceToJoiSchema() {
-        // (<{ schema: JoiSchema }>this).schema = this._mergeSchema() || Joi.object().keys(this._reduceSchema());
-        // (<{ schema: JoiSchema }>this).schema = this.options.schema || Joi.object().keys(this._reduceSchema());
-    }
-    ;
-    /**
-     * @return {?}
-     */
     updateChildValidity() {
         _.forOwn(this.controls, (c, name) => {
             if (c instanceof FormControl)
@@ -1603,18 +1644,6 @@ class FormGroup extends AbstractControl {
         ((/** @type {?} */ (this))).statusChanges = new EventEmitter();
         ((/** @type {?} */ (this))).ngSubmit = new EventEmitter();
     }
-    // /** @internal */
-    // _updateChildError = (errors: JoiError[]) => {
-    //   _.each(errors, (err: JoiError) => {
-    //     const control: AbstractControl = _.get(this.controls, err.path);
-    //     if (control instanceof FormControl) {
-    //       control.setErrors([err]);
-    //     }
-    //     if(control instanceof FormGroup) {
-    //       control._r()
-    //     }
-    //   });
-    // };
     /**
      * \@internal
      * @return {?}
@@ -1635,6 +1664,40 @@ class FormGroup extends AbstractControl {
             }
         });
         return form_value;
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _reduceSchema() {
+        return _.reduce(this.controls, (result, c, name) => {
+            if (c instanceof FormControl && ((/** @type {?} */ (c.state))).schema) {
+                result[name] = ((/** @type {?} */ (c.state))).schema;
+            }
+            return result;
+        }, {});
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _runJoiValidation() {
+        if (this.schema) {
+            /** @type {?} */
+            const validateObject = (this.schema['_type'] !== 'object') ? { [this.name]: this.value } : this.value;
+            /** @type {?} */
+            const validateSchema = (this.schema['_type'] !== 'object') ? { [this.name]: this.schema } : this.schema;
+            /** @type {?} */
+            const result = Joi.validate(validateObject, validateSchema, {
+                abortEarly: false,
+                stripUnknown: true
+            });
+            if (!result.error)
+                return null;
+            this._updateChildError((/** @type {?} */ (result.error.details)));
+            return (/** @type {?} */ (result.error.details));
+        }
+        return null;
     }
     /**
      * \@internal
@@ -2454,7 +2517,6 @@ class FormArray extends AbstractControl {
      */
     constructor(state, options) {
         super(null, (/** @type {?} */ (options)));
-        this._coerceToJoiSchema();
         this._setUpControls(state);
         this._initObservables();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -4170,6 +4232,6 @@ IonarFormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { FormControl, FormGroup, FormArray, AbstractControl, IonarFormBuilder, IonarFormModule, FeedbackComponent as ɵk, FieldComponent as ɵf, LabelComponent as ɵj, FormArrayComponent as ɵm, formArrayProvider as ɵl, FormControlComponent as ɵh, controlNameBinding as ɵg, FormGroupComponent as ɵo, formGroupProvider as ɵn, FormComponent as ɵc, formProvider as ɵb, CoreModule as ɵa, DynamicFieldDirective as ɵp, SubmitDirective as ɵq, ControlContainer as ɵd, IoControl as ɵi, FormService as ɵe, CheckboxComponent as ɵw, CheckboxModule as ɵv, InputComponent as ɵt, InputModule as ɵs, MenuComponent as ɵbj, MenuModule as ɵbi, ControlComponent as ɵbd, MenuComponent$1 as ɵbe, OptionComponent as ɵbf, SelectComponent as ɵbc, SelectModule as ɵbb, TextareaComponent as ɵbh, TextareaModule as ɵbg, NodeComponent as ɵbm, TreeComponent as ɵbl, TreeModule as ɵbk, ClickComponent as ɵz, DropComponent as ɵba, UploadComponent as ɵy, UploadModule as ɵx, IoFormFieldUI as ɵu, FormUiModule as ɵr };
+export { FormControl, FormGroup, FormArray, AbstractControl, IonarFormBuilder, IonarFormModule, FeedbackComponent as ɵk, FieldComponent as ɵf, LabelComponent as ɵj, FormArrayComponent as ɵm, formArrayProvider as ɵl, FormControlComponent as ɵh, controlNameBinding as ɵg, FormGroupComponent as ɵo, formGroupProvider as ɵn, FormComponent as ɵc, formProvider as ɵb, CoreModule as ɵa, DynamicFieldDirective as ɵp, SubmitDirective as ɵq, ControlContainer as ɵd, IoControl as ɵi, FormService as ɵe, CheckboxComponent as ɵx, CheckboxModule as ɵw, InputComponent as ɵt, InputModule as ɵs, MenuComponent as ɵbk, MenuModule as ɵbj, ControlComponent as ɵbe, MenuComponent$1 as ɵbf, OptionComponent as ɵbg, SelectComponent as ɵbd, SelectModule as ɵbc, TextareaComponent as ɵbi, TextareaModule as ɵbh, NodeComponent as ɵbn, TreeComponent as ɵbm, TreeModule as ɵbl, ClickComponent as ɵba, DropComponent as ɵbb, UploadComponent as ɵz, UploadModule as ɵy, IoAbstractUI as ɵv, IoFormFieldUI as ɵu, FormUiModule as ɵr };
 
 //# sourceMappingURL=ionar-form.js.map

@@ -1,6 +1,7 @@
 import { AbstractControl } from './AbstractControl';
 import { EventEmitter } from '@angular/core';
 import { AbstractControlOptions, FormGroupState } from '../interfaces/Form';
+import { JoiError } from '../interfaces/Validator';
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
@@ -304,10 +305,11 @@ export declare class FormGroup extends AbstractControl {
         [name: string]: AbstractControl;
     } | AbstractControl[] | AbstractControl | null;
     submit(instant?: boolean): void;
-    _coerceToJoiSchema(): void;
     updateChildValidity(): void;
     /** @internal */
     _initObservables(): void;
+    /** @internal */
+    _updateChildError: (errors: JoiError[]) => void;
     /** @internal */
     _updateValue(): void;
     /** @internal */
@@ -315,7 +317,11 @@ export declare class FormGroup extends AbstractControl {
         [k: string]: AbstractControl;
     };
     /** @internal */
-    _getControlSchema: () => import("../..").JoiSchema;
+    _reduceSchema(): {};
+    /** @internal */
+    _getControlSchema: () => any;
+    /** @internal */
+    _runJoiValidation(): JoiError[];
     private _applyFormState;
     /** @internal */
     private _setUpControls;

@@ -1,24 +1,26 @@
+"use strict";
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-import { NgModule } from '@angular/core';
-import { ButtonComponent } from './button.component';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var button_component_1 = require("./button.component");
 var ButtonModule = /** @class */ (function () {
     function ButtonModule() {
     }
     ButtonModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core_1.NgModule, args: [{
                     declarations: [
-                        ButtonComponent
+                        button_component_1.ButtonComponent
                     ],
                     exports: [
-                        ButtonComponent
+                        button_component_1.ButtonComponent
                     ],
-                    entryComponents: [ButtonComponent]
+                    entryComponents: [button_component_1.ButtonComponent]
                 },] }
     ];
     return ButtonModule;
 }());
-export { ButtonModule };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYnV0dG9uLm1vZHVsZS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0Bpb25hci91aS8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2J1dHRvbi9idXR0b24ubW9kdWxlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7QUFBQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBRXpDLE9BQU8sRUFBRSxlQUFlLEVBQUUsTUFBTSxvQkFBb0IsQ0FBQztBQUdyRDtJQUFBO0lBVUEsQ0FBQzs7Z0JBVkEsUUFBUSxTQUFDO29CQUNSLFlBQVksRUFBRTt3QkFDWixlQUFlO3FCQUNoQjtvQkFDRCxPQUFPLEVBQUU7d0JBQ1AsZUFBZTtxQkFDaEI7b0JBQ0QsZUFBZSxFQUFFLENBQUMsZUFBZSxDQUFDO2lCQUNuQzs7SUFFRCxtQkFBQztDQUFBLEFBVkQsSUFVQztTQURZLFlBQVkiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBOZ01vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5cclxuaW1wb3J0IHsgQnV0dG9uQ29tcG9uZW50IH0gZnJvbSAnLi9idXR0b24uY29tcG9uZW50JztcclxuXHJcblxyXG5ATmdNb2R1bGUoe1xyXG4gIGRlY2xhcmF0aW9uczogW1xyXG4gICAgQnV0dG9uQ29tcG9uZW50XHJcbiAgXSxcclxuICBleHBvcnRzOiBbXHJcbiAgICBCdXR0b25Db21wb25lbnRcclxuICBdLFxyXG4gIGVudHJ5Q29tcG9uZW50czogW0J1dHRvbkNvbXBvbmVudF1cclxufSlcclxuZXhwb3J0IGNsYXNzIEJ1dHRvbk1vZHVsZSB7XHJcbn1cclxuIl19
+exports.ButtonModule = ButtonModule;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYnV0dG9uLm1vZHVsZS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0Bpb25hci91aS8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2J1dHRvbi9idXR0b24ubW9kdWxlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLHNDQUF5QztBQUV6Qyx1REFBcUQ7QUFHckQ7SUFBQTtJQVVBLENBQUM7O2dCQVZBLGVBQVEsU0FBQztvQkFDUixZQUFZLEVBQUU7d0JBQ1osa0NBQWU7cUJBQ2hCO29CQUNELE9BQU8sRUFBRTt3QkFDUCxrQ0FBZTtxQkFDaEI7b0JBQ0QsZUFBZSxFQUFFLENBQUMsa0NBQWUsQ0FBQztpQkFDbkM7O0lBRUQsbUJBQUM7Q0FBQSxBQVZELElBVUM7QUFEWSxvQ0FBWSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XHJcblxyXG5pbXBvcnQgeyBCdXR0b25Db21wb25lbnQgfSBmcm9tICcuL2J1dHRvbi5jb21wb25lbnQnO1xyXG5cclxuXHJcbkBOZ01vZHVsZSh7XHJcbiAgZGVjbGFyYXRpb25zOiBbXHJcbiAgICBCdXR0b25Db21wb25lbnRcclxuICBdLFxyXG4gIGV4cG9ydHM6IFtcclxuICAgIEJ1dHRvbkNvbXBvbmVudFxyXG4gIF0sXHJcbiAgZW50cnlDb21wb25lbnRzOiBbQnV0dG9uQ29tcG9uZW50XVxyXG59KVxyXG5leHBvcnQgY2xhc3MgQnV0dG9uTW9kdWxlIHtcclxufVxyXG4iXX0=

@@ -101,8 +101,6 @@ export declare abstract class AbstractControl {
     readonly schema: JoiSchema | null;
     /** @internal */
     _getControlSchema: () => any;
-    /** @internal */
-    _mergeSchema(): void;
     readonly path: string[];
     name: string;
     /**
@@ -299,14 +297,13 @@ export declare abstract class AbstractControl {
     }): void;
     /** @internal */
     private _calculateStatus;
-    private _runJoiValidation;
+    /** @internal */
+    _runJoiValidation(): any;
     /** @internal */
     _updateChildError: (errors: JoiError[]) => void;
     private _cancelExistingSubscription;
     private _setInitialStatus;
     private _storeInitialOptions;
-    /** @internal */
-    _coerceToJoiSchema(): void;
     /** @internal */
     _updateValue(): void;
     /** @internal */

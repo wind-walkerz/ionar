@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { AbstractControl, DISABLED, INVALID, PENDING, VALID } from './AbstractControl';
 import { FormControl } from './FormControl';
 
-import { AbstractControlOptions, FormArrayState} from '../interfaces/Form';
+import { AbstractControlOptions, FormArrayState } from '../interfaces/Form';
 
 /**
  * Tracks the value and validity state of an array of `FormControl`,
@@ -89,7 +89,6 @@ export class FormArray extends AbstractControl {
       null,
       <AbstractControlOptions | null>options
     );
-    this._coerceToJoiSchema();
     this._setUpControls(state);
     this._initObservables();
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });

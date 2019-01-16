@@ -1,10 +1,12 @@
 import _ from 'lodash';
+import Joi from '@ionar/joi';
 import { AbstractControl } from './AbstractControl';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FormControl } from './FormControl';
 
-import { AbstractControlOptions, FormGroupState } from '../interfaces/Form';
+import { AbstractControlOptions, FormControlState, FormGroupState } from '../interfaces/Form';
+import { JoiError, JoiSchema } from '../interfaces/Validator';
 
 
 /**
@@ -105,7 +107,6 @@ export class FormGroup extends AbstractControl {
     );
     this._applyFormState();
     this._setUpControls(state);
-    this._coerceToJoiSchema();
     this._initObservables();
 
     this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -379,12 +380,6 @@ export class FormGroup extends AbstractControl {
     }
   }
 
-  _coerceToJoiSchema() {
-    // (<{ schema: JoiSchema }>this).schema = this._mergeSchema() || Joi.object().keys(this._reduceSchema());
-    // (<{ schema: JoiSchema }>this).schema = this.options.schema || Joi.object().keys(this._reduceSchema());
-  };
-
-
   updateChildValidity() {
     _.forOwn(this.controls, (c: AbstractControl, name: string) => {
       if (c instanceof FormControl) c.updateValueAndValidity();
@@ -399,18 +394,15 @@ export class FormGroup extends AbstractControl {
     (this as { ngSubmit: Observable<any> }).ngSubmit = new EventEmitter();
   }
 
-  // /** @internal */
-  // _updateChildError = (errors: JoiError[]) => {
-  //   _.each(errors, (err: JoiError) => {
-  //     const control: AbstractControl = _.get(this.controls, err.path);
-  //     if (control instanceof FormControl) {
-  //       control.setErrors([err]);
-  //     }
-  //     if(control instanceof FormGroup) {
-  //       control._r()
-  //     }
-  //   });
-  // };
+  /** @internal */
+  _updateChildError = (errors: JoiError[]) => {
+    _.each(errors, (err: JoiError) => {
+      const control: AbstractControl = _.get(this.controls, err.path);
+      if (control instanceof FormControl) {
+        control.setErrors([err]);
+      }
+    });
+  };
 
   /** @internal */
   _updateValue(): void {
@@ -429,9 +421,42 @@ export class FormGroup extends AbstractControl {
   }
 
   /** @internal */
+  _reduceSchema() {
+    return _.reduce(this.controls, (result: { [name: string]: JoiSchema }, c: AbstractControl, name: string) => {
+      if (c instanceof FormControl && (<FormControlState>c.state).schema) {
+        result[name] = (<FormControlState>c.state).schema;
+      }
+      return result;
+    }, {});
+  }
+
+  /** @internal */
   _getControlSchema = () => {
-    if (this.options.schema) return this.options.schema;
+    return this.options.schema || Joi.object().keys(this._reduceSchema());
   };
+
+  /** @internal */
+  _runJoiValidation() {
+    if (this.schema) {
+
+      const validateObject = (this.schema['_type'] !== 'object') ? { [this.name]: this.value } : this.value;
+      const validateSchema = (this.schema['_type'] !== 'object') ? { [this.name]: this.schema } : this.schema;
+
+
+      const result = Joi.validate(validateObject, validateSchema, {
+        abortEarly: false,
+        stripUnknown: true
+      });
+
+      if (!result.error) return null;
+
+      this._updateChildError(<JoiError[]>result.error.details);
+
+      return <JoiError[]>result.error.details;
+    }
+
+    return null;
+  }
 
 
   private _applyFormState = () => {

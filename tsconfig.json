@@ -8,7 +8,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "target": "es5",
+    "target": "es6",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -19,27 +19,34 @@
     "baseUrl": ".",
     "paths": {
       "@ionar/core": [
-        "libs/core/src/index.ts"
+        "dist/libs/core"
+        //        "libs/core/src/index.ts"
       ],
       "@ionar/form": [
-        "dist/libs/form",
-        "libs/form/src/index.ts"
+        "dist/libs/form"
+        //        "libs/form/src/index.ts"
       ],
       "@ionar/ui": [
-        "dist/libs/ui",
-        "libs/ui/src/index.ts"
+        "dist/libs/ui"
+        //        "libs/ui/src/index.ts"
       ],
       "@ionar/utility": [
-        "dist/libs/utility",
-        "libs/utility/src/index.ts"
+        "dist/libs/utility"
+        //        "libs/utility/src/index.ts"
       ],
       "@ionar/animations": [
-        "dist/libs/animations",
-        "libs/animations/src/index.ts"
+        "dist/libs/animations"
+        //        "libs/animations/src/index.ts"
       ],
       "@ionar/joi": [
         "libs/joi"
       ]
+      //      "ionar": [
+      //        "dist/libs"
+      //      ],
+      //      "ionar/*": [
+      //        "dist/libs/*"
+      //      ]
     }
   },
   "exclude": [

@@ -1,33 +1,35 @@
+"use strict";
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CollapsibleDirective } from './directives/collapsible.directive';
-import { ContentDirective } from './directives/content.directive';
-import { ToggleDirective } from './directives/toggle.directive';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var collapsible_directive_1 = require("./directives/collapsible.directive");
+var content_directive_1 = require("./directives/content.directive");
+var toggle_directive_1 = require("./directives/toggle.directive");
 var CollapsibleModule = /** @class */ (function () {
     function CollapsibleModule() {
     }
     CollapsibleModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core_1.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common_1.CommonModule
                     ],
                     declarations: [
-                        CollapsibleDirective,
-                        ContentDirective,
-                        ToggleDirective
+                        collapsible_directive_1.CollapsibleDirective,
+                        content_directive_1.ContentDirective,
+                        toggle_directive_1.ToggleDirective
                     ],
                     exports: [
-                        CollapsibleDirective,
-                        ContentDirective,
-                        ToggleDirective
+                        collapsible_directive_1.CollapsibleDirective,
+                        content_directive_1.ContentDirective,
+                        toggle_directive_1.ToggleDirective
                     ]
                 },] }
     ];
     return CollapsibleModule;
 }());
-export { CollapsibleModule };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sbGFwc2libGUubW9kdWxlLmpzIiwic291cmNlUm9vdCI6Im5nOi8vQGlvbmFyL3VpLyIsInNvdXJjZXMiOlsiY29tcG9uZW50cy9jb2xsYXBzaWJsZS9jb2xsYXBzaWJsZS5tb2R1bGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxRQUFRLEVBQW9CLE1BQU0sZUFBZSxDQUFDO0FBQzNELE9BQU8sRUFBRSxZQUFZLEVBQUUsTUFBTSxpQkFBaUIsQ0FBQztBQUUvQyxPQUFPLEVBQUUsb0JBQW9CLEVBQUUsTUFBTSxvQ0FBb0MsQ0FBQztBQUcxRSxPQUFPLEVBQUUsZ0JBQWdCLEVBQUUsTUFBTSxnQ0FBZ0MsQ0FBQztBQUVsRSxPQUFPLEVBQUUsZUFBZSxFQUFFLE1BQU0sK0JBQStCLENBQUM7QUFJaEU7SUFBQTtJQWdCQSxDQUFDOztnQkFoQkEsUUFBUSxTQUFDO29CQUNSLE9BQU8sRUFBRTt3QkFDUCxZQUFZO3FCQUNiO29CQUNELFlBQVksRUFBRTt3QkFDWixvQkFBb0I7d0JBQ3BCLGdCQUFnQjt3QkFDaEIsZUFBZTtxQkFDaEI7b0JBQ0QsT0FBTyxFQUFFO3dCQUNQLG9CQUFvQjt3QkFDcEIsZ0JBQWdCO3dCQUNoQixlQUFlO3FCQUNoQjtpQkFDRjs7SUFFRCx3QkFBQztDQUFBLEFBaEJELElBZ0JDO1NBRFksaUJBQWlCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTmdNb2R1bGUsIE5PX0VSUk9SU19TQ0hFTUEgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IENvbW1vbk1vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvbW1vbic7XG5cbmltcG9ydCB7IENvbGxhcHNpYmxlRGlyZWN0aXZlIH0gZnJvbSAnLi9kaXJlY3RpdmVzL2NvbGxhcHNpYmxlLmRpcmVjdGl2ZSc7XG5cblxuaW1wb3J0IHsgQ29udGVudERpcmVjdGl2ZSB9IGZyb20gJy4vZGlyZWN0aXZlcy9jb250ZW50LmRpcmVjdGl2ZSc7XG5cbmltcG9ydCB7IFRvZ2dsZURpcmVjdGl2ZSB9IGZyb20gJy4vZGlyZWN0aXZlcy90b2dnbGUuZGlyZWN0aXZlJztcblxuXG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtcbiAgICBDb21tb25Nb2R1bGVcbiAgXSxcbiAgZGVjbGFyYXRpb25zOiBbXG4gICAgQ29sbGFwc2libGVEaXJlY3RpdmUsXG4gICAgQ29udGVudERpcmVjdGl2ZSxcbiAgICBUb2dnbGVEaXJlY3RpdmVcbiAgXSxcbiAgZXhwb3J0czogW1xuICAgIENvbGxhcHNpYmxlRGlyZWN0aXZlLFxuICAgIENvbnRlbnREaXJlY3RpdmUsXG4gICAgVG9nZ2xlRGlyZWN0aXZlXG4gIF1cbn0pXG5leHBvcnQgY2xhc3MgQ29sbGFwc2libGVNb2R1bGUge1xufVxuIl19
+exports.CollapsibleModule = CollapsibleModule;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sbGFwc2libGUubW9kdWxlLmpzIiwic291cmNlUm9vdCI6Im5nOi8vQGlvbmFyL3VpLyIsInNvdXJjZXMiOlsiY29tcG9uZW50cy9jb2xsYXBzaWJsZS9jb2xsYXBzaWJsZS5tb2R1bGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsc0NBQTJEO0FBQzNELDBDQUErQztBQUUvQyw0RUFBMEU7QUFHMUUsb0VBQWtFO0FBRWxFLGtFQUFnRTtBQUloRTtJQUFBO0lBZ0JBLENBQUM7O2dCQWhCQSxlQUFRLFNBQUM7b0JBQ1IsT0FBTyxFQUFFO3dCQUNQLHFCQUFZO3FCQUNiO29CQUNELFlBQVksRUFBRTt3QkFDWiw0Q0FBb0I7d0JBQ3BCLG9DQUFnQjt3QkFDaEIsa0NBQWU7cUJBQ2hCO29CQUNELE9BQU8sRUFBRTt3QkFDUCw0Q0FBb0I7d0JBQ3BCLG9DQUFnQjt3QkFDaEIsa0NBQWU7cUJBQ2hCO2lCQUNGOztJQUVELHdCQUFDO0NBQUEsQUFoQkQsSUFnQkM7QUFEWSw4Q0FBaUIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBOZ01vZHVsZSwgTk9fRVJST1JTX1NDSEVNQSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHsgQ29tbW9uTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29tbW9uJztcblxuaW1wb3J0IHsgQ29sbGFwc2libGVEaXJlY3RpdmUgfSBmcm9tICcuL2RpcmVjdGl2ZXMvY29sbGFwc2libGUuZGlyZWN0aXZlJztcblxuXG5pbXBvcnQgeyBDb250ZW50RGlyZWN0aXZlIH0gZnJvbSAnLi9kaXJlY3RpdmVzL2NvbnRlbnQuZGlyZWN0aXZlJztcblxuaW1wb3J0IHsgVG9nZ2xlRGlyZWN0aXZlIH0gZnJvbSAnLi9kaXJlY3RpdmVzL3RvZ2dsZS5kaXJlY3RpdmUnO1xuXG5cblxuQE5nTW9kdWxlKHtcbiAgaW1wb3J0czogW1xuICAgIENvbW1vbk1vZHVsZVxuICBdLFxuICBkZWNsYXJhdGlvbnM6IFtcbiAgICBDb2xsYXBzaWJsZURpcmVjdGl2ZSxcbiAgICBDb250ZW50RGlyZWN0aXZlLFxuICAgIFRvZ2dsZURpcmVjdGl2ZVxuICBdLFxuICBleHBvcnRzOiBbXG4gICAgQ29sbGFwc2libGVEaXJlY3RpdmUsXG4gICAgQ29udGVudERpcmVjdGl2ZSxcbiAgICBUb2dnbGVEaXJlY3RpdmVcbiAgXVxufSlcbmV4cG9ydCBjbGFzcyBDb2xsYXBzaWJsZU1vZHVsZSB7XG59XG4iXX0=

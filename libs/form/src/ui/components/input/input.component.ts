@@ -63,6 +63,7 @@ export class InputComponent extends IoFormFieldUI implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
+    console.log(IoFormFieldUI);
   }
 
   ///-----------------------------------------------  Main Functions   -----------------------------------------------///

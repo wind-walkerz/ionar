@@ -1,22 +1,33 @@
-import { Subject } from 'rxjs';
-import uuid from 'uuid/v1';
-import { untilDestroyed } from '@ionar/utility';
-import { CommonModule } from '@angular/common';
-import { AnimationBuilder, useAnimation } from '@angular/animations';
-import { slideInLeftAnimation, slideInRightAnimation, slideOutLeftAnimation, slideOutRightAnimation } from '@ionar/animations';
-import _ from 'lodash';
-import { __extends, __read, __assign } from 'tslib';
-import { Component, HostBinding, HostListener, Input, NgModule, ElementRef, EventEmitter, Output, ViewChild, Directive, ChangeDetectorRef, Host, Optional, SkipSelf, TemplateRef, ViewContainerRef, ContentChild, ContentChildren, ChangeDetectionStrategy, Injectable, Renderer2, ComponentFactoryResolver, defineInjectable } from '@angular/core';
+import rxjs from 'rxjs';
+import v1 from 'uuid/v1';
+import utility from '@ionar/utility';
+import common from '@angular/common';
+import animations from '@angular/animations';
+import animations$1 from '@ionar/animations';
+import lodash from 'lodash';
+import tslib from 'tslib';
+import core from '@angular/core';
 
+function unwrapExports (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var flex_element = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var FlexElement = /** @class */ (function () {
     function FlexElement() {
     }
     FlexElement.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'flex',
                     template: "\n      <ng-content></ng-content>\n  ",
                     styles: ["\n      :host {\n          display: flex;\n      }\n  "]
@@ -24,11 +35,20 @@ var FlexElement = /** @class */ (function () {
     ];
     return FlexElement;
 }());
+exports.FlexElement = FlexElement;
 
+});
+
+unwrapExports(flex_element);
+var flex_element_1 = flex_element.FlexElement;
+
+var button_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ButtonComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function ButtonComponent() {
@@ -74,7 +94,7 @@ var ButtonComponent = /** @class */ (function () {
         this.isDisabled = this.disabled;
     };
     ButtonComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-btn',
                     template: "\n      <ng-content></ng-content>\n  ",
                     styles: [":host{background-color:#fff;border:1px solid #d9d9d9;border-radius:.4rem;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:rgba(0,0,0,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0;font-size:1.4rem;font-weight:400;margin:0 auto;outline:0;padding:.5rem 1.5rem;position:relative;text-align:center;touch-action:manipulation;transition:.3s cubic-bezier(.645,.045,.355,1);text-shadow:0 -1px 0 rgba(0,0,0,.12);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap;height:3.2rem}:host:hover{border-color:#40a9ff;color:#40a9ff}:host:active{border-color:#096dd9;color:#096dd9}:host.disabled{cursor:not-allowed}:host-context(.primary){background-color:#1890ff;border-color:#1890ff;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:#fff}:host-context(.primary):hover{background-color:#40a9ff;border-color:#40a9ff}:host-context(.primary):active{background-color:#096dd9;border-color:#096dd9}:host-context(.danger){background-color:#f5222d;border-color:#f5222d;box-shadow:0 .2rem 0 rgba(0,0,0,.015);color:#fff}:host-context(.danger):hover{background-color:#ff5654;border-color:#ff5654}:host-context(.danger):active{background-color:#cb2d35;border-color:#cb2d35}"]
@@ -83,73 +103,103 @@ var ButtonComponent = /** @class */ (function () {
     /** @nocollapse */
     ButtonComponent.ctorParameters = function () { return []; };
     ButtonComponent.propDecorators = {
-        disabled: [{ type: Input }],
-        type: [{ type: Input }],
-        primary_style: [{ type: HostBinding, args: ['class.primary',] }],
-        danger_style: [{ type: HostBinding, args: ['class.danger',] }],
-        isDisabled: [{ type: HostBinding, args: ['class.disabled',] }],
-        onClick: [{ type: HostListener, args: ['click',] }]
+        disabled: [{ type: core.Input }],
+        type: [{ type: core.Input }],
+        primary_style: [{ type: core.HostBinding, args: ['class.primary',] }],
+        danger_style: [{ type: core.HostBinding, args: ['class.danger',] }],
+        isDisabled: [{ type: core.HostBinding, args: ['class.disabled',] }],
+        onClick: [{ type: core.HostListener, args: ['click',] }]
     };
     return ButtonComponent;
 }());
+exports.ButtonComponent = ButtonComponent;
 
+});
+
+unwrapExports(button_component);
+var button_component_1 = button_component.ButtonComponent;
+
+var button_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var ButtonModule = /** @class */ (function () {
     function ButtonModule() {
     }
     ButtonModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        ButtonComponent
+                        button_component.ButtonComponent
                     ],
                     exports: [
-                        ButtonComponent
+                        button_component.ButtonComponent
                     ],
-                    entryComponents: [ButtonComponent]
+                    entryComponents: [button_component.ButtonComponent]
                 },] }
     ];
     return ButtonModule;
 }());
+exports.ButtonModule = ButtonModule;
 
+});
+
+unwrapExports(button_module);
+var button_module_1 = button_module.ButtonModule;
+
+var element_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var ElementModule = /** @class */ (function () {
     function ElementModule() {
     }
     ElementModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        FlexElement
+                        flex_element.FlexElement
                     ],
                     imports: [
-                        ButtonModule,
+                        button_module.ButtonModule,
                     ],
                     exports: [
-                        FlexElement,
-                        ButtonModule
+                        flex_element.FlexElement,
+                        button_module.ButtonModule
                     ]
                 },] }
     ];
     return ElementModule;
 }());
+exports.ElementModule = ElementModule;
 
+});
+
+unwrapExports(element_module);
+var element_module_1 = element_module.ElementModule;
+
+var modal_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ModalComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function ModalComponent(eRef) {
         var _this = this;
         this.eRef = eRef;
-        this.onCancel = new EventEmitter();
-        this.onOk = new EventEmitter();
-        this.close = new EventEmitter();
+        this.onCancel = new core.EventEmitter();
+        this.onOk = new core.EventEmitter();
+        this.close = new core.EventEmitter();
         ///-----------------------------------------------  Main Functions   -----------------------------------------------///
         this.onClose = function () {
             _this.close.emit();
@@ -185,7 +235,7 @@ var ModalComponent = /** @class */ (function () {
     function (changes) {
     };
     ModalComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-modal',
                     template: "<div class=\"mask\" *ngIf=\"visible\" (click)=\"onClose()\">\r\n\r\n</div>\r\n\r\n<div class=\"content\" *ngIf=\"visible\">\r\n    <ng-content></ng-content>\r\n</div>\r\n\r\n",
                     styles: [".mask{display:flex;align-items:center;justify-content:center;position:fixed;top:0;right:0;left:0;bottom:0;background-color:rgba(0,0,0,.65);height:100%;z-index:399}:host{display:flex;justify-content:center}:host .content{display:flex;flex-direction:column;position:relative;background-color:#fff;border:0;border-radius:4px;background-clip:padding-box;box-shadow:0 4px 12px rgba(0,0,0,.15);width:52rem;height:52rem;z-index:400}"]
@@ -193,47 +243,69 @@ var ModalComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     ModalComponent.ctorParameters = function () { return [
-        { type: ElementRef }
+        { type: core.ElementRef }
     ]; };
     ModalComponent.propDecorators = {
-        visible: [{ type: Input }],
-        onCancel: [{ type: Output }],
-        onOk: [{ type: Output }],
-        close: [{ type: Output }],
-        _maskElRef: [{ type: ViewChild, args: ['mask', { read: ElementRef },] }],
-        onKeydownHandler: [{ type: HostListener, args: ['document:keydown.escape', ['$event'],] }]
+        visible: [{ type: core.Input }],
+        onCancel: [{ type: core.Output }],
+        onOk: [{ type: core.Output }],
+        close: [{ type: core.Output }],
+        _maskElRef: [{ type: core.ViewChild, args: ['mask', { read: core.ElementRef },] }],
+        onKeydownHandler: [{ type: core.HostListener, args: ['document:keydown.escape', ['$event'],] }]
     };
     return ModalComponent;
 }());
+exports.ModalComponent = ModalComponent;
 
+});
+
+unwrapExports(modal_component);
+var modal_component_1 = modal_component.ModalComponent;
+
+var modal_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var ModalModule = /** @class */ (function () {
     function ModalModule() {
     }
     ModalModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        ModalComponent
+                        modal_component.ModalComponent
                     ],
-                    imports: [CommonModule],
+                    imports: [common.CommonModule],
                     exports: [
-                        ModalComponent
+                        modal_component.ModalComponent
                     ]
                 },] }
     ];
     return ModalModule;
 }());
+exports.ModalModule = ModalModule;
 
+});
+
+unwrapExports(modal_module);
+var modal_module_1 = modal_module.ModalModule;
+
+var collapsible_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var CollapsibleDirective = /** @class */ (function () {
     function CollapsibleDirective() {
-        this.change$ = new Subject();
+        this.change$ = new rxjs.Subject();
         this.collapsed = false;
         this.customToggler = false;
     }
@@ -245,7 +317,7 @@ var CollapsibleDirective = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.change$.pipe(untilDestroyed(this)).subscribe(function (collapsed) {
+        this.change$.pipe(utility.untilDestroyed(this)).subscribe(function (collapsed) {
             _this.collapsed = collapsed;
         });
     };
@@ -258,20 +330,31 @@ var CollapsibleDirective = /** @class */ (function () {
     function () {
     };
     CollapsibleDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[ioCollapsible]'
                 },] }
     ];
     CollapsibleDirective.propDecorators = {
-        ioCollapsible: [{ type: Input }]
+        ioCollapsible: [{ type: core.Input }]
     };
     return CollapsibleDirective;
 }());
+exports.CollapsibleDirective = CollapsibleDirective;
 
+});
+
+unwrapExports(collapsible_directive);
+var collapsible_directive_1 = collapsible_directive.CollapsibleDirective;
+
+var content_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var ContentDirective = /** @class */ (function () {
     function ContentDirective(parent, cd, _vcRef, _templateRef) {
         this.cd = cd;
@@ -311,7 +394,7 @@ var ContentDirective = /** @class */ (function () {
     function () {
         var _this = this;
         this._vcRef.clear();
-        this._parent.change$.pipe(untilDestroyed(this)).subscribe(function (collapsed) {
+        this._parent.change$.pipe(utility.untilDestroyed(this)).subscribe(function (collapsed) {
             _this.collapsed = collapsed;
         });
     };
@@ -324,24 +407,34 @@ var ContentDirective = /** @class */ (function () {
     function () {
     };
     ContentDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[collapseContent]'
                 },] }
     ];
     /** @nocollapse */
     ContentDirective.ctorParameters = function () { return [
-        { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
-        { type: ChangeDetectorRef },
-        { type: ViewContainerRef },
-        { type: TemplateRef }
+        { type: collapsible_directive.CollapsibleDirective, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+        { type: core.ChangeDetectorRef },
+        { type: core.ViewContainerRef },
+        { type: core.TemplateRef }
     ]; };
     return ContentDirective;
 }());
+exports.ContentDirective = ContentDirective;
 
+});
+
+unwrapExports(content_directive);
+var content_directive_1 = content_directive.ContentDirective;
+
+var toggle_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var ToggleDirective = /** @class */ (function () {
     function ToggleDirective(parent, cd) {
         this.cd = cd;
@@ -368,52 +461,74 @@ var ToggleDirective = /** @class */ (function () {
         this._parent.customToggler = true;
     };
     ToggleDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[collapseToggle]'
                 },] }
     ];
     /** @nocollapse */
     ToggleDirective.ctorParameters = function () { return [
-        { type: CollapsibleDirective, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
-        { type: ChangeDetectorRef }
+        { type: collapsible_directive.CollapsibleDirective, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+        { type: core.ChangeDetectorRef }
     ]; };
     ToggleDirective.propDecorators = {
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
     };
     return ToggleDirective;
 }());
+exports.ToggleDirective = ToggleDirective;
 
+});
+
+unwrapExports(toggle_directive);
+var toggle_directive_1 = toggle_directive.ToggleDirective;
+
+var collapsible_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var CollapsibleModule = /** @class */ (function () {
     function CollapsibleModule() {
     }
     CollapsibleModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     declarations: [
-                        CollapsibleDirective,
-                        ContentDirective,
-                        ToggleDirective
+                        collapsible_directive.CollapsibleDirective,
+                        content_directive.ContentDirective,
+                        toggle_directive.ToggleDirective
                     ],
                     exports: [
-                        CollapsibleDirective,
-                        ContentDirective,
-                        ToggleDirective
+                        collapsible_directive.CollapsibleDirective,
+                        content_directive.ContentDirective,
+                        toggle_directive.ToggleDirective
                     ]
                 },] }
     ];
     return CollapsibleModule;
 }());
+exports.CollapsibleModule = CollapsibleModule;
 
+});
+
+unwrapExports(collapsible_module);
+var collapsible_module_1 = collapsible_module.CollapsibleModule;
+
+var label_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var TabLabelComponent = /** @class */ (function () {
     function TabLabelComponent() {
     }
@@ -438,7 +553,7 @@ var TabLabelComponent = /** @class */ (function () {
     function () {
     };
     TabLabelComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'tab-label',
                     template: "\n      <ng-template #tpl>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <ng-container *ngIf=\"text\">\n          {{text}}\n      </ng-container>\n      <ng-container #vcRef></ng-container>\n  "
                 }] }
@@ -446,18 +561,27 @@ var TabLabelComponent = /** @class */ (function () {
     /** @nocollapse */
     TabLabelComponent.ctorParameters = function () { return []; };
     TabLabelComponent.propDecorators = {
-        text: [{ type: Input }],
-        template: [{ type: Input }],
-        _templateRef: [{ type: ViewChild, args: ['tpl', { read: TemplateRef },] }],
-        _vcRef: [{ type: ViewChild, args: ['vcRef', { read: ViewContainerRef },] }]
+        text: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        _templateRef: [{ type: core.ViewChild, args: ['tpl', { read: core.TemplateRef },] }],
+        _vcRef: [{ type: core.ViewChild, args: ['vcRef', { read: core.ViewContainerRef },] }]
     };
     return TabLabelComponent;
 }());
+exports.TabLabelComponent = TabLabelComponent;
 
+});
+
+unwrapExports(label_component);
+var label_component_1 = label_component.TabLabelComponent;
+
+var content_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var TabContentComponent = /** @class */ (function () {
     function TabContentComponent() {
         var _this = this;
@@ -497,7 +621,7 @@ var TabContentComponent = /** @class */ (function () {
         this.createView();
     };
     TabContentComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'tab-content',
                     template: "\n      <ng-template #content>\n          <ng-content></ng-content>\n      </ng-template>\n    \n    <ng-container #vcRef>\n        \n    </ng-container>\n  "
                 }] }
@@ -505,17 +629,28 @@ var TabContentComponent = /** @class */ (function () {
     /** @nocollapse */
     TabContentComponent.ctorParameters = function () { return []; };
     TabContentComponent.propDecorators = {
-        template: [{ type: Input }],
-        _templateRef: [{ type: ViewChild, args: ['content', { read: TemplateRef },] }],
-        _vcRef: [{ type: ViewChild, args: ['vcRef', { read: ViewContainerRef },] }]
+        template: [{ type: core.Input }],
+        _templateRef: [{ type: core.ViewChild, args: ['content', { read: core.TemplateRef },] }],
+        _vcRef: [{ type: core.ViewChild, args: ['vcRef', { read: core.ViewContainerRef },] }]
     };
     return TabContentComponent;
 }());
+exports.TabContentComponent = TabContentComponent;
 
+});
+
+unwrapExports(content_component);
+var content_component_1 = content_component.TabContentComponent;
+
+var tab_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var TabComponent = /** @class */ (function () {
     function TabComponent() {
         this.active = false;
@@ -542,7 +677,7 @@ var TabComponent = /** @class */ (function () {
     function () {
     };
     TabComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'tab',
                     template: "\n      <ng-template #tab>\n          <ng-content></ng-content>\n      </ng-template>\n  "
                 }] }
@@ -550,27 +685,39 @@ var TabComponent = /** @class */ (function () {
     /** @nocollapse */
     TabComponent.ctorParameters = function () { return []; };
     TabComponent.propDecorators = {
-        label: [{ type: Input }],
-        _tabTemplateRef: [{ type: ViewChild, args: ['tab', { read: TemplateRef },] }],
-        _labelComp: [{ type: ContentChild, args: [TabLabelComponent,] }],
-        _contentComp: [{ type: ContentChild, args: [TabContentComponent,] }]
+        label: [{ type: core.Input }],
+        _tabTemplateRef: [{ type: core.ViewChild, args: ['tab', { read: core.TemplateRef },] }],
+        _labelComp: [{ type: core.ContentChild, args: [label_component.TabLabelComponent,] }],
+        _contentComp: [{ type: core.ContentChild, args: [content_component.TabContentComponent,] }]
     };
     return TabComponent;
 }());
+exports.TabComponent = TabComponent;
 
+});
+
+unwrapExports(tab_component);
+var tab_component_1 = tab_component.TabComponent;
+
+var tabs_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var TabsComponent = /** @class */ (function () {
     function TabsComponent(cd) {
         var _this = this;
         this.cd = cd;
         this.selectTab = function (selected_index) {
-            _.each(_this.contentList.toArray(), function (tab, i) {
+            lodash_1.default.each(_this.contentList.toArray(), function (tab, i) {
                 tab.active = i === selected_index;
             });
-            _this.activeTab = _.find(_this.contentList.toArray(), ['active', true]);
+            _this.activeTab = lodash_1.default.find(_this.contentList.toArray(), ['active', true]);
         };
     }
     /**
@@ -593,7 +740,7 @@ var TabsComponent = /** @class */ (function () {
         this.cd.detectChanges();
     };
     TabsComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-tabs',
                     template: "\n      <ng-template>\n          <ng-content></ng-content>\n      </ng-template>\n\n      <div class=\"label_container\">\n          <ng-container *ngFor=\"let tab of contentList; let i =index\">\n              <tab-label\n                      [ngClass]=\"tab.active && 'active'\"\n                      (click)=\"selectTab(i)\"\n                      [text]=\"tab.label\"\n                      [template]=\"tab._labelComp?._templateRef\"\n              >\n              </tab-label>\n          </ng-container>\n      </div>\n      \n      <tab-content\n              *ngIf=\"activeTab\"\n              [template]=\"activeTab._contentComp ? activeTab._contentComp._templateRef : activeTab._tabTemplateRef\"\n      >\n      </tab-content>\n    \n\n  ",
                     styles: [":host{display:flex;flex-direction:column;position:relative}:host ::ng-deep .label_container{display:flex}:host ::ng-deep .label_container tab-label{cursor:pointer}"]
@@ -601,44 +748,68 @@ var TabsComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     TabsComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef }
+        { type: core.ChangeDetectorRef }
     ]; };
     TabsComponent.propDecorators = {
-        contentList: [{ type: ContentChildren, args: [TabComponent,] }]
+        contentList: [{ type: core.ContentChildren, args: [tab_component.TabComponent,] }]
     };
     return TabsComponent;
 }());
+exports.TabsComponent = TabsComponent;
 
+});
+
+unwrapExports(tabs_component);
+var tabs_component_1 = tabs_component.TabsComponent;
+
+var tabs_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
 var TabsModule = /** @class */ (function () {
     function TabsModule() {
     }
     TabsModule.decorators = [
-        { type: NgModule, args: [{
-                    imports: [CommonModule],
-                    declarations: [TabsComponent, TabComponent, TabLabelComponent, TabContentComponent
+        { type: core.NgModule, args: [{
+                    imports: [common.CommonModule],
+                    declarations: [tabs_component.TabsComponent, tab_component.TabComponent, label_component.TabLabelComponent, content_component.TabContentComponent
                     ],
-                    exports: [TabsComponent, TabComponent, TabLabelComponent, TabContentComponent
+                    exports: [tabs_component.TabsComponent, tab_component.TabComponent, label_component.TabLabelComponent, content_component.TabContentComponent
                     ]
                 },] }
     ];
     return TabsModule;
 }());
+exports.TabsModule = TabsModule;
 
+});
+
+unwrapExports(tabs_module);
+var tabs_module_1 = tabs_module.TabsModule;
+
+var menu_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var MenuComponent = /** @class */ (function () {
     function MenuComponent(elRef) {
         this.elRef = elRef;
         ///-----------------------------------------------  Variables   -----------------------------------------------///
         this.visible = false;
-        this.visibilityChange$ = new Subject();
-        this.change = new EventEmitter();
+        this.visibilityChange$ = new rxjs.Subject();
+        this.change = new core.EventEmitter();
     }
     /**
      * @param {?} e
@@ -684,36 +855,45 @@ var MenuComponent = /** @class */ (function () {
     function () {
     };
     MenuComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'dropdown-menu',
                     template: "\n      <ng-content></ng-content>",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: flex;\n          flex-shrink: 0;\n      }\n  "]
                 }] }
     ];
     /** @nocollapse */
     MenuComponent.ctorParameters = function () { return [
-        { type: ElementRef }
+        { type: core.ElementRef }
     ]; };
     MenuComponent.propDecorators = {
-        visible: [{ type: Input }],
-        template: [{ type: Input }],
-        tplRef: [{ type: ViewChild, args: ['tpl',] }],
-        vcRef: [{ type: ViewChild, args: ['vc', { read: ViewContainerRef },] }],
-        change: [{ type: Output }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+        visible: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        tplRef: [{ type: core.ViewChild, args: ['tpl',] }],
+        vcRef: [{ type: core.ViewChild, args: ['vc', { read: core.ViewContainerRef },] }],
+        change: [{ type: core.Output }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
     };
     return MenuComponent;
 }());
+exports.MenuComponent = MenuComponent;
 
+});
+
+unwrapExports(menu_component);
+var menu_component_1 = menu_component.MenuComponent;
+
+var toggle_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ToggleComponent = /** @class */ (function () {
     function ToggleComponent() {
         ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
     }
     /**
      * @param {?} e
@@ -747,7 +927,7 @@ var ToggleComponent = /** @class */ (function () {
     function () {
     };
     ToggleComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'dropdown-toggle',
                     template: "\n      <ng-content></ng-content>",
                     styles: ["\n      :host {\n          display: flex;\n          flex-shrink: 0;\n      }\n  "]
@@ -756,16 +936,28 @@ var ToggleComponent = /** @class */ (function () {
     /** @nocollapse */
     ToggleComponent.ctorParameters = function () { return []; };
     ToggleComponent.propDecorators = {
-        change: [{ type: Output }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+        change: [{ type: core.Output }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
     };
     return ToggleComponent;
 }());
+exports.ToggleComponent = ToggleComponent;
 
+});
+
+unwrapExports(toggle_component);
+var toggle_component_1 = toggle_component.ToggleComponent;
+
+var dropdown_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
 var DropdownComponent = /** @class */ (function () {
     function DropdownComponent(_elRef, cd) {
         this._elRef = _elRef;
@@ -800,7 +992,7 @@ var DropdownComponent = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._menuComp.visibilityChange$.pipe(untilDestroyed(this)).subscribe(function (visible) {
+        this._menuComp.visibilityChange$.pipe(utility.untilDestroyed(this)).subscribe(function (visible) {
             _this.visible = visible;
             _this.cd.markForCheck();
         });
@@ -841,56 +1033,79 @@ var DropdownComponent = /** @class */ (function () {
     function () {
     };
     DropdownComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-dropdown',
                     template: "\n      <ng-content select=\"dropdown-toggle\"></ng-content>\n\n      <ng-container *ngIf=\"showDropdownMenu && visible\">\n          <ng-content select=\"dropdown-menu\"></ng-content>\n      </ng-container>\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush
+                    changeDetection: core.ChangeDetectionStrategy.OnPush
                 }] }
     ];
     /** @nocollapse */
     DropdownComponent.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
+        { type: core.ElementRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     DropdownComponent.propDecorators = {
-        _menuComp: [{ type: ContentChild, args: [MenuComponent,] }],
-        _toggleComp: [{ type: ContentChild, args: [ToggleComponent,] }],
-        onClickOutside: [{ type: HostListener, args: ['document:click', ['$event'],] }]
+        _menuComp: [{ type: core.ContentChild, args: [menu_component.MenuComponent,] }],
+        _toggleComp: [{ type: core.ContentChild, args: [toggle_component.ToggleComponent,] }],
+        onClickOutside: [{ type: core.HostListener, args: ['document:click', ['$event'],] }]
     };
     return DropdownComponent;
 }());
+exports.DropdownComponent = DropdownComponent;
 
+});
+
+unwrapExports(dropdown_component);
+var dropdown_component_1 = dropdown_component.DropdownComponent;
+
+var dropdown_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var DropdownModule = /** @class */ (function () {
     function DropdownModule() {
     }
     DropdownModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     declarations: [
-                        DropdownComponent,
-                        DropdownComponent,
-                        ToggleComponent, MenuComponent
+                        dropdown_component.DropdownComponent,
+                        dropdown_component.DropdownComponent,
+                        toggle_component.ToggleComponent, menu_component.MenuComponent
                     ],
-                    exports: [DropdownComponent, ToggleComponent, MenuComponent]
+                    exports: [dropdown_component.DropdownComponent, toggle_component.ToggleComponent, menu_component.MenuComponent]
                 },] }
     ];
     return DropdownModule;
 }());
+exports.DropdownModule = DropdownModule;
 
+});
+
+unwrapExports(dropdown_module);
+var dropdown_module_1 = dropdown_module.DropdownModule;
+
+var loading_service = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var IonarLoadingService = /** @class */ (function () {
     function IonarLoadingService() {
         var _this = this;
-        this.visibilityChange$ = new Subject();
+        this.visibilityChange$ = new rxjs.Subject();
         this.isDisabled = false;
         this.show = function () { return !_this.isDisabled && _this.visibilityChange$.next(true); };
         this.hide = function () { return !_this.isDisabled && _this.visibilityChange$.next(false); };
@@ -898,15 +1113,26 @@ var IonarLoadingService = /** @class */ (function () {
         this.enabled = function () { return _this.isDisabled = false; };
     }
     IonarLoadingService.decorators = [
-        { type: Injectable }
+        { type: core.Injectable }
     ];
     return IonarLoadingService;
 }());
+exports.IonarLoadingService = IonarLoadingService;
 
+});
+
+unwrapExports(loading_service);
+var loading_service_1 = loading_service.IonarLoadingService;
+
+var loading_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var LoadingComponent = /** @class */ (function () {
     function LoadingComponent(_loadingSvs, cd) {
         this._loadingSvs = _loadingSvs;
@@ -936,7 +1162,7 @@ var LoadingComponent = /** @class */ (function () {
         var _this = this;
         if (this._subscription)
             this._subscription.unsubscribe();
-        this._subscription = this._loadingSvs.visibilityChange$.pipe(untilDestroyed(this)).subscribe(function (visible) {
+        this._subscription = this._loadingSvs.visibilityChange$.pipe(utility.untilDestroyed(this)).subscribe(function (visible) {
             _this.visible = visible;
             _this.cd.markForCheck();
         });
@@ -950,25 +1176,34 @@ var LoadingComponent = /** @class */ (function () {
     function () {
     };
     LoadingComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-loading',
                     template: "<div class=\"content\" *ngIf=\"visible\">\r\n    <sk-circle></sk-circle>\r\n</div>",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: [":host .content{background-color:rgba(51,51,51,.8);display:flex;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100!important}"]
                 }] }
     ];
     /** @nocollapse */
     LoadingComponent.ctorParameters = function () { return [
-        { type: IonarLoadingService },
-        { type: ChangeDetectorRef }
+        { type: loading_service.IonarLoadingService },
+        { type: core.ChangeDetectorRef }
     ]; };
     return LoadingComponent;
 }());
+exports.LoadingComponent = LoadingComponent;
 
+});
+
+unwrapExports(loading_component);
+var loading_component_1 = loading_component.LoadingComponent;
+
+var spinner_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var SpinnerComponent = /** @class */ (function () {
     function SpinnerComponent() {
         this.visible = true;
@@ -1033,27 +1268,39 @@ var SpinnerComponent = /** @class */ (function () {
         this.cancel();
     };
     SpinnerComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'spinner',
                     template: ''
                 }] }
     ];
     SpinnerComponent.propDecorators = {
-        delay: [{ type: Input }],
-        color: [{ type: Input }],
-        isRunning: [{ type: Input }]
+        delay: [{ type: core.Input }],
+        color: [{ type: core.Input }],
+        isRunning: [{ type: core.Input }]
     };
     return SpinnerComponent;
 }());
+exports.SpinnerComponent = SpinnerComponent;
 /** @type {?} */
-var SpinnerTemplate = "\n  <div [hidden]=\"!visible\" [ngClass]=\"baseClass\">\n      <div *ngFor=\"let item of items; let i = index\" [ngClass]=\"childClass + (i+1)\" [style.backgroundColor]=\"color\"></div>\n  </div>\n";
+exports.SpinnerTemplate = "\n  <div [hidden]=\"!visible\" [ngClass]=\"baseClass\">\n      <div *ngFor=\"let item of items; let i = index\" [ngClass]=\"childClass + (i+1)\" [style.backgroundColor]=\"color\"></div>\n  </div>\n";
 
+});
+
+unwrapExports(spinner_component);
+var spinner_component_1 = spinner_component.SpinnerComponent;
+var spinner_component_2 = spinner_component.SpinnerTemplate;
+
+var circle_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var CircleComponent = /** @class */ (function (_super) {
-    __extends(CircleComponent, _super);
+    tslib.__extends(CircleComponent, _super);
     function CircleComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.baseClass = 'circle-spinner';
@@ -1062,47 +1309,69 @@ var CircleComponent = /** @class */ (function (_super) {
         return _this;
     }
     CircleComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'sk-circle',
-                    template: SpinnerTemplate,
+                    template: spinner_component.SpinnerTemplate,
                     styles: ["\n      .circle-spinner {\n          position: relative;\n          margin: 25px auto;\n          width: 5rem;\n          height: 5rem;\n      }\n\n      .circle-spinner > div {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-color: transparent !important;\n      }\n\n      .circle-spinner div:before {\n          display: block;\n          margin: 0 auto;\n          width: 15%;\n          height: 15%;\n          border-radius: 100%;\n          background-color: white;\n          content: '';\n          -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;\n          animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;\n      }\n\n      .circle-spinner .circle2 {\n          -webkit-transform: rotate(30deg);\n          -ms-transform: rotate(30deg);\n          transform: rotate(30deg);\n      }\n\n      .circle-spinner .circle3 {\n          -webkit-transform: rotate(60deg);\n          -ms-transform: rotate(60deg);\n          transform: rotate(60deg);\n      }\n\n      .circle-spinner .circle4 {\n          -webkit-transform: rotate(90deg);\n          -ms-transform: rotate(90deg);\n          transform: rotate(90deg);\n      }\n\n      .circle-spinner .circle5 {\n          -webkit-transform: rotate(120deg);\n          -ms-transform: rotate(120deg);\n          transform: rotate(120deg);\n      }\n\n      .circle-spinner .circle6 {\n          -webkit-transform: rotate(150deg);\n          -ms-transform: rotate(150deg);\n          transform: rotate(150deg);\n      }\n\n      .circle-spinner .circle7 {\n          -webkit-transform: rotate(180deg);\n          -ms-transform: rotate(180deg);\n          transform: rotate(180deg);\n      }\n\n      .circle-spinner .circle8 {\n          -webkit-transform: rotate(210deg);\n          -ms-transform: rotate(210deg);\n          transform: rotate(210deg);\n      }\n\n      .circle-spinner .circle9 {\n          -webkit-transform: rotate(240deg);\n          -ms-transform: rotate(240deg);\n          transform: rotate(240deg);\n      }\n\n      .circle-spinner .circle10 {\n          -webkit-transform: rotate(270deg);\n          -ms-transform: rotate(270deg);\n          transform: rotate(270deg);\n      }\n\n      .circle-spinner .circle11 {\n          -webkit-transform: rotate(300deg);\n          -ms-transform: rotate(300deg);\n          transform: rotate(300deg);\n      }\n\n      .circle-spinner .circle12 {\n          -webkit-transform: rotate(330deg);\n          -ms-transform: rotate(330deg);\n          transform: rotate(330deg);\n      }\n\n      .circle-spinner .circle2:before {\n          -webkit-animation-delay: -1.1s;\n          animation-delay: -1.1s;\n      }\n\n      .circle-spinner .circle3:before {\n          -webkit-animation-delay: -1s;\n          animation-delay: -1s;\n      }\n\n      .circle-spinner .circle4:before {\n          -webkit-animation-delay: -0.9s;\n          animation-delay: -0.9s;\n      }\n\n      .circle-spinner .circle5:before {\n          -webkit-animation-delay: -0.8s;\n          animation-delay: -0.8s;\n      }\n\n      .circle-spinner .circle6:before {\n          -webkit-animation-delay: -0.7s;\n          animation-delay: -0.7s;\n      }\n\n      .circle-spinner .circle7:before {\n          -webkit-animation-delay: -0.6s;\n          animation-delay: -0.6s;\n      }\n\n      .circle-spinner .circle8:before {\n          -webkit-animation-delay: -0.5s;\n          animation-delay: -0.5s;\n      }\n\n      .circle-spinner .circle9:before {\n          -webkit-animation-delay: -0.4s;\n          animation-delay: -0.4s;\n      }\n\n      .circle-spinner .circle10:before {\n          -webkit-animation-delay: -0.3s;\n          animation-delay: -0.3s;\n      }\n\n      .circle-spinner .circle11:before {\n          -webkit-animation-delay: -0.2s;\n          animation-delay: -0.2s;\n      }\n\n      .circle-spinner .circle12:before {\n          -webkit-animation-delay: -0.1s;\n          animation-delay: -0.1s;\n      }\n\n      @-webkit-keyframes sk-circleBounceDelay {\n          0%, 80%, 100% {\n              -webkit-transform: scale(0);\n              transform: scale(0);\n          }\n          40% {\n              -webkit-transform: scale(1);\n              transform: scale(1);\n          }\n      }\n\n      @keyframes sk-circleBounceDelay {\n          0%, 80%, 100% {\n              -webkit-transform: scale(0);\n              transform: scale(0);\n          }\n          40% {\n              -webkit-transform: scale(1);\n              transform: scale(1);\n          }\n      }\n  "]
                 }] }
     ];
     return CircleComponent;
-}(SpinnerComponent));
+}(spinner_component.SpinnerComponent));
+exports.CircleComponent = CircleComponent;
 
+});
+
+unwrapExports(circle_component);
+var circle_component_1 = circle_component.CircleComponent;
+
+var loading_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var LoadingModule = /** @class */ (function () {
     function LoadingModule() {
     }
     LoadingModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     declarations: [
-                        LoadingComponent,
-                        SpinnerComponent,
-                        CircleComponent
+                        loading_component.LoadingComponent,
+                        spinner_component.SpinnerComponent,
+                        circle_component.CircleComponent
                     ],
-                    exports: [LoadingComponent]
+                    exports: [loading_component.LoadingComponent]
                 },] }
     ];
     return LoadingModule;
 }());
+exports.LoadingModule = LoadingModule;
 
+});
+
+unwrapExports(loading_module);
+var loading_module_1 = loading_module.LoadingModule;
+
+var pageLink_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var PageLinkComponent = /** @class */ (function () {
     function PageLinkComponent() {
         var _this = this;
         this.disabled = false;
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.onClick = function (e) {
             if (!_this.disabled) {
                 _this.change.emit();
@@ -1130,7 +1399,7 @@ var PageLinkComponent = /** @class */ (function () {
     function () {
     };
     PageLinkComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'page-link',
                     template: "<ng-template #tpl>\r\n    <ng-content></ng-content>\r\n</ng-template>\r\n\r\n<ng-container *ngIf=\"template\">\r\n    <ng-container *ngTemplateOutlet=\"template\"></ng-container>\r\n</ng-container>",
                     host: {
@@ -1142,21 +1411,33 @@ var PageLinkComponent = /** @class */ (function () {
     /** @nocollapse */
     PageLinkComponent.ctorParameters = function () { return []; };
     PageLinkComponent.propDecorators = {
-        directionLinks: [{ type: Input }],
-        boundaryLinks: [{ type: Input }],
-        disabled: [{ type: Input }],
-        change: [{ type: Output }],
-        template: [{ type: Input }],
-        tpl: [{ type: ViewChild, args: ['tpl',] }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+        directionLinks: [{ type: core.Input }],
+        boundaryLinks: [{ type: core.Input }],
+        disabled: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        template: [{ type: core.Input }],
+        tpl: [{ type: core.ViewChild, args: ['tpl',] }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
     };
     return PageLinkComponent;
 }());
+exports.PageLinkComponent = PageLinkComponent;
 
+});
+
+unwrapExports(pageLink_component);
+var pageLink_component_1 = pageLink_component.PageLinkComponent;
+
+var pagination_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var PaginationComponent = /** @class */ (function () {
     function PaginationComponent(cd) {
         var _this = this;
@@ -1191,13 +1472,13 @@ var PaginationComponent = /** @class */ (function () {
          *  Current page. Page numbers start with 1
          */
         this.page = 1;
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.pages = [];
         this._getTemplate = function (key, value) {
             /** @type {?} */
             var pageLinkComp;
-            _.each(_this._pageLinkCompList.toArray(), function (item) {
-                if (_.has(item, [key]) && _.get(item, [key]) === value) {
+            lodash_1.default.each(_this._pageLinkCompList.toArray(), function (item) {
+                if (lodash_1.default.has(item, [key]) && lodash_1.default.get(item, [key]) === value) {
                     pageLinkComp = item;
                 }
             });
@@ -1295,7 +1576,7 @@ var PaginationComponent = /** @class */ (function () {
         var _a;
         // fill-in model needed to render pages
         this.pages.length = 0;
-        this.pages = _.times(this.total, function (n) { return n + 1; });
+        this.pages = lodash_1.default.times(this.total, function (n) { return n + 1; });
         // set page within 1..max range
         this._setPageInRange(newPage);
         // apply maxSize if necessary
@@ -1306,7 +1587,7 @@ var PaginationComponent = /** @class */ (function () {
             var end = this.total;
             // either paginating or rotating page numbers
             if (this.rotate) {
-                _a = __read(this._applyRotation(), 2), start = _a[0], end = _a[1];
+                _a = tslib.__read(this._applyRotation(), 2), start = _a[0], end = _a[1];
             }
             this.pages = this.pages.slice(start, end).concat();
             // adding ellipses
@@ -1420,7 +1701,7 @@ var PaginationComponent = /** @class */ (function () {
         }
     };
     PaginationComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-pagination',
                     template: "<ng-container>\r\n    <page-link\r\n            [template]=\"boundary_first\"\r\n            [disabled]=\"page===1\"\r\n            (change)=\"selectPage(1)\"\r\n            *ngIf=\"boundary\"\r\n    ></page-link>\r\n    <page-link\r\n            [template]=\"direction_prev\"\r\n            [disabled]=\"page===1\"\r\n            (change)=\"selectPage(page - 1)\"\r\n            *ngIf=\"direction\"\r\n    ></page-link>\r\n\r\n    <ng-container *ngFor=\"let pageNumber of pages\">\r\n        <page-number\r\n                [number]=\"pageNumber\"\r\n                [currentPage]=\"this.page\"\r\n                (change)=\"selectPage($event)\"\r\n        ></page-number>\r\n    </ng-container>\r\n\r\n    <page-link\r\n            [template]=\"direction_next\"\r\n            [disabled]=\"page===total\"\r\n            (change)=\"selectPage(page + 1)\"\r\n            *ngIf=\"direction\"\r\n    ></page-link>\r\n    <page-link\r\n            [template]=\"boundary_last\"\r\n            [disabled]=\"page===total\"\r\n            (change)=\"selectPage(total)\"\r\n            *ngIf=\"boundary\"\r\n    ></page-link>\r\n</ng-container>\r\n\r\n\r\n<ng-template #boundaryFirstDefault>\r\n    <<\r\n</ng-template>\r\n<ng-template #boundaryLastDefault>\r\n    >>\r\n</ng-template>\r\n<ng-template #directionPrevDefault>\r\n    <\r\n</ng-template>\r\n<ng-template #directionNexDefault>\r\n    >\r\n</ng-template>",
                     styles: ["\n      :host {\n          display: flex;\n          justify-content: center;\n          height: auto;\n          flex-shrink: 0;\n      }\n  "]
@@ -1428,37 +1709,46 @@ var PaginationComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     PaginationComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef }
+        { type: core.ChangeDetectorRef }
     ]; };
     PaginationComponent.propDecorators = {
-        disabled: [{ type: Input }],
-        boundary: [{ type: Input }],
-        direction: [{ type: Input }],
-        ellipses: [{ type: Input }],
-        rotate: [{ type: Input }],
-        total: [{ type: Input }],
-        maxSize: [{ type: Input }],
-        page: [{ type: Input }],
-        change: [{ type: Output }],
-        _pageLinkCompList: [{ type: ContentChildren, args: [PageLinkComponent,] }],
-        _boundaryFirstDefault: [{ type: ViewChild, args: ['boundaryFirstDefault',] }],
-        _boundaryLastDefault: [{ type: ViewChild, args: ['boundaryLastDefault',] }],
-        _directionPrevDefault: [{ type: ViewChild, args: ['directionPrevDefault',] }],
-        _directionNexDefault: [{ type: ViewChild, args: ['directionNexDefault',] }]
+        disabled: [{ type: core.Input }],
+        boundary: [{ type: core.Input }],
+        direction: [{ type: core.Input }],
+        ellipses: [{ type: core.Input }],
+        rotate: [{ type: core.Input }],
+        total: [{ type: core.Input }],
+        maxSize: [{ type: core.Input }],
+        page: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        _pageLinkCompList: [{ type: core.ContentChildren, args: [pageLink_component.PageLinkComponent,] }],
+        _boundaryFirstDefault: [{ type: core.ViewChild, args: ['boundaryFirstDefault',] }],
+        _boundaryLastDefault: [{ type: core.ViewChild, args: ['boundaryLastDefault',] }],
+        _directionPrevDefault: [{ type: core.ViewChild, args: ['directionPrevDefault',] }],
+        _directionNexDefault: [{ type: core.ViewChild, args: ['directionNexDefault',] }]
     };
     return PaginationComponent;
 }());
+exports.PaginationComponent = PaginationComponent;
 
+});
+
+unwrapExports(pagination_component);
+var pagination_component_1 = pagination_component.PaginationComponent;
+
+var pageNumber_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var PageNumberComponent = /** @class */ (function () {
     function PageNumberComponent() {
         var _this = this;
         this.number = 0;
         this.currentPage = 0;
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.onClick = function (e) {
             _this.change.emit(_this.number);
         };
@@ -1493,62 +1783,89 @@ var PageNumberComponent = /** @class */ (function () {
         this._activeStyle = this.number === this.currentPage;
     };
     PageNumberComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'page-number',
                     template: "\n      {{number}}\n  ",
                     styles: [":host{background-color:#fff;border:1px solid #dee2e6;color:#007bff;cursor:pointer;display:flex;justify-content:center;align-items:center;margin-left:-1px;padding:1rem;transition:.3s;z-index:1}:host:hover{background-color:#e9ecef;color:#0056b3}:host.active{background-color:#007bff;border-color:#007bff;color:#fff}:host.focus{outline:0;box-shadow:0 0 0 .2rem rgba(0,123,255,.25);z-index:3}"]
                 }] }
     ];
     PageNumberComponent.propDecorators = {
-        number: [{ type: Input }],
-        currentPage: [{ type: Input }],
-        change: [{ type: Output }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }],
-        onMouseDown: [{ type: HostListener, args: ['mousedown', ['$event'],] }],
-        onMouseUp: [{ type: HostListener, args: ['mouseup', ['$event'],] }],
-        _activeStyle: [{ type: HostBinding, args: ['class.active',] }],
-        _focusStyle: [{ type: HostBinding, args: ['class.focus',] }]
+        number: [{ type: core.Input }],
+        currentPage: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }],
+        onMouseDown: [{ type: core.HostListener, args: ['mousedown', ['$event'],] }],
+        onMouseUp: [{ type: core.HostListener, args: ['mouseup', ['$event'],] }],
+        _activeStyle: [{ type: core.HostBinding, args: ['class.active',] }],
+        _focusStyle: [{ type: core.HostBinding, args: ['class.focus',] }]
     };
     return PageNumberComponent;
 }());
+exports.PageNumberComponent = PageNumberComponent;
 
+});
+
+unwrapExports(pageNumber_component);
+var pageNumber_component_1 = pageNumber_component.PageNumberComponent;
+
+var pagination_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var PaginationModule = /** @class */ (function () {
     function PaginationModule() {
     }
     PaginationModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     declarations: [
-                        PaginationComponent,
-                        PageNumberComponent,
-                        PageLinkComponent
+                        pagination_component.PaginationComponent,
+                        pageNumber_component.PageNumberComponent,
+                        pageLink_component.PageLinkComponent
                     ],
-                    exports: [PaginationComponent, PageLinkComponent]
+                    exports: [pagination_component.PaginationComponent, pageLink_component.PageLinkComponent]
                 },] }
     ];
     return PaginationModule;
 }());
+exports.PaginationModule = PaginationModule;
 
+});
+
+unwrapExports(pagination_module);
+var pagination_module_1 = pagination_module.PaginationModule;
+
+var toast_service = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+var v1_1 = tslib.__importDefault(v1);
+var i0 = tslib.__importStar(core);
 var IonarToastService = /** @class */ (function () {
     function IonarToastService() {
         var _this = this;
         this._messageList = [];
-        this.newMessage$ = new Subject();
+        this.newMessage$ = new rxjs.Subject();
         this._duration = 2000;
         this.info = function (message, duration) {
             if (duration === void 0) { duration = _this._duration; }
             return _this.sendMessage({
-                id: uuid(),
+                id: v1_1.default(),
                 text: message,
                 type: 'info'
             }, duration);
@@ -1556,7 +1873,7 @@ var IonarToastService = /** @class */ (function () {
         this.success = function (message, duration) {
             if (duration === void 0) { duration = _this._duration; }
             return _this.sendMessage({
-                id: uuid(),
+                id: v1_1.default(),
                 text: message,
                 type: 'success'
             }, duration);
@@ -1564,7 +1881,7 @@ var IonarToastService = /** @class */ (function () {
         this.danger = function (message, duration) {
             if (duration === void 0) { duration = _this._duration; }
             return _this.sendMessage({
-                id: uuid(),
+                id: v1_1.default(),
                 text: message,
                 type: 'danger'
             }, duration);
@@ -1604,22 +1921,33 @@ var IonarToastService = /** @class */ (function () {
      * @return {?}
      */
     function (id) {
-        this._messageList = _.reject(this._messageList, ['id', id]);
+        this._messageList = lodash_1.default.reject(this._messageList, ['id', id]);
         this.newMessage$.next(this._messageList);
     };
     IonarToastService.decorators = [
-        { type: Injectable, args: [{
+        { type: core.Injectable, args: [{
                     providedIn: 'root'
                 },] }
     ];
-    /** @nocollapse */ IonarToastService.ngInjectableDef = defineInjectable({ factory: function IonarToastService_Factory() { return new IonarToastService(); }, token: IonarToastService, providedIn: "root" });
+    /** @nocollapse */ IonarToastService.ngInjectableDef = i0.defineInjectable({ factory: function IonarToastService_Factory() { return new IonarToastService(); }, token: IonarToastService, providedIn: "root" });
     return IonarToastService;
 }());
+exports.IonarToastService = IonarToastService;
 
+});
+
+unwrapExports(toast_service);
+var toast_service_1 = toast_service.IonarToastService;
+
+var toast_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var ToastComponent = /** @class */ (function () {
     function ToastComponent(_toast) {
         var _this = this;
@@ -1654,7 +1982,7 @@ var ToastComponent = /** @class */ (function () {
     function () {
         var _this = this;
         this.message_list = this._toast.getMessages();
-        this._toast.newMessage$.pipe(untilDestroyed(this)).subscribe(function (message_list) {
+        this._toast.newMessage$.pipe(utility.untilDestroyed(this)).subscribe(function (message_list) {
             _this.message_list = message_list;
             _this.ngOnChanges(null);
         });
@@ -1679,7 +2007,7 @@ var ToastComponent = /** @class */ (function () {
     function () {
     };
     ToastComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-toast',
                     template: "<ng-container *ngFor=\"let message of message_list\">\r\n    <div class=\"toast-message\" [ngClass]=\"message.type\">\r\n        {{message.text}}\r\n\r\n        <div class=\"delete\" (click)=\"deleteMessage(message.id)\">x</div>\r\n    </div>\r\n\r\n</ng-container>",
                     styles: [":host{display:none;position:fixed;top:0;right:0;padding:1.6rem 1.6rem 0 0;width:25%;z-index:90}:host .toast-message{color:#fff;padding:1rem 1.6rem;border-radius:.4rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.15);background:#fff;line-height:1.5;position:relative;margin-bottom:1.3rem;overflow:hidden}:host .toast-message.success{background-color:#23d160}:host .toast-message.info{background-color:#209cee}:host .toast-message.danger{background-color:#ff3860}:host .toast-message .delete{background-color:rgba(10,10,10,.2);border-radius:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:.7rem;pointer-events:auto;position:absolute;top:.4rem;right:.4rem;flex-shrink:0;height:1.4rem;width:1.4rem}:host .toast-message .delete:hover{background-color:rgba(10,10,10,.5)}:host-context(.show){display:block}"]
@@ -1687,59 +2015,95 @@ var ToastComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     ToastComponent.ctorParameters = function () { return [
-        { type: IonarToastService }
+        { type: toast_service.IonarToastService }
     ]; };
     ToastComponent.propDecorators = {
-        _showToastContainer: [{ type: HostBinding, args: ['class.show',] }]
+        _showToastContainer: [{ type: core.HostBinding, args: ['class.show',] }]
     };
     return ToastComponent;
 }());
+exports.ToastComponent = ToastComponent;
 
+});
+
+unwrapExports(toast_component);
+var toast_component_1 = toast_component.ToastComponent;
+
+var toast_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var ToastModule = /** @class */ (function () {
     function ToastModule() {
     }
     ToastModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        ToastComponent
+                        toast_component.ToastComponent
                     ],
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
-                    exports: [ToastComponent]
+                    exports: [toast_component.ToastComponent]
                 },] }
     ];
     return ToastModule;
 }());
+exports.ToastModule = ToastModule;
 
+});
+
+unwrapExports(toast_module);
+var toast_module_1 = toast_module.ToastModule;
+
+var component_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
+
+
 var ComponentModule = /** @class */ (function () {
     function ComponentModule() {
     }
     ComponentModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
+                        modal_module.ModalModule, collapsible_module.CollapsibleModule, tabs_module.TabsModule, dropdown_module.DropdownModule, loading_module.LoadingModule, pagination_module.PaginationModule, toast_module.ToastModule
                     ],
                     exports: [
-                        ModalModule, CollapsibleModule, TabsModule, DropdownModule, LoadingModule, PaginationModule, ToastModule
+                        modal_module.ModalModule, collapsible_module.CollapsibleModule, tabs_module.TabsModule, dropdown_module.DropdownModule, loading_module.LoadingModule, pagination_module.PaginationModule, toast_module.ToastModule
                     ]
                 },] }
     ];
     return ComponentModule;
 }());
+exports.ComponentModule = ComponentModule;
 
+});
+
+unwrapExports(component_module);
+var component_module_1 = component_module.ComponentModule;
+
+var square_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var SquareDirective = /** @class */ (function () {
     function SquareDirective(_elRef, _renderer) {
         var _this = this;
@@ -1772,25 +2136,34 @@ var SquareDirective = /** @class */ (function () {
         this.matchHeight(this._elRef.nativeElement);
     };
     SquareDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[square]'
                 },] }
     ];
     /** @nocollapse */
     SquareDirective.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: Renderer2 }
+        { type: core.ElementRef },
+        { type: core.Renderer2 }
     ]; };
     SquareDirective.propDecorators = {
-        onResize: [{ type: HostListener, args: ['window:resize',] }]
+        onResize: [{ type: core.HostListener, args: ['window:resize',] }]
     };
     return SquareDirective;
 }());
+exports.SquareDirective = SquareDirective;
 
+});
+
+unwrapExports(square_directive);
+var square_directive_1 = square_directive.SquareDirective;
+
+var scrollDown = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ScrollDownDirective = /** @class */ (function () {
     function ScrollDownDirective(_elRef, _renderer) {
         this._elRef = _elRef;
@@ -1815,25 +2188,36 @@ var ScrollDownDirective = /** @class */ (function () {
         this._elRef.nativeElement.scrollTop = this._elRef.nativeElement.scrollHeight;
     };
     ScrollDownDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[scroll-down]'
                 },] }
     ];
     /** @nocollapse */
     ScrollDownDirective.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: Renderer2 }
+        { type: core.ElementRef },
+        { type: core.Renderer2 }
     ]; };
     ScrollDownDirective.propDecorators = {
-        active: [{ type: Input }]
+        active: [{ type: core.Input }]
     };
     return ScrollDownDirective;
 }());
+exports.ScrollDownDirective = ScrollDownDirective;
 
+});
+
+unwrapExports(scrollDown);
+var scrollDown_1 = scrollDown.ScrollDownDirective;
+
+var spread_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
 var SpreadDirective = /** @class */ (function () {
     function SpreadDirective(_vcRef, _renderer, _elRef) {
         this._vcRef = _vcRef;
@@ -1859,7 +2243,7 @@ var SpreadDirective = /** @class */ (function () {
     function (changes) {
         var _this = this;
         if (!this._vcRef['_data'].componentView) {
-            _.forOwn(this._context, function (value, key) {
+            lodash_1.default.forOwn(this._context, function (value, key) {
                 if (!_this._elRef.nativeElement[key] || key === 'type')
                     (value instanceof Function)
                         ? _this._renderer.listen(_this._elRef.nativeElement, key, value)
@@ -1868,26 +2252,35 @@ var SpreadDirective = /** @class */ (function () {
         }
     };
     SpreadDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[spread]'
                 },] }
     ];
     /** @nocollapse */
     SpreadDirective.ctorParameters = function () { return [
-        { type: ViewContainerRef },
-        { type: Renderer2 },
-        { type: ElementRef }
+        { type: core.ViewContainerRef },
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
     ]; };
     SpreadDirective.propDecorators = {
-        _context: [{ type: Input, args: ['spread',] }]
+        _context: [{ type: core.Input, args: ['spread',] }]
     };
     return SpreadDirective;
 }());
+exports.SpreadDirective = SpreadDirective;
 
+});
+
+unwrapExports(spread_directive);
+var spread_directive_1 = spread_directive.SpreadDirective;
+
+var removeHostElement_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var RemoveHostElementDirective = /** @class */ (function () {
     function RemoveHostElementDirective(_vcRef) {
         this._vcRef = _vcRef;
@@ -1913,66 +2306,98 @@ var RemoveHostElementDirective = /** @class */ (function () {
         }
     };
     RemoveHostElementDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[removeHostElement]'
                 },] }
     ];
     /** @nocollapse */
     RemoveHostElementDirective.ctorParameters = function () { return [
-        { type: ViewContainerRef }
+        { type: core.ViewContainerRef }
     ]; };
     return RemoveHostElementDirective;
 }());
+exports.RemoveHostElementDirective = RemoveHostElementDirective;
 
+});
+
+unwrapExports(removeHostElement_directive);
+var removeHostElement_directive_1 = removeHostElement_directive.RemoveHostElementDirective;
+
+var template_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var IonarTemplateDirective = /** @class */ (function () {
     function IonarTemplateDirective(templateRef) {
         this.templateRef = templateRef;
         this.name = '';
     }
     IonarTemplateDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[ioTemplate]'
                 },] }
     ];
     /** @nocollapse */
     IonarTemplateDirective.ctorParameters = function () { return [
-        { type: TemplateRef }
+        { type: core.TemplateRef }
     ]; };
     IonarTemplateDirective.propDecorators = {
-        name: [{ type: Input }],
-        component: [{ type: Input }]
+        name: [{ type: core.Input }],
+        component: [{ type: core.Input }]
     };
     return IonarTemplateDirective;
 }());
+exports.IonarTemplateDirective = IonarTemplateDirective;
 
+});
+
+unwrapExports(template_directive);
+var template_directive_1 = template_directive.IonarTemplateDirective;
+
+var directive_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
 var DirectiveModule = /** @class */ (function () {
     function DirectiveModule() {
     }
     DirectiveModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
+                        square_directive.SquareDirective, scrollDown.ScrollDownDirective, spread_directive.SpreadDirective, removeHostElement_directive.RemoveHostElementDirective, template_directive.IonarTemplateDirective
                     ],
                     exports: [
-                        SquareDirective, ScrollDownDirective, SpreadDirective, RemoveHostElementDirective, IonarTemplateDirective
+                        square_directive.SquareDirective, scrollDown.ScrollDownDirective, spread_directive.SpreadDirective, removeHostElement_directive.RemoveHostElementDirective, template_directive.IonarTemplateDirective
                     ]
                 },] }
     ];
     return DirectiveModule;
 }());
+exports.DirectiveModule = DirectiveModule;
 
+});
+
+unwrapExports(directive_module);
+var directive_module_1 = directive_module.DirectiveModule;
+
+var slide_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var SlideDirective = /** @class */ (function () {
     function SlideDirective(tplRef) {
         this.tplRef = tplRef;
@@ -2002,21 +2427,30 @@ var SlideDirective = /** @class */ (function () {
     function () {
     };
     SlideDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[slide]'
                 },] }
     ];
     /** @nocollapse */
     SlideDirective.ctorParameters = function () { return [
-        { type: TemplateRef }
+        { type: core.TemplateRef }
     ]; };
     return SlideDirective;
 }());
+exports.SlideDirective = SlideDirective;
 
+});
+
+unwrapExports(slide_directive);
+var slide_directive_1 = slide_directive.SlideDirective;
+
+var slide_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var SlideComponent = /** @class */ (function () {
     function SlideComponent(el, cd) {
         this.el = el;
@@ -2032,7 +2466,7 @@ var SlideComponent = /** @class */ (function () {
         this.cd.detectChanges();
     };
     SlideComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'slide',
                     template: "\n      <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n  ",
                     styles: ["\n      :host {\n          display: flex;\n          position: absolute;\n          flex: 1;\n          width: 100%;\n          height: 100%;\n\n      }\n  "]
@@ -2040,19 +2474,32 @@ var SlideComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     SlideComponent.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
+        { type: core.ElementRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     SlideComponent.propDecorators = {
-        template: [{ type: Input }]
+        template: [{ type: core.Input }]
     };
     return SlideComponent;
 }());
+exports.SlideComponent = SlideComponent;
 
+});
+
+unwrapExports(slide_component);
+var slide_component_1 = slide_component.SlideComponent;
+
+var carousel_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var CarouselComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function CarouselComponent(cd, vcRef, aniBuilder, resolver) {
@@ -2090,7 +2537,7 @@ var CarouselComponent = /** @class */ (function () {
         };
         this.createSlideComponent = function (i) {
             /** @type {?} */
-            var factory = _this.resolver.resolveComponentFactory(SlideComponent);
+            var factory = _this.resolver.resolveComponentFactory(slide_component.SlideComponent);
             /** @type {?} */
             var compRef = _this.carousel.createComponent(factory);
             compRef.instance.template = _this.item_dir_list.toArray()[i].tplRef;
@@ -2114,8 +2561,8 @@ var CarouselComponent = /** @class */ (function () {
             if (entrance === void 0) { entrance = 'entrance'; }
             if (direction === void 0) { direction = 'next'; }
             return (entrance === 'entrance')
-                ? (direction === 'next') ? useAnimation(slideInRightAnimation, { params: { timing: 500 } }) : useAnimation(slideInLeftAnimation, { params: { timing: 500 } })
-                : (direction === 'next') ? useAnimation(slideOutLeftAnimation, { params: { timing: 500 } }) : useAnimation(slideOutRightAnimation, { params: { timing: 500 } });
+                ? (direction === 'next') ? animations.useAnimation(animations$1.slideInRightAnimation, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slideInLeftAnimation, { params: { timing: 500 } })
+                : (direction === 'next') ? animations.useAnimation(animations$1.slideOutLeftAnimation, { params: { timing: 500 } }) : animations.useAnimation(animations$1.slideOutRightAnimation, { params: { timing: 500 } });
         };
     }
     /**
@@ -2145,7 +2592,7 @@ var CarouselComponent = /** @class */ (function () {
         this.slideCompRef.destroy();
     };
     CarouselComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-carousel',
                     template: "<div class=\"arrow-left\" (click)=\"previousSlide()\">\r\n   <\r\n</div>\r\n\r\n<ng-container  #carousel>\r\n\r\n</ng-container>\r\n\r\n\r\n\r\n<div class=\"arrow-right\" (click)=\"nextSlide()\">\r\n    >\r\n</div>\r\n\r\n",
                     styles: [":host{background-color:transparent;display:flex;position:relative;min-height:300px;min-width:700px}.arrow-left,.arrow-right{cursor:pointer;display:flex;align-items:center;font-size:2.5rem;position:absolute;height:100%;z-index:2;width:10rem}.arrow-left .fa-chevron-left,.arrow-left fa-chevron-right,.arrow-right .fa-chevron-left,.arrow-right fa-chevron-right{color:#000}.arrow-left{left:0}.arrow-right{right:0}"]
@@ -2153,81 +2600,121 @@ var CarouselComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     CarouselComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: ViewContainerRef },
-        { type: AnimationBuilder },
-        { type: ComponentFactoryResolver }
+        { type: core.ChangeDetectorRef },
+        { type: core.ViewContainerRef },
+        { type: animations.AnimationBuilder },
+        { type: core.ComponentFactoryResolver }
     ]; };
     CarouselComponent.propDecorators = {
-        item_dir_list: [{ type: ContentChildren, args: [SlideDirective,] }],
-        carousel: [{ type: ViewChild, args: ['carousel', { read: ViewContainerRef },] }]
+        item_dir_list: [{ type: core.ContentChildren, args: [slide_directive.SlideDirective,] }],
+        carousel: [{ type: core.ViewChild, args: ['carousel', { read: core.ViewContainerRef },] }]
     };
     return CarouselComponent;
 }());
+exports.CarouselComponent = CarouselComponent;
 
+});
+
+unwrapExports(carousel_component);
+var carousel_component_1 = carousel_component.CarouselComponent;
+
+var carousel_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var CarouselModule = /** @class */ (function () {
     function CarouselModule() {
     }
     CarouselModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     declarations: [
-                        CarouselComponent, SlideDirective, SlideComponent
+                        carousel_component.CarouselComponent, slide_directive.SlideDirective, slide_component.SlideComponent
                     ],
                     exports: [
-                        CarouselComponent, SlideDirective
+                        carousel_component.CarouselComponent, slide_directive.SlideDirective
                     ],
-                    entryComponents: [SlideComponent]
+                    entryComponents: [slide_component.SlideComponent]
                 },] }
     ];
     return CarouselModule;
 }());
+exports.CarouselModule = CarouselModule;
 
+});
+
+unwrapExports(carousel_module);
+var carousel_module_1 = carousel_module.CarouselModule;
+
+var packages_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var PackagesModule = /** @class */ (function () {
     function PackagesModule() {
     }
     PackagesModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        CarouselModule
+                        carousel_module.CarouselModule
                     ],
                     exports: [
-                        CarouselModule
+                        carousel_module.CarouselModule
                     ]
                 },] }
     ];
     return PackagesModule;
 }());
+exports.PackagesModule = PackagesModule;
 
+});
+
+unwrapExports(packages_module);
+var packages_module_1 = packages_module.PackagesModule;
+
+var isEmptyTemplate = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var lodash_1 = tslib.__importDefault(lodash);
 /** @type {?} */
-var isEmptyTemplate = function (element) {
+exports.isEmptyTemplate = function (element) {
     /** @type {?} */
     var nodes = element.nativeElement.childNodes;
-    return _.every(nodes, function (node) {
+    return lodash_1.default.every(nodes, function (node) {
         return (node.nodeType === 8);
     });
 };
 
+});
+
+unwrapExports(isEmptyTemplate);
+var isEmptyTemplate_1 = isEmptyTemplate.isEmptyTemplate;
+
+var removeHost = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 /** @type {?} */
-var removeHost = function (element) {
+exports.removeHost = function (element) {
     /** @type {?} */
     var nativeElement = element.nativeElement;
     /** @type {?} */
@@ -2237,15 +2724,36 @@ var removeHost = function (element) {
     }
 };
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
+});
 
+unwrapExports(removeHost);
+var removeHost_1 = removeHost.removeHost;
+
+var utils = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+exports.isEmptyTemplate = isEmptyTemplate.isEmptyTemplate;
+
+exports.removeHost = removeHost.removeHost;
+
+});
+
+unwrapExports(utils);
+var utils_1 = utils.isEmptyTemplate;
+var utils_2 = utils.removeHost;
+
+var defaultContent_component = createCommonjsModule(function (module, exports) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var DefaultContentComponent = /** @class */ (function () {
     function DefaultContentComponent(_elRef, _vcRef, cd) {
         this._elRef = _elRef;
@@ -2292,7 +2800,7 @@ var DefaultContentComponent = /** @class */ (function () {
                 context: { $implicit: this.context }
             };
             if (!this.isHostRemoved) {
-                removeHost(this._elRef);
+                utils.removeHost(this._elRef);
             }
             this.isHostRemoved = true;
             this.cd.detectChanges();
@@ -2307,85 +2815,147 @@ var DefaultContentComponent = /** @class */ (function () {
     function () {
     };
     DefaultContentComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'default-content',
                     template: ""
                 }] }
     ];
     /** @nocollapse */
     DefaultContentComponent.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: ViewContainerRef },
-        { type: ChangeDetectorRef }
+        { type: core.ElementRef },
+        { type: core.ViewContainerRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     DefaultContentComponent.propDecorators = {
-        context: [{ type: Input }]
+        context: [{ type: core.Input }]
     };
     return DefaultContentComponent;
 }());
+exports.DefaultContentComponent = DefaultContentComponent;
 
+});
+
+unwrapExports(defaultContent_component);
+var defaultContent_component_1 = defaultContent_component.DefaultContentComponent;
+
+var defaultContent_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var DefaultContentModule = /** @class */ (function () {
     function DefaultContentModule() {
     }
     DefaultContentModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        DefaultContentComponent
+                        defaultContent_component.DefaultContentComponent
                     ],
                     exports: [
-                        DefaultContentComponent
+                        defaultContent_component.DefaultContentComponent
                     ]
                 },] }
     ];
     return DefaultContentModule;
 }());
+exports.DefaultContentModule = DefaultContentModule;
 
+});
+
+unwrapExports(defaultContent_module);
+var defaultContent_module_1 = defaultContent_module.DefaultContentModule;
+
+var ui_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
 var IonarUI = /** @class */ (function () {
     function IonarUI() {
     }
     IonarUI.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        ComponentModule,
-                        ElementModule,
-                        PackagesModule,
-                        DirectiveModule,
-                        DefaultContentModule
+                        component_module.ComponentModule,
+                        element_module.ElementModule,
+                        packages_module.PackagesModule,
+                        directive_module.DirectiveModule,
+                        defaultContent_module.DefaultContentModule
                     ],
                     exports: [
-                        ComponentModule,
-                        ElementModule,
-                        PackagesModule,
-                        DirectiveModule,
-                        DefaultContentModule
+                        component_module.ComponentModule,
+                        element_module.ElementModule,
+                        packages_module.PackagesModule,
+                        directive_module.DirectiveModule,
+                        defaultContent_module.DefaultContentModule
                     ]
                 },] }
     ];
     return IonarUI;
 }());
+exports.IonarUI = IonarUI;
 
+});
+
+unwrapExports(ui_module);
+var ui_module_1 = ui_module.IonarUI;
+
+var components = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.IonarLoadingService = loading_service.IonarLoadingService;
+
+exports.IonarToastService = toast_service.IonarToastService;
+
+});
+
+unwrapExports(components);
+var components_1 = components.IonarLoadingService;
+var components_2 = components.IonarToastService;
+
+var elements = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.DefaultContentComponent = defaultContent_component.DefaultContentComponent;
+
+});
+
+unwrapExports(elements);
+var elements_1 = elements.DefaultContentComponent;
+
+var IoAbstractUI_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+/**
+ * @record
+ */
+function ComponentContext() { }
+exports.ComponentContext = ComponentContext;
 /**
  * @abstract
  */
@@ -2397,8 +2967,8 @@ var IoAbstractUI = /** @class */ (function () {
         this.template = null;
         this.viewInit = false;
         this.setContext = function (properties, events) {
-            _this._contextData = __assign({}, _this._contextData, properties, events);
-            // this.cd.markForCheck();
+            _this._contextData = tslib.__assign({}, _this._contextData, properties, events);
+            _this.cd.markForCheck();
         };
         this.parseTemplate = function () {
             if (!_this.template) {
@@ -2409,7 +2979,7 @@ var IoAbstractUI = /** @class */ (function () {
                         context: _this.context
                     };
                 }
-                if (isEmptyTemplate(_this._elRef) || !_this._contentTemplate) {
+                if (utils.isEmptyTemplate(_this._elRef) || !_this._contentTemplate) {
                     _this.template = _this._defaultTemplate;
                     _this.cd.detectChanges();
                 }
@@ -2451,6 +3021,7 @@ var IoAbstractUI = /** @class */ (function () {
      */
     function (changes) {
         this.parseTemplate();
+        console.log(this._defaultContentComp);
         this.cd.markForCheck();
     };
     /**
@@ -2462,35 +3033,206 @@ var IoAbstractUI = /** @class */ (function () {
     function () {
     };
     IoAbstractUI.propDecorators = {
-        template: [{ type: Input }],
-        _container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
-        _defaultTemplate: [{ type: ViewChild, args: ['default_template', { read: TemplateRef },] }],
-        _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }],
-        _defaultContentComp: [{ type: ContentChild, args: [DefaultContentComponent,] }]
+        template: [{ type: core.Input }],
+        _container: [{ type: core.ViewChild, args: ['container', { read: core.ViewContainerRef },] }],
+        _defaultTemplate: [{ type: core.ViewChild, args: ['default_template', { read: core.TemplateRef },] }],
+        _contentTemplate: [{ type: core.ViewChild, args: ['content_template', { read: core.TemplateRef },] }],
+        _defaultContentComp: [{ type: core.ContentChild, args: [defaultContent_component.DefaultContentComponent,] }]
     };
     return IoAbstractUI;
 }());
+exports.IoAbstractUI = IoAbstractUI;
 
+});
+
+unwrapExports(IoAbstractUI_1);
+var IoAbstractUI_2 = IoAbstractUI_1.ComponentContext;
+var IoAbstractUI_3 = IoAbstractUI_1.IoAbstractUI;
+
+var interfaces = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.IoAbstractUI = IoAbstractUI_1.IoAbstractUI;
+
+});
+
+unwrapExports(interfaces);
+var interfaces_1 = interfaces.IoAbstractUI;
+
+var directives = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.IonarTemplateDirective = template_directive.IonarTemplateDirective;
+
+});
+
+unwrapExports(directives);
+var directives_1 = directives.IonarTemplateDirective;
+
+var esm5 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.IonarUI = ui_module.IonarUI;
+
+exports.IonarLoadingService = components.IonarLoadingService;
+exports.IonarToastService = components.IonarToastService;
+
+exports.isEmptyTemplate = utils.isEmptyTemplate;
+exports.removeHost = utils.removeHost;
+
+exports.DefaultContentComponent = elements.DefaultContentComponent;
+
+exports.IoAbstractUI = interfaces.IoAbstractUI;
+
+exports.IonarTemplateDirective = directives.IonarTemplateDirective;
+
+});
+
+unwrapExports(esm5);
+var esm5_1 = esm5.IonarUI;
+var esm5_2 = esm5.IonarLoadingService;
+var esm5_3 = esm5.IonarToastService;
+var esm5_4 = esm5.isEmptyTemplate;
+var esm5_5 = esm5.removeHost;
+var esm5_6 = esm5.DefaultContentComponent;
+var esm5_7 = esm5.IoAbstractUI;
+var esm5_8 = esm5.IonarTemplateDirective;
+
+var ionarUi = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Generated bundle index. Do not edit.
+ */
 
-export { IonarUI, IonarLoadingService, IonarToastService, isEmptyTemplate, removeHost, DefaultContentComponent, IoAbstractUI, IonarTemplateDirective, CollapsibleModule as ɵd, CollapsibleDirective as ɵe, ContentDirective as ɵf, ToggleDirective as ɵg, ComponentModule as ɵa, MenuComponent as ɵo, ToggleComponent as ɵp, DropdownComponent as ɵn, DropdownModule as ɵm, LoadingComponent as ɵr, LoadingModule as ɵq, IonarLoadingService as ɵs, CircleComponent as ɵv, SpinnerComponent as ɵt, SpinnerTemplate as ɵu, ModalComponent as ɵc, ModalModule as ɵb, PageLinkComponent as ɵy, PageNumberComponent as ɵz, PaginationComponent as ɵx, PaginationModule as ɵw, TabContentComponent as ɵl, TabLabelComponent as ɵk, TabComponent as ɵj, TabsComponent as ɵi, TabsModule as ɵh, ToastComponent as ɵbb, ToastModule as ɵba, IonarToastService as ɵbc, DirectiveModule as ɵbm, RemoveHostElementDirective as ɵbq, ScrollDownDirective as ɵbo, SpreadDirective as ɵbp, SquareDirective as ɵbn, IonarTemplateDirective as ɵbr, ButtonComponent as ɵbg, ButtonModule as ɵbf, DefaultContentComponent as ɵbt, DefaultContentModule as ɵbs, ElementModule as ɵbd, FlexElement as ɵbe, CarouselComponent as ɵbj, CarouselModule as ɵbi, SlideComponent as ɵbl, SlideDirective as ɵbk, PackagesModule as ɵbh };
+exports.IonarUI = esm5.IonarUI;
+exports.IonarLoadingService = esm5.IonarLoadingService;
+exports.IonarToastService = esm5.IonarToastService;
+exports.isEmptyTemplate = esm5.isEmptyTemplate;
+exports.removeHost = esm5.removeHost;
+exports.DefaultContentComponent = esm5.DefaultContentComponent;
+exports.IoAbstractUI = esm5.IoAbstractUI;
+exports.IonarTemplateDirective = esm5.IonarTemplateDirective;
+
+exports.ɵd = collapsible_module.CollapsibleModule;
+
+exports.ɵe = collapsible_directive.CollapsibleDirective;
+
+exports.ɵf = content_directive.ContentDirective;
+
+exports.ɵg = toggle_directive.ToggleDirective;
+
+exports.ɵa = component_module.ComponentModule;
+
+exports.ɵo = menu_component.MenuComponent;
+
+exports.ɵp = toggle_component.ToggleComponent;
+
+exports.ɵn = dropdown_component.DropdownComponent;
+
+exports.ɵm = dropdown_module.DropdownModule;
+
+exports.ɵr = loading_component.LoadingComponent;
+
+exports.ɵq = loading_module.LoadingModule;
+
+exports.ɵs = loading_service.IonarLoadingService;
+
+exports.ɵv = circle_component.CircleComponent;
+
+exports.ɵt = spinner_component.SpinnerComponent;
+exports.ɵu = spinner_component.SpinnerTemplate;
+
+exports.ɵc = modal_component.ModalComponent;
+
+exports.ɵb = modal_module.ModalModule;
+
+exports.ɵy = pageLink_component.PageLinkComponent;
+
+exports.ɵz = pageNumber_component.PageNumberComponent;
+
+exports.ɵx = pagination_component.PaginationComponent;
+
+exports.ɵw = pagination_module.PaginationModule;
+
+exports.ɵl = content_component.TabContentComponent;
+
+exports.ɵk = label_component.TabLabelComponent;
+
+exports.ɵj = tab_component.TabComponent;
+
+exports.ɵi = tabs_component.TabsComponent;
+
+exports.ɵh = tabs_module.TabsModule;
+
+exports.ɵbb = toast_component.ToastComponent;
+
+exports.ɵba = toast_module.ToastModule;
+
+exports.ɵbc = toast_service.IonarToastService;
+
+exports.ɵbm = directive_module.DirectiveModule;
+
+exports.ɵbq = removeHostElement_directive.RemoveHostElementDirective;
+
+exports.ɵbo = scrollDown.ScrollDownDirective;
+
+exports.ɵbp = spread_directive.SpreadDirective;
+
+exports.ɵbn = square_directive.SquareDirective;
+
+exports.ɵbr = template_directive.IonarTemplateDirective;
+
+exports.ɵbg = button_component.ButtonComponent;
+
+exports.ɵbf = button_module.ButtonModule;
+
+exports.ɵbt = defaultContent_component.DefaultContentComponent;
+
+exports.ɵbs = defaultContent_module.DefaultContentModule;
+
+exports.ɵbd = element_module.ElementModule;
+
+exports.ɵbe = flex_element.FlexElement;
+
+exports.ɵbj = carousel_component.CarouselComponent;
+
+exports.ɵbi = carousel_module.CarouselModule;
+
+exports.ɵbl = slide_component.SlideComponent;
+
+exports.ɵbk = slide_directive.SlideDirective;
+
+exports.ɵbh = packages_module.PackagesModule;
+
+});
+
+var ionarUi$1 = unwrapExports(ionarUi);
+var ionarUi_1 = ionarUi.IonarUI;
+var ionarUi_2 = ionarUi.IonarLoadingService;
+var ionarUi_3 = ionarUi.IonarToastService;
+var ionarUi_4 = ionarUi.isEmptyTemplate;
+var ionarUi_5 = ionarUi.removeHost;
+var ionarUi_6 = ionarUi.DefaultContentComponent;
+var ionarUi_7 = ionarUi.IoAbstractUI;
+var ionarUi_8 = ionarUi.IonarTemplateDirective;
+
+export default ionarUi$1;
+export { ionarUi_1 as IonarUI, ionarUi_2 as IonarLoadingService, ionarUi_3 as IonarToastService, ionarUi_4 as isEmptyTemplate, ionarUi_5 as removeHost, ionarUi_6 as DefaultContentComponent, ionarUi_7 as IoAbstractUI, ionarUi_8 as IonarTemplateDirective };
 
 //# sourceMappingURL=ionar-ui.js.map

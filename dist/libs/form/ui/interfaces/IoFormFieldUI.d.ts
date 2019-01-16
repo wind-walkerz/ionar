@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { IoAbstractUI } from '@ionar/ui';
+import { IoAbstractUI } from './IoAbstractUI';
 export declare abstract class IoFormFieldUI extends IoAbstractUI {
     invalid: Boolean;
     disabled: Boolean;

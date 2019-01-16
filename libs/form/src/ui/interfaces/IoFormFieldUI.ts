@@ -2,7 +2,7 @@ import {
   EventEmitter, HostBinding,
   Input, Output
 } from '@angular/core';
-import { IoAbstractUI } from '@ionar/ui';
+import { IoAbstractUI } from './IoAbstractUI';
 
 
 export abstract class IoFormFieldUI extends IoAbstractUI {

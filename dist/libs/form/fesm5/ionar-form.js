@@ -1,30 +1,148 @@
-import Joi from '@ionar/joi';
-import { untilDestroyed } from '@ionar/utility';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
-import { __extends, __assign, __spread } from 'tslib';
-import { IoAbstractUI, IonarTemplateDirective, isEmptyTemplate, IonarUI } from '@ionar/ui';
-import { EventEmitter, HostBinding, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ComponentFactoryResolver, Directive, ViewContainerRef, ContentChild, forwardRef, Host, Optional, SkipSelf, HostListener, Injectable, ContentChildren, ViewChild, NgModule, defineInjectable } from '@angular/core';
-import _, { trim } from 'lodash';
+import joi from '@ionar/joi';
+import utility from '@ionar/utility';
+import operators from 'rxjs/operators';
+import common from '@angular/common';
+import ui from '@ionar/ui';
+import tslib from 'tslib';
+import core from '@angular/core';
+import lodash from 'lodash';
 
+function unwrapExports (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var IoAbstractUI_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/**
+ * @record
+ */
+function ComponentContext() { }
+exports.ComponentContext = ComponentContext;
+/**
+ * @abstract
+ */
+var IoAbstractUI = /** @class */ (function () {
+    function IoAbstractUI(cd, _elRef) {
+        var _this = this;
+        this.cd = cd;
+        this._elRef = _elRef;
+        this.template = null;
+        this.viewInit = false;
+        this.setContext = function (properties, events) {
+            _this._contextData = tslib.__assign({}, _this._contextData, properties, events);
+            _this.cd.markForCheck();
+        };
+        this.parseTemplate = function () {
+            if (!_this.template) {
+                _this.template = _this._contentTemplate;
+                // if (this._defaultContentComp) {
+                //
+                //   this._defaultContentComp.template = {
+                //     template: this._defaultTemplate,
+                //     context: this.context
+                //   };
+                // }
+                // if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+                _this.template = _this._defaultTemplate;
+                // this.cd.detectChanges();
+                // }
+                _this.viewInit = true;
+                _this.cd.detectChanges();
+            }
+            _this.viewInit = true;
+            _this.cd.detectChanges();
+        };
+    }
+    Object.defineProperty(IoAbstractUI.prototype, "context", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return {
+                defaultContent: this._defaultTemplate,
+                $implicit: this._contextData
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        this.parseTemplate();
+        this.cd.markForCheck();
+    };
+    /**
+     * @return {?}
+     */
+    IoAbstractUI.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+    };
+    IoAbstractUI.propDecorators = {
+        template: [{ type: core.Input }],
+        _container: [{ type: core.ViewChild, args: ['container', { read: core.ViewContainerRef },] }],
+        _defaultTemplate: [{ type: core.ViewChild, args: ['default_template', { read: core.TemplateRef },] }],
+        _contentTemplate: [{ type: core.ViewChild, args: ['content_template', { read: core.TemplateRef },] }]
+    };
+    return IoAbstractUI;
+}());
+exports.IoAbstractUI = IoAbstractUI;
+
+});
+
+unwrapExports(IoAbstractUI_1);
+var IoAbstractUI_2 = IoAbstractUI_1.ComponentContext;
+var IoAbstractUI_3 = IoAbstractUI_1.IoAbstractUI;
+
+var IoFormFieldUI_1 = createCommonjsModule(function (module, exports) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 /**
  * @abstract
  */
 var IoFormFieldUI = /** @class */ (function (_super) {
-    __extends(IoFormFieldUI, _super);
+    tslib.__extends(IoFormFieldUI, _super);
     function IoFormFieldUI() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.invalid = false;
         _this.disabled = false;
         _this.focused = false;
         _this.readonly = false;
-        _this.change = new EventEmitter();
-        _this.blur = new EventEmitter();
-        _this.enter = new EventEmitter();
+        _this.change = new core.EventEmitter();
+        _this.blur = new core.EventEmitter();
+        _this.enter = new core.EventEmitter();
         return _this;
     }
     Object.defineProperty(IoFormFieldUI.prototype, "_isFocused", {
@@ -68,27 +186,39 @@ var IoFormFieldUI = /** @class */ (function (_super) {
         configurable: true
     });
     IoFormFieldUI.propDecorators = {
-        invalid: [{ type: Input }],
-        disabled: [{ type: Input }],
-        focused: [{ type: Input }],
-        readonly: [{ type: Input }],
-        change: [{ type: Output }],
-        blur: [{ type: Output }],
-        enter: [{ type: Output }],
-        _isFocused: [{ type: HostBinding, args: ['class.focus',] }],
-        _isInvalid: [{ type: HostBinding, args: ['class.invalid',] }],
-        _isDisabled: [{ type: HostBinding, args: ['class.disabled',] }],
-        _isReadonly: [{ type: HostBinding, args: ['class.readonly',] }]
+        invalid: [{ type: core.Input }],
+        disabled: [{ type: core.Input }],
+        focused: [{ type: core.Input }],
+        readonly: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        blur: [{ type: core.Output }],
+        enter: [{ type: core.Output }],
+        _isFocused: [{ type: core.HostBinding, args: ['class.focus',] }],
+        _isInvalid: [{ type: core.HostBinding, args: ['class.invalid',] }],
+        _isDisabled: [{ type: core.HostBinding, args: ['class.disabled',] }],
+        _isReadonly: [{ type: core.HostBinding, args: ['class.readonly',] }]
     };
     return IoFormFieldUI;
-}(IoAbstractUI));
+}(IoAbstractUI_1.IoAbstractUI));
+exports.IoFormFieldUI = IoFormFieldUI;
 
+});
+
+unwrapExports(IoFormFieldUI_1);
+var IoFormFieldUI_2 = IoFormFieldUI_1.IoFormFieldUI;
+
+var input_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var InputComponent = /** @class */ (function (_super) {
-    __extends(InputComponent, _super);
+    tslib.__extends(InputComponent, _super);
     function InputComponent(cd, _elRef) {
         var _this = _super.call(this, cd, _elRef) || this;
         ///-----------------------------------------------  Variables   -----------------------------------------------///
@@ -106,7 +236,7 @@ var InputComponent = /** @class */ (function (_super) {
             _this.focused = false;
             _this.cd.markForCheck();
         };
-        _this.onChange = _.debounce(function (e) {
+        _this.onChange = lodash_1.default.debounce(function (e) {
             e.stopPropagation();
             /** @type {?} */
             var value = e.target.value;
@@ -233,36 +363,48 @@ var InputComponent = /** @class */ (function (_super) {
      */
     function (changes) {
         _super.prototype.ngOnChanges.call(this, changes);
+        console.log(IoFormFieldUI_1.IoFormFieldUI);
     };
     InputComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-input',
                     template: "<ng-container [ngTemplateOutlet]=\"template\" [ngTemplateOutletContext]=\"context\"></ng-container>\r\n\r\n<ng-template #default_template let-context>\r\n    <input\r\n            [spread]=\"context\"\r\n            *ngIf=\"!(context?.readonly || context?.disabled)\"\r\n    >\r\n\r\n    <span *ngIf=\"context?.readonly || context?.disabled\">\r\n          {{value}}\r\n      </span>\r\n</ng-template>\r\n\r\n<ng-template #content_template>\r\n    <ng-content></ng-content>\r\n</ng-template>\r\n",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: [":host{background-color:transparent;border:1px solid #d9d9d9;border-radius:.4rem;color:#363636;display:flex;align-items:center;justify-content:flex-start;font-size:1.5rem;outline:0;overflow:hidden;padding:0 1rem;position:relative;transition:.3s cubic-bezier(.645,.045,.355,1);width:100%;height:auto;min-height:2.25em;max-height:5rem;max-width:100%}:host.focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff}:host.invalid{border-color:#f5222d}:host.invalid.focus{border-color:#ff4d4f;outline:0;box-shadow:0 0 0 2px rgba(245,34,45,.2)}:host ::ng-deep input{border:none;color:inherit;display:flex;flex:1px;font-size:inherit;font-weight:inherit;text-transform:inherit;text-decoration:inherit;outline:0;height:100%;max-width:100%;z-index:1}:host .loading_icon{width:10%}:host-context(.readonly){border:0}:host-context(.disabled){border:0}"]
                 }] }
     ];
     /** @nocollapse */
     InputComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: ElementRef }
+        { type: core.ChangeDetectorRef },
+        { type: core.ElementRef }
     ]; };
     InputComponent.propDecorators = {
-        type: [{ type: Input }],
-        name: [{ type: Input }],
-        placeholder: [{ type: Input }],
-        value: [{ type: Input }],
-        range: [{ type: Input }]
+        type: [{ type: core.Input }],
+        name: [{ type: core.Input }],
+        placeholder: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        range: [{ type: core.Input }]
     };
     return InputComponent;
-}(IoFormFieldUI));
+}(IoFormFieldUI_1.IoFormFieldUI));
+exports.InputComponent = InputComponent;
 
+});
+
+unwrapExports(input_component);
+var input_component_1 = input_component.InputComponent;
+
+var textarea_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var TextareaComponent = /** @class */ (function (_super) {
-    __extends(TextareaComponent, _super);
+    tslib.__extends(TextareaComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function TextareaComponent(cd, el) {
         var _this = _super.call(this, cd, el) || this;
@@ -287,7 +429,7 @@ var TextareaComponent = /** @class */ (function (_super) {
         });
     };
     TextareaComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-textarea',
                     template: "<textarea\r\n        [name]=\"name\"\r\n        [value]=\"value\"\r\n        [class.invalid]=\"invalid\"\r\n        cols=\"1\" rows=\"1\"\r\n        [placeholder]=\"placeholder\"\r\n\r\n        (change)=\"$event.stopPropagation(); change.emit($event.target.value);\"\r\n        (blur)=\"blur.emit()\"\r\n></textarea>\r\n",
                     styles: [":host{display:flex;flex:1}textarea{border:none;font-size:1.5rem;padding:1rem;width:100%;max-width:100%;overflow-y:scroll}"]
@@ -295,29 +437,41 @@ var TextareaComponent = /** @class */ (function (_super) {
     ];
     /** @nocollapse */
     TextareaComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: ElementRef }
+        { type: core.ChangeDetectorRef },
+        { type: core.ElementRef }
     ]; };
     TextareaComponent.propDecorators = {
-        name: [{ type: Input }],
-        value: [{ type: Input }],
-        placeholder: [{ type: Input }]
+        name: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        placeholder: [{ type: core.Input }]
     };
     return TextareaComponent;
-}(IoFormFieldUI));
+}(IoFormFieldUI_1.IoFormFieldUI));
+exports.TextareaComponent = TextareaComponent;
 
+});
+
+unwrapExports(textarea_component);
+var textarea_component_1 = textarea_component.TextareaComponent;
+
+var upload_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var UploadComponent = /** @class */ (function (_super) {
-    __extends(UploadComponent, _super);
+    tslib.__extends(UploadComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function UploadComponent(cd, el) {
         var _this = _super.call(this, cd, el) || this;
         ///-----------------------------------------------  Variables   -----------------------------------------------///
         _this.file_list = [];
-        _this.change = new EventEmitter();
+        _this.change = new core.EventEmitter();
         _this.invalid = false;
         _this.type = 'input';
         _this.multiple = false;
@@ -337,11 +491,11 @@ var UploadComponent = /** @class */ (function (_super) {
      * @return {?}
      */
     function (file_list) {
-        this.file_list = this.file_list.concat(_.map(file_list));
+        this.file_list = this.file_list.concat(lodash_1.default.map(file_list));
         this.change.emit(this.multiple ? this.file_list : this.file_list[0]);
     };
     UploadComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-upload',
                     template: "<ng-container *ngIf=\"type === 'dropzone'\">\r\n    <ng-container *ngTemplateOutlet=\"dropzone\"></ng-container>\r\n</ng-container>\r\n\r\n<ng-container *ngIf=\"type === 'input'\">\r\n    <ng-container *ngTemplateOutlet=\"click\"></ng-container>\r\n</ng-container>\r\n\r\n<ng-template #click>\r\n    <click\r\n            (change)=\"onFileChanged($event)\"\r\n            [template]=\"template\"\r\n            [multiple]=\"multiple\"\r\n            [title]=\"title\"\r\n    >\r\n    </click>\r\n\r\n</ng-template>\r\n\r\n<ng-template #dropzone>\r\n    <drop\r\n            (change)=\"onFileChanged($event)\"\r\n            [template]=\"template\"\r\n    >\r\n    </drop>\r\n</ng-template>\r\n\r\n\r\n<ng-template #default_template>\r\n    <ng-content></ng-content>\r\n</ng-template>\r\n",
                     styles: [":host{display:flex;flex-direction:column;align-items:flex-start;width:100%;height:100%}"]
@@ -349,33 +503,42 @@ var UploadComponent = /** @class */ (function (_super) {
     ];
     /** @nocollapse */
     UploadComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: ElementRef }
+        { type: core.ChangeDetectorRef },
+        { type: core.ElementRef }
     ]; };
     UploadComponent.propDecorators = {
-        change: [{ type: Output }],
-        invalid: [{ type: Input }],
-        type: [{ type: Input }],
-        template: [{ type: Input }],
-        multiple: [{ type: Input }],
-        title: [{ type: Input }]
+        change: [{ type: core.Output }],
+        invalid: [{ type: core.Input }],
+        type: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        multiple: [{ type: core.Input }],
+        title: [{ type: core.Input }]
     };
     return UploadComponent;
-}(IoFormFieldUI));
+}(IoFormFieldUI_1.IoFormFieldUI));
+exports.UploadComponent = UploadComponent;
 
+});
+
+unwrapExports(upload_component);
+var upload_component_1 = upload_component.UploadComponent;
+
+var menu_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var MenuComponent = /** @class */ (function () {
     function MenuComponent() {
         var _this = this;
         this.options = [];
         this.name = '';
         this.value = null;
-        this.change = new EventEmitter();
-        this.blur = new EventEmitter();
-        this.enter = new EventEmitter();
+        this.change = new core.EventEmitter();
+        this.blur = new core.EventEmitter();
+        this.enter = new core.EventEmitter();
         this.invalid = false;
         this.onSelectOption = function (option) {
             _this.change.emit(option.value);
@@ -401,7 +564,7 @@ var MenuComponent = /** @class */ (function () {
     function (changes) {
     };
     MenuComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-menu',
                     template: "\n      <ng-container *ngFor=\"let option of options\">\n          <div\n                  class=\"option\"\n                  [class.active]=\"option.value === value\"\n                  (click)=\"onSelectOption(option)\"\n          >\n              {{option.label}}\n          </div>\n      </ng-container>\n  ",
                     styles: [":host{display:flex;flex-direction:column;width:100%}:host .option{border:0;cursor:pointer;font-size:1.6rem;margin:.5rem 0}:host .option.active,:host .option:hover{font-weight:700}"]
@@ -410,26 +573,55 @@ var MenuComponent = /** @class */ (function () {
     /** @nocollapse */
     MenuComponent.ctorParameters = function () { return []; };
     MenuComponent.propDecorators = {
-        options: [{ type: Input }],
-        name: [{ type: Input }],
-        value: [{ type: Input }],
-        change: [{ type: Output }],
-        blur: [{ type: Output }],
-        enter: [{ type: Output }],
-        invalid: [{ type: Input }]
+        options: [{ type: core.Input }],
+        name: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        blur: [{ type: core.Output }],
+        enter: [{ type: core.Output }],
+        invalid: [{ type: core.Input }]
     };
     return MenuComponent;
 }());
+exports.MenuComponent = MenuComponent;
 
+});
+
+unwrapExports(menu_component);
+var menu_component_1 = menu_component.MenuComponent;
+
+var ui$1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.InputComponent = input_component.InputComponent;
+
+exports.TextareaComponent = textarea_component.TextareaComponent;
+
+exports.UploadComponent = upload_component.UploadComponent;
+
+exports.MenuComponent = menu_component.MenuComponent;
+
+});
+
+unwrapExports(ui$1);
+var ui_1 = ui$1.InputComponent;
+var ui_2 = ui$1.TextareaComponent;
+var ui_3 = ui$1.UploadComponent;
+var ui_4 = ui$1.MenuComponent;
+
+var AbstractControl_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
 /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
  *
@@ -442,7 +634,7 @@ var MenuComponent = /** @class */ (function () {
  * \@publicApi
  * @abstract
  */
-var  /**
+var /**
  * This is the base class for `FormControl`, `FormGroup.ts`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
@@ -501,7 +693,7 @@ AbstractControl = /** @class */ (function () {
          * \@internal
          */
         this._isNotExcluded = function (c) {
-            return !_.get(c.options, 'excluded') && !(_.has(_this.options, ['nullExclusion']) && !c.value);
+            return !lodash_1.default.get(c.options, 'excluded') && !(lodash_1.default.has(_this.options, ['nullExclusion']) && !c.value);
         };
         this._storeInitialOptions(_options);
         this.runAsyncValidator = function () {
@@ -514,7 +706,7 @@ AbstractControl = /** @class */ (function () {
         function () {
             if (this.parent && this.parent.schema) {
                 /** @type {?} */
-                var extractChild = _.find(this.parent.schema['_inner'].children, ['key', this.name]);
+                var extractChild = lodash_1.default.find(this.parent.schema['_inner'].children, ['key', this.name]);
                 return extractChild ? extractChild.schema : null;
             }
             return this._getControlSchema();
@@ -522,34 +714,12 @@ AbstractControl = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    /** @internal */
-    /**
-     * \@internal
-     * @return {?}
-     */
-    AbstractControl.prototype._mergeSchema = /**
-     * \@internal
-     * @return {?}
-     */
-    function () {
-        // const parentSchema = (<FormGroup>this.parent).schema
-        // if (parentSchema && this.schema) {
-        //   const currentTest = this.schema['_tests']
-        //   const parentTest = this.sh
-        //   _.each(currentTest, test => {
-        //     const index = _.findIndex(testObject1['_tests'], ['name', test.name]);
-        //     testObject1['_tests'].splice(index, 1, test);
-        //
-        //   });
-        // }
-        // (<AbstractControlOptions>this.options).schema
-    };
     Object.defineProperty(AbstractControl.prototype, "path", {
         get: /**
          * @return {?}
          */
         function () {
-            return this.parent ? __spread(this.parent.path, [this.name]) : [];
+            return this.parent ? tslib.__spread(this.parent.path, [this.name]) : [];
         },
         enumerable: true,
         configurable: true
@@ -603,15 +773,15 @@ AbstractControl = /** @class */ (function () {
             /** @type {?} */
             var parentConfig;
             if (this.parent && this.parent.options)
-                parentConfig = __assign({}, this.parent.options);
-            return __assign({}, parentConfig, this._initialOptions) || null;
+                parentConfig = tslib.__assign({}, this.parent.options);
+            return tslib.__assign({}, parentConfig, this._initialOptions) || null;
         },
         set: /**
          * @param {?} newConfig
          * @return {?}
          */
         function (newConfig) {
-            this._options = __assign({}, this._options, newConfig);
+            this._options = tslib.__assign({}, this._options, newConfig);
             this.updateValueAndValidity({ emitEvent: true });
         },
         enumerable: true,
@@ -637,7 +807,7 @@ AbstractControl = /** @class */ (function () {
          *
          */
         function () {
-            return this.status !== DISABLED;
+            return this.status !== exports.DISABLED;
         },
         enumerable: true,
         configurable: true
@@ -666,7 +836,7 @@ AbstractControl = /** @class */ (function () {
          * @return {?} True if the control is disabled, false otherwise.
          */
         function () {
-            return this.status === DISABLED;
+            return this.status === exports.DISABLED;
         },
         enumerable: true,
         configurable: true
@@ -689,7 +859,7 @@ AbstractControl = /** @class */ (function () {
          * false otherwise.
          */
         function () {
-            return this.status === VALID;
+            return this.status === exports.VALID;
         },
         enumerable: true,
         configurable: true
@@ -712,7 +882,7 @@ AbstractControl = /** @class */ (function () {
          * false otherwise.
          */
         function () {
-            return this.status === INVALID;
+            return this.status === exports.INVALID;
         },
         enumerable: true,
         configurable: true
@@ -735,7 +905,7 @@ AbstractControl = /** @class */ (function () {
          * false otherwise.
          */
         function () {
-            return this.status === PENDING;
+            return this.status === exports.PENDING;
         },
         enumerable: true,
         configurable: true
@@ -1098,7 +1268,7 @@ AbstractControl = /** @class */ (function () {
      */
     function (options, opts) {
         if (opts === void 0) { opts = {}; }
-        this._initialOptions = __assign({}, this._initialOptions, options);
+        this._initialOptions = tslib.__assign({}, this._initialOptions, options);
         this._updateControlsOptions(opts.emitEvent !== false);
     };
     /**
@@ -1150,7 +1320,7 @@ AbstractControl = /** @class */ (function () {
             this._cancelExistingSubscription();
             ((/** @type {?} */ (this))).errors = this._runJoiValidation();
             ((/** @type {?} */ (this))).status = this._calculateStatus();
-            if (this.status === VALID || this.status === PENDING) {
+            if (this.status === exports.VALID || this.status === exports.PENDING) {
                 this.runAsyncValidator(opts.emitEvent);
             }
         }
@@ -1175,39 +1345,25 @@ AbstractControl = /** @class */ (function () {
      */
     function () {
         if (this._allControlsDisabled())
-            return DISABLED;
+            return exports.DISABLED;
         if (this.errors)
-            return INVALID;
-        if (this._anyControlsHaveStatus(INVALID))
-            return INVALID;
-        if (this._anyControlsHaveStatus(PENDING))
-            return PENDING;
-        return VALID;
+            return exports.INVALID;
+        if (this._anyControlsHaveStatus(exports.INVALID))
+            return exports.INVALID;
+        if (this._anyControlsHaveStatus(exports.PENDING))
+            return exports.PENDING;
+        return exports.VALID;
     };
+    /** @internal */
     /**
-     * @private
+     * \@internal
      * @return {?}
      */
     AbstractControl.prototype._runJoiValidation = /**
-     * @private
+     * \@internal
      * @return {?}
      */
     function () {
-        var _a, _b;
-        if (this.schema) {
-            /** @type {?} */
-            var validateObject = (this.schema['_type'] !== 'object') ? (_a = {}, _a[this.name] = this.value, _a) : this.value;
-            /** @type {?} */
-            var validateSchema = (this.schema['_type'] !== 'object') ? (_b = {}, _b[this.name] = this.schema, _b) : this.schema;
-            /** @type {?} */
-            var result = Joi.validate(validateObject, validateSchema, {
-                abortEarly: false,
-                stripUnknown: true
-            });
-            if (!result.error)
-                return null;
-            return (/** @type {?} */ (result.error.details));
-        }
         return null;
     };
     /**
@@ -1232,19 +1388,7 @@ AbstractControl = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        ((/** @type {?} */ (this))).status = this._allControlsDisabled() ? DISABLED : VALID;
-    };
-    /** @internal */
-    /**
-     * \@internal
-     * @return {?}
-     */
-    AbstractControl.prototype._coerceToJoiSchema = /**
-     * \@internal
-     * @return {?}
-     */
-    function () {
-        ((/** @type {?} */ (this))).schema = ((/** @type {?} */ (this.options))).schema;
+        ((/** @type {?} */ (this))).status = this._allControlsDisabled() ? exports.DISABLED : exports.VALID;
     };
     /** @internal */
     /**
@@ -1267,8 +1411,8 @@ AbstractControl = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        ((/** @type {?} */ (this))).valueChanges = new EventEmitter();
-        ((/** @type {?} */ (this))).statusChanges = new EventEmitter();
+        ((/** @type {?} */ (this))).valueChanges = new core.EventEmitter();
+        ((/** @type {?} */ (this))).statusChanges = new core.EventEmitter();
     };
     /** @internal */
     /**
@@ -1281,9 +1425,9 @@ AbstractControl = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        ((/** @type {?} */ (this))).runAsyncValidator = _.debounce(function (emitEvent) {
+        ((/** @type {?} */ (this))).runAsyncValidator = lodash_1.default.debounce(function (emitEvent) {
             if (_this.asyncValidator) {
-                ((/** @type {?} */ (_this))).status = PENDING;
+                ((/** @type {?} */ (_this))).status = exports.PENDING;
                 /** @type {?} */
                 var obs = _this.asyncValidator(_this);
                 // this._asyncValidationSubscription =
@@ -1335,20 +1479,21 @@ AbstractControl = /** @class */ (function () {
     };
     return AbstractControl;
 }());
+exports.AbstractControl = AbstractControl;
 /**
  * Reports that a FormControl is valid, meaning that no errors exist in the input value.
  *
  * @see `status`
  * @type {?}
  */
-var VALID = 'VALID';
+exports.VALID = 'VALID';
 /**
  * Reports that a FormControl is invalid, meaning that an error exists in the input value.
  *
  * @see `status`
  * @type {?}
  */
-var INVALID = 'INVALID';
+exports.INVALID = 'INVALID';
 /**
  * Reports that a FormControl is pending, meaning that that async validation is occurring and
  * errors are not yet available for the input value.
@@ -1357,7 +1502,7 @@ var INVALID = 'INVALID';
  * @see `status`
  * @type {?}
  */
-var PENDING = 'PENDING';
+exports.PENDING = 'PENDING';
 /**
  * Reports that a FormControl is disabled, meaning that the control is exempt from ancestor
  * calculations of validity or value.
@@ -1366,12 +1511,26 @@ var PENDING = 'PENDING';
  * @see `status`
  * @type {?}
  */
-var DISABLED = 'DISABLED';
+exports.DISABLED = 'DISABLED';
 
+});
+
+unwrapExports(AbstractControl_1);
+var AbstractControl_2 = AbstractControl_1.AbstractControl;
+var AbstractControl_3 = AbstractControl_1.VALID;
+var AbstractControl_4 = AbstractControl_1.INVALID;
+var AbstractControl_5 = AbstractControl_1.PENDING;
+var AbstractControl_6 = AbstractControl_1.DISABLED;
+
+var FormControl_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
 /**
  * Tracks the value and validation status of an individual form control.
  *
@@ -1469,7 +1628,7 @@ var DISABLED = 'DISABLED';
  *
  * \@publicApi
  */
-var  /**
+var /**
  * Tracks the value and validation status of an individual form control.
  *
  * This is one of the three fundamental building blocks of Angular forms, along with
@@ -1567,7 +1726,7 @@ var  /**
  * \@publicApi
  */
 FormControl = /** @class */ (function (_super) {
-    __extends(FormControl, _super);
+    tslib.__extends(FormControl, _super);
     /**
      * Creates a new `FormControl` instance.
      *
@@ -1684,7 +1843,7 @@ FormControl = /** @class */ (function (_super) {
         ((/** @type {?} */ (this))).value = value;
         this.markAsDirty();
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange'])) {
+        if (lodash_1.default.has(this.options, ['submitOnChange'])) {
             this.root.submit(true);
         }
     };
@@ -1747,7 +1906,7 @@ FormControl = /** @class */ (function (_super) {
         this.markAsUntouched(options);
         this._applyControlState();
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange'])) {
+        if (lodash_1.default.has(this.options, ['submitOnChange'])) {
             this.root.submit(true);
         }
     };
@@ -1807,7 +1966,7 @@ FormControl = /** @class */ (function (_super) {
         this.markAsUntouched(options);
         ((/** @type {?} */ (this))).value = null;
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange'])) {
+        if (lodash_1.default.has(this.options, ['submitOnChange'])) {
             this.root.submit(true);
         }
     };
@@ -1928,12 +2087,26 @@ FormControl = /** @class */ (function (_super) {
         return false;
     };
     return FormControl;
-}(AbstractControl));
+}(AbstractControl_1.AbstractControl));
+exports.FormControl = FormControl;
 
+});
+
+unwrapExports(FormControl_1);
+var FormControl_2 = FormControl_1.FormControl;
+
+var FormGroup_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var lodash_1 = tslib.__importDefault(lodash);
+var joi_1 = tslib.__importDefault(joi);
+
+
+
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
@@ -2006,7 +2179,7 @@ FormControl = /** @class */ (function (_super) {
  *
  * \@publicApi
  */
-var  /**
+var /**
  * Tracks the value and validity state of a group of `FormControl` instances.
  *
  * A `FormGroup` aggregates the values of each child `FormControl` into one object,
@@ -2079,7 +2252,7 @@ var  /**
  * \@publicApi
  */
 FormGroup = /** @class */ (function (_super) {
-    __extends(FormGroup, _super);
+    tslib.__extends(FormGroup, _super);
     /**
      * Creates a new `FormGroup` instance.
      *
@@ -2097,9 +2270,20 @@ FormGroup = /** @class */ (function (_super) {
         /**
          * \@internal
          */
+        _this._updateChildError = function (errors) {
+            lodash_1.default.each(errors, function (err) {
+                /** @type {?} */
+                var control = lodash_1.default.get(_this.controls, err.path);
+                if (control instanceof FormControl_1.FormControl) {
+                    control.setErrors([err]);
+                }
+            });
+        };
+        /**
+         * \@internal
+         */
         _this._getControlSchema = function () {
-            if (_this.options.schema)
-                return _this.options.schema;
+            return _this.options.schema || joi_1.default.object().keys(_this._reduceSchema());
         };
         _this._applyFormState = function () {
             if (!_this.parent && !_this.root) {
@@ -2108,7 +2292,6 @@ FormGroup = /** @class */ (function (_super) {
         };
         _this._applyFormState();
         _this._setUpControls(state);
-        _this._coerceToJoiSchema();
         _this._initObservables();
         _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         return _this;
@@ -2197,7 +2380,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function (name) {
-        ((/** @type {?} */ (this))).controls = (/** @type {?} */ (_.omit(this.controls, [name])));
+        ((/** @type {?} */ (this))).controls = (/** @type {?} */ (lodash_1.default.omit(this.controls, [name])));
         this.updateValueAndValidity();
     };
     /**
@@ -2221,7 +2404,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function (name, control) {
-        ((/** @type {?} */ (this))).controls = (/** @type {?} */ (_.omit(this.controls, [name])));
+        ((/** @type {?} */ (this))).controls = (/** @type {?} */ (lodash_1.default.omit(this.controls, [name])));
         if (control)
             this.registerControl(name, control);
         this.updateValueAndValidity();
@@ -2336,7 +2519,7 @@ FormGroup = /** @class */ (function (_super) {
     function (formValue, options) {
         var _this = this;
         if (options === void 0) { options = {}; }
-        _.forOwn(formValue, function (value, name) {
+        lodash_1.default.forOwn(formValue, function (value, name) {
             _this._throwIfControlMissing(name);
             _this.controls[name].setValue(value, { onlySelf: true, emitEvent: options.emitEvent });
         });
@@ -2514,12 +2697,12 @@ FormGroup = /** @class */ (function (_super) {
     function (value, options) {
         if (value === void 0) { value = {}; }
         if (options === void 0) { options = {}; }
-        _.forOwn(this.controls, function (c, name) {
+        lodash_1.default.forOwn(this.controls, function (c, name) {
             c.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
         ((/** @type {?} */ (this))).submitted = false;
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange']))
+        if (lodash_1.default.has(this.options, ['submitOnChange']))
             this.submit(true);
     };
     /**
@@ -2691,12 +2874,12 @@ FormGroup = /** @class */ (function (_super) {
      */
     function (options) {
         if (options === void 0) { options = {}; }
-        _.forOwn(this.controls, function (c, name) {
+        lodash_1.default.forOwn(this.controls, function (c, name) {
             c.clear({ onlySelf: true, emitEvent: options.emitEvent });
         });
         ((/** @type {?} */ (this))).submitted = false;
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange']))
+        if (lodash_1.default.has(this.options, ['submitOnChange']))
             this.submit(true);
     };
     /**
@@ -2755,7 +2938,7 @@ FormGroup = /** @class */ (function (_super) {
     function (path) {
         if (!path)
             return null;
-        return _.get(this.controls, path) || null;
+        return lodash_1.default.get(this.controls, path) || null;
     };
     /**
      * @param {?=} instant
@@ -2779,22 +2962,12 @@ FormGroup = /** @class */ (function (_super) {
     /**
      * @return {?}
      */
-    FormGroup.prototype._coerceToJoiSchema = /**
-     * @return {?}
-     */
-    function () {
-        // (<{ schema: JoiSchema }>this).schema = this._mergeSchema() || Joi.object().keys(this._reduceSchema());
-        // (<{ schema: JoiSchema }>this).schema = this.options.schema || Joi.object().keys(this._reduceSchema());
-    };
-    /**
-     * @return {?}
-     */
     FormGroup.prototype.updateChildValidity = /**
      * @return {?}
      */
     function () {
-        _.forOwn(this.controls, function (c, name) {
-            if (c instanceof FormControl)
+        lodash_1.default.forOwn(this.controls, function (c, name) {
+            if (c instanceof FormControl_1.FormControl)
                 c.updateValueAndValidity();
             if (c instanceof FormGroup)
                 c.updateChildValidity();
@@ -2810,53 +2983,16 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        ((/** @type {?} */ (this))).valueChanges = new EventEmitter();
-        ((/** @type {?} */ (this))).statusChanges = new EventEmitter();
-        ((/** @type {?} */ (this))).ngSubmit = new EventEmitter();
+        ((/** @type {?} */ (this))).valueChanges = new core.EventEmitter();
+        ((/** @type {?} */ (this))).statusChanges = new core.EventEmitter();
+        ((/** @type {?} */ (this))).ngSubmit = new core.EventEmitter();
     };
-    // /** @internal */
-    // _updateChildError = (errors: JoiError[]) => {
-    //   _.each(errors, (err: JoiError) => {
-    //     const control: AbstractControl = _.get(this.controls, err.path);
-    //     if (control instanceof FormControl) {
-    //       control.setErrors([err]);
-    //     }
-    //     if(control instanceof FormGroup) {
-    //       control._r()
-    //     }
-    //   });
-    // };
     /** @internal */
-    // /** @internal */
-    // _updateChildError = (errors: JoiError[]) => {
-    //   _.each(errors, (err: JoiError) => {
-    //     const control: AbstractControl = _.get(this.controls, err.path);
-    //     if (control instanceof FormControl) {
-    //       control.setErrors([err]);
-    //     }
-    //     if(control instanceof FormGroup) {
-    //       control._r()
-    //     }
-    //   });
-    // };
     /**
      * \@internal
      * @return {?}
      */
-    FormGroup.prototype._updateValue = 
-    // /** @internal */
-    // _updateChildError = (errors: JoiError[]) => {
-    //   _.each(errors, (err: JoiError) => {
-    //     const control: AbstractControl = _.get(this.controls, err.path);
-    //     if (control instanceof FormControl) {
-    //       control.setErrors([err]);
-    //     }
-    //     if(control instanceof FormGroup) {
-    //       control._r()
-    //     }
-    //   });
-    // };
-    /**
+    FormGroup.prototype._updateValue = /**
      * \@internal
      * @return {?}
      */
@@ -2876,12 +3012,57 @@ FormGroup = /** @class */ (function (_super) {
         var _this = this;
         /** @type {?} */
         var form_value = {};
-        _.forOwn(this.controls, function (c, name) {
+        lodash_1.default.forOwn(this.controls, function (c, name) {
             if (_this._isNotExcluded(c)) {
                 form_value[name] = c.value;
             }
         });
         return form_value;
+    };
+    /** @internal */
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormGroup.prototype._reduceSchema = /**
+     * \@internal
+     * @return {?}
+     */
+    function () {
+        return lodash_1.default.reduce(this.controls, function (result, c, name) {
+            if (c instanceof FormControl_1.FormControl && ((/** @type {?} */ (c.state))).schema) {
+                result[name] = ((/** @type {?} */ (c.state))).schema;
+            }
+            return result;
+        }, {});
+    };
+    /** @internal */
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormGroup.prototype._runJoiValidation = /**
+     * \@internal
+     * @return {?}
+     */
+    function () {
+        var _a, _b;
+        if (this.schema) {
+            /** @type {?} */
+            var validateObject = (this.schema['_type'] !== 'object') ? (_a = {}, _a[this.name] = this.value, _a) : this.value;
+            /** @type {?} */
+            var validateSchema = (this.schema['_type'] !== 'object') ? (_b = {}, _b[this.name] = this.schema, _b) : this.schema;
+            /** @type {?} */
+            var result = joi_1.default.validate(validateObject, validateSchema, {
+                abortEarly: false,
+                stripUnknown: true
+            });
+            if (!result.error)
+                return null;
+            this._updateChildError((/** @type {?} */ (result.error.details)));
+            return (/** @type {?} */ (result.error.details));
+        }
+        return null;
     };
     /** @internal */
     /**
@@ -2899,7 +3080,7 @@ FormGroup = /** @class */ (function (_super) {
     function (controlConfig) {
         var _this = this;
         ((/** @type {?} */ (this.controls))) = {};
-        _.forOwn(controlConfig, function (c, name) {
+        lodash_1.default.forOwn(controlConfig, function (c, name) {
             c.setParent(_this);
             c.setRoot(_this.root);
             c.name = name;
@@ -2918,7 +3099,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function (name) {
-        if (!_.keys(this.controls).length) {
+        if (!lodash_1.default.keys(this.controls).length) {
             throw new Error("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
         }
         if (!this.controls[name]) {
@@ -2935,7 +3116,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        return _.every(_.values(this.controls), function (c) { return c.disabled; });
+        return lodash_1.default.every(lodash_1.default.values(this.controls), function (c) { return c.disabled; });
     };
     /** @internal */
     /**
@@ -2949,28 +3130,43 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     function (status) {
-        return !!_.find(_.values(this.controls), ['status', status]);
+        return !!lodash_1.default.find(lodash_1.default.values(this.controls), ['status', status]);
     };
     return FormGroup;
-}(AbstractControl));
+}(AbstractControl_1.AbstractControl));
+exports.FormGroup = FormGroup;
 
+});
+
+unwrapExports(FormGroup_1);
+var FormGroup_2 = FormGroup_1.FormGroup;
+
+var dynamicField_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
+
+
+
 var DynamicFieldDirective = /** @class */ (function () {
     function DynamicFieldDirective(_resolver, _vcRef) {
         var _this = this;
         this._resolver = _resolver;
         this._vcRef = _vcRef;
         this.components = {
-            input: InputComponent,
-            textarea: TextareaComponent,
+            input: ui$1.InputComponent,
+            textarea: ui$1.TextareaComponent,
             // select: AuroraSelectComponent,
             // datepicker: AuroraDatePickerComponent,
             // checkbox: AuroraCheckboxComponent,
-            upload: UploadComponent,
-            menu: MenuComponent
+            upload: ui$1.UploadComponent,
+            menu: ui$1.MenuComponent
             // radio: AuroraRadioComponent
         };
         this.createComponent = function () {
@@ -2994,11 +3190,11 @@ var DynamicFieldDirective = /** @class */ (function () {
             }
         };
         this._initObservables = function () {
-            _.forOwn(_this._events, function (value, key) {
+            lodash_1.default.forOwn(_this._events, function (value, key) {
                 if (!_this._compRef.instance[key])
-                    _this._compRef.instance[key] = new EventEmitter();
-                _this._compRef.instance[key].pipe(untilDestroyed(_this)).subscribe(function (event) {
-                    (value instanceof EventEmitter)
+                    _this._compRef.instance[key] = new core.EventEmitter();
+                _this._compRef.instance[key].pipe(utility.untilDestroyed(_this)).subscribe(function (event) {
+                    (value instanceof core.EventEmitter)
                         ? value.emit(event)
                         : value(event);
                 });
@@ -3016,8 +3212,8 @@ var DynamicFieldDirective = /** @class */ (function () {
             /** @type {?} */
             var options = (/** @type {?} */ (_this._control.options));
             /** @type {?} */
-            var context = __assign({ name: _this._name, invalid: _this._control.invalid && (_this._control.dirty || _this._control.touched || _this._root.submitted) }, state.props, { template: _this._template }, options);
-            _.forOwn(context, function (value, key) {
+            var context = tslib.__assign({ name: _this._name, invalid: _this._control.invalid && (_this._control.dirty || _this._control.touched || _this._root.submitted) }, state.props, { template: _this._template }, options);
+            lodash_1.default.forOwn(context, function (value, key) {
                 if (value !== undefined)
                     _this._compRef.instance[key] = value;
             });
@@ -3032,10 +3228,10 @@ var DynamicFieldDirective = /** @class */ (function () {
     function () {
         var _this = this;
         this.createComponent();
-        this._root.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
+        this._root.statusChanges.pipe(utility.untilDestroyed(this)).subscribe(function (status) {
             _this.ngOnChanges();
         });
-        this._root.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
+        this._root.ngSubmit.pipe(utility.untilDestroyed(this)).subscribe(function (data) {
             _this.ngOnChanges();
         });
     };
@@ -3061,29 +3257,47 @@ var DynamicFieldDirective = /** @class */ (function () {
             this._compRef.destroy();
     };
     DynamicFieldDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[dynamic_field]'
                 },] }
     ];
     /** @nocollapse */
     DynamicFieldDirective.ctorParameters = function () { return [
-        { type: ComponentFactoryResolver },
-        { type: ViewContainerRef }
+        { type: core.ComponentFactoryResolver },
+        { type: core.ViewContainerRef }
     ]; };
     DynamicFieldDirective.propDecorators = {
-        _name: [{ type: Input, args: ['name',] }],
-        _root: [{ type: Input, args: ['root',] }],
-        _control: [{ type: Input, args: ['control',] }],
-        _template: [{ type: Input, args: ['template',] }],
-        _events: [{ type: Input, args: ['events',] }]
+        _name: [{ type: core.Input, args: ['name',] }],
+        _root: [{ type: core.Input, args: ['root',] }],
+        _control: [{ type: core.Input, args: ['control',] }],
+        _template: [{ type: core.Input, args: ['template',] }],
+        _events: [{ type: core.Input, args: ['events',] }]
     };
     return DynamicFieldDirective;
 }());
+exports.DynamicFieldDirective = DynamicFieldDirective;
 
+});
+
+unwrapExports(dynamicField_directive);
+var dynamicField_directive_1 = dynamicField_directive.DynamicFieldDirective;
+
+var ControlContainer_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+
 /**
  * \@description
  * A base class for directives that contain multiple registered instances of `IoControl`.
@@ -3139,7 +3353,7 @@ var ControlContainer = /** @class */ (function () {
          * @return {?}
          */
         function (name) {
-            this._name = trim(name);
+            this._name = lodash.trim(name);
         },
         enumerable: true,
         configurable: true
@@ -3173,7 +3387,7 @@ var ControlContainer = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            return this.parent ? __spread(this.parent.path, [this.name, 'controls']) : [this.name, 'controls'];
+            return this.parent ? tslib.__spread(this.parent.path, [this.name, 'controls']) : [this.name, 'controls'];
         },
         enumerable: true,
         configurable: true
@@ -3205,16 +3419,33 @@ var ControlContainer = /** @class */ (function () {
     function () {
     };
     ControlContainer.propDecorators = {
-        parent: [{ type: Input, args: ['parent',] }],
-        name: [{ type: Input }]
+        parent: [{ type: core.Input, args: ['parent',] }],
+        name: [{ type: core.Input }]
     };
     return ControlContainer;
 }());
+exports.ControlContainer = ControlContainer;
 
+});
+
+unwrapExports(ControlContainer_1);
+var ControlContainer_2 = ControlContainer_1.ControlContainer;
+
+var IoControl_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
 /**
  * \@description
  * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
@@ -3223,7 +3454,7 @@ var ControlContainer = /** @class */ (function () {
  * \@publicApi
  * @abstract
  */
-var  /**
+var /**
  * \@description
  * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
@@ -3232,7 +3463,7 @@ var  /**
  * @abstract
  */
 IoControl = /** @class */ (function (_super) {
-    __extends(IoControl, _super);
+    tslib.__extends(IoControl, _super);
     function IoControl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -3265,25 +3496,39 @@ IoControl = /** @class */ (function (_super) {
          * @return {?}
          */
         function () {
-            return this.parent ? __spread(this.parent.path, [this.name]) : [];
+            return this.parent ? tslib.__spread(this.parent.path, [this.name]) : [];
         },
         enumerable: true,
         configurable: true
     });
     return IoControl;
-}(ControlContainer));
+}(ControlContainer_1.ControlContainer));
+exports.IoControl = IoControl;
 
+});
+
+unwrapExports(IoControl_1);
+var IoControl_2 = IoControl_1.IoControl;
+
+var formControl_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
+
+
 /** @type {?} */
-var controlNameBinding = {
-    provide: IoControl,
-    useExisting: forwardRef(function () { return FormControlComponent; })
+exports.controlNameBinding = {
+    provide: IoControl_1.IoControl,
+    useExisting: core.forwardRef(function () { return FormControlComponent; })
 };
 var FormControlComponent = /** @class */ (function (_super) {
-    __extends(FormControlComponent, _super);
+    tslib.__extends(FormControlComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function FormControlComponent(parent, cd) {
         var _this = _super.call(this, cd) || this;
@@ -3305,8 +3550,8 @@ var FormControlComponent = /** @class */ (function (_super) {
             if (this._ioTemplateDir)
                 return this._ioTemplateDir;
             if (parent.ioTemplateDirList)
-                return _.find(parent.ioTemplateDirList.toArray(), ['name', this.name])
-                    || _.find(parent.ioTemplateDirList.toArray(), ['component', state.component]);
+                return lodash_1.default.find(parent.ioTemplateDirList.toArray(), ['name', this.name])
+                    || lodash_1.default.find(parent.ioTemplateDirList.toArray(), ['component', state.component]);
         },
         enumerable: true,
         configurable: true
@@ -3326,7 +3571,7 @@ var FormControlComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function () {
-            return _.get(this.control.options, ['hidden']);
+            return lodash_1.default.get(this.control.options, ['hidden']);
         },
         enumerable: true,
         configurable: true
@@ -3336,7 +3581,7 @@ var FormControlComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function () {
-            return _.get(this.control.options, ['hideLabel']);
+            return lodash_1.default.get(this.control.options, ['hideLabel']);
         },
         enumerable: true,
         configurable: true
@@ -3346,7 +3591,7 @@ var FormControlComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function () {
-            return _.get(this.control.options, ['hideFeedback']);
+            return lodash_1.default.get(this.control.options, ['hideFeedback']);
         },
         enumerable: true,
         configurable: true
@@ -3379,33 +3624,44 @@ var FormControlComponent = /** @class */ (function (_super) {
     function () {
     };
     FormControlComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-control',
                     template: "\n      <form-label *ngIf=\"!isHideLabel\"></form-label>\n\n      <form-field></form-field>\n\n      <form-feedback *ngIf=\"!isHideFeedback\"></form-feedback>\n  ",
-                    providers: [controlNameBinding],
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    providers: [exports.controlNameBinding],
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: grid;\n          grid-template-areas: \"label   field\" \". feedback\";\n          grid-template-columns: 3fr 7fr;\n          grid-template-rows: 1fr auto;\n          margin-bottom: 1rem;\n          height: auto;\n          visibility: visible;\n          z-index: 50;\n      }\n\n      :host-context(.hide-label) {\n          grid-template-areas: \"field\" \"feedback\";\n          grid-template-columns: 1fr;\n      }\n\n      :host-context(.hide-feedback) {\n          grid-template-areas: \"label   field\";\n          grid-template-columns: 3fr 7fr;\n      }\n\n      :host-context(.hide-label.hide-feedback) {\n          grid-template-areas: \"field\";\n      }\n\n      :host-context(.hidden) {\n          display: none !important;\n      }\n\n      form-label {\n          grid-area: label;\n      }\n\n      form-field {\n          grid-area: field;\n      }\n\n      form-feedback {\n          grid-area: feedback;\n      }\n  "]
                 }] }
     ];
     /** @nocollapse */
     FormControlComponent.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
-        { type: ChangeDetectorRef }
+        { type: ControlContainer_1.ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+        { type: core.ChangeDetectorRef }
     ]; };
     FormControlComponent.propDecorators = {
-        _ioTemplateDir: [{ type: ContentChild, args: [IonarTemplateDirective,] }],
-        attribute: [{ type: HostBinding, args: ['attr.id',] }],
-        hiddenStyle: [{ type: HostBinding, args: ['class.hidden',] }],
-        isHideLabel: [{ type: HostBinding, args: ['class.hideLabel',] }],
-        isHideFeedback: [{ type: HostBinding, args: ['class.hideFeedback',] }]
+        _ioTemplateDir: [{ type: core.ContentChild, args: [ui.IonarTemplateDirective,] }],
+        attribute: [{ type: core.HostBinding, args: ['attr.id',] }],
+        hiddenStyle: [{ type: core.HostBinding, args: ['class.hidden',] }],
+        isHideLabel: [{ type: core.HostBinding, args: ['class.hideLabel',] }],
+        isHideFeedback: [{ type: core.HostBinding, args: ['class.hideFeedback',] }]
     };
     return FormControlComponent;
-}(IoControl));
+}(IoControl_1.IoControl));
+exports.FormControlComponent = FormControlComponent;
 
+});
+
+unwrapExports(formControl_component);
+var formControl_component_1 = formControl_component.controlNameBinding;
+var formControl_component_2 = formControl_component.FormControlComponent;
+
+var field_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var FieldComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function FieldComponent(cd, parent) {
@@ -3459,25 +3715,35 @@ var FieldComponent = /** @class */ (function () {
     function () {
     };
     FieldComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-field',
                     template: "\n      <ng-container *ngIf=\"_parent.control\">\n          <ng-container\n                  dynamic_field\n                  [name]=\"_parent.name\"\n                  [control]=\"_parent.control\"\n                  [root]=\"_parent.root\"\n                  [events]=\"{\n                    change: onChanged,\n                    blur: onTouched,\n                    enter: onEntered\n              }\"\n                  [template]=\"template\"\n          >\n          </ng-container>\n      </ng-container>\n\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: flex;\n          width: 100%;\n          height: 100%;\n      }\n  "]
                 }] }
     ];
     /** @nocollapse */
     FieldComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: FormControlComponent, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] }
+        { type: core.ChangeDetectorRef },
+        { type: formControl_component.FormControlComponent, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] }
     ]; };
     return FieldComponent;
 }());
+exports.FieldComponent = FieldComponent;
 
+});
+
+unwrapExports(field_component);
+var field_component_1 = field_component.FieldComponent;
+
+var submit_directive = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var SubmitDirective = /** @class */ (function () {
     function SubmitDirective(_elRef) {
         var _this = this;
@@ -3516,26 +3782,38 @@ var SubmitDirective = /** @class */ (function () {
     function () {
     };
     SubmitDirective.decorators = [
-        { type: Directive, args: [{
+        { type: core.Directive, args: [{
                     selector: '[submitForm]'
                 },] }
     ];
     /** @nocollapse */
     SubmitDirective.ctorParameters = function () { return [
-        { type: ElementRef }
+        { type: core.ElementRef }
     ]; };
     SubmitDirective.propDecorators = {
-        _formGr: [{ type: Input, args: ['submitForm',] }],
-        disabled: [{ type: Input }],
-        onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
+        _formGr: [{ type: core.Input, args: ['submitForm',] }],
+        disabled: [{ type: core.Input }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event'],] }]
     };
     return SubmitDirective;
 }());
+exports.SubmitDirective = SubmitDirective;
 
+});
+
+unwrapExports(submit_directive);
+var submit_directive_1 = submit_directive.SubmitDirective;
+
+var label_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var LabelComponent = /** @class */ (function () {
     function LabelComponent(cd, parent) {
         this.cd = cd;
@@ -3555,7 +3833,7 @@ var LabelComponent = /** @class */ (function () {
         function () {
             /** @type {?} */
             var props = ((/** @type {?} */ (this._control.state))).props;
-            return (props && props.label) ? props.label : _.startCase(this._parent.name);
+            return (props && props.label) ? props.label : lodash_1.default.startCase(this._parent.name);
         },
         enumerable: true,
         configurable: true
@@ -3581,25 +3859,36 @@ var LabelComponent = /** @class */ (function () {
         this.cd.detach();
     };
     LabelComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-label',
                     template: "\n      {{ label}}\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: flex;\n          align-items: center;\n          color: rgba(0, 0, 0, 0.85);\n          font-size: 1.6rem;\n          font-weight: 700;\n          position: relative\n      }\n  "]
                 }] }
     ];
     /** @nocollapse */
     LabelComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: FormControlComponent, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] }
+        { type: core.ChangeDetectorRef },
+        { type: formControl_component.FormControlComponent, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] }
     ]; };
     return LabelComponent;
 }());
+exports.LabelComponent = LabelComponent;
 
+});
+
+unwrapExports(label_component);
+var label_component_1 = label_component.LabelComponent;
+
+var feedback_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var FeedbackComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function FeedbackComponent(cd, parent) {
@@ -3642,10 +3931,10 @@ var FeedbackComponent = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._parent.root.statusChanges.pipe(untilDestroyed(this)).subscribe(function (status) {
+        this._parent.root.statusChanges.pipe(utility.untilDestroyed(this)).subscribe(function (status) {
             _this.cd.markForCheck();
         });
-        this._parent.root.ngSubmit.pipe(untilDestroyed(this)).subscribe(function (data) {
+        this._parent.root.ngSubmit.pipe(utility.untilDestroyed(this)).subscribe(function (data) {
             _this.cd.markForCheck();
         });
     };
@@ -3668,25 +3957,37 @@ var FeedbackComponent = /** @class */ (function () {
     function () {
     };
     FeedbackComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-feedback',
                     template: "\n\n      <ng-container *ngIf=\"invalid\">\n          <ng-container *ngFor=\"let err of control.errors\">\n              <div class=\"feedback\">{{err.message}}</div>\n          </ng-container>\n\n      </ng-container>\n\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n      :host {\n          display: flex;\n          flex-direction: column;\n          justify-content: flex-start;\n          width: 100%;\n          color: #f5222d;\n          font-size: 1.2rem;\n          margin-top: 0.5rem;\n      }\n  "]
                 }] }
     ];
     /** @nocollapse */
     FeedbackComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: FormControlComponent, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] }
+        { type: core.ChangeDetectorRef },
+        { type: formControl_component.FormControlComponent, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] }
     ]; };
     return FeedbackComponent;
 }());
+exports.FeedbackComponent = FeedbackComponent;
 
+});
+
+unwrapExports(feedback_component);
+var feedback_component_1 = feedback_component.FeedbackComponent;
+
+var FormArray_1 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var lodash_1 = tslib.__importDefault(lodash);
+
+
 /**
  * Tracks the value and validity state of an array of `FormControl`,
  * `FormGroup` or `FormArray` instances.
@@ -3751,7 +4052,7 @@ var FeedbackComponent = /** @class */ (function () {
  *
  * \@publicApi
  */
-var  /**
+var /**
  * Tracks the value and validity state of an array of `FormControl`,
  * `FormGroup` or `FormArray` instances.
  *
@@ -3816,7 +4117,7 @@ var  /**
  * \@publicApi
  */
 FormArray = /** @class */ (function (_super) {
-    __extends(FormArray, _super);
+    tslib.__extends(FormArray, _super);
     /**
      * Creates a new `FormArray` instance.
      *
@@ -3832,7 +4133,6 @@ FormArray = /** @class */ (function (_super) {
      */
     function FormArray(state, options) {
         var _this = _super.call(this, null, (/** @type {?} */ (options))) || this;
-        _this._coerceToJoiSchema();
         _this._setUpControls(state);
         _this._initObservables();
         _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -4234,7 +4534,7 @@ FormArray = /** @class */ (function (_super) {
         // this.updateValueAndValidity(options);
         // this._updatePristine(options);
         // this._updateTouched(options);
-        if (_.has(this.options, ['submitOnChange'])) {
+        if (lodash_1.default.has(this.options, ['submitOnChange'])) {
             this.root.submit(true);
         }
     };
@@ -4407,11 +4707,11 @@ FormArray = /** @class */ (function (_super) {
      */
     function (options) {
         if (options === void 0) { options = {}; }
-        _.each(this.controls, function (c) {
+        lodash_1.default.each(this.controls, function (c) {
             c.clear({ onlySelf: true, emitEvent: options.emitEvent });
         });
         this.updateValueAndValidity(options);
-        if (_.has(this.options, ['submitOnChange'])) {
+        if (lodash_1.default.has(this.options, ['submitOnChange'])) {
             this.root.submit(true);
         }
     };
@@ -4437,7 +4737,7 @@ FormArray = /** @class */ (function (_super) {
      */
     function () {
         return ((/** @type {?} */ (this.controls))).map(function (control) {
-            return control instanceof FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
+            return control instanceof FormControl_1.FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
         });
     };
     /** @internal */
@@ -4454,7 +4754,7 @@ FormArray = /** @class */ (function (_super) {
     function (controlConfig) {
         var _this = this;
         ((/** @type {?} */ (this.controls))) = [];
-        _.each(controlConfig, function (c, index) {
+        lodash_1.default.each(controlConfig, function (c, index) {
             c.setParent(_this);
             ((/** @type {?} */ (_this.controls))).push(c);
         });
@@ -4492,7 +4792,7 @@ FormArray = /** @class */ (function (_super) {
         ((/** @type {?} */ (this))).value =
             // .filter((control) => control.enabled || this.disabled)
             //   .map((control) => control.value);
-            _(((/** @type {?} */ (this.controls))))
+            lodash_1.default(((/** @type {?} */ (this.controls))))
                 .filter(function (control) { return control.enabled || _this.disabled; })
                 .map(function (control) { return control.value; })
                 .compact()
@@ -4526,7 +4826,7 @@ FormArray = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        return _.every(_.values(this.controls), function (c) { return c.disabled; });
+        return lodash_1.default.every(lodash_1.default.values(this.controls), function (c) { return c.disabled; });
     };
     /** @internal */
     /**
@@ -4540,15 +4840,29 @@ FormArray = /** @class */ (function (_super) {
      * @return {?}
      */
     function (status) {
-        return !!_.find(_.values(this.controls), ['status', status]);
+        return !!lodash_1.default.find(lodash_1.default.values(this.controls), ['status', status]);
     };
     return FormArray;
-}(AbstractControl));
+}(AbstractControl_1.AbstractControl));
+exports.FormArray = FormArray;
 
+});
+
+unwrapExports(FormArray_1);
+var FormArray_2 = FormArray_1.FormArray;
+
+var form_service = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+
 var FormService = /** @class */ (function () {
     function FormService() {
         var _this = this;
@@ -4557,25 +4871,25 @@ var FormService = /** @class */ (function () {
             /** @type {?} */
             var result = [];
             //
-            if (_.isPlainObject(controls)) {
-                _.forOwn(controls, function (c, name) {
+            if (lodash_1.default.isPlainObject(controls)) {
+                lodash_1.default.forOwn(controls, function (c, name) {
                     /** @type {?} */
                     var control_name = parent_name ? parent_name + "[" + name + "]" : name;
-                    if (c instanceof FormControl)
+                    if (c instanceof FormControl_1.FormControl)
                         result.push(control_name);
-                    if (c instanceof FormGroup)
+                    if (c instanceof FormGroup_1.FormGroup)
                         result = result.concat(_this.mergeControls(c.controls, control_name));
-                    if (c instanceof FormArray)
+                    if (c instanceof FormArray_1.FormArray)
                         result = result.concat(_this.mergeControls(c.controls, control_name));
                 });
             }
-            if (_.isArray(controls)) {
-                _.each(controls, function (c, index) {
-                    if (c instanceof FormControl)
+            if (lodash_1.default.isArray(controls)) {
+                lodash_1.default.each(controls, function (c, index) {
+                    if (c instanceof FormControl_1.FormControl)
                         result.push(parent_name + "[" + index + "]");
-                    if (c instanceof FormGroup)
+                    if (c instanceof FormGroup_1.FormGroup)
                         result = result.concat(_this.mergeControls(c.controls, parent_name + "[" + index + "]"));
-                    if (c instanceof FormArray)
+                    if (c instanceof FormArray_1.FormArray)
                         result = result.concat(_this.mergeControls(c.controls, parent_name + "[" + index + "]"));
                 });
             }
@@ -4584,9 +4898,9 @@ var FormService = /** @class */ (function () {
         this.convertToFormData = function (data) {
             /** @type {?} */
             var form = new FormData();
-            _.forOwn(data, function (value, key) {
-                if (_.isArray(value)) {
-                    _.each(value, function (file) { return form.append(key + "[]", file, file.name); });
+            lodash_1.default.forOwn(data, function (value, key) {
+                if (lodash_1.default.isArray(value)) {
+                    lodash_1.default.each(value, function (file) { return form.append(key + "[]", file, file.name); });
                 }
                 else
                     form.append(key, value);
@@ -4642,15 +4956,23 @@ var FormService = /** @class */ (function () {
     function () {
     };
     FormService.decorators = [
-        { type: Injectable }
+        { type: core.Injectable }
     ];
     return FormService;
 }());
+exports.FormService = FormService;
 
+});
+
+unwrapExports(form_service);
+var form_service_1 = form_service.FormService;
+
+var error_examples = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4659,7 +4981,7 @@ var FormService = /** @class */ (function () {
  * found in the LICENSE file at https://angular.io/license
  */
 /** @type {?} */
-var FormErrorExamples = {
+exports.FormErrorExamples = {
     formControlName: "\n    <io-form [formGroup]=\"myGroup\">\n      <form-control [name]=\" 'firstName' \"></form-control>\n    </io-form>\n\n    In your class:\n\n    constructor( private _fb: IonarFormBuilder){}\n\n    this.myGroup = this._fb.group({\n        firstName: {\n            component: 'input',\n            props: {\n                value: 'YourName'\n            },\n            validators: {\n                required: true\n            }\n        }\n    });",
     formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
     formArrayName: "\n    <div [formGroup]=\"myGroup\">\n      <div formArrayName=\"cities\">\n        <div *ngFor=\"let city of cityArray.controls; index as i\">\n          <input [formControlName]=\"i\">\n        </div>\n      </div>\n    </div>\n\n    In your class:\n\n    this.cityArray = new FormArray([new FormControl('SF')]);\n    this.myGroup = new FormGroup({\n      cities: this.cityArray\n    });",
@@ -4667,10 +4989,25 @@ var FormErrorExamples = {
     ngModelWithFormGroup: "\n    <div [formGroup]=\"myGroup\">\n       <input formControlName=\"firstName\">\n       <input [(ngModel)]=\"showMoreControls\" [ngModelOptions]=\"{standalone: true}\">\n    </div>\n  "
 };
 
+});
+
+unwrapExports(error_examples);
+var error_examples_1 = error_examples.FormErrorExamples;
+
+var reactive_errors = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
 var ReactiveErrors = /** @class */ (function () {
     function ReactiveErrors() {
     }
@@ -4681,7 +5018,7 @@ var ReactiveErrors = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        throw new Error("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + FormErrorExamples.formControlName);
+        throw new Error("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + error_examples.FormErrorExamples.formControlName);
     };
     /**
      * @return {?}
@@ -4690,7 +5027,7 @@ var ReactiveErrors = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        throw new Error("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + FormErrorExamples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + FormErrorExamples.ngModelGroup);
+        throw new Error("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + error_examples.FormErrorExamples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + error_examples.FormErrorExamples.ngModelGroup);
     };
     /**
      * @return {?}
@@ -4699,7 +5036,7 @@ var ReactiveErrors = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        throw new Error("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + FormErrorExamples.formControlName);
+        throw new Error("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + error_examples.FormErrorExamples.formControlName);
     };
     /**
      * @return {?}
@@ -4708,7 +5045,7 @@ var ReactiveErrors = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        throw new Error("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + FormErrorExamples.formGroupName);
+        throw new Error("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + error_examples.FormErrorExamples.formGroupName);
     };
     /**
      * @return {?}
@@ -4717,7 +5054,7 @@ var ReactiveErrors = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        throw new Error("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + FormErrorExamples.formArrayName);
+        throw new Error("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + error_examples.FormErrorExamples.formArrayName);
     };
     /**
      * @return {?}
@@ -4742,35 +5079,65 @@ var ReactiveErrors = /** @class */ (function () {
     };
     return ReactiveErrors;
 }());
+exports.ReactiveErrors = ReactiveErrors;
 
+});
+
+unwrapExports(reactive_errors);
+var reactive_errors_1 = reactive_errors.ReactiveErrors;
+
+var helpers = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 /** @type {?} */
-var isFormControl = function (c) {
-    return c instanceof FormControl;
+exports.isFormControl = function (c) {
+    return c instanceof FormControl_1.FormControl;
 };
 /** @type {?} */
-var isFormGroup = function (c) {
-    return c instanceof FormGroup;
+exports.isFormGroup = function (c) {
+    return c instanceof FormGroup_1.FormGroup;
 };
 /** @type {?} */
-var isFormArray = function (c) {
-    return c instanceof FormArray;
+exports.isFormArray = function (c) {
+    return c instanceof FormArray_1.FormArray;
 };
 
+});
+
+unwrapExports(helpers);
+var helpers_1 = helpers.isFormControl;
+var helpers_2 = helpers.isFormGroup;
+var helpers_3 = helpers.isFormArray;
+
+var core_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
+
+
+
+
 /** @type {?} */
-var formProvider = {
-    provide: ControlContainer,
-    useExisting: forwardRef(function () { return FormComponent; })
+exports.formProvider = {
+    provide: ControlContainer_1.ControlContainer,
+    useExisting: core.forwardRef(function () { return FormComponent; })
 };
 var FormComponent = /** @class */ (function (_super) {
-    __extends(FormComponent, _super);
+    tslib.__extends(FormComponent, _super);
     function FormComponent(_formSvs, _elRef, cd) {
         var _this = _super.call(this, cd) || this;
         _this._formSvs = _formSvs;
@@ -4784,10 +5151,10 @@ var FormComponent = /** @class */ (function (_super) {
          * \@description
          * Emits an event when the form submission has been triggered.
          */
-        _this.submit = new EventEmitter();
-        _this.isFormControl = isFormControl;
-        _this.isFormGroup = isFormGroup;
-        _this.isFormArray = isFormArray;
+        _this.submit = new core.EventEmitter();
+        _this.isFormControl = helpers.isFormControl;
+        _this.isFormGroup = helpers.isFormGroup;
+        _this.isFormArray = helpers.isFormArray;
         return _this;
     }
     /**
@@ -4814,7 +5181,7 @@ var FormComponent = /** @class */ (function (_super) {
         this._checkFormPresent();
         if (!changes.form.previousValue && changes.form.currentValue) {
             this.form.ngSubmit
-                .pipe(untilDestroyed(this), distinctUntilChanged())
+                .pipe(utility.untilDestroyed(this), operators.distinctUntilChanged())
                 .subscribe(function (data) {
                 if (_this.form.valid || data.instant) {
                     _this.submit.emit(_this._formSvs.convertToMediaType(data.value, _this.mediaType));
@@ -4830,7 +5197,7 @@ var FormComponent = /** @class */ (function (_super) {
      */
     function () {
         _super.prototype.ngAfterViewInit.call(this);
-        this.default_template = isEmptyTemplate(this._elRef);
+        this.default_template = ui.isEmptyTemplate(this._elRef);
         this.cd.detectChanges();
     };
     /**
@@ -4885,46 +5252,59 @@ var FormComponent = /** @class */ (function (_super) {
      */
     function () {
         if (!this.form) {
-            ReactiveErrors.missingFormException();
+            reactive_errors.ReactiveErrors.missingFormException();
         }
     };
     FormComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-form',
                     template: "\n      <ng-container>\n\n          <ng-container *ngIf=\"!default_template\">\n              <ng-content></ng-content>\n          </ng-container>\n\n\n          <ng-container *ngIf=\"default_template\">\n              <ng-container\n                      *ngFor=\"let item of form.controls | keyvalue\"\n                      [ngTemplateOutlet]=\"controlTemplate\"\n                      [ngTemplateOutletContext]=\"{$implicit: item, parent: this}\"\n              ></ng-container>\n          </ng-container>\n\n          <ng-template #controlTemplate let-data let-parent=\"parent\">\n              <ng-container *ngIf=\"isFormControl(data.value)\">\n                  <form-control [parent]=\"parent\" [name]=\"data.key\"></form-control>\n              </ng-container>\n\n              <ng-container *ngIf=\"isFormArray(data.value)\">\n                  <form-array\n                          [name]=\"data.key\"\n                          [parent]=\"parent\"\n                  >\n\n                  </form-array>\n              </ng-container>\n\n              <ng-container *ngIf=\"isFormGroup(data.value)\">\n                  <form-group\n                          [name]=\"data.key\"\n                          [parent]=\"parent\"\n                  >\n                  </form-group>\n              </ng-container>\n          </ng-template>\n\n      </ng-container>\n  ",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    providers: [FormService, formProvider],
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
+                    providers: [form_service.FormService, exports.formProvider],
                     styles: ["\n\n  "]
                 }] }
     ];
     /** @nocollapse */
     FormComponent.ctorParameters = function () { return [
-        { type: FormService },
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
+        { type: form_service.FormService },
+        { type: core.ElementRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     FormComponent.propDecorators = {
-        form: [{ type: Input, args: ['formGroup',] }],
-        mediaType: [{ type: Input }],
-        submit: [{ type: Output }],
-        _contentVcRef: [{ type: ViewChild, args: ['contentVc', { read: ViewContainerRef },] }],
-        controlTemplate: [{ type: ViewChild, args: ['controlTemplate',] }],
-        ioTemplateDirList: [{ type: ContentChildren, args: [IonarTemplateDirective,] }]
+        form: [{ type: core.Input, args: ['formGroup',] }],
+        mediaType: [{ type: core.Input }],
+        submit: [{ type: core.Output }],
+        _contentVcRef: [{ type: core.ViewChild, args: ['contentVc', { read: core.ViewContainerRef },] }],
+        controlTemplate: [{ type: core.ViewChild, args: ['controlTemplate',] }],
+        ioTemplateDirList: [{ type: core.ContentChildren, args: [ui.IonarTemplateDirective,] }]
     };
     return FormComponent;
-}(ControlContainer));
+}(ControlContainer_1.ControlContainer));
+exports.FormComponent = FormComponent;
 
+});
+
+unwrapExports(core_component);
+var core_component_1 = core_component.formProvider;
+var core_component_2 = core_component.FormComponent;
+
+var formArray_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
 /** @type {?} */
-var formArrayProvider = {
-    provide: ControlContainer,
-    useExisting: forwardRef(function () { return FormArrayComponent; })
+exports.formArrayProvider = {
+    provide: ControlContainer_1.ControlContainer,
+    useExisting: core.forwardRef(function () { return FormArrayComponent; })
 };
 var FormArrayComponent = /** @class */ (function (_super) {
-    __extends(FormArrayComponent, _super);
+    tslib.__extends(FormArrayComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function FormArrayComponent(parent, _elRef, cd) {
         var _this = _super.call(this, cd) || this;
@@ -4970,43 +5350,57 @@ var FormArrayComponent = /** @class */ (function (_super) {
      */
     function () {
         _super.prototype.ngAfterViewInit.call(this);
-        this.isDefaultTemplate = isEmptyTemplate(this._elRef);
+        this.isDefaultTemplate = ui.isEmptyTemplate(this._elRef);
         this.cd.detectChanges();
     };
     FormArrayComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-array',
                     exportAs: 'form-array',
                     template: "\n      <ng-container *ngIf=\"isDefaultTemplate\">\n          <ng-container\n                  *ngFor=\"let item of control | keyvalue\"\n                  [ngTemplateOutlet]=\"controlTemplate\"\n                  [ngTemplateOutletContext]=\"{$implicit: item, parent: this}\"\n          ></ng-container>\n      </ng-container>\n      <ng-container *ngIf=\"!isDefaultTemplate\">\n          <ng-content></ng-content>\n      </ng-container>\n  ",
-                    providers: [formArrayProvider],
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    providers: [exports.formArrayProvider],
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n\n  "]
                 }] }
     ];
     /** @nocollapse */
     FormArrayComponent.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
+        { type: ControlContainer_1.ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+        { type: core.ElementRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     FormArrayComponent.propDecorators = {
-        attribute: [{ type: HostBinding, args: ['attr.id',] }],
-        _controlContainers: [{ type: ContentChildren, args: [ControlContainer,] }]
+        attribute: [{ type: core.HostBinding, args: ['attr.id',] }],
+        _controlContainers: [{ type: core.ContentChildren, args: [ControlContainer_1.ControlContainer,] }]
     };
     return FormArrayComponent;
-}(ControlContainer));
+}(ControlContainer_1.ControlContainer));
+exports.FormArrayComponent = FormArrayComponent;
 
+});
+
+unwrapExports(formArray_component);
+var formArray_component_1 = formArray_component.formArrayProvider;
+var formArray_component_2 = formArray_component.FormArrayComponent;
+
+var formGroup_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 /** @type {?} */
-var formGroupProvider = {
-    provide: ControlContainer,
-    useExisting: forwardRef(function () { return FormGroupComponent; })
+exports.formGroupProvider = {
+    provide: ControlContainer_1.ControlContainer,
+    useExisting: core.forwardRef(function () { return FormGroupComponent; })
 };
 var FormGroupComponent = /** @class */ (function (_super) {
-    __extends(FormGroupComponent, _super);
+    tslib.__extends(FormGroupComponent, _super);
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function FormGroupComponent(parent, _vcRef, _elRef, cd) {
         var _this = _super.call(this, cd) || this;
@@ -5062,7 +5456,7 @@ var FormGroupComponent = /** @class */ (function (_super) {
      */
     function () {
         _super.prototype.ngAfterViewInit.call(this);
-        this.isDefaultTemplate = isEmptyTemplate(this._elRef);
+        this.isDefaultTemplate = ui.isEmptyTemplate(this._elRef);
         this.cd.detectChanges();
     };
     /**
@@ -5074,65 +5468,96 @@ var FormGroupComponent = /** @class */ (function (_super) {
     function () {
     };
     FormGroupComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'form-group',
                     exportAs: 'form-group',
                     template: "\n      <ng-container *ngIf=\"isDefaultTemplate\">\n          <ng-container\n                  *ngFor=\"let item of control | keyvalue\"\n                  [ngTemplateOutlet]=\"controlTemplate\"\n                  [ngTemplateOutletContext]=\"{$implicit: item, parent: this}\"\n          ></ng-container>\n      </ng-container>\n      <ng-container *ngIf=\"!isDefaultTemplate\">\n          <ng-content></ng-content>\n      </ng-container>\n  ",
-                    providers: [formGroupProvider],
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    providers: [exports.formGroupProvider],
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n\n  "]
                 }] }
     ];
     /** @nocollapse */
     FormGroupComponent.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
-        { type: ViewContainerRef },
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
+        { type: ControlContainer_1.ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+        { type: core.ViewContainerRef },
+        { type: core.ElementRef },
+        { type: core.ChangeDetectorRef }
     ]; };
     FormGroupComponent.propDecorators = {
-        attribute: [{ type: HostBinding, args: ['attr.id',] }],
-        _controlContainerList: [{ type: ContentChildren, args: [ControlContainer,] }],
-        _ioControlList: [{ type: ContentChildren, args: [IoControl,] }]
+        attribute: [{ type: core.HostBinding, args: ['attr.id',] }],
+        _controlContainerList: [{ type: core.ContentChildren, args: [ControlContainer_1.ControlContainer,] }],
+        _ioControlList: [{ type: core.ContentChildren, args: [IoControl_1.IoControl,] }]
     };
     return FormGroupComponent;
-}(ControlContainer));
+}(ControlContainer_1.ControlContainer));
+exports.FormGroupComponent = FormGroupComponent;
 
+});
+
+unwrapExports(formGroup_component);
+var formGroup_component_1 = formGroup_component.formGroupProvider;
+var formGroup_component_2 = formGroup_component.FormGroupComponent;
+
+var core_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
+
+
+
+
+
 var CoreModule = /** @class */ (function () {
     function CoreModule() {
     }
     CoreModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        FormComponent,
-                        FieldComponent, FormControlComponent, LabelComponent, FeedbackComponent,
-                        FormArrayComponent,
-                        FormGroupComponent,
-                        DynamicFieldDirective, SubmitDirective
+                        core_component.FormComponent,
+                        field_component.FieldComponent, formControl_component.FormControlComponent, label_component.LabelComponent, feedback_component.FeedbackComponent,
+                        formArray_component.FormArrayComponent,
+                        formGroup_component.FormGroupComponent,
+                        dynamicField_directive.DynamicFieldDirective, submit_directive.SubmitDirective
                     ],
-                    imports: [CommonModule],
+                    imports: [common.CommonModule],
                     exports: [
-                        FormComponent,
-                        FieldComponent,
-                        FormControlComponent,
-                        FormArrayComponent,
-                        FormGroupComponent,
-                        LabelComponent, FeedbackComponent,
-                        SubmitDirective
+                        core_component.FormComponent,
+                        field_component.FieldComponent,
+                        formControl_component.FormControlComponent,
+                        formArray_component.FormArrayComponent,
+                        formGroup_component.FormGroupComponent,
+                        label_component.LabelComponent, feedback_component.FeedbackComponent,
+                        submit_directive.SubmitDirective
                     ]
                 },] }
     ];
     return CoreModule;
 }());
+exports.CoreModule = CoreModule;
 
+});
+
+unwrapExports(core_module);
+var core_module_1 = core_module.CoreModule;
+
+var select_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+var lodash_1 = tslib.__importDefault(lodash);
 var SelectComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function SelectComponent(eRef) {
@@ -5143,16 +5568,16 @@ var SelectComponent = /** @class */ (function () {
         this.selected_option = null;
         this.options = null;
         this.value = null;
-        this.change = new EventEmitter();
-        this.blur = new EventEmitter();
+        this.change = new core.EventEmitter();
+        this.blur = new core.EventEmitter();
         this.invalid = false;
         ///-----------------------------------------------  General Functions   -----------------------------------------------///
         this.onToggleMenu = function () {
             _this.show_menu = !_this.show_menu;
         };
         this.onChange = function (option) {
-            _this.options = _.map(_this.options, function (item) {
-                item.selected = _.isEqual(item, option);
+            _this.options = lodash_1.default.map(_this.options, function (item) {
+                item.selected = lodash_1.default.isEqual(item, option);
                 _this.selected_option = item;
                 return item;
             });
@@ -5168,7 +5593,7 @@ var SelectComponent = /** @class */ (function () {
      */
     function () {
         if (this.value) {
-            this.selected_option = _.find(this.options, ['value', this.value.toString()]);
+            this.selected_option = lodash_1.default.find(this.options, ['value', this.value.toString()]);
         }
     };
     ///-----------------------------------------------  Host   -----------------------------------------------///
@@ -5189,7 +5614,7 @@ var SelectComponent = /** @class */ (function () {
         }
     };
     SelectComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-select',
                     template: "<control\n        [label]=\"selected_option?.label\"\n        [show_menu]=\"show_menu\"\n        (click)=\"onToggleMenu()\"\n></control>\n\n<menu\n        [options]=\"options\"\n        (onSelectOption)=\"onChange($event)\"\n        *ngIf=\"show_menu\"\n></menu>",
                     styles: [":host{display:flex;position:relative;flex:1}"]
@@ -5197,23 +5622,32 @@ var SelectComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     SelectComponent.ctorParameters = function () { return [
-        { type: ElementRef }
+        { type: core.ElementRef }
     ]; };
     SelectComponent.propDecorators = {
-        options: [{ type: Input }],
-        value: [{ type: Input }],
-        change: [{ type: Output }],
-        blur: [{ type: Output }],
-        invalid: [{ type: Input }],
-        clickout: [{ type: HostListener, args: ['document:click', ['$event'],] }]
+        options: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        blur: [{ type: core.Output }],
+        invalid: [{ type: core.Input }],
+        clickout: [{ type: core.HostListener, args: ['document:click', ['$event'],] }]
     };
     return SelectComponent;
 }());
+exports.SelectComponent = SelectComponent;
 
+});
+
+unwrapExports(select_component);
+var select_component_1 = select_component.SelectComponent;
+
+var control_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ControlComponent = /** @class */ (function () {
     function ControlComponent(eRef) {
         this.eRef = eRef;
@@ -5231,7 +5665,7 @@ var ControlComponent = /** @class */ (function () {
         this.eRef.nativeElement.focus();
     };
     ControlComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'control',
                     template: "<div id=\"value\">\n    <span *ngIf=\"!label\">Please select</span>\n    <span *ngIf=\"label\">{{label}}</span>\n</div>\n\n<div id=\"icon\">\n    <i class=\"fas fa-angle-right\"></i>\n</div>\n",
                     styles: [":host{background-color:#fff;border-radius:5px;box-sizing:border-box;border:1px solid #d9d9d9;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:1.5rem;outline:0;padding:0 1rem;transition:.3s cubic-bezier(.645,.045,.355,1);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:100%;height:40px;z-index:1}:host:focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff}:host .fa-angle-right{font-size:2rem}"]
@@ -5239,24 +5673,33 @@ var ControlComponent = /** @class */ (function () {
     ];
     /** @nocollapse */
     ControlComponent.ctorParameters = function () { return [
-        { type: ElementRef }
+        { type: core.ElementRef }
     ]; };
     ControlComponent.propDecorators = {
-        show_menu: [{ type: Input }],
-        label: [{ type: Input }],
-        tabindex: [{ type: HostBinding }]
+        show_menu: [{ type: core.Input }],
+        label: [{ type: core.Input }],
+        tabindex: [{ type: core.HostBinding }]
     };
     return ControlComponent;
 }());
+exports.ControlComponent = ControlComponent;
 
+});
+
+unwrapExports(control_component);
+var control_component_1 = control_component.ControlComponent;
+
+var menu_component$2 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var MenuComponent$1 = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var MenuComponent = /** @class */ (function () {
     function MenuComponent() {
         this.options = [];
-        this.onSelectOption = new EventEmitter();
+        this.onSelectOption = new core.EventEmitter();
     }
     /**
      * @return {?}
@@ -5267,7 +5710,7 @@ var MenuComponent$1 = /** @class */ (function () {
     function () {
     };
     MenuComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'menu',
                     template: "\n      <ng-container *ngFor=\"let option of options\">\n          <select-option\n                  [data]=\"option\"\n                  (click)=\"this.onSelectOption.emit(option)\"\n          ></select-option>\n      </ng-container>\n  ",
                     styles: ["\n      :host {\n          background-color: white;\n          border-radius: 5px;\n          box-sizing: border-box;\n          border: 1px solid rgb(196, 202, 212);\n          overflow-y: scroll;\n          padding: 0 10px;\n          position: absolute;\n          top: 100%;\n          z-index: 9999;\n          width: 100%;\n          max-height: 20rem;\n      }\n  "]
@@ -5276,16 +5719,25 @@ var MenuComponent$1 = /** @class */ (function () {
     /** @nocollapse */
     MenuComponent.ctorParameters = function () { return []; };
     MenuComponent.propDecorators = {
-        options: [{ type: Input }],
-        onSelectOption: [{ type: Output }]
+        options: [{ type: core.Input }],
+        onSelectOption: [{ type: core.Output }]
     };
     return MenuComponent;
 }());
+exports.MenuComponent = MenuComponent;
 
+});
+
+unwrapExports(menu_component$2);
+var menu_component_1$1 = menu_component$2.MenuComponent;
+
+var option_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var OptionComponent = /** @class */ (function () {
     function OptionComponent() {
         this.data = null;
@@ -5313,7 +5765,7 @@ var OptionComponent = /** @class */ (function () {
     function (btn) {
     };
     OptionComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'select-option',
                     template: "\n      <p>\n          {{data.label}}\n      </p>",
                     styles: [":host{color:rgba(0,0,0,.65);cursor:pointer;display:flex;justify-content:flex-start;font-weight:400;line-height:22px;overflow:hidden;padding:5px 12px;position:relative;text-overflow:ellipsis;transition:background .3s;white-space:nowrap;width:100%}:host:hover{background-color:#e6f7ff}:host.selected{background-color:#fafafa;font-weight:600;color:rgba(0,0,0,.65)}:host.disabled{color:rgba(0,0,0,.25);cursor:not-allowed;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}:host.disabled:hover{background-color:transparent}"]
@@ -5322,50 +5774,73 @@ var OptionComponent = /** @class */ (function () {
     /** @nocollapse */
     OptionComponent.ctorParameters = function () { return []; };
     OptionComponent.propDecorators = {
-        data: [{ type: Input }],
-        selected: [{ type: HostBinding, args: ['class.selected',] }],
-        disabled: [{ type: HostBinding, args: ['class.disabled',] }],
-        onClick: [{ type: HostListener, args: ['click', ['$event.target'],] }]
+        data: [{ type: core.Input }],
+        selected: [{ type: core.HostBinding, args: ['class.selected',] }],
+        disabled: [{ type: core.HostBinding, args: ['class.disabled',] }],
+        onClick: [{ type: core.HostListener, args: ['click', ['$event.target'],] }]
     };
     return OptionComponent;
 }());
+exports.OptionComponent = OptionComponent;
 
+});
+
+unwrapExports(option_component);
+var option_component_1 = option_component.OptionComponent;
+
+var select_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
 var SelectModule = /** @class */ (function () {
     function SelectModule() {
     }
     SelectModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        SelectComponent,
-                        ControlComponent,
-                        MenuComponent$1,
-                        OptionComponent
+                        select_component.SelectComponent,
+                        control_component.ControlComponent,
+                        menu_component$2.MenuComponent,
+                        option_component.OptionComponent
                     ],
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     exports: [
-                        SelectComponent
+                        select_component.SelectComponent
                     ],
-                    entryComponents: [SelectComponent]
+                    entryComponents: [select_component.SelectComponent]
                 },] }
     ];
     return SelectModule;
 }());
+exports.SelectModule = SelectModule;
 
+});
+
+unwrapExports(select_module);
+var select_module_1 = select_module.SelectModule;
+
+var click_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var ClickComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function ClickComponent() {
         ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.multiple = false;
         this.title = '';
     }
@@ -5388,7 +5863,7 @@ var ClickComponent = /** @class */ (function () {
     function (changes) {
     };
     ClickComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'click',
                     template: "<ng-container *ngTemplateOutlet=\"template\"></ng-container>\n<ng-container *ngIf=\"title\">\n    <p>{{title}}</p>\n</ng-container>\n\n<input\n        type=\"file\"\n        [multiple]=\"multiple\"\n        (change)=\"$event.stopPropagation();change.emit($event.target.files)\"\n>\n",
                     styles: [":host{background-color:#fff;border:1px solid #d9d9d9;border-radius:.4rem;color:rgba(0,0,0,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;outline:0;position:relative;transition:.3s cubic-bezier(.645,.045,.355,1);width:100%;height:4rem;max-width:20rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}:host:focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff;color:#40a9ff}:host.invalid{border-color:#f5222d}:host.invalid:focus{border-color:#ff4d4f;outline:0;box-shadow:0 0 0 2px rgba(245,34,45,.2)}input{display:flex;outline:0;opacity:0;position:absolute;width:100%;height:100%;z-index:1}"]
@@ -5397,24 +5872,33 @@ var ClickComponent = /** @class */ (function () {
     /** @nocollapse */
     ClickComponent.ctorParameters = function () { return []; };
     ClickComponent.propDecorators = {
-        change: [{ type: Output }],
-        template: [{ type: Input }],
-        multiple: [{ type: Input }],
-        title: [{ type: Input }]
+        change: [{ type: core.Output }],
+        template: [{ type: core.Input }],
+        multiple: [{ type: core.Input }],
+        title: [{ type: core.Input }]
     };
     return ClickComponent;
 }());
+exports.ClickComponent = ClickComponent;
 
+});
+
+unwrapExports(click_component);
+var click_component_1 = click_component.ClickComponent;
+
+var drop_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var DropComponent = /** @class */ (function () {
     ///-----------------------------------------------  Life Cycle Hook   -----------------------------------------------///
     function DropComponent() {
         var _this = this;
         ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.multiple = false;
         this.drop_hover = false;
         this.onDrop = function ($event) {
@@ -5440,7 +5924,7 @@ var DropComponent = /** @class */ (function () {
     function () {
     };
     DropComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'drop',
                     template: "<ng-container *ngTemplateOutlet=\"template\"></ng-container>\r\n\r\n\r\n<input\r\n        type=\"file\"\r\n        [multiple]=\"multiple\"\r\n        (change)=\"$event.stopPropagation();change.emit($event.target.files)\"\r\n>",
                     styles: [":host{background-color:#fff;border:1px dashed #d9d9d9;border-radius:.4rem;color:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;outline:0;position:relative;transition:.3s;width:100%;height:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}:host.drop_hover{border:2px dashed #40a9ff;color:#40a9ff}:host.drop_hover p{color:#40a9ff}:host p{transition:.3s cubic-bezier(.645,.045,.355,1)}:host:focus{border-color:#40a9ff;outline:0;box-shadow:0 0 0 2px rgba(24,144,255,.2);border-right-width:1px!important}:host:hover{border-color:#40a9ff;color:#40a9ff}:host:hover p{color:#40a9ff}:host.invalid{border-color:#f5222d}:host.invalid:focus{border-color:#ff4d4f;outline:0;box-shadow:0 0 0 2px rgba(245,34,45,.2)}input{border:1px solid red;display:flex;outline:0;opacity:0;position:absolute;width:100%;height:100%;z-index:1}"]
@@ -5449,75 +5933,109 @@ var DropComponent = /** @class */ (function () {
     /** @nocollapse */
     DropComponent.ctorParameters = function () { return []; };
     DropComponent.propDecorators = {
-        change: [{ type: Output }],
-        multiple: [{ type: Input }],
-        template: [{ type: Input }],
-        drop_hover: [{ type: HostBinding, args: ['class.drop_hover',] }],
-        onDrop: [{ type: HostListener, args: ['drop', ['$event'],] }],
-        onDragOver: [{ type: HostListener, args: ['dragover', ['$event'],] }],
-        onDragLeave: [{ type: HostListener, args: ['dragleave', ['$event'],] }]
+        change: [{ type: core.Output }],
+        multiple: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        drop_hover: [{ type: core.HostBinding, args: ['class.drop_hover',] }],
+        onDrop: [{ type: core.HostListener, args: ['drop', ['$event'],] }],
+        onDragOver: [{ type: core.HostListener, args: ['dragover', ['$event'],] }],
+        onDragLeave: [{ type: core.HostListener, args: ['dragleave', ['$event'],] }]
     };
     return DropComponent;
 }());
+exports.DropComponent = DropComponent;
 
+});
+
+unwrapExports(drop_component);
+var drop_component_1 = drop_component.DropComponent;
+
+var upload_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var UploadModule = /** @class */ (function () {
     function UploadModule() {
     }
     UploadModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        UploadComponent,
-                        ClickComponent,
-                        DropComponent,
+                        upload_component.UploadComponent,
+                        click_component.ClickComponent,
+                        drop_component.DropComponent,
                     ],
-                    imports: [CommonModule],
-                    exports: [UploadComponent],
-                    entryComponents: [UploadComponent]
+                    imports: [common.CommonModule],
+                    exports: [upload_component.UploadComponent],
+                    entryComponents: [upload_component.UploadComponent]
                 },] }
     ];
     return UploadModule;
 }());
+exports.UploadModule = UploadModule;
 
+});
+
+unwrapExports(upload_module);
+var upload_module_1 = upload_module.UploadModule;
+
+var input_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
 var InputModule = /** @class */ (function () {
     function InputModule() {
     }
     InputModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        InputComponent
+                        input_component.InputComponent
                     ],
                     imports: [
-                        CommonModule,
-                        IonarUI
+                        common.CommonModule,
+                        ui.IonarUI
                     ],
                     exports: [
-                        InputComponent
+                        input_component.InputComponent
                     ],
-                    entryComponents: [InputComponent]
+                    entryComponents: [input_component.InputComponent]
                 },] }
     ];
     return InputModule;
 }());
+exports.InputModule = InputModule;
 
+});
+
+unwrapExports(input_module);
+var input_module_1 = input_module.InputModule;
+
+var checkbox_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var CheckboxComponent = /** @class */ (function () {
     function CheckboxComponent() {
         var _this = this;
         this.title = '';
         this.value = false;
-        this.change = new EventEmitter();
-        this.blur = new EventEmitter();
+        this.change = new core.EventEmitter();
+        this.blur = new core.EventEmitter();
         this.invalid = false;
         this.onClick = function () {
             _this.value = !_this.value;
@@ -5533,7 +6051,7 @@ var CheckboxComponent = /** @class */ (function () {
     function () {
     };
     CheckboxComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-checkbox',
                     template: "<div class=\"checkbox\" [class.active]=\"value\">\n    <i class=\"fas fa-check icon\"></i>\n</div>\n<p class=\"label\">{{label}}</p>\n\n\n",
                     styles: [":host{display:flex;align-items:center}:host .checkbox{background-color:#fff;border-radius:.3em;box-sizing:border-box;border:1px solid #d9d9d9;display:flex;align-items:center;justify-content:center;margin-right:.3em;padding:0;touch-action:manipulation;transition:.3s;width:1.8em;height:1.8em}:host .checkbox:hover{border-color:#1890ff}:host .checkbox.active{background-color:#1890ff;border-color:#1890ff}:host .icon{color:#fff}"]
@@ -5542,92 +6060,132 @@ var CheckboxComponent = /** @class */ (function () {
     /** @nocollapse */
     CheckboxComponent.ctorParameters = function () { return []; };
     CheckboxComponent.propDecorators = {
-        label: [{ type: Input }],
-        title: [{ type: Input }],
-        value: [{ type: Input }],
-        change: [{ type: Output }],
-        blur: [{ type: Output }],
-        invalid: [{ type: Input }],
-        onClick: [{ type: HostListener, args: ['click',] }]
+        label: [{ type: core.Input }],
+        title: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        blur: [{ type: core.Output }],
+        invalid: [{ type: core.Input }],
+        onClick: [{ type: core.HostListener, args: ['click',] }]
     };
     return CheckboxComponent;
 }());
+exports.CheckboxComponent = CheckboxComponent;
 
+});
+
+unwrapExports(checkbox_component);
+var checkbox_component_1 = checkbox_component.CheckboxComponent;
+
+var checkbox_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var CheckboxModule = /** @class */ (function () {
     function CheckboxModule() {
     }
     CheckboxModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        CheckboxComponent
+                        checkbox_component.CheckboxComponent
                     ],
                     exports: [
-                        CheckboxComponent
+                        checkbox_component.CheckboxComponent
                     ],
-                    entryComponents: [CheckboxComponent]
+                    entryComponents: [checkbox_component.CheckboxComponent]
                 },] }
     ];
     return CheckboxModule;
 }());
+exports.CheckboxModule = CheckboxModule;
 
+});
+
+unwrapExports(checkbox_module);
+var checkbox_module_1 = checkbox_module.CheckboxModule;
+
+var textarea_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
 var TextareaModule = /** @class */ (function () {
     function TextareaModule() {
     }
     TextareaModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        TextareaComponent
+                        textarea_component.TextareaComponent
                     ],
-                    exports: [TextareaComponent],
-                    entryComponents: [TextareaComponent]
+                    exports: [textarea_component.TextareaComponent],
+                    entryComponents: [textarea_component.TextareaComponent]
                 },] }
     ];
     return TextareaModule;
 }());
+exports.TextareaModule = TextareaModule;
 
+});
+
+unwrapExports(textarea_module);
+var textarea_module_1 = textarea_module.TextareaModule;
+
+var menu_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var MenuModule = /** @class */ (function () {
     function MenuModule() {
     }
     MenuModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [
-                        MenuComponent
+                        menu_component.MenuComponent
                     ],
                     imports: [
-                        CommonModule
+                        common.CommonModule
                     ],
                     exports: [
-                        MenuComponent
+                        menu_component.MenuComponent
                     ],
-                    entryComponents: [MenuComponent]
+                    entryComponents: [menu_component.MenuComponent]
                 },] }
     ];
     return MenuModule;
 }());
+exports.MenuModule = MenuModule;
 
+});
+
+unwrapExports(menu_module);
+var menu_module_1 = menu_module.MenuModule;
+
+var tree_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
 var TreeComponent = /** @class */ (function () {
     function TreeComponent(cd) {
         var _this = this;
         this.cd = cd;
         this.name = '';
         this.value = null;
-        this.change = new EventEmitter();
+        this.change = new core.EventEmitter();
         this.onChange = function (node) {
             _this.selected = node;
             _this.change.emit(node.value);
@@ -5635,36 +6193,47 @@ var TreeComponent = /** @class */ (function () {
         };
     }
     TreeComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'io-tree',
                     template: "<ng-container *ngFor=\"let node of options; let i = index\">\r\n    <tree-node\r\n            [data]=\"node\"\r\n            [selected]=\"selected\"\r\n            [template]=\"template\"\r\n            (change)=\"onChange($event)\"\r\n    >\r\n        <ng-content></ng-content>\r\n    </tree-node>\r\n</ng-container>\r\n\r\n\r\n",
-                    changeDetection: ChangeDetectionStrategy.OnPush,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: [""]
                 }] }
     ];
     /** @nocollapse */
     TreeComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef }
+        { type: core.ChangeDetectorRef }
     ]; };
     TreeComponent.propDecorators = {
-        options: [{ type: Input }],
-        name: [{ type: Input }],
-        value: [{ type: Input }],
-        template: [{ type: Input }],
-        change: [{ type: Output }]
+        options: [{ type: core.Input }],
+        name: [{ type: core.Input }],
+        value: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        change: [{ type: core.Output }]
     };
     return TreeComponent;
 }());
+exports.TreeComponent = TreeComponent;
 
+});
+
+unwrapExports(tree_component);
+var tree_component_1 = tree_component.TreeComponent;
+
+var node_component = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
 var NodeComponent = /** @class */ (function (_super) {
-    __extends(NodeComponent, _super);
+    tslib.__extends(NodeComponent, _super);
     function NodeComponent(cd, el) {
         var _this = _super.call(this, cd, el) || this;
-        _this.change = new EventEmitter();
+        _this.change = new core.EventEmitter();
         _this.onChange = function () {
             if (!_this.data.children) {
                 _this.setContext({
@@ -5704,7 +6273,7 @@ var NodeComponent = /** @class */ (function (_super) {
         _super.prototype.ngOnChanges.call(this, changes);
     };
     NodeComponent.decorators = [
-        { type: Component, args: [{
+        { type: core.Component, args: [{
                     selector: 'tree-node',
                     template: "<ng-container [ioCollapsible]=\"data.children ? '' : null\" *ngIf=\"viewInit\">\r\n    <div\r\n            class=\"node-item\"\r\n            collapseToggle\r\n            (click)=\"onChange()\"\r\n    >\r\n        <ng-container [ngTemplateOutlet]=\"template\" [ngTemplateOutletContext]=\"context\"></ng-container>\r\n    </div>\r\n\r\n    <ng-container *ngIf=\"data?.children\">\r\n        <div\r\n                class=\"node-children\"\r\n                *collapseContent\r\n        >\r\n            <ng-container *ngFor=\"let node of data?.children\">\r\n                <tree-node\r\n                        [data]=\"node\"\r\n                        [selected]=\"selected\"\r\n                        [template]=\"template\"\r\n                        (change)=\"change.emit($event)\"></tree-node>\r\n            </ng-container>\r\n        </div>\r\n    </ng-container>\r\n\r\n</ng-container>\r\n\r\n\r\n<ng-template let-context #default_template>\r\n\r\n    <div class=\"icon\" *ngIf=\"context?.children\">\r\n        <i class=\"fas fa-chevron-right\"></i>\r\n    </div>\r\n    <p [class.active]=\"context?.selected\" class=\"label\">{{context?.label}}</p>\r\n</ng-template>\r\n\r\n<ng-template #content_template>\r\n    <ng-content></ng-content>\r\n</ng-template>\r\n",
                     styles: [":host ::ng-deep .node-item{display:flex;align-items:center}:host ::ng-deep .node-item .icon{font-size:1.2rem}:host ::ng-deep .node-item .label{margin-left:2rem}:host ::ng-deep .node-item .label.active{font-weight:700}:host ::ng-deep .node-children{margin-left:2rem}"]
@@ -5712,102 +6281,210 @@ var NodeComponent = /** @class */ (function (_super) {
     ];
     /** @nocollapse */
     NodeComponent.ctorParameters = function () { return [
-        { type: ChangeDetectorRef },
-        { type: ElementRef }
+        { type: core.ChangeDetectorRef },
+        { type: core.ElementRef }
     ]; };
     NodeComponent.propDecorators = {
-        data: [{ type: Input }],
-        selected: [{ type: Input }],
-        template: [{ type: Input }],
-        change: [{ type: Output }]
+        data: [{ type: core.Input }],
+        selected: [{ type: core.Input }],
+        template: [{ type: core.Input }],
+        change: [{ type: core.Output }]
     };
     return NodeComponent;
-}(IoFormFieldUI));
+}(IoFormFieldUI_1.IoFormFieldUI));
+exports.NodeComponent = NodeComponent;
 
+});
+
+unwrapExports(node_component);
+var node_component_1 = node_component.NodeComponent;
+
+var tree_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
 var TreeModule = /** @class */ (function () {
     function TreeModule() {
     }
     TreeModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     imports: [
-                        IonarUI,
-                        CommonModule
+                        ui.IonarUI,
+                        common.CommonModule
                     ],
                     declarations: [
-                        TreeComponent,
-                        NodeComponent
+                        tree_component.TreeComponent,
+                        node_component.NodeComponent
                     ],
                     exports: [
-                        TreeComponent
+                        tree_component.TreeComponent
                     ]
                 },] }
     ];
     return TreeModule;
 }());
+exports.TreeModule = TreeModule;
 
+});
+
+unwrapExports(tree_module);
+var tree_module_1 = tree_module.TreeModule;
+
+var ui_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
+
+
 var FormUiModule = /** @class */ (function () {
     function FormUiModule() {
     }
     FormUiModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [],
                     imports: [
-                        InputModule, CheckboxModule, UploadModule, SelectModule, TextareaModule, MenuModule, TreeModule
+                        input_module.InputModule, checkbox_module.CheckboxModule, upload_module.UploadModule, select_module.SelectModule, textarea_module.TextareaModule, menu_module.MenuModule, tree_module.TreeModule
                     ],
                     exports: [
-                        InputModule, CheckboxModule, UploadModule, SelectModule, TextareaModule, MenuModule, TreeModule
+                        input_module.InputModule, checkbox_module.CheckboxModule, upload_module.UploadModule, select_module.SelectModule, textarea_module.TextareaModule, menu_module.MenuModule, tree_module.TreeModule
                     ],
                 },] }
     ];
     return FormUiModule;
 }());
+exports.FormUiModule = FormUiModule;
 
+});
+
+unwrapExports(ui_module);
+var ui_module_1 = ui_module.FormUiModule;
+
+var form_module = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
 var IonarFormModule = /** @class */ (function () {
     function IonarFormModule() {
     }
     IonarFormModule.decorators = [
-        { type: NgModule, args: [{
+        { type: core.NgModule, args: [{
                     declarations: [],
                     imports: [
-                        CommonModule,
-                        CoreModule,
-                        FormUiModule
+                        common.CommonModule,
+                        core_module.CoreModule,
+                        ui_module.FormUiModule
                     ],
                     exports: [
-                        CoreModule,
-                        FormUiModule
+                        core_module.CoreModule,
+                        ui_module.FormUiModule
                     ]
                 },] }
     ];
     return IonarFormModule;
 }());
+exports.IonarFormModule = IonarFormModule;
 
+});
+
+unwrapExports(form_module);
+var form_module_1 = form_module.IonarFormModule;
+
+var Validator = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @record
+ */
+function JoiError() { }
+exports.JoiError = JoiError;
+/**
+ * \@publicApi
+ * @record
+ */
+function AsyncValidatorFn() { }
+exports.AsyncValidatorFn = AsyncValidatorFn;
 
+});
+
+unwrapExports(Validator);
+var Validator_1 = Validator.JoiError;
+var Validator_2 = Validator.AsyncValidatorFn;
+
+var Form = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @record
+ */
+function FormGroupState() { }
+exports.FormGroupState = FormGroupState;
+/**
+ * Interface for configs provided to an `AbstractControl`.
+ *
+ * \@publicApi
+ * @record
+ */
+function FormControlState() { }
+exports.FormControlState = FormControlState;
+/**
+ * @record
+ */
+function ControlProperties() { }
+exports.ControlProperties = ControlProperties;
+/**
+ * @record
+ */
+function AbstractControlOptions() { }
+exports.AbstractControlOptions = AbstractControlOptions;
 
+});
+
+unwrapExports(Form);
+var Form_1 = Form.FormGroupState;
+var Form_2 = Form.FormControlState;
+var Form_3 = Form.ControlProperties;
+var Form_4 = Form.AbstractControlOptions;
+
+var form_builder_service = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+var lodash_1 = tslib.__importDefault(lodash);
+var i0 = tslib.__importStar(core);
 var IonarFormBuilder = /** @class */ (function () {
     function IonarFormBuilder() {
         var _this = this;
@@ -5835,7 +6512,7 @@ var IonarFormBuilder = /** @class */ (function () {
         this.group = function (state, options) {
             /** @type {?} */
             var controls = (/** @type {?} */ (_this._reduceControls(state)));
-            return new FormGroup(controls, options);
+            return new FormGroup_1.FormGroup(controls, options);
         };
         /**
          * Constructs a new `FormArray` from the given array of configurations,
@@ -5854,7 +6531,7 @@ var IonarFormBuilder = /** @class */ (function () {
         this.array = function (state, options) {
             /** @type {?} */
             var controls = (/** @type {?} */ (_this._reduceControls(state)));
-            return new FormArray(controls, options);
+            return new FormArray_1.FormArray(controls, options);
         };
     }
     /**
@@ -5915,7 +6592,7 @@ var IonarFormBuilder = /** @class */ (function () {
      * @return {?}
      */
     function (state) {
-        return new FormControl(state);
+        return new FormControl_1.FormControl(state);
     };
     /** @internal */
     /**
@@ -5932,15 +6609,15 @@ var IonarFormBuilder = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var controls;
-        if (_.isPlainObject(controlsConfig)) {
+        if (lodash_1.default.isPlainObject(controlsConfig)) {
             controls = {};
-            _.forOwn(controlsConfig, function (c, name) {
+            lodash_1.default.forOwn(controlsConfig, function (c, name) {
                 ((/** @type {?} */ (controls)))[name] = _this._createControl(c);
             });
         }
         else {
             controls = [];
-            _.each(controlsConfig, function (c) {
+            lodash_1.default.each(controlsConfig, function (c) {
                 ((/** @type {?} */ (controls))).push((/** @type {?} */ (_this._createControl(c))));
             });
         }
@@ -5958,8 +6635,8 @@ var IonarFormBuilder = /** @class */ (function () {
      * @return {?}
      */
     function (controlConfig) {
-        if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
-            controlConfig instanceof FormArray) {
+        if (controlConfig instanceof FormControl_1.FormControl || controlConfig instanceof FormGroup_1.FormGroup ||
+            controlConfig instanceof FormArray_1.FormArray) {
             return controlConfig;
         }
         else {
@@ -5967,24 +6644,155 @@ var IonarFormBuilder = /** @class */ (function () {
         }
     };
     IonarFormBuilder.decorators = [
-        { type: Injectable, args: [{
+        { type: core.Injectable, args: [{
                     providedIn: 'root'
                 },] }
     ];
-    /** @nocollapse */ IonarFormBuilder.ngInjectableDef = defineInjectable({ factory: function IonarFormBuilder_Factory() { return new IonarFormBuilder(); }, token: IonarFormBuilder, providedIn: "root" });
+    /** @nocollapse */ IonarFormBuilder.ngInjectableDef = i0.defineInjectable({ factory: function IonarFormBuilder_Factory() { return new IonarFormBuilder(); }, token: IonarFormBuilder, providedIn: "root" });
     return IonarFormBuilder;
 }());
+exports.IonarFormBuilder = IonarFormBuilder;
 
+});
+
+unwrapExports(form_builder_service);
+var form_builder_service_1 = form_builder_service.IonarFormBuilder;
+
+var esm5 = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 
+exports.IonarFormModule = form_module.IonarFormModule;
+
+exports.FormControl = FormControl_1.FormControl;
+
+exports.FormGroup = FormGroup_1.FormGroup;
+
+exports.FormArray = FormArray_1.FormArray;
+
+exports.AbstractControl = AbstractControl_1.AbstractControl;
+
+
+
+exports.IonarFormBuilder = form_builder_service.IonarFormBuilder;
+
+});
+
+unwrapExports(esm5);
+var esm5_1 = esm5.IonarFormModule;
+var esm5_2 = esm5.FormControl;
+var esm5_3 = esm5.FormGroup;
+var esm5_4 = esm5.FormArray;
+var esm5_5 = esm5.AbstractControl;
+var esm5_6 = esm5.IonarFormBuilder;
+
+var ionarForm = createCommonjsModule(function (module, exports) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Generated bundle index. Do not edit.
+ */
 
-export { FormControl, FormGroup, FormArray, AbstractControl, IonarFormBuilder, IonarFormModule, FeedbackComponent as ɵk, FieldComponent as ɵf, LabelComponent as ɵj, FormArrayComponent as ɵm, formArrayProvider as ɵl, FormControlComponent as ɵh, controlNameBinding as ɵg, FormGroupComponent as ɵo, formGroupProvider as ɵn, FormComponent as ɵc, formProvider as ɵb, CoreModule as ɵa, DynamicFieldDirective as ɵp, SubmitDirective as ɵq, ControlContainer as ɵd, IoControl as ɵi, FormService as ɵe, CheckboxComponent as ɵw, CheckboxModule as ɵv, InputComponent as ɵt, InputModule as ɵs, MenuComponent as ɵbj, MenuModule as ɵbi, ControlComponent as ɵbd, MenuComponent$1 as ɵbe, OptionComponent as ɵbf, SelectComponent as ɵbc, SelectModule as ɵbb, TextareaComponent as ɵbh, TextareaModule as ɵbg, NodeComponent as ɵbm, TreeComponent as ɵbl, TreeModule as ɵbk, ClickComponent as ɵz, DropComponent as ɵba, UploadComponent as ɵy, UploadModule as ɵx, IoFormFieldUI as ɵu, FormUiModule as ɵr };
+exports.FormControl = esm5.FormControl;
+exports.FormGroup = esm5.FormGroup;
+exports.FormArray = esm5.FormArray;
+exports.AbstractControl = esm5.AbstractControl;
+exports.IonarFormBuilder = esm5.IonarFormBuilder;
+exports.IonarFormModule = esm5.IonarFormModule;
+
+exports.ɵk = feedback_component.FeedbackComponent;
+
+exports.ɵf = field_component.FieldComponent;
+
+exports.ɵj = label_component.LabelComponent;
+
+exports.ɵm = formArray_component.FormArrayComponent;
+exports.ɵl = formArray_component.formArrayProvider;
+
+exports.ɵh = formControl_component.FormControlComponent;
+exports.ɵg = formControl_component.controlNameBinding;
+
+exports.ɵo = formGroup_component.FormGroupComponent;
+exports.ɵn = formGroup_component.formGroupProvider;
+
+exports.ɵc = core_component.FormComponent;
+exports.ɵb = core_component.formProvider;
+
+exports.ɵa = core_module.CoreModule;
+
+exports.ɵp = dynamicField_directive.DynamicFieldDirective;
+
+exports.ɵq = submit_directive.SubmitDirective;
+
+exports.ɵd = ControlContainer_1.ControlContainer;
+
+exports.ɵi = IoControl_1.IoControl;
+
+exports.ɵe = form_service.FormService;
+
+exports.ɵx = checkbox_component.CheckboxComponent;
+
+exports.ɵw = checkbox_module.CheckboxModule;
+
+exports.ɵt = input_component.InputComponent;
+
+exports.ɵs = input_module.InputModule;
+
+exports.ɵbk = menu_component.MenuComponent;
+
+exports.ɵbj = menu_module.MenuModule;
+
+exports.ɵbe = control_component.ControlComponent;
+
+exports.ɵbf = menu_component$2.MenuComponent;
+
+exports.ɵbg = option_component.OptionComponent;
+
+exports.ɵbd = select_component.SelectComponent;
+
+exports.ɵbc = select_module.SelectModule;
+
+exports.ɵbi = textarea_component.TextareaComponent;
+
+exports.ɵbh = textarea_module.TextareaModule;
+
+exports.ɵbn = node_component.NodeComponent;
+
+exports.ɵbm = tree_component.TreeComponent;
+
+exports.ɵbl = tree_module.TreeModule;
+
+exports.ɵba = click_component.ClickComponent;
+
+exports.ɵbb = drop_component.DropComponent;
+
+exports.ɵz = upload_component.UploadComponent;
+
+exports.ɵy = upload_module.UploadModule;
+
+exports.ɵv = IoAbstractUI_1.IoAbstractUI;
+
+exports.ɵu = IoFormFieldUI_1.IoFormFieldUI;
+
+exports.ɵr = ui_module.FormUiModule;
+
+});
+
+var ionarForm$1 = unwrapExports(ionarForm);
+var ionarForm_1 = ionarForm.FormControl;
+var ionarForm_2 = ionarForm.FormGroup;
+var ionarForm_3 = ionarForm.FormArray;
+var ionarForm_4 = ionarForm.AbstractControl;
+var ionarForm_5 = ionarForm.IonarFormBuilder;
+var ionarForm_6 = ionarForm.IonarFormModule;
+
+export default ionarForm$1;
+export { ionarForm_1 as FormControl, ionarForm_2 as FormGroup, ionarForm_3 as FormArray, ionarForm_4 as AbstractControl, ionarForm_5 as IonarFormBuilder, ionarForm_6 as IonarFormModule };
 
 //# sourceMappingURL=ionar-form.js.map
