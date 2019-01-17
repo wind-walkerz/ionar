@@ -29,6 +29,7 @@ import {
 } from '@ionar/animations';
 
 
+
 @Component({
   selector: 'io-carousel',
   templateUrl: './carousel.component.html',

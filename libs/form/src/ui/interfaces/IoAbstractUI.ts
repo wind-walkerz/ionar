@@ -8,6 +8,8 @@ import {
   TemplateRef,
   ViewChild, ViewContainerRef
 } from '@angular/core';
+import { DefaultContentComponent, isEmptyTemplate } from '@ionar/ui';
+
 
 export interface ComponentContext {
   defaultContent: TemplateRef<any>,
@@ -33,6 +35,7 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
   @ViewChild('default_template', { read: TemplateRef }) protected _defaultTemplate: TemplateRef<any>;
   @ViewChild('content_template', { read: TemplateRef }) protected _contentTemplate: TemplateRef<any>;
 
+  @ContentChild(DefaultContentComponent) protected _defaultContentComp: DefaultContentComponent;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -68,19 +71,19 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
     if (!this.template) {
       this.template = this._contentTemplate;
 
-      // if (this._defaultContentComp) {
-      //
-      //   this._defaultContentComp.template = {
-      //     template: this._defaultTemplate,
-      //     context: this.context
-      //   };
-      // }
+      if (this._defaultContentComp) {
 
-      // if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+        this._defaultContentComp.template = {
+          template: this._defaultTemplate,
+          context: this.context
+        };
+      }
 
-      this.template = this._defaultTemplate;
-      // this.cd.detectChanges();
-      // }
+      if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+
+        this.template = this._defaultTemplate;
+        this.cd.detectChanges();
+      }
 
       this.viewInit = true;
       this.cd.detectChanges();

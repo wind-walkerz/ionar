@@ -1,6 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { IonarLoadingService } from '@ionar/ui';
-import { IonarToastService } from '../../../../libs/ui/src/components/toast/toast.service';
+import { IonarToastService } from '@ionar/ui';
 
 @Component({
   selector: 'ionar-root',
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this._toast.info('sdlkfjslk');
     this._loadingSvs.show();
 
     // setTimeout(() => {

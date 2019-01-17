@@ -329,17 +329,16 @@
 	            this.parseTemplate = function () {
 	                if (!_this.template) {
 	                    _this.template = _this._contentTemplate;
-	                    // if (this._defaultContentComp) {
-	                    //
-	                    //   this._defaultContentComp.template = {
-	                    //     template: this._defaultTemplate,
-	                    //     context: this.context
-	                    //   };
-	                    // }
-	                    // if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
-	                    _this.template = _this._defaultTemplate;
-	                    // this.cd.detectChanges();
-	                    // }
+	                    if (_this._defaultContentComp) {
+	                        _this._defaultContentComp.template = {
+	                            template: _this._defaultTemplate,
+	                            context: _this.context
+	                        };
+	                    }
+	                    if (ui.isEmptyTemplate(_this._elRef) || !_this._contentTemplate) {
+	                        _this.template = _this._defaultTemplate;
+	                        _this.cd.detectChanges();
+	                    }
 	                    _this.viewInit = true;
 	                    _this.cd.detectChanges();
 	                }
@@ -391,7 +390,8 @@
 	            template: [{ type: core.Input }],
 	            _container: [{ type: core.ViewChild, args: ['container', { read: core.ViewContainerRef },] }],
 	            _defaultTemplate: [{ type: core.ViewChild, args: ['default_template', { read: core.TemplateRef },] }],
-	            _contentTemplate: [{ type: core.ViewChild, args: ['content_template', { read: core.TemplateRef },] }]
+	            _contentTemplate: [{ type: core.ViewChild, args: ['content_template', { read: core.TemplateRef },] }],
+	            _defaultContentComp: [{ type: core.ContentChild, args: [ui.DefaultContentComponent,] }]
 	        };
 	        return IoAbstractUI;
 	    }());
@@ -493,7 +493,7 @@
 	        function InputComponent(cd, _elRef) {
 	            var _this = _super.call(this, cd, _elRef) || this;
 	            ///-----------------------------------------------  Variables   -----------------------------------------------///
-	            _this.type = '';
+	            _this.type = 'text';
 	            _this.name = '';
 	            _this.placeholder = '';
 	            _this.value = '';
@@ -634,7 +634,6 @@
 	         */
 	            function (changes) {
 	                _super.prototype.ngOnChanges.call(this, changes);
-	                console.log(IoFormFieldUI_1.IoFormFieldUI);
 	            };
 	        InputComponent.decorators = [
 	            { type: core.Component, args: [{
@@ -5713,7 +5712,7 @@
 	                            formGroup_component.FormGroupComponent,
 	                            dynamicField_directive.DynamicFieldDirective, submit_directive.SubmitDirective
 	                        ],
-	                        imports: [common.CommonModule],
+	                        imports: [common.CommonModule, ui.IonarUI],
 	                        exports: [
 	                            core_component.FormComponent,
 	                            field_component.FieldComponent,

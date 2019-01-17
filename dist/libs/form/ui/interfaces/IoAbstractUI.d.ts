@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { DefaultContentComponent } from '@ionar/ui';
 export interface ComponentContext {
     defaultContent: TemplateRef<any>;
     $implicit: Object;
@@ -13,6 +14,7 @@ export declare abstract class IoAbstractUI implements OnInit, OnChanges, OnDestr
     protected _container: ViewContainerRef;
     protected _defaultTemplate: TemplateRef<any>;
     protected _contentTemplate: TemplateRef<any>;
+    protected _defaultContentComp: DefaultContentComponent;
     constructor(cd: ChangeDetectorRef, _elRef: ElementRef);
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;

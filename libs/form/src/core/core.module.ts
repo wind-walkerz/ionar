@@ -13,6 +13,7 @@ import { FeedbackComponent } from './components/control/feedback.component';
 import { FormComponent } from './core.component';
 import { FormArrayComponent } from './components/form-array.component';
 import { FormGroupComponent } from './components/form-group.component';
+import { IonarUI } from '@ionar/ui';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { FormGroupComponent } from './components/form-group.component';
     DynamicFieldDirective, SubmitDirective
   ],
 
-  imports: [CommonModule],
+  imports: [CommonModule, IonarUI],
   exports: [
     FormComponent,
     FieldComponent,

@@ -2,8 +2,8 @@ import Joi from '@ionar/joi';
 import { untilDestroyed } from '@ionar/utility';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { IonarTemplateDirective, isEmptyTemplate, IonarUI } from '@ionar/ui';
-import { Input, TemplateRef, ViewChild, ViewContainerRef, EventEmitter, HostBinding, Output, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ComponentFactoryResolver, Directive, ContentChild, forwardRef, Host, Optional, SkipSelf, HostListener, Injectable, ContentChildren, NgModule, defineInjectable } from '@angular/core';
+import { DefaultContentComponent, isEmptyTemplate, IonarTemplateDirective, IonarUI } from '@ionar/ui';
+import { ContentChild, Input, TemplateRef, ViewChild, ViewContainerRef, EventEmitter, HostBinding, Output, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ComponentFactoryResolver, Directive, forwardRef, Host, Optional, SkipSelf, HostListener, Injectable, ContentChildren, NgModule, defineInjectable } from '@angular/core';
 import _, { trim } from 'lodash';
 
 /**
@@ -30,17 +30,16 @@ class IoAbstractUI {
         this.parseTemplate = () => {
             if (!this.template) {
                 this.template = this._contentTemplate;
-                // if (this._defaultContentComp) {
-                //
-                //   this._defaultContentComp.template = {
-                //     template: this._defaultTemplate,
-                //     context: this.context
-                //   };
-                // }
-                // if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
-                this.template = this._defaultTemplate;
-                // this.cd.detectChanges();
-                // }
+                if (this._defaultContentComp) {
+                    this._defaultContentComp.template = {
+                        template: this._defaultTemplate,
+                        context: this.context
+                    };
+                }
+                if (isEmptyTemplate(this._elRef) || !this._contentTemplate) {
+                    this.template = this._defaultTemplate;
+                    this.cd.detectChanges();
+                }
                 this.viewInit = true;
                 this.cd.detectChanges();
             }
@@ -80,7 +79,8 @@ IoAbstractUI.propDecorators = {
     template: [{ type: Input }],
     _container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
     _defaultTemplate: [{ type: ViewChild, args: ['default_template', { read: TemplateRef },] }],
-    _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }]
+    _contentTemplate: [{ type: ViewChild, args: ['content_template', { read: TemplateRef },] }],
+    _defaultContentComp: [{ type: ContentChild, args: [DefaultContentComponent,] }]
 };
 
 /**
@@ -152,7 +152,7 @@ class InputComponent extends IoFormFieldUI {
     constructor(cd, _elRef) {
         super(cd, _elRef);
         ///-----------------------------------------------  Variables   -----------------------------------------------///
-        this.type = '';
+        this.type = 'text';
         this.name = '';
         this.placeholder = '';
         this.value = '';
@@ -282,7 +282,6 @@ class InputComponent extends IoFormFieldUI {
      */
     ngOnChanges(changes) {
         super.ngOnChanges(changes);
-        console.log(IoFormFieldUI);
     }
 }
 InputComponent.decorators = [
@@ -3465,7 +3464,7 @@ CoreModule.decorators = [
                     FormGroupComponent,
                     DynamicFieldDirective, SubmitDirective
                 ],
-                imports: [CommonModule],
+                imports: [CommonModule, IonarUI],
                 exports: [
                     FormComponent,
                     FieldComponent,

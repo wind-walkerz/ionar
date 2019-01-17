@@ -1,6 +1,10 @@
 {
   "name": "@ionar/form",
-  "version": "1.7.2",
+  "version": "2.0.11",
+  "dependencies": {
+    "@ionar/ui": ">2.0.3",
+    "tslib": "^1.9.0"
+  },
   "main": "bundles/ionar-form.umd.js",
   "module": "fesm5/ionar-form.js",
   "es2015": "fesm2015/ionar-form.js",
@@ -10,8 +14,5 @@
   "fesm2015": "fesm2015/ionar-form.js",
   "typings": "ionar-form.d.ts",
   "metadata": "ionar-form.metadata.json",
-  "sideEffects": false,
-  "dependencies": {
-    "tslib": "^1.9.0"
-  }
+  "sideEffects": false
 }

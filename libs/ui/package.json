@@ -1,4 +1,12 @@
 {
   "name": "@ionar/ui",
-  "version": "1.7.2"
+  "version": "2.0.8",
+  "dependencies":  {
+    "@ionar/utility": ">2.0.3",
+    "@ionar/animations": ">2.0.3",
+    "@ionar/joi": ">1.0.0",
+    "uuid": "^3.3.2",
+    "lodash": "^4.17.11",
+    "moment": "^2.23.0"
+  }
 }

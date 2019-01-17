@@ -1,6 +1,6 @@
 {
   "name": "@ionar/joi",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "main": "./dist/main.js",
   "scripts": {
     "prepublish": "yarn build",

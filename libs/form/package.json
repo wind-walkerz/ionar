@@ -1,4 +1,7 @@
 {
   "name": "@ionar/form",
-  "version": "1.7.2"
+  "version": "2.0.11",
+  "dependencies": {
+    "@ionar/ui": ">2.0.3"
+  }
 }

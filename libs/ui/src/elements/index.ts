@@ -1,2 +1,2 @@
-export {DefaultContentComponent} from './default-content/default-content.component';
+export { DefaultContentComponent } from './default-content/default-content.component';
 

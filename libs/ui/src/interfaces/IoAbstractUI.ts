@@ -49,7 +49,6 @@ export abstract class IoAbstractUI implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.parseTemplate();
-    console.log(this._defaultContentComp);
     this.cd.markForCheck();
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@ionar/utility",
-  "version": "1.7.2",
+  "version": "2.0.4",
   "main": "bundles/ionar-utility.umd.js",
   "module": "fesm5/ionar-utility.js",
   "es2015": "fesm2015/ionar-utility.js",

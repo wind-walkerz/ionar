@@ -3,13 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NxModule } from '@nrwl/nx';
-import { IonarModule } from '@ionar/core';
 import { HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './test/test.component';
+import { IonarFormModule } from '@ionar/form';
+import { IonarUI } from '@ionar/ui';
 
 @NgModule({
   declarations: [AppComponent, TestComponent],
-  imports: [BrowserModule, NxModule.forRoot(), IonarModule, HttpClientModule],
+  imports: [BrowserModule, NxModule.forRoot(), IonarFormModule, IonarUI, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]
 })

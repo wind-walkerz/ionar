@@ -1,41 +1,4 @@
-<io-tree
-        [template]="template"
-        [options]="[
-{
-label: 1,
-value: 1
-},
-{
-label: 2,
-children: [
-{
-label: 3,
-children: [
-{
-label: 4,
-value: 4
-},
-{
-label: 5,
-value: 5
-}
-]
-},
-{
-label: 6,
-value: 6
-}
-]
-}
-]"
->
+<io-toast></io-toast>
 
-</io-tree>
-
-
-<ng-template let-context #template>
-
-    <default-content [context]="context"></default-content>
-</ng-template>
 
 

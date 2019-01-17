@@ -3,5 +3,13 @@
   "dest": "../../dist/libs/ui",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@ionar/utility",
+    "@ionar/animations",
+    "@ionar/joi",
+    "uuid",
+    "lodash",
+    "moment"
+  ]
 }
