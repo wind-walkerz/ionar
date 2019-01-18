@@ -148,7 +148,6 @@ export abstract class AbstractControl {
     }
 
 
-
     return this._getControlSchema();
   }
 
@@ -391,9 +390,10 @@ export abstract class AbstractControl {
    * expect(login.valid).toEqual(true);
    * ```
    */
-  setErrors(errors: JoiError[] | null, opts: { emitEvent?: boolean } = {}): void {
-    (this as { errors: JoiError[] | null }).errors = errors;
+  setErrors(errors: JoiError | JoiError[] | null, opts: { emitEvent?: boolean } = {}): void {
+    (this as { errors: JoiError[] | null }).errors = _.isArray(errors) ? errors : [errors];
     this._updateControlsErrors(opts.emitEvent !== false);
+    this._updateChildError(this.errors);
   }
 
   //

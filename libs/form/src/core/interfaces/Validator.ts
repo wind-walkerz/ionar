@@ -6,6 +6,7 @@ export interface JoiError {
   /**string with a description of the error*/
   message: string,
 
+  name: string,
   /** ordered array where each element is the accessor to the value where the error happened */
   path: (string | number | symbol)[],
 

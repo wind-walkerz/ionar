@@ -1,6 +1,7 @@
 {
   "name": "@ionar/ui",
   "version": "2.0.8",
+  "main": "src/index.ts",
   "dependencies":  {
     "@ionar/utility": ">2.0.3",
     "@ionar/animations": ">2.0.3",

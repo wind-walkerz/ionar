@@ -397,10 +397,32 @@ export class FormGroup extends AbstractControl {
   /** @internal */
   _updateChildError = (errors: JoiError[]) => {
     _.each(errors, (err: JoiError) => {
-      const control: AbstractControl = _.get(this.controls, err.path);
-      if (control instanceof FormControl) {
-        control.setErrors([err]);
+
+      if (!err.path && !err.name) return;
+
+      if (!err.path) {
+        this._updateChildErrorFromRoot(err);
+      } else {
+        const control: AbstractControl = _.get(this.controls, err.path);
+        if (control instanceof FormControl) {
+          control.setErrors([err]);
+        }
       }
+    });
+  };
+
+  /** @internal */
+  _updateChildErrorFromRoot = (err: JoiError) => {
+    _.forOwn(this.controls, (c: AbstractControl, name: string) => {
+      if (err.name === name) {
+        c.setErrors([err]);
+        return;
+      }
+
+      if (c instanceof FormGroup) {
+        c._updateChildErrorFromRoot(err);
+      }
+
     });
   };
 

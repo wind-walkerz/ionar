@@ -17,11 +17,6 @@
     "utility": {
       "tags": []
     },
-    "core": {
-      "tags": [
-        "ionar"
-      ]
-    },
     "form": {
       "tags": []
     },
@@ -35,12 +30,6 @@
       "tags": []
     },
     "animation-demo": {
-      "tags": []
-    },
-    "ionar": {
-      "tags": []
-    },
-    "ionar-e2e": {
       "tags": []
     },
     "joi": {

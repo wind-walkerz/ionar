@@ -1,4 +1,5 @@
 {
   "name": "@ionar/utility",
-  "version": "2.0.4"
+  "version": "2.0.4",
+  "main": "src/index.ts"
 }
